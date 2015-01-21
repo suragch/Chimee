@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <!-- This is the custom top action bar -->
+
+    <RelativeLayout
+        android:id="@+id/topActionBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/actionbar_bg" >
+
+        <!-- press the left caret and app icon to go up -->
+
+        <RelativeLayout
+            android:id="@+id/goUpLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/bar_icon"
+            android:clickable="true"
+            android:onClick="finishedClick"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
+
+            <ImageView
+                android:id="@+id/leftCaretIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/left_caret" />
+
+            <ImageView
+                android:id="@+id/appIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/leftCaretIcon"
+                android:paddingLeft="5dp"
+                android:src="@drawable/ic_action_help" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <!-- This is the main settings area -->
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/topActionBarLayout"
+        android:fillViewport="true"
+        android:scrollbars="none" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/about_bg"
+            android:orientation="horizontal"
+            android:padding="20dp" >
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvHelpContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/about_text"
+                android:textSize="20sp" />
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/border_thin" >
+
+                <net.studymongolian.chimee.MongolTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bar_icon"
+                    android:clickable="true"
+                    android:onClick="onlineHelpClick"
+                    android:padding="10dp"
+                    android:text="@string/help_address"
+                    android:textColor="@color/about_text"
+                    android:textSize="16sp" />
+            </FrameLayout>
+        </LinearLayout>
+    </HorizontalScrollView>
+
+</RelativeLayout>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="200dp"
+    android:layout_gravity="center"
+    android:background="@drawable/settings_layout"
+    android:layout_margin="10dp"
+    android:orientation="horizontal" >
+
+    <!-- Move to Front -->
+
+    <RelativeLayout
+        android:id="@+id/rlContextMenuMoveToFront"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/bar_icon"
+        android:clickable="true"
+        android:layout_weight="1"
+        android:padding="10dp" >
+
+        <ImageView
+            android:id="@+id/ivMoveIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="5dp"
+            android:src="@drawable/ic_action_back" />
+
+        <net.studymongolian.chimee.MongolTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ivMoveIcon"
+            android:layout_centerHorizontal="true"
+            android:text="@string/contextmenu_move_to_front"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="@color/settings_layout_border" />
+
+    <!-- Delete -->
+
+    <RelativeLayout
+        android:id="@+id/rlContextMenuDelete"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/bar_icon"
+        android:clickable="true"
+        android:layout_weight="1"
+        android:padding="10dp" >
+
+        <ImageView
+            android:id="@+id/ivDeleteIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="5dp"
+            android:src="@drawable/ic_action_discard" />
+
+        <net.studymongolian.chimee.MongolTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ivDeleteIcon"
+            android:layout_centerHorizontal="true"
+            android:text="@string/contextmenu_delete"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+
+</LinearLayout>

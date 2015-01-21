@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="net.studymongolian.chimee" >
+
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="net.studymongolian.chimee.MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="net.studymongolian.chimee.FavoriteActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="net.studymongolian.chimee.HistoryActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="net.studymongolian.chimee.SettingsActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="net.studymongolian.chimee.ColorChooserActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="net.studymongolian.chimee.AboutActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="net.studymongolian.chimee.HelpActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="net.studymongolian.chimee.MongolDialogOneButton"
+            android:theme="@android:style/Theme.Dialog" >
+        </activity>
+        <activity
+            android:name="net.studymongolian.chimee.MongolDialogTwoButton"
+            android:theme="@android:style/Theme.Dialog" >
+        </activity>
+        <activity
+            android:name="net.studymongolian.chimee.FvsChooserDialog"
+            android:theme="@android:style/Theme.Dialog" >
+        </activity>
+        <activity
+            android:name="net.studymongolian.chimee.AeChooserDialog"
+            android:theme="@android:style/Theme.Dialog" >
+        </activity>
+        <activity
+            android:name="net.studymongolian.chimee.FontChooserDialog"
+            android:theme="@android:style/Theme.Dialog" >
+        </activity>
+        <activity
+            android:name="net.studymongolian.chimee.SettingsKeyboardChooserDialog"
+            android:theme="@android:style/Theme.Dialog" >
+        </activity>
+        
+
+        <provider
+            android:name="net.studymongolian.chimee.ChimeeUserDictionaryProvider"
+            android:authorities="net.studymongolian.chimee.user_dictionary"
+            android:exported="false" >
+        </provider>
+    </application>
+
+</manifest>

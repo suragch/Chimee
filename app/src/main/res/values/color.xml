@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <color name="dusty_blue">#ff0099cc</color>
+    <color name="dusty_blue_lighter">#ff00b3ee</color>
+    <color name="dusty_blue_very_light">#ff00bfff</color>
+    <color name="holo_blue">#ff33b5e5</color>
+    <color name="dark_grey">#ff1d1d1d</color>
+    <color name="dark_grey_lighter">#ff2f2f2f</color>
+    <color name="medium_grey">#ff494949</color>
+    <color name="medium_grey_lighter">#ff5f5f5f</color>
+    <color name="light_grey">#ffacacac</color>
+    <color name="very_light_grey">#ffe4e4e4</color>
+    <color name="transparent">#00ffffff</color>
+    
+    <color name="white_1">#10ffffff</color>
+    <color name="white_2">#20ffffff</color>
+    <color name="white_3">#30ffffff</color>
+    <color name="white_4">#40ffffff</color>
+    <color name="white_5">#50ffffff</color>
+    <color name="white_6">#60ffffff</color>
+    <color name="white_7">#70ffffff</color>
+    <color name="white_8">#80ffffff</color>
+    <color name="white_9">#90ffffff</color>
+    <color name="white_a">#a0ffffff</color>
+    <color name="white_b">#b0ffffff</color>
+    <color name="white_c">#c0ffffff</color>
+    <color name="white_d">#d0ffffff</color>
+    <color name="white_e">#e0ffffff</color>
+    <color name="white_f">#f0ffffff</color>
+    <color name="white">#ffffffff</color>
+    
+    <!-- Light to dark -->
+    <color name="black_1">#10000000</color>
+    <color name="black_2">#20000000</color>
+    <color name="black_3">#30000000</color>
+    <color name="black_4">#40000000</color>
+    <color name="black_5">#50000000</color>
+    <color name="black_6">#60000000</color>
+    <color name="black_7">#70000000</color>
+    <color name="black_8">#80000000</color>
+    <color name="black_9">#90000000</color>
+    <color name="black_a">#a0000000</color>
+    <color name="black_b">#b0000000</color>
+    <color name="black_c">#c0000000</color>
+    <color name="black_d">#d0000000</color>
+    <color name="black_e">#e0000000</color>
+    <color name="black_f">#f0000000</color>
+    <color name="black">#ff000000</color>
+    
+    <color name="actionbar_bg">@color/dark_grey</color>
+    <color name="bar_icon_pressed">@color/white_4</color>
+        
+    <color name="menu_bg">@color/medium_grey</color>
+    <color name="menu_item_pressed">@color/light_grey</color>
+    <color name="menu_divider">@color/light_grey</color>
+    
+    <color name="settings_layout_border">@color/light_grey</color>
+    <color name="settings_layout_bg">@color/very_light_grey</color>
+    
+    <color name="about_bg">@color/medium_grey</color>
+    <color name="about_text">@color/white</color>
+    <color name="about_description_bg">@color/dark_grey_lighter</color>
+    <color name="about_description_border">@color/black</color>
+    
+    <color name="keyboard_base_theme">@color/black</color>
+    <color name="keyboard_keys_normal">@color/medium_grey</color>
+    <color name="keyboard_keys_normal_shadow">@color/medium_grey_lighter</color>
+    <color name="keyboard_keys_pressed">@color/dusty_blue</color>
+    <color name="keyboard_keys_pressed_shadow">@color/dusty_blue_lighter</color>
+    <color name="keyboard_format_keys_normal">@color/dark_grey</color>
+    <color name="keyboard_format_keys_normal_shadow">@color/dark_grey_lighter</color>
+    
+    <color name="keyboard_listview">@color/dark_grey</color>
+    <color name="keyboard_list_divider">@color/medium_grey_lighter</color>
+    <color name="keyboard_letters">@color/white</color>
+    <color name="keyboard_longtouch_letters">@color/light_grey</color>
+    
+    
+    <color name="main_activity_top_bg">@color/very_light_grey</color>
+    <color name="message_background">@color/white</color>
+    
+    <!-- color chooser -->
+    <color name="red_100">#ffcdd2</color>
+    <color name="red_200">#ef9a9a</color>
+    <color name="red_500">#f44336</color>
+    <color name="red_800">#c62828</color>
+    <color name="pink_100">#f8bbd0</color>
+    <color name="pink_200">#f48fb1</color>
+    <color name="pink_500">#e91e63</color>
+    <color name="pink_800">#ad1457</color>
+    <color name="purple_100">#e1bee7</color>
+    <color name="purple_200">#ce93d8</color>
+    <color name="purple_500">#9c27b0</color>
+    <color name="purple_800">#6a1b9a</color>
+    <color name="deep_purple_100">#d1c4e9</color>
+    <color name="deep_purple_200">#b39ddb</color>
+    <color name="deep_purple_500">#673ab7</color>
+    <color name="deep_purple_800">#4527a0</color>
+    <color name="indigo_100">#c5cae9</color>
+    <color name="indigo_200">#9fa8da</color>
+    <color name="indigo_500">#3f51b5</color>
+    <color name="indigo_800">#283593</color>
+    <color name="blue_100">#bbdefb</color>
+    <color name="blue_200">#90caf9</color>
+    <color name="blue_500">#2196f3</color>
+    <color name="blue_800">#1565c0</color>
+    <color name="light_blue_100">#b3e5fc</color>
+    <color name="light_blue_200">#81d4fa</color>
+    <color name="light_blue_500">#03a9f4</color>
+    <color name="light_blue_800">#0277bd</color>
+    <color name="cyan_100">#b2ebf2</color>
+    <color name="cyan_200">#80deea</color>
+    <color name="cyan_500">#00bcd4</color>
+    <color name="cyan_800">#00838f</color>
+    <color name="teal_100">#b2dfdb</color>
+    <color name="teal_200">#80cbc4</color>
+    <color name="teal_500">#009688</color>
+    <color name="teal_800">#00695c</color>
+    <color name="green_100">#c8e6c9</color>
+    <color name="green_200">#a5d6a7</color>
+    <color name="green_500">#4caf50</color>
+    <color name="green_800">#2e7d32</color>
+    <color name="light_green_100">#dcedc8</color>
+    <color name="light_green_200">#c5e1a5</color>
+    <color name="light_green_500">#8bc34a</color>
+    <color name="light_green_800">#558b2f</color>
+    <color name="lime_100">#f0f4c3</color>
+    <color name="lime_200">#e6ee9c</color>
+    <color name="lime_500">#cddc39</color>
+    <color name="lime_800">#9e9d24</color>
+    <color name="yellow_100">#fff9c4</color>
+    <color name="yellow_200">#fff59d</color>
+    <color name="yellow_500">#ffeb3b</color>
+    <color name="yellow_800">#f9a825</color>
+    <color name="amber_100">#ffecb3</color>
+    <color name="amber_200">#ffe082</color>
+    <color name="amber_500">#ffc107</color>
+    <color name="amber_800">#ff8f00</color>
+    <color name="orange_100">#ffe0b2</color>
+    <color name="orange_200">#ffcc80</color>
+    <color name="orange_500">#ff9800</color>
+    <color name="orange_800">#ef6c00</color>
+    <color name="deep_orange_100">#ffccbc</color>
+    <color name="deep_orange_200">#ffab91</color>
+    <color name="deep_orange_500">#ff5722</color>
+    <color name="deep_orange_800">#d84315</color>
+    <color name="brown_100">#d7ccc8</color>
+    <color name="brown_200">#bcaaa4</color>
+    <color name="brown_500">#795548</color>
+    <color name="brown_800">#4e342e</color>
+    <color name="grey_100">#f5f5f5</color>
+    <color name="grey_200">#eeeeee</color>
+    <color name="grey_500">#9e9e9e</color>
+    <color name="grey_800">#424242</color>
+    <color name="blue_grey_100">#cfd8dc</color>
+    <color name="blue_grey_200">#b0bec5</color>
+    <color name="blue_grey_500">#607d8b</color>
+    <color name="blue_grey_800">#37474f</color>
+    
+    
+    
+</resources>

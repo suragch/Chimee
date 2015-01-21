@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <!-- This is the custom top action bar -->
+
+    <RelativeLayout
+        android:id="@+id/topActionBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/actionbar_bg" >
+
+        <!-- press the left caret and app icon to go up -->
+
+        <RelativeLayout
+            android:id="@+id/goUpLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/bar_icon"
+            android:clickable="true"
+            android:onClick="finishedClick"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
+
+            <ImageView
+                android:id="@+id/leftCaretIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/left_caret" />
+
+            <ImageView
+                android:id="@+id/appIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/leftCaretIcon"
+                android:paddingLeft="5dp"
+                android:src="@drawable/ic_action_important" />
+        </RelativeLayout>
+
+        <FrameLayout
+            android:id="@+id/addFavoriteIconFrame"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/bar_icon"
+            android:clickable="true"
+            android:onClick="addFavoriteClick"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_action_new" />
+        </FrameLayout>
+    </RelativeLayout>
+
+    <!-- Message list -->
+
+    
+    <net.studymongolian.chimee.MongolViewGroup
+        android:id="@+id/form2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/topActionBarLayout" >
+
+        <ListView
+            android:id="@+id/lvFavorite"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </net.studymongolian.chimee.MongolViewGroup>
+    
+    <!-- Context menu popup -->
+
+    <View
+        android:id="@+id/transparent_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:onClick="hideMenu"
+        android:visibility="gone" />
+
+    <FrameLayout
+        android:id="@+id/flContextMenuContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" >
+    </FrameLayout>
+
+</RelativeLayout>

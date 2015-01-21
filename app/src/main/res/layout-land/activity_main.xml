@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <!-- This is the custom top action bar -->
+
+    <RelativeLayout
+        android:id="@+id/topActionBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/actionbar_bg"
+        android:paddingLeft="10dp" >
+
+        <ImageView
+            android:id="@+id/appIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/logo" />
+
+        <FrameLayout
+            android:id="@+id/overflowIconFrame"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/bar_icon"
+            android:clickable="true"
+            android:onClick="overflowActionBarClick"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_action_overflow" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/favoriteIconFrame"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/overflowIconFrame"
+            android:background="@drawable/bar_icon"
+            android:clickable="true"
+            android:onClick="favoriteActionBarClick"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_action_important" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/shareIconFrame"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/favoriteIconFrame"
+            android:background="@drawable/bar_icon"
+            android:clickable="true"
+            android:onClick="shareToSystemApps"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_action_share" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/shareToWeChatFrame"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/shareIconFrame"
+            android:background="@drawable/bar_icon"
+            android:clickable="true"
+            android:onClick="shareToWeChat"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:visibility="gone" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/wechat_share" />
+        </FrameLayout>
+    </RelativeLayout>
+
+    <!-- This is the main content -->
+
+    <LinearLayout
+        android:id="@+id/mainContentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/topActionBarLayout"
+        android:orientation="horizontal" >
+
+        <!-- below is the top half of the screen -->
+
+        <RelativeLayout
+            android:id="@+id/rlTop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/main_activity_top_bg" >
+
+            <!-- This is for testing. Delete me later -->
+
+            <!-- <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true" >
+
+                <net.studymongolian.chimee.MongolTextView
+                    android:id="@+id/tvTestWindow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </FrameLayout> -->
+
+            <!-- below is the message limit -->
+
+            <RelativeLayout
+                android:id="@+id/rlMessageLimit"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_centerInParent="true" >
+
+                <!-- below is the message outline -->
+
+                <RelativeLayout
+                    android:id="@+id/rlMessageOutline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:background="@color/white"
+                    android:clickable="true"
+                    android:minWidth="75dp" >
+
+                    <net.studymongolian.chimee.MongolTextView
+                        android:id="@+id/tvInputWindow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="10dp"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+                </RelativeLayout>
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <FrameLayout
+            android:id="@+id/keyboardContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+        </FrameLayout>
+    </LinearLayout>
+
+    <!-- Context menu popup -->
+
+    <View
+        android:id="@+id/transparent_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:onClick="hideMenu"
+        android:visibility="gone" />
+
+    <FrameLayout
+        android:id="@+id/flContextMenuContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" >
+    </FrameLayout>
+
+    <!-- Menu -->
+
+    <LinearLayout
+        android:id="@+id/menuLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/topActionBarLayout"
+        android:layout_below="@id/topActionBarLayout"
+        android:orientation="horizontal"
+        android:visibility="gone" >
+
+        <!-- Tallest layout wraps content so main layout can also wrap -->
+
+        <FrameLayout
+            android:id="@+id/menuItemHistoryFrame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/menu_item"
+            android:clickable="true"
+            android:onClick="menuHistoryClick"
+            android:padding="10dp" >
+
+            <net.studymongolian.chimee.MongolTextView
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/menu_item_history" />
+        </FrameLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/menu_divider" />
+
+        <FrameLayout
+            android:id="@+id/menuItemSettingsFrame"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/menu_item"
+            android:clickable="true"
+            android:onClick="menuSettingsClick"
+            android:padding="10dp" >
+
+            <net.studymongolian.chimee.MongolTextView
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/menu_item_settings" />
+        </FrameLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/menu_divider" />
+
+        <FrameLayout
+            android:id="@+id/menuItemAboutFrame"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/menu_item"
+            android:clickable="true"
+            android:onClick="menuAboutClick"
+            android:padding="10dp" >
+
+            <net.studymongolian.chimee.MongolTextView
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/menu_item_about" />
+        </FrameLayout>
+        
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/menu_divider" />
+
+        <FrameLayout
+            android:id="@+id/menuItemHelpFrame"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/menu_item"
+            android:clickable="true"
+            android:onClick="menuHelpClick"
+            android:padding="10dp" >
+
+            <net.studymongolian.chimee.MongolTextView
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/menu_item_help" />
+        </FrameLayout>
+    </LinearLayout>
+
+</RelativeLayout>

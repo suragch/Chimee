@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/keyboard_base_theme"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:baselineAligned="false"
+        android:orientation="horizontal" >
+
+        <RelativeLayout
+            android:id="@+id/ekey_q"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/tvEkeyQ"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/e_key_q" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ekey_w"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/tvEkeyW"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/e_key_w" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ekey_e"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/tvEkeyE"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/e_key_e" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ekey_r"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/tvEkeyR"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/e_key_r" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ekey_t"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/tvEkeyT"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/e_key_t" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ekey_y"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/tvEkeyY"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/e_key_y" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ekey_u"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/tvEkeyU"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/e_key_u" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ekey_i"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/tvEkeyI"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/e_key_i" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ekey_o"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/tvEkeyO"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/e_key_o" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ekey_p"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/tvEkeyP"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/e_key_p" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ekey_1"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/tvEkey1"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/e_key_1_cyrillic" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ekey_2"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/tvEkey2"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/e_key_2_cyrillic" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:baselineAligned="false"
+        android:orientation="horizontal" >
+
+        <RelativeLayout
+            android:id="@+id/ekey_a"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/tvEkeyA"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/e_key_a" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ekey_s"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/tvEkeyS"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/e_key_s" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ekey_d"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/tvEkeyD"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/e_key_d" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ekey_f"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/tvEkeyF"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/e_key_f" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ekey_g"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/tvEkeyG"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/e_key_g" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ekey_h"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/tvEkeyH"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/e_key_h" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ekey_j"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/tvEkeyJ"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/e_key_j" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ekey_k"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/tvEkeyK"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/e_key_k" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ekey_l"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/tvEkeyL"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/e_key_l" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ekey_3"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/tvEkey3"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/e_key_3_cyrillic" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ekey_4"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/tvEkey4"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/e_key_4_cyrillic" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ekey_5"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/tvEkey5"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/e_key_5_cyrillic" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:baselineAligned="false"
+        android:orientation="horizontal" >
+
+        <RelativeLayout
+            android:id="@+id/ekey_shift"
+            style="@style/AppTheme.FormatKeyLayoutStyle"
+            android:layout_weight="1.5" >
+
+            <ImageView
+                android:id="@+id/ivEkeyShift"
+                style="@style/AppTheme.MongolKeyImageStyle"
+                android:src="@drawable/sym_keyboard_shift" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ekey_z"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/tvEkeyZ"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/e_key_z" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ekey_x"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/tvEkeyX"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/e_key_x" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ekey_c"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/tvEkeyC"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/e_key_c" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ekey_v"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/tvEkeyV"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/e_key_v" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ekey_b"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/tvEkeyB"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/e_key_b" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ekey_n"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/tvEkeyN"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/e_key_n" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ekey_m"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/tvEkeyM"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/e_key_m" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ekey_6"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/tvEkey6"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/e_key_6_cyrillic" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ekey_7"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/tvEkey7"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/e_key_7_cyrillic" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/ekey_backspace"
+            style="@style/AppTheme.FormatKeyLayoutStyle"
+            android:layout_weight="1.5" >
+
+            <ImageView
+                style="@style/AppTheme.MongolKeyImageStyle"
+                android:src="@drawable/backspace" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:baselineAligned="false"
+        android:orientation="horizontal" >
+
+        <RelativeLayout
+            android:id="@+id/ekey_41"
+            style="@style/AppTheme.FormatKeyLayoutStyle"
+            android:layout_weight="1.5" >
+
+            <TextView
+                android:id="@+id/tvEkey41"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/e_key_41_cyrillic"
+                android:textSize="18dp" />
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvEkey41_long_a"
+                style="@style/AppTheme.MongolLongPressKeyTextStyle"
+                android:text="@string/e_key_41_long"
+                android:textSize="10dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ekey_42"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/tvEkey42"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/e_key_42" />
+
+            <TextView
+                android:id="@+id/tvEkey42long"
+                style="@style/AppTheme.MongolLongPressKeyTextStyle"
+                android:text="@string/e_key_42_long" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ekey_space"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="3" >
+
+            <ImageView
+                android:id="@+id/ivEkeySpace"
+                style="@style/AppTheme.MongolKeyImageStyle"
+                android:src="@drawable/sym_keyboard_space" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ekey_44"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/tvEkey44"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/e_key_44" />
+
+            <TextView
+                android:id="@+id/tvEkey44long"
+                style="@style/AppTheme.MongolLongPressKeyTextStyle"
+                android:text="@string/e_key_44_long" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ekey_8"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/tvEkey8"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/e_key_8_cyrillic" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ekey_45"
+            style="@style/AppTheme.FormatKeyLayoutStyle"
+            android:layout_weight="1.5" >
+
+            <ImageView
+                android:id="@+id/ivEkey45"
+                style="@style/AppTheme.MongolKeyImageStyle"
+                android:src="@drawable/sym_keyboard_return" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

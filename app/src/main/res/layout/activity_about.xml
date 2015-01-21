@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <!-- This is the custom top action bar -->
+
+    <RelativeLayout
+        android:id="@+id/topActionBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/actionbar_bg" >
+
+        <!-- press the left caret and app icon to go up -->
+
+        <RelativeLayout
+            android:id="@+id/goUpLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/bar_icon"
+            android:clickable="true"
+            android:onClick="finishedClick"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
+
+            <ImageView
+                android:id="@+id/leftCaretIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/left_caret" />
+
+            <ImageView
+                android:id="@+id/appIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/leftCaretIcon"
+                android:paddingLeft="5dp"
+                android:src="@drawable/logo" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <!-- This is the main settings area -->
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/topActionBarLayout"
+        android:fillViewport="true"
+        android:scrollbars="none" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/about_bg"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="20dp"
+                    android:src="@drawable/launcher" />
+
+                <TextView
+                    android:id="@+id/aboutAppTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="20dp"
+                    android:textColor="@color/about_text"
+                    android:textSize="24sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="20dp"
+                android:background="@drawable/about_layout"
+                android:padding="20dp" >
+
+                <net.studymongolian.chimee.MongolTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:text="@string/about_description_site_intro"
+                    android:textColor="@color/about_text"
+                    android:textSize="24sp" />
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/border_thin" >
+
+                    <net.studymongolian.chimee.MongolTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bar_icon"
+                        android:clickable="true"
+                        android:onClick="siteClick"
+                        android:padding="10dp"
+                        android:text="@string/about_description_site_address"
+                        android:textColor="@color/about_text"
+                        android:textSize="20sp" />
+                </FrameLayout>
+
+                <net.studymongolian.chimee.MongolTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:text="@string/about_description_message"
+                    android:textColor="@color/about_text"
+                    android:textSize="24sp" />
+
+                <net.studymongolian.chimee.MongolTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:text="@string/about_description_contact_intro"
+                    android:textColor="@color/about_text"
+                    android:textSize="24sp" />
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/border_thin" >
+
+                    <net.studymongolian.chimee.MongolTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bar_icon"
+                        android:clickable="true"
+                        android:onClick="contactClick"
+                        android:padding="10dp"
+                        android:text="@string/about_description_contact_address"
+                        android:textColor="@color/about_text"
+                        android:textSize="20sp" />
+                </FrameLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </HorizontalScrollView>
+
+</RelativeLayout>

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <!-- This is the custom top action bar -->
+
+    <RelativeLayout
+        android:id="@+id/topActionBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/actionbar_bg" >
+
+        <!-- press the left caret and app icon to go up -->
+
+        <RelativeLayout
+            android:id="@+id/goUpLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/bar_icon"
+            android:clickable="true"
+            android:onClick="finishedClick"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
+
+            <ImageView
+                android:id="@+id/leftCaretIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/left_caret" />
+
+            <ImageView
+                android:id="@+id/appIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/leftCaretIcon"
+                android:paddingLeft="5dp"
+                android:src="@drawable/ic_action_settings" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <!-- This is the main settings area -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/topActionBarLayout" >
+
+        <!-- Title -->
+
+        <net.studymongolian.chimee.MongolTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/menu_item_settings"
+            android:textSize="24sp" />
+
+        <!-- Each settings item -->
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="20dp"
+            android:background="@drawable/settings_layout" >
+
+            <!-- Background and text color -->
+
+            <RelativeLayout
+                android:id="@+id/settingsColorLayout"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/bar_icon"
+                android:clickable="true"
+                android:onClick="settingsColorClick"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp" >
+
+                <net.studymongolian.chimee.MongolTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/settings_color_item"
+                    android:textSize="16sp" />
+
+                <FrameLayout
+                    android:id="@+id/flSettingsColorSampleBox"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:background="@color/black" >
+
+                    <net.studymongolian.chimee.MongolTextView
+                        android:id="@+id/tvSettingsColorSampleU"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/settings_color_u"
+                        android:textSize="20sp" />
+                </FrameLayout>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/settings_layout_border" />
+
+
+            <!-- Font -->
+
+            <RelativeLayout
+                android:id="@+id/settingsFont"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/bar_icon"
+                android:clickable="true"
+                android:onClick="settingsFontClick"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp" >
+
+                <net.studymongolian.chimee.MongolTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/settings_font_item"
+                    android:textSize="16sp" />
+
+                <net.studymongolian.chimee.MongolTextView
+                    android:id="@+id/tvSettingsFontSelected"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+            
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/settings_layout_border" />
+            
+            <!-- Mongolian Keyboard layout -->
+
+            <RelativeLayout
+                android:id="@+id/settingsKeyboard"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/bar_icon"
+                android:clickable="true"
+                android:onClick="settingsKeyboardClick"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp" >
+
+                <net.studymongolian.chimee.MongolTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/settings_keyboard_item"
+                    android:textSize="16sp" />
+
+                <net.studymongolian.chimee.MongolTextView
+                    android:id="@+id/tvSettingsKeyboard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>
