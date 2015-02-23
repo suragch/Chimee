@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/keyboard_base_theme"
-    android:orientation="horizontal" >
+    android:orientation="horizontal">
 
     <ListView
         android:id="@+id/lvSuggestions"
@@ -13,25 +13,24 @@
         android:cacheColorHint="#00000000"
         android:descendantFocusability="blocksDescendants"
         android:divider="@drawable/listview_divider"
-        android:dividerHeight="1dp" >
-    </ListView>
+        android:dividerHeight="1dp"></ListView>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:baselineAligned="false"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <RelativeLayout
                 android:id="@+id/key_q"
                 style="@style/AppTheme.KeyLayoutStyle"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
                 <net.studymongolian.chimee.MongolTextView
                     android:id="@+id/tvMkeyQ"
@@ -47,13 +46,13 @@
             <RelativeLayout
                 android:id="@+id/key_w"
                 style="@style/AppTheme.KeyLayoutStyle"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
                 <net.studymongolian.chimee.MongolTextView
                     android:id="@+id/tvMkeyW"
                     style="@style/AppTheme.MongolKeyTextStyle"
                     android:text="@string/m_wa" />
-                
+
                 <net.studymongolian.chimee.MongolTextView
                     android:id="@+id/tvMkeyWlong"
                     style="@style/AppTheme.MongolLongPressKeyTextStyle" />
@@ -62,7 +61,7 @@
             <RelativeLayout
                 android:id="@+id/key_e"
                 style="@style/AppTheme.KeyLayoutStyle"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
                 <net.studymongolian.chimee.MongolTextView
                     android:id="@+id/tvMkeyE"
@@ -78,7 +77,7 @@
             <RelativeLayout
                 android:id="@+id/key_r"
                 style="@style/AppTheme.KeyLayoutStyle"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
                 <net.studymongolian.chimee.MongolTextView
                     android:id="@+id/tvMkeyR"
@@ -94,13 +93,13 @@
             <RelativeLayout
                 android:id="@+id/key_t"
                 style="@style/AppTheme.KeyLayoutStyle"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
                 <net.studymongolian.chimee.MongolTextView
                     android:id="@+id/tvMkeyT"
                     style="@style/AppTheme.MongolKeyTextStyle"
                     android:text="@string/m_ta" />
-                
+
                 <net.studymongolian.chimee.MongolTextView
                     android:id="@+id/tvMkeyTlong"
                     style="@style/AppTheme.MongolLongPressKeyTextStyle" />
@@ -109,13 +108,13 @@
             <RelativeLayout
                 android:id="@+id/key_y"
                 style="@style/AppTheme.KeyLayoutStyle"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
                 <net.studymongolian.chimee.MongolTextView
                     android:id="@+id/tvMkeyY"
                     style="@style/AppTheme.MongolKeyTextStyle"
                     android:text="@string/m_ya" />
-                
+
                 <net.studymongolian.chimee.MongolTextView
                     android:id="@+id/tvMkeyYlong"
                     style="@style/AppTheme.MongolLongPressKeyTextStyle" />
@@ -124,13 +123,13 @@
             <RelativeLayout
                 android:id="@+id/key_u"
                 style="@style/AppTheme.KeyLayoutStyle"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
                 <net.studymongolian.chimee.MongolTextView
                     android:id="@+id/tvMkeyU"
                     style="@style/AppTheme.MongolKeyTextStyle"
                     android:text="@string/m_ue" />
-                
+
                 <net.studymongolian.chimee.MongolTextView
                     android:id="@+id/tvMkeyUlong"
                     style="@style/AppTheme.MongolLongPressKeyTextStyle" />
@@ -139,13 +138,13 @@
             <RelativeLayout
                 android:id="@+id/key_i"
                 style="@style/AppTheme.KeyLayoutStyle"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
                 <net.studymongolian.chimee.MongolTextView
                     android:id="@+id/tvMkeyI"
                     style="@style/AppTheme.MongolKeyTextStyle"
                     android:text="@string/m_i" />
-                
+
                 <net.studymongolian.chimee.MongolTextView
                     android:id="@+id/tvMkeyIlong"
                     style="@style/AppTheme.MongolLongPressKeyTextStyle" />
@@ -154,13 +153,13 @@
             <RelativeLayout
                 android:id="@+id/key_o"
                 style="@style/AppTheme.KeyLayoutStyle"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
                 <net.studymongolian.chimee.MongolTextView
                     android:id="@+id/tvMkeyO"
                     style="@style/AppTheme.MongolKeyTextStyle"
                     android:text="@string/m_oe" />
-                
+
                 <net.studymongolian.chimee.MongolTextView
                     android:id="@+id/tvMkeyOlong"
                     style="@style/AppTheme.MongolLongPressKeyTextStyle" />
@@ -169,13 +168,13 @@
             <RelativeLayout
                 android:id="@+id/key_p"
                 style="@style/AppTheme.KeyLayoutStyle"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
                 <net.studymongolian.chimee.MongolTextView
                     android:id="@+id/tvMkeyP"
                     style="@style/AppTheme.MongolKeyTextStyle"
                     android:text="@string/m_pa" />
-                
+
                 <net.studymongolian.chimee.MongolTextView
                     android:id="@+id/tvMkeyPlong"
                     style="@style/AppTheme.MongolLongPressKeyTextStyle" />
@@ -187,12 +186,12 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:baselineAligned="false"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <RelativeLayout
                 android:id="@+id/key_a"
                 style="@style/AppTheme.KeyLayoutStyle"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
                 <net.studymongolian.chimee.MongolTextView
                     android:id="@+id/tvMkeyA"
@@ -203,7 +202,7 @@
             <RelativeLayout
                 android:id="@+id/key_s"
                 style="@style/AppTheme.KeyLayoutStyle"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
                 <net.studymongolian.chimee.MongolTextView
                     android:id="@+id/tvMkeyS"
@@ -214,7 +213,7 @@
             <RelativeLayout
                 android:id="@+id/key_d"
                 style="@style/AppTheme.KeyLayoutStyle"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
                 <net.studymongolian.chimee.MongolTextView
                     android:id="@+id/tvMkeyD"
@@ -225,7 +224,7 @@
             <RelativeLayout
                 android:id="@+id/key_f"
                 style="@style/AppTheme.KeyLayoutStyle"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
                 <net.studymongolian.chimee.MongolTextView
                     android:id="@+id/tvMkeyF"
@@ -236,7 +235,7 @@
             <RelativeLayout
                 android:id="@+id/key_g"
                 style="@style/AppTheme.KeyLayoutStyle"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
                 <net.studymongolian.chimee.MongolTextView
                     android:id="@+id/tvMkeyG"
@@ -247,7 +246,7 @@
             <RelativeLayout
                 android:id="@+id/key_h"
                 style="@style/AppTheme.KeyLayoutStyle"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
                 <net.studymongolian.chimee.MongolTextView
                     android:id="@+id/tvMkeyH"
@@ -263,7 +262,7 @@
             <RelativeLayout
                 android:id="@+id/key_j"
                 style="@style/AppTheme.KeyLayoutStyle"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
                 <net.studymongolian.chimee.MongolTextView
                     android:id="@+id/tvMkeyJ"
@@ -279,7 +278,7 @@
             <RelativeLayout
                 android:id="@+id/key_k"
                 style="@style/AppTheme.KeyLayoutStyle"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
                 <net.studymongolian.chimee.MongolTextView
                     android:id="@+id/tvMkeyK"
@@ -290,7 +289,7 @@
             <RelativeLayout
                 android:id="@+id/key_l"
                 style="@style/AppTheme.KeyLayoutStyle"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
                 <net.studymongolian.chimee.MongolTextView
                     android:id="@+id/tvMkeyL"
@@ -306,7 +305,7 @@
             <RelativeLayout
                 android:id="@+id/key_ng"
                 style="@style/AppTheme.KeyLayoutStyle"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
                 <net.studymongolian.chimee.MongolTextView
                     android:id="@+id/tvMkeyNg"
@@ -320,47 +319,62 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:baselineAligned="false"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <RelativeLayout
                 android:id="@+id/key_fvs"
                 style="@style/AppTheme.FormatKeyLayoutStyle"
-                android:layout_weight="1.5" >
+                android:layout_weight="1.5">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical" >
+                    android:orientation="vertical">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:orientation="horizontal" >
+                        android:orientation="horizontal">
 
-                        <net.studymongolian.chimee.MongolTextView
-                            android:id="@+id/tvFvs1Top"
-                            style="@style/AppTheme.MongolKeyTextStyle"
+                        <FrameLayout
                             android:layout_width="0dp"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            android:textSize="14sp" />
+                            android:layout_weight="1">
 
-                        <net.studymongolian.chimee.MongolTextView
-                            android:id="@+id/tvFvs2Top"
-                            style="@style/AppTheme.MongolKeyTextStyle"
-                            android:layout_width="0dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            android:textSize="14sp" />
+                            <net.studymongolian.chimee.MongolTextView
+                                android:id="@+id/tvFvs1Top"
+                                style="@style/AppTheme.MongolKeyTextStyle"
+                                android:layout_gravity="center"
+                                android:textSize="14sp" />
+                        </FrameLayout>
 
-                        <net.studymongolian.chimee.MongolTextView
-                            android:id="@+id/tvFvs3Top"
-                            style="@style/AppTheme.MongolKeyTextStyle"
+                        <FrameLayout
                             android:layout_width="0dp"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            android:textSize="14sp" />
+                            android:layout_weight="1">
+
+                            <net.studymongolian.chimee.MongolTextView
+                                android:id="@+id/tvFvs2Top"
+                                style="@style/AppTheme.MongolKeyTextStyle"
+                                android:layout_gravity="center"
+                                android:textSize="14sp" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1">
+
+                            <net.studymongolian.chimee.MongolTextView
+                                android:id="@+id/tvFvs3Top"
+                                style="@style/AppTheme.MongolKeyTextStyle"
+                                android:layout_gravity="center"
+                                android:textSize="14sp" />
+                        </FrameLayout>
                     </LinearLayout>
 
                     <View
@@ -369,43 +383,59 @@
                         android:background="@color/white_6" />
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:orientation="horizontal" >
+                        android:orientation="horizontal">
 
-                        <net.studymongolian.chimee.MongolTextView
-                            android:id="@+id/tvFvs1Bottom"
-                            style="@style/AppTheme.MongolKeyTextStyle"
+                        <FrameLayout
                             android:layout_width="0dp"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            android:textSize="14sp" />
+                            android:layout_weight="1">
 
-                        <net.studymongolian.chimee.MongolTextView
-                            android:id="@+id/tvFvs2Bottom"
-                            style="@style/AppTheme.MongolKeyTextStyle"
-                            android:layout_width="0dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            android:textSize="14sp" />
+                            <net.studymongolian.chimee.MongolTextView
+                                android:id="@+id/tvFvs1Bottom"
+                                style="@style/AppTheme.MongolKeyTextStyle"
+                                android:layout_gravity="center"
+                                android:textSize="14sp" />
+                        </FrameLayout>
 
-                        <net.studymongolian.chimee.MongolTextView
-                            android:id="@+id/tvFvs3Bottom"
-                            style="@style/AppTheme.MongolKeyTextStyle"
+                        <FrameLayout
                             android:layout_width="0dp"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            android:textSize="14sp" />
+                            android:layout_weight="1">
+
+                            <net.studymongolian.chimee.MongolTextView
+                                android:id="@+id/tvFvs2Bottom"
+                                style="@style/AppTheme.MongolKeyTextStyle"
+                                android:layout_gravity="center"
+                                android:textSize="14sp" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1">
+
+                            <net.studymongolian.chimee.MongolTextView
+                                android:id="@+id/tvFvs3Bottom"
+                                style="@style/AppTheme.MongolKeyTextStyle"
+                                android:layout_gravity="center"
+                                android:textSize="14sp" />
+                        </FrameLayout>
                     </LinearLayout>
 
                 </LinearLayout>
+
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/key_z"
                 style="@style/AppTheme.KeyLayoutStyle"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
                 <net.studymongolian.chimee.MongolTextView
                     android:id="@+id/tvMkeyZ"
@@ -421,7 +451,7 @@
             <RelativeLayout
                 android:id="@+id/key_x"
                 style="@style/AppTheme.KeyLayoutStyle"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
                 <net.studymongolian.chimee.MongolTextView
                     android:id="@+id/tvMkeyX"
@@ -432,7 +462,7 @@
             <RelativeLayout
                 android:id="@+id/key_c"
                 style="@style/AppTheme.KeyLayoutStyle"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
                 <net.studymongolian.chimee.MongolTextView
                     android:id="@+id/tvMkeyC"
@@ -443,7 +473,7 @@
             <RelativeLayout
                 android:id="@+id/key_v"
                 style="@style/AppTheme.KeyLayoutStyle"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
                 <net.studymongolian.chimee.MongolTextView
                     android:id="@+id/tvMkeyV"
@@ -454,7 +484,7 @@
             <RelativeLayout
                 android:id="@+id/key_b"
                 style="@style/AppTheme.KeyLayoutStyle"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
                 <net.studymongolian.chimee.MongolTextView
                     android:id="@+id/tvMkeyB"
@@ -465,7 +495,7 @@
             <RelativeLayout
                 android:id="@+id/key_n"
                 style="@style/AppTheme.KeyLayoutStyle"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
                 <net.studymongolian.chimee.MongolTextView
                     android:id="@+id/tvMkeyN"
@@ -476,7 +506,7 @@
             <RelativeLayout
                 android:id="@+id/key_m"
                 style="@style/AppTheme.KeyLayoutStyle"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
                 <net.studymongolian.chimee.MongolTextView
                     android:id="@+id/tvMkeyM"
@@ -487,7 +517,7 @@
             <RelativeLayout
                 android:id="@+id/key_backspace"
                 style="@style/AppTheme.FormatKeyLayoutStyle"
-                android:layout_weight="1.5" >
+                android:layout_weight="1.5">
 
                 <ImageView
                     android:id="@+id/ivMkeyBackspace"
@@ -501,12 +531,12 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:baselineAligned="false"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <RelativeLayout
                 android:id="@+id/key_input"
                 style="@style/AppTheme.FormatKeyLayoutStyle"
-                android:layout_weight="1.5" >
+                android:layout_weight="1.5">
 
                 <net.studymongolian.chimee.MongolTextView
                     android:id="@+id/tvMkeyInputMongol"
@@ -531,7 +561,7 @@
             <RelativeLayout
                 android:id="@+id/key_namalaga"
                 style="@style/AppTheme.FormatKeyLayoutStyle"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
                 <net.studymongolian.chimee.MongolTextView
                     android:id="@+id/tvMkeyNamalaga"
@@ -540,12 +570,11 @@
                     android:textSize="14sp" />
             </RelativeLayout>
 
-            
 
             <RelativeLayout
                 android:id="@+id/key_comma"
                 style="@style/AppTheme.KeyLayoutStyle"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
                 <net.studymongolian.chimee.MongolTextView
                     android:id="@+id/tvMkeyComma"
@@ -557,11 +586,11 @@
                     style="@style/AppTheme.MongolLongPressKeyTextStyle"
                     android:text="@string/m_key_comma_long" />
             </RelativeLayout>
-            
+
             <RelativeLayout
                 android:id="@+id/key_space"
                 style="@style/AppTheme.KeyLayoutStyle"
-                android:layout_weight="3" >
+                android:layout_weight="3">
 
                 <ImageView
                     android:id="@+id/ivMkeySpace"
@@ -572,7 +601,7 @@
             <RelativeLayout
                 android:id="@+id/key_question"
                 style="@style/AppTheme.KeyLayoutStyle"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
                 <net.studymongolian.chimee.MongolTextView
                     android:id="@+id/tvMkeyQuestion"
@@ -588,7 +617,7 @@
             <RelativeLayout
                 android:id="@+id/key_case_suffix"
                 style="@style/AppTheme.FormatKeyLayoutStyle"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
                 <net.studymongolian.chimee.MongolTextView
                     android:id="@+id/tvMkeyCaseSuffix"
@@ -600,7 +629,7 @@
             <RelativeLayout
                 android:id="@+id/key_return"
                 style="@style/AppTheme.FormatKeyLayoutStyle"
-                android:layout_weight="1.5" >
+                android:layout_weight="1.5">
 
                 <ImageView
                     android:id="@+id/ivMkeyReturn"

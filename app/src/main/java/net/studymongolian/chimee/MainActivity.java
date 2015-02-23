@@ -240,6 +240,8 @@ public class MainActivity extends FragmentActivity implements MongolAeiouKeyboar
 	private void initSettings() {
 
 		settings = getSharedPreferences(SettingsActivity.PREFS_NAME, MODE_PRIVATE);
+
+        // get the right keyboard
 		String userKeyboard = settings.getString(SettingsActivity.MONGOLIAN_KEYBOARD_KEY,
 				SettingsActivity.MONGOLIAN_KEYBOARD_DEFAULT);
 		if (userKeyboard.equals(SettingsActivity.MONGOLIAN_AEIOU_KEYBOARD)) {
@@ -248,6 +250,13 @@ public class MainActivity extends FragmentActivity implements MongolAeiouKeyboar
 			userMongolKeyboard = Keyboard.MONGOLIAN_QWERTY;
 		}
 		currentKeyboard = userMongolKeyboard;
+
+        // get a saved draft
+        if (unicodeText.length() == 0){
+            unicodeText.append(settings.getString(SettingsActivity.DRAFT_KEY, SettingsActivity.DRAFT_DEFAULT));
+            cursorPosition = settings.getInt(SettingsActivity.CURSOR_POSITION_KEY, SettingsActivity.CURSOR_POSITION_DEFAULT);
+        }
+
 	}
 
 	@Override
@@ -262,6 +271,18 @@ public class MainActivity extends FragmentActivity implements MongolAeiouKeyboar
 		}
 
 	}
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // save draft unicode text that is in the input window in case user accidentally closes app
+        settings = getSharedPreferences(SettingsActivity.PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(SettingsActivity.DRAFT_KEY, unicodeText.toString());
+        editor.putInt(SettingsActivity.CURSOR_POSITION_KEY, cursorPosition);
+        editor.commit();
+    }
 
 	@Override
 	protected void onPostResume() {

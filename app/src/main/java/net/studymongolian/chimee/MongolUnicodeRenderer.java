@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 /*
  * Chimee Mongol Unicode Rendering Engine
- * Version 2.0.8
+ * Version 2.1.0
  * 
  * Current version needs to be used with Almas font glyphs
  * copied to PUA starting at \uE360. To use different glyph
@@ -297,7 +297,8 @@ public class MongolUnicodeRenderer {
 		// Find string of medials (search long to short) TODO is this slow?
 		match = "";
 		medialStartIndex = initialEndIndex;
-		medialEndIndex = finalStartIndex;
+		medialEndIndex = finalStartIndex; // substring endindex is exclusive
+        boolean matchFound = false;
 		while (medialStartIndex < finalStartIndex) {
 
 			if (medialStartIndex + MAXIMUM_SEARCH_LENGTH < medialEndIndex) {
@@ -311,10 +312,11 @@ public class MongolUnicodeRenderer {
 					match = mMedialMap.get(subString);
 					// returnString.append(mMedialMap.get(subString));
 					medialStartIndex = i;
+                    matchFound = true;
 					break;
 				}
 			}
-			if (match == null || match.length() == 0) {
+			if (!matchFound) {
 				// Log.e("app", "medial not found");
 				System.out.println("medial not found");
 				break;
@@ -361,6 +363,44 @@ public class MongolUnicodeRenderer {
 				}
 			}
 		}
+
+        // Only allow the B/P/F/K/KH and G/Q ligature for following A/O/U
+        for (int i = word.length() - 3; i >= 0; i--) {
+            // this char is B/P/F/K/KH
+            if (word.charAt(i) == UNI_BA || word.charAt(i) == UNI_PA || word.charAt(i) == UNI_FA || word.charAt(i) == UNI_KA || word.charAt(i) == UNI_KHA ) {
+                // following char is Q/G
+                if (word.charAt(i+1) == UNI_QA || word.charAt(i+1) == UNI_GA ) {
+                    // following char is not A/O/U
+                    if (!isMasculineVowel(word.charAt(i + 2))) {
+                        // insert ZWJ to prevent ligature between B/P/F/K/KH and G/Q
+                        word.insert(i + 1, ZWJ);
+                    }
+                }
+            }
+        }
+
+        // OE/UE long tooth in first syllable for non ligatures
+        if (word.length() > 2){
+            // second char is OE or UE
+            if (word.charAt(1) == UNI_OE || word.charAt(1) == UNI_UE) {
+                // first char not a vowel or ligature consonant (B/P/Q/G/F/K/KH)
+                if (!isVowel(word.charAt(0)) && word.charAt(0) != UNI_BA && word.charAt(0) != UNI_PA && word.charAt(0) != UNI_QA && word.charAt(0) != UNI_GA && word.charAt(0) != UNI_FA && word.charAt(0) != UNI_KA && word.charAt(0) != UNI_KHA){
+                    if (!isFVS(word.charAt(2))){
+                        // insert FVS1 after OE/UE
+                        word.insert(2, FVS1);
+                    }
+                }
+                // second char is FVS and third char is OE or UE
+            } else if (isFVS(word.charAt(1)) && word.length() > 3 && (word.charAt(2) == UNI_OE || word.charAt(2) == UNI_UE)){
+                // first char not a vowel or ligature consonant (B/P/Q/G/F/K/KH)
+                if (!isVowel(word.charAt(0)) && word.charAt(0) != UNI_BA && word.charAt(0) != UNI_PA && word.charAt(0) != UNI_QA && word.charAt(0) != UNI_GA && word.charAt(0) != UNI_FA && word.charAt(0) != UNI_KA && word.charAt(0) != UNI_KHA){
+                    if (!isFVS(word.charAt(3))){
+                        // insert FVS1 after OE/UE
+                        word.insert(3, FVS1);
+                    }
+                }
+            }
+        }
 
 		// medial N rule (not first or last character)
 		for (int i = word.length() - 2; i > 0; i--) {
@@ -413,19 +453,25 @@ public class MongolUnicodeRenderer {
 					}
 
 					// **** feminine medial GA rule ****
-					boolean isFeminineWord = false;
+
 					if (isConsonant(word.charAt(i + 1))) {
-						// check before GA for feminine vowel
+                        boolean isFeminineWord = false;
+                        isMasculineWord = false;
+						// check before GA for gender of vowel
 						for (int j = i - 1; j >= 0; j--) {
 							if (isFeminineVowel(word.charAt(j))) {
 								isFeminineWord = true;
 								break;
-							}
+							}else  if (isMasculineVowel(word.charAt(j))) {
+                                isMasculineWord = true;
+                                break;
+                            }
 						}
 						if (isFeminineWord) {
-							// make it a feminine medial GA
-							word.insert(i + 1, FVS3);
-						} else {
+                            // make it a feminine medial GA
+                            word.insert(i + 1, FVS3);
+                        } else if (!isMasculineWord) {
+
 							// couldn't be determined by looking before
 							// so check after GA for no masculine vowel
 							isMasculineWord = false;
@@ -437,7 +483,7 @@ public class MongolUnicodeRenderer {
 								}
 							}
 							if (!isMasculineWord) {
-								// make it a feminine medial GA
+								// make it a feminine medial GA, I defaults to feminine GA
 								word.insert(i + 1, FVS3);
 							}
 						}
@@ -886,7 +932,7 @@ public class MongolUnicodeRenderer {
 		mInitialMap.put("" + UNI_KHA + UNI_UE + FVS1, "" + GLYPH_INIT_KHA_MEDI_UE_FVS1);
 
 		// Non-ligature OE/UE in first syllable (long tooth rule)
-		mInitialMap.put("" + UNI_NA + UNI_OE, "" + GLYPH_INIT_NA + GLYPH_MEDI_OE_FVS1);
+		/*mInitialMap.put("" + UNI_NA + UNI_OE, "" + GLYPH_INIT_NA + GLYPH_MEDI_OE_FVS1);
 		mInitialMap.put("" + UNI_NA + UNI_UE, "" + GLYPH_INIT_NA + GLYPH_MEDI_UE_FVS1);
 		// TODO when is UNI_NA + FVS1 ever used?
 		mInitialMap.put("" + UNI_NA + FVS1 + UNI_OE, "" + GLYPH_INIT_NA_FVS1 + GLYPH_MEDI_OE_FVS1);
@@ -930,7 +976,7 @@ public class MongolUnicodeRenderer {
 		mInitialMap.put("" + UNI_ZHI + UNI_OE, "" + GLYPH_INIT_ZHI + GLYPH_MEDI_OE_FVS1);
 		mInitialMap.put("" + UNI_ZHI + UNI_UE, "" + GLYPH_INIT_ZHI + GLYPH_MEDI_UE_FVS1);
 		mInitialMap.put("" + UNI_CHI + UNI_OE, "" + GLYPH_INIT_CHI + GLYPH_MEDI_OE_FVS1);
-		mInitialMap.put("" + UNI_CHI + UNI_UE, "" + GLYPH_INIT_CHI + GLYPH_MEDI_UE_FVS1);
+		mInitialMap.put("" + UNI_CHI + UNI_UE, "" + GLYPH_INIT_CHI + GLYPH_MEDI_UE_FVS1);*/
 
 		// Catch other chars
 		mInitialMap.put("" + CURSOR_HOLDER, "" + CURSOR_HOLDER);

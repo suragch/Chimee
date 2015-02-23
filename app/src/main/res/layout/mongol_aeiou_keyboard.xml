@@ -326,42 +326,57 @@
             <RelativeLayout
                 android:id="@+id/key_fvs"
                 style="@style/AppTheme.FormatKeyLayoutStyle"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical" >
+                    android:orientation="vertical">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:orientation="horizontal" >
+                        android:orientation="horizontal">
 
-                        <net.studymongolian.chimee.MongolTextView
-                            android:id="@+id/tvFvs1Top"
-                            style="@style/AppTheme.MongolKeyTextStyle"
+                        <FrameLayout
                             android:layout_width="0dp"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            android:textSize="14sp" />
+                            android:layout_weight="1">
 
-                        <net.studymongolian.chimee.MongolTextView
-                            android:id="@+id/tvFvs2Top"
-                            style="@style/AppTheme.MongolKeyTextStyle"
-                            android:layout_width="0dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            android:textSize="14sp" />
+                            <net.studymongolian.chimee.MongolTextView
+                                android:id="@+id/tvFvs1Top"
+                                style="@style/AppTheme.MongolKeyTextStyle"
+                                android:layout_gravity="center"
+                                android:textSize="14sp" />
+                        </FrameLayout>
 
-                        <net.studymongolian.chimee.MongolTextView
-                            android:id="@+id/tvFvs3Top"
-                            style="@style/AppTheme.MongolKeyTextStyle"
+                        <FrameLayout
                             android:layout_width="0dp"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            android:textSize="14sp" />
+                            android:layout_weight="1">
+
+                            <net.studymongolian.chimee.MongolTextView
+                                android:id="@+id/tvFvs2Top"
+                                style="@style/AppTheme.MongolKeyTextStyle"
+                                android:layout_gravity="center"
+                                android:textSize="14sp" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1">
+
+                            <net.studymongolian.chimee.MongolTextView
+                                android:id="@+id/tvFvs3Top"
+                                style="@style/AppTheme.MongolKeyTextStyle"
+                                android:layout_gravity="center"
+                                android:textSize="14sp" />
+                        </FrameLayout>
                     </LinearLayout>
 
                     <View
@@ -370,36 +385,53 @@
                         android:background="@color/white_6" />
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:orientation="horizontal" >
+                        android:orientation="horizontal">
 
-                        <net.studymongolian.chimee.MongolTextView
-                            android:id="@+id/tvFvs1Bottom"
-                            style="@style/AppTheme.MongolKeyTextStyle"
+                        <FrameLayout
                             android:layout_width="0dp"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            android:textSize="14sp" />
+                            android:layout_weight="1">
 
-                        <net.studymongolian.chimee.MongolTextView
-                            android:id="@+id/tvFvs2Bottom"
-                            style="@style/AppTheme.MongolKeyTextStyle"
-                            android:layout_width="0dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            android:textSize="14sp" />
+                            <net.studymongolian.chimee.MongolTextView
+                                android:id="@+id/tvFvs1Bottom"
+                                style="@style/AppTheme.MongolKeyTextStyle"
+                                android:layout_gravity="center"
+                                android:textSize="14sp" />
+                        </FrameLayout>
 
-                        <net.studymongolian.chimee.MongolTextView
-                            android:id="@+id/tvFvs3Bottom"
-                            style="@style/AppTheme.MongolKeyTextStyle"
+                        <FrameLayout
                             android:layout_width="0dp"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            android:textSize="14sp" />
+                            android:layout_weight="1">
+
+                            <net.studymongolian.chimee.MongolTextView
+                                android:id="@+id/tvFvs2Bottom"
+                                style="@style/AppTheme.MongolKeyTextStyle"
+                                android:layout_gravity="center"
+                                android:textSize="14sp" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1">
+
+                            <net.studymongolian.chimee.MongolTextView
+                                android:id="@+id/tvFvs3Bottom"
+                                style="@style/AppTheme.MongolKeyTextStyle"
+                                android:layout_gravity="center"
+                                android:textSize="14sp" />
+                        </FrameLayout>
                     </LinearLayout>
+
                 </LinearLayout>
+
             </RelativeLayout>
 
             <RelativeLayout

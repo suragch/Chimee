@@ -30,6 +30,12 @@ public class SettingsActivity extends Activity {
 	protected static final String TEXTCOLOR_KEY = "textColor";
 	protected static final int TEXTCOLOR_DEFAULT = Color.BLACK;
 
+    protected static final String DRAFT_KEY = "draft"; // Unicode text in input window when closed
+    protected static final String DRAFT_DEFAULT = "";
+    protected static final String CURSOR_POSITION_KEY = "cursorPosition";
+    protected static final int CURSOR_POSITION_DEFAULT = 0;
+
+
 	private static final int KEYBOARD_REQUEST = 1;
 	private static final int COLOR_REQUEST = 2;
 	private static final int FONT_REQUEST = 3;

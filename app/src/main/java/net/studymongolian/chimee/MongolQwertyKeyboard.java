@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.support.v4.app.LoaderManager;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -89,6 +90,8 @@ public class MongolQwertyKeyboard extends Fragment implements OnClickListener, O
 	TextView tvN;
 	TextView tvM;
 
+
+
 	TextView tvQlong;
 	TextView tvWlong;
 	TextView tvElong;
@@ -114,6 +117,7 @@ public class MongolQwertyKeyboard extends Fragment implements OnClickListener, O
 	TextView tvFvs3Bottom;
 	TextView tvInput;
 	TextView tvInputMongol;
+
 
 	// Container Activity must implement this interface
 	public interface Communicator {
@@ -426,6 +430,15 @@ public class MongolQwertyKeyboard extends Fragment implements OnClickListener, O
 		tvFvs3Bottom = (TextView) getView().findViewById(R.id.tvFvs3Bottom);
 		tvInput = (TextView) getView().findViewById(R.id.tvMkeyInput);
 		tvInputMongol = (TextView) getView().findViewById(R.id.tvMkeyInputMongol);
+
+        // TODO this is a strange hack fix for Xiaomi pad with Android 4.4 (letters didn't display)
+        tvFvs1Top.setText("  ");
+        tvFvs1Bottom.setText("  ");
+        tvFvs2Top.setText("  ");
+        tvFvs2Bottom.setText("  ");
+        tvFvs3Top.setText("  ");
+        tvFvs3Bottom.setText("  ");
+
 
 	}
 
