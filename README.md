@@ -8,3 +8,5 @@ Version 2.0.0
 此软件还有很多缺点，欢迎大家提供意见、建议。为了共同发展，希望以后更多的开发者会选择发布开源的蒙文软件。
 
 Chimee is a traditional Mongolian messaging app for Android.
+
+http://www.studymongolian.net/apps/chimee/zh/
