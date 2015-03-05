@@ -4,11 +4,13 @@ import java.util.HashMap;
 
 /*
  * Chimee Mongol Unicode Rendering Engine
- * Version 2.1.0
+ * Version 2.1.2
  * 
  * Current version needs to be used with Almas font glyphs
  * copied to PUA starting at \uE360. To use different glyph
  * encodings, adjust the GLYPH_* static final constants below.
+ * These PUA encodings are only to be used internally for glyph
+ * selection. All external text should use Unicode.
  */
 public class MongolUnicodeRenderer {
 
@@ -127,7 +129,7 @@ public class MongolUnicodeRenderer {
 	/**
 	 * Used to get the unicode character position index from a touch event that gives a glyph
 	 * position index
-	 * 
+	 *
 	 * @param unicodeString
 	 *            This is the string that produced the glyph string param
 	 * @param glyphIndex
@@ -335,12 +337,9 @@ public class MongolUnicodeRenderer {
 	}
 
 	private String preFormatter(String mongolWord) {
-		// This method adds context based formatting
-		// Rules
-		// medial dotted N
-		// medial D
-		// medial dotted G (masculine)
-		// diphthongs (medial AI, AYI)
+		// This method applies context based formatting rules by adding the appropriate FVS character
+        // TODO This method is slow because every rule has to loop through the word. However, this was intentional in order to separate the rules for easier debugging
+
 
 		StringBuilder word = new StringBuilder();
 		word.append(mongolWord);
@@ -364,22 +363,23 @@ public class MongolUnicodeRenderer {
 			}
 		}
 
-        // Only allow the B/P/F/K/KH and G/Q ligature for following A/O/U
+        // Only allow the NG/B/P/F/K/KH and G/Q ligature if A/O/U or MVS follows
         for (int i = word.length() - 3; i >= 0; i--) {
-            // this char is B/P/F/K/KH
-            if (word.charAt(i) == UNI_BA || word.charAt(i) == UNI_PA || word.charAt(i) == UNI_FA || word.charAt(i) == UNI_KA || word.charAt(i) == UNI_KHA ) {
+            // this char is NG/B/P/F/K/KH
+            if (word.charAt(i) == UNI_ANG || word.charAt(i) == UNI_BA || word.charAt(i) == UNI_PA || word.charAt(i) == UNI_FA || word.charAt(i) == UNI_KA || word.charAt(i) == UNI_KHA ) {
                 // following char is Q/G
                 if (word.charAt(i+1) == UNI_QA || word.charAt(i+1) == UNI_GA ) {
-                    // following char is not A/O/U
-                    if (!isMasculineVowel(word.charAt(i + 2))) {
-                        // insert ZWJ to prevent ligature between B/P/F/K/KH and G/Q
+                    // following char is not A/O/U or MVS (MVS allows NG+G/Q ligature)
+                    if (!isMasculineVowel(word.charAt(i + 2)) && word.charAt(i + 2) != MVS) {
+                        // insert ZWJ to prevent ligature between NG/B/P/F/K/KH and G/Q
                         word.insert(i + 1, ZWJ);
                     }
                 }
             }
         }
 
-        // OE/UE long tooth in first syllable for non ligatures
+        // *** OE/UE long tooth in first syllable for non ligatures rule ***
+        // (long tooth ligatures are handled by the hash tables)
         if (word.length() > 2){
             // second char is OE or UE
             if (word.charAt(1) == UNI_OE || word.charAt(1) == UNI_UE) {
@@ -402,7 +402,7 @@ public class MongolUnicodeRenderer {
             }
         }
 
-		// medial N rule (not first or last character)
+		// *** medial N rule ***
 		for (int i = word.length() - 2; i > 0; i--) {
 			if (word.charAt(i) == UNI_NA) {
 				// following char is a vowel
@@ -413,7 +413,7 @@ public class MongolUnicodeRenderer {
 			}
 		}
 
-		// medial D rule
+		// *** medial D rule ***
 		for (int i = word.length() - 2; i > 0; i--) {
 			if (word.charAt(i) == UNI_DA) {
 				// following char is a vowel
@@ -425,24 +425,34 @@ public class MongolUnicodeRenderer {
 		}
 
 		// GA rules
+        if (word.charAt(0) == UNI_GA) {
+
+            // Initial GA
+            if (word.length() > 1 && isConsonant(word.charAt(1))){
+                // *** Initial GA before consonant rule ***
+                // make it a feminine initial GA
+                word.insert(1, FVS2);
+            }
+        }
 		for (int i = word.length() - 1; i > 0; i--) {
 			if (word.charAt(i) == UNI_GA) {
+
 				// final GA
 				boolean isMasculineWord = false;
 				if (i == word.length() - 1) {
 
-					// **** feminine final GA rule ****
-					for (int j = i - 1; j >= 0; j--) {
-						// vowel I also defaults to feminine
-						if (isMasculineVowel(word.charAt(j))) {
-							isMasculineWord = true;
-							break;
-						}
-					}
-					if (!isMasculineWord) {
-						// make it a feminine final GA
-						word.insert(i + 1, FVS2);
-					}
+                    // **** feminine final GA rule ****
+                    for (int j = i - 1; j >= 0; j--) {
+                        // vowel I also defaults to feminine
+                        if (isMasculineVowel(word.charAt(j))) {
+                            isMasculineWord = true;
+                            break;
+                        }
+                    }
+                    if (!isMasculineWord) {
+                        // make it a feminine final GA
+                        word.insert(i + 1, FVS2);
+                    }
 
 				} else { // medial GA
 
@@ -450,13 +460,12 @@ public class MongolUnicodeRenderer {
 					if (isMasculineVowel(word.charAt(i + 1))) {
 						// add the dots
 						word.insert(i + 1, FVS1);
-					}
 
-					// **** feminine medial GA rule ****
-
-					if (isConsonant(word.charAt(i + 1))) {
+						// **** feminine medial GA rule ****
+					} else if (isConsonant(word.charAt(i + 1))) {
                         boolean isFeminineWord = false;
                         isMasculineWord = false;
+
 						// check before GA for gender of vowel
 						for (int j = i - 1; j >= 0; j--) {
 							if (isFeminineVowel(word.charAt(j))) {
@@ -465,8 +474,14 @@ public class MongolUnicodeRenderer {
 							}else  if (isMasculineVowel(word.charAt(j))) {
                                 isMasculineWord = true;
                                 break;
+                            }else  if (isConsonant(word.charAt(j))) {
+                                // This means we have consonant+GA+consonant (ex. ANGGLI)
+                                // Although the whole word may not actually be feminine, still use the feminine medial GA
+                                isFeminineWord = true;
+                                break;
                             }
 						}
+
 						if (isFeminineWord) {
                             // make it a feminine medial GA
                             word.insert(i + 1, FVS3);
@@ -483,7 +498,7 @@ public class MongolUnicodeRenderer {
 								}
 							}
 							if (!isMasculineWord) {
-								// make it a feminine medial GA, I defaults to feminine GA
+								// make it a feminine medial GA, Thus, I defaults to feminine GA
 								word.insert(i + 1, FVS3);
 							}
 						}
@@ -493,7 +508,7 @@ public class MongolUnicodeRenderer {
 			}
 		} // End of GA rules
 
-		// medial Y rule
+		// *** medial Y rule ***
 		// upturn the Y before any vowel except I (when YI follows vowel)
 		for (int i = word.length() - 2; i > 0; i--) {
 			if (word.charAt(i) == UNI_YA) {
@@ -507,7 +522,7 @@ public class MongolUnicodeRenderer {
 			}
 		}
 
-		// AI, OI, UI medial I diphthong rule
+		// *** AI, OI, UI medial I diphthong rule ***
 		for (int i = word.length() - 2; i > 0; i--) {
 			if (word.charAt(i) == UNI_I) {
 				// previous char is a masculine vowel and next char is not FVS
@@ -1026,8 +1041,7 @@ public class MongolUnicodeRenderer {
 		mMedialMap.put("" + UNI_NA + FVS3, "" + GLYPH_MEDI_NA);
 		mMedialMap.put("" + UNI_ANG, "" + GLYPH_MEDI_ANG);
 		mMedialMap.put("" + UNI_ANG + UNI_QA, "" + GLYPH_MEDI_ANG_MEDI_QA);
-		// The following is not needed (breaks ANG+GA+LA, etc)
-		// mMedialMap.put("" + UNI_ANG + UNI_GA, "" + GLYPH_MEDI_ANG_MEDI_GA);
+		mMedialMap.put("" + UNI_ANG + UNI_GA, "" + GLYPH_MEDI_ANG_MEDI_GA);
 		mMedialMap.put("" + UNI_ANG + UNI_QA + FVS1, "" + GLYPH_MEDI_ANG_MEDI_QA);
 		mMedialMap.put("" + UNI_ANG + UNI_GA + FVS1, "" + GLYPH_MEDI_ANG_MEDI_GA);
 		mMedialMap.put("" + UNI_ANG + UNI_MA, "" + GLYPH_MEDI_ANG_MEDI_MA);

@@ -210,10 +210,10 @@ public class MainActivity extends FragmentActivity implements MongolAeiouKeyboar
 			}
 		});
 
-		if (savedInstanceState != null) {
+		/*if (savedInstanceState != null) {
 			unicodeText.append(savedInstanceState.getString("unicodeSave"));
 			cursorPosition = savedInstanceState.getInt("positionSave");
-		}
+		}*/
 
 		// Make the cursor show
 		updateDisplay();
@@ -452,12 +452,12 @@ public class MainActivity extends FragmentActivity implements MongolAeiouKeyboar
 		hideMenu(null);
 	}
 
-	public void onSaveInstanceState(Bundle savedInstanceState) {
+	/*public void onSaveInstanceState(Bundle savedInstanceState) {
 		// Save text in case of screen rotation
 		savedInstanceState.putString("unicodeSave", unicodeText.toString());
 		savedInstanceState.putInt("positionSave", cursorPosition);
 		super.onSaveInstanceState(savedInstanceState);
-	}
+	}*/
 
 	@Override
 	public void onKeyTouched(char keyChar) {
