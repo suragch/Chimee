@@ -42,6 +42,7 @@ public class SettingsKeyboardChooserDialog extends Activity implements View.OnCl
 	}
 
 
+
 	@Override
 	public void onClick(View view) {
 		

@@ -489,7 +489,8 @@ public class MongolAeiouKeyboard extends Fragment implements OnClickListener, On
 			mCallback.onKeyTouched(BACKSPACE);
 			doPostKeyPressActivities(BACKSPACE);
 		}
-		
+
+
 		private void doSpace(){
 			mCallback.onKeyTouched(SPACE);
 			doPostKeyPressActivities(SPACE);

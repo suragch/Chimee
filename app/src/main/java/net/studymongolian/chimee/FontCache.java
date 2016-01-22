@@ -31,7 +31,10 @@ public class FontCache {
                 return null;
             }
             fontCache.put(name, tf);
+
         }
         return tf;
     }
+
+
 }

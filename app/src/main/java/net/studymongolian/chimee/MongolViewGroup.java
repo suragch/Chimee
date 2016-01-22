@@ -66,6 +66,7 @@ public class MongolViewGroup extends ViewGroup {
 		}
 	}
 
+
 	@Override
 	protected void dispatchDraw(Canvas canvas) {
 		

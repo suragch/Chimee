@@ -8,6 +8,7 @@ import java.io.OutputStreamWriter;
 import java.util.List;
 
 import net.studymongolian.chimee.MongolTextView.CursorTouchLocationListener;
+
 import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Context;
@@ -16,6 +17,9 @@ import android.content.SharedPreferences;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -23,15 +27,18 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.util.Size;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.widget.FrameLayout;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends FragmentActivity implements MongolAeiouKeyboard.Communicator,
@@ -71,7 +78,9 @@ public class MainActivity extends FragmentActivity implements MongolAeiouKeyboar
 
 	private enum Keyboard {
 		MONGOLIAN_QWERTY, MONGOLIAN_AEIOU, ENGLISH
-	};
+	}
+
+	;
 
 	// EditText inputWindow;
 	MongolTextView inputWindow;
@@ -79,7 +88,8 @@ public class MainActivity extends FragmentActivity implements MongolAeiouKeyboar
 	// TextView testingView;
 
 	RelativeLayout rlMessage;
-	RelativeLayout rlLimit;
+	HorizontalScrollView hsvScrollView;
+	//RelativeLayout rlLimit;
 	RelativeLayout rlTop;
 	LinearLayout llMenu;
 	FrameLayout flContextMenuContainer;
@@ -88,7 +98,8 @@ public class MainActivity extends FragmentActivity implements MongolAeiouKeyboar
 	int inputWindowSizeIncrementPx = 0; // size in pixels
 	static final int INPUT_WINDOW_MIN_HEIGHT_DP = 150;
 	int inputWindowMinHeightPx = 0; // size in pixels
-	int renderedTextOldLength = 0;
+	//int renderedTextOldLength = 0;
+	int oldInputWindowHeight = -1;
 	StringBuilder unicodeText = new StringBuilder();
 	MongolUnicodeRenderer mongolianConverter = new MongolUnicodeRenderer();
 	int cursorPosition = 0;
@@ -168,10 +179,10 @@ public class MainActivity extends FragmentActivity implements MongolAeiouKeyboar
 			} else if (userMongolKeyboard == Keyboard.MONGOLIAN_QWERTY) {
 				mongolQwertyKeyboard = (MongolQwertyKeyboard) fragmentManager
 						.findFragmentByTag(MONGOL_QWERTY_TAG);
-			}else { // English keyboard
-                englishKeyboard = (EnglishKeyboard) fragmentManager
-                        .findFragmentByTag(ENGLISH_FRAGMENT_TAG);
-            }
+			} else { // English keyboard
+				englishKeyboard = (EnglishKeyboard) fragmentManager
+						.findFragmentByTag(ENGLISH_FRAGMENT_TAG);
+			}
 
 			contextMenu = (InputWindowContextMenu) fragmentManager
 					.findFragmentByTag(CONTEXT_MENU_TAG);
@@ -180,7 +191,8 @@ public class MainActivity extends FragmentActivity implements MongolAeiouKeyboar
 
 		rlMessage = (RelativeLayout) findViewById(R.id.rlMessageOutline);
 		rlMessage.setOnLongClickListener(longClickHandler);
-		rlLimit = (RelativeLayout) findViewById(R.id.rlMessageLimit);
+		hsvScrollView = (HorizontalScrollView) findViewById(R.id.rlMessageLimit);
+		//rlLimit = (RelativeLayout) findViewById(R.id.rlMessageLimit);
 		rlTop = (RelativeLayout) findViewById(R.id.rlTop);
 
 		// set colors
@@ -198,8 +210,13 @@ public class MainActivity extends FragmentActivity implements MongolAeiouKeyboar
 			inputWindow.setTypeface(tf);
 		}
 
-		// Set up density independent pixel constants after layout done
-		rlMessage.post(new Runnable() {
+		// Set up density independent pixel constants
+		final float scale = getResources().getDisplayMetrics().density;
+		inputWindowSizeIncrementPx = (int) (INPUT_WINDOW_SIZE_INCREMENT_DP * scale + 0.5f);
+		inputWindowMinHeightPx = (int) (INPUT_WINDOW_MIN_HEIGHT_DP * scale + 0.5f);
+
+
+		/*rlMessage.post(new Runnable() {
 			public void run() {
 				inputWindowSizeIncrementPx = (int) TypedValue.applyDimension(
 						TypedValue.COMPLEX_UNIT_DIP, INPUT_WINDOW_SIZE_INCREMENT_DP, getResources()
@@ -208,15 +225,20 @@ public class MainActivity extends FragmentActivity implements MongolAeiouKeyboar
 						TypedValue.COMPLEX_UNIT_DIP, INPUT_WINDOW_MIN_HEIGHT_DP, getResources()
 								.getDisplayMetrics());
 			}
-		});
+		});*/
 
 		/*if (savedInstanceState != null) {
 			unicodeText.append(savedInstanceState.getString("unicodeSave"));
 			cursorPosition = savedInstanceState.getInt("positionSave");
 		}*/
 
-		// Make the cursor show
-		updateDisplay();
+		// Make the cursor show and resize input window
+		rlMessage.post(new Runnable() {
+			public void run() {
+				updateDisplay();
+			}
+		});
+
 	}
 
 	private void initInputWindow() {
@@ -235,13 +257,20 @@ public class MainActivity extends FragmentActivity implements MongolAeiouKeyboar
 
 			}
 		});
+		/*inputWindow.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+			@Override
+			public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+
+				showToast(getApplicationContext(), "This is some text", Toast.LENGTH_LONG);
+			}
+		});*/
 	}
 
 	private void initSettings() {
 
 		settings = getSharedPreferences(SettingsActivity.PREFS_NAME, MODE_PRIVATE);
 
-        // get the right keyboard
+		// get the right keyboard
 		String userKeyboard = settings.getString(SettingsActivity.MONGOLIAN_KEYBOARD_KEY,
 				SettingsActivity.MONGOLIAN_KEYBOARD_DEFAULT);
 		if (userKeyboard.equals(SettingsActivity.MONGOLIAN_AEIOU_KEYBOARD)) {
@@ -251,11 +280,11 @@ public class MainActivity extends FragmentActivity implements MongolAeiouKeyboar
 		}
 		currentKeyboard = userMongolKeyboard;
 
-        // get a saved draft
-        if (unicodeText.length() == 0){
-            unicodeText.append(settings.getString(SettingsActivity.DRAFT_KEY, SettingsActivity.DRAFT_DEFAULT));
-            cursorPosition = settings.getInt(SettingsActivity.CURSOR_POSITION_KEY, SettingsActivity.CURSOR_POSITION_DEFAULT);
-        }
+		// get a saved draft
+		if (unicodeText.length() == 0) {
+			unicodeText.append(settings.getString(SettingsActivity.DRAFT_KEY, SettingsActivity.DRAFT_DEFAULT));
+			cursorPosition = settings.getInt(SettingsActivity.CURSOR_POSITION_KEY, SettingsActivity.CURSOR_POSITION_DEFAULT);
+		}
 
 	}
 
@@ -272,17 +301,17 @@ public class MainActivity extends FragmentActivity implements MongolAeiouKeyboar
 
 	}
 
-    @Override
-    public void onStop() {
-        super.onStop();
+	@Override
+	public void onStop() {
+		super.onStop();
 
-        // save draft unicode text that is in the input window in case user accidentally closes app
-        settings = getSharedPreferences(SettingsActivity.PREFS_NAME, MODE_PRIVATE);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString(SettingsActivity.DRAFT_KEY, unicodeText.toString());
-        editor.putInt(SettingsActivity.CURSOR_POSITION_KEY, cursorPosition);
-        editor.commit();
-    }
+		// save draft unicode text that is in the input window in case user accidentally closes app
+		settings = getSharedPreferences(SettingsActivity.PREFS_NAME, MODE_PRIVATE);
+		SharedPreferences.Editor editor = settings.edit();
+		editor.putString(SettingsActivity.DRAFT_KEY, unicodeText.toString());
+		editor.putInt(SettingsActivity.CURSOR_POSITION_KEY, cursorPosition);
+		editor.commit();
+	}
 
 	@Override
 	protected void onPostResume() {
@@ -381,72 +410,72 @@ public class MainActivity extends FragmentActivity implements MongolAeiouKeyboar
 		int sdk = android.os.Build.VERSION.SDK_INT;
 
 		switch (itemCode) {
-		case InputWindowContextMenu.COPY:
+			case InputWindowContextMenu.COPY:
 
-			if (sdk < android.os.Build.VERSION_CODES.HONEYCOMB) {
-				android.text.ClipboardManager clipboard = (android.text.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-				clipboard.setText(unicodeText);
-			} else {
-				android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-				android.content.ClipData clip = android.content.ClipData.newPlainText(
-						"ChimeeUnicodeText", unicodeText);
-				clipboard.setPrimaryClip(clip);
-			}
-
-			break;
-		case InputWindowContextMenu.PASTE:
-
-			String pasteData = "";
-			if (sdk < android.os.Build.VERSION_CODES.HONEYCOMB) {
-				android.text.ClipboardManager clipboard = (android.text.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-
-				try {
-					pasteData = clipboard.getText().toString();
-				} catch (Exception e) {
-					e.printStackTrace();
+				if (sdk < android.os.Build.VERSION_CODES.HONEYCOMB) {
+					android.text.ClipboardManager clipboard = (android.text.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+					clipboard.setText(unicodeText);
+				} else {
+					android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+					android.content.ClipData clip = android.content.ClipData.newPlainText(
+							"ChimeeUnicodeText", unicodeText);
+					clipboard.setPrimaryClip(clip);
 				}
 
-			} else {
-				android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+				break;
+			case InputWindowContextMenu.PASTE:
 
-				if (clipboard.getPrimaryClip() != null) {
-					android.content.ClipData.Item item = clipboard.getPrimaryClip().getItemAt(0);
-					pasteData = item.getText().toString();
+				String pasteData = "";
+				if (sdk < android.os.Build.VERSION_CODES.HONEYCOMB) {
+					android.text.ClipboardManager clipboard = (android.text.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+
+					try {
+						pasteData = clipboard.getText().toString();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+
+				} else {
+					android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+
+					if (clipboard.getPrimaryClip() != null) {
+						android.content.ClipData.Item item = clipboard.getPrimaryClip().getItemAt(0);
+						pasteData = item.getText().toString();
+					}
+
 				}
 
-			}
+				if (pasteData != null) {
+					unicodeText.insert(cursorPosition, pasteData);
+					cursorPosition += pasteData.length();
+				}
 
-			if (pasteData != null) {
-				unicodeText.insert(cursorPosition, pasteData);
-				cursorPosition += pasteData.length();
-			}
+				updateDisplay();
 
-			updateDisplay();
+				break;
+			case InputWindowContextMenu.FAVORITES:
 
-			break;
-		case InputWindowContextMenu.FAVORITES:
+				// catch empty string
+				if (unicodeText.toString().trim().length() == 0) {
+					Intent intent = new Intent(this, MongolDialogOneButton.class);
+					intent.putExtra(MongolDialogOneButton.MESSAGE,
+							getResources().getString(R.string.dialog_message_emptyfavorite));
+					startActivity(intent);
+					return;
+				}
 
-			// catch empty string
-			if (unicodeText.toString().trim().length() == 0) {
-				Intent intent = new Intent(this, MongolDialogOneButton.class);
-				intent.putExtra(MongolDialogOneButton.MESSAGE,
-						getResources().getString(R.string.dialog_message_emptyfavorite));
-				startActivity(intent);
-				return;
-			}
+				// add string to db
+				new AddMessageToFavoriteDb().execute();
 
-			// add string to db
-			new AddMessageToFavoriteDb().execute();
+				break;
+			case InputWindowContextMenu.CLEAR:
 
-			break;
-		case InputWindowContextMenu.CLEAR:
+				// TODO add a warning if longer than a certain length
+				unicodeText.setLength(0);
+				cursorPosition = 0;
+				updateDisplay();
 
-			// TODO add a warning if longer than a certain length
-			unicodeText.setLength(0);
-			cursorPosition = 0;
-			updateDisplay();
-
-			break;
+				break;
 		}
 
 		hideMenu(null);
@@ -545,68 +574,68 @@ public class MainActivity extends FragmentActivity implements MongolAeiouKeyboar
 		} else if (keyChar == SWITCH_TO_ENGLISH) {
 			// load the English keyboard fragment
 
-            //englishKeyboard = (EnglishKeyboard) fragmentManager
-             //       .findFragmentByTag(ENGLISH_FRAGMENT_TAG);
+			//englishKeyboard = (EnglishKeyboard) fragmentManager
+			//       .findFragmentByTag(ENGLISH_FRAGMENT_TAG);
 			if (englishKeyboard == null) {
 
 				englishKeyboard = new EnglishKeyboard();
 				fragmentManager.beginTransaction()
 						.replace(R.id.keyboardContainer, englishKeyboard, ENGLISH_FRAGMENT_TAG)
 						.commit();
-                englishKeyboard.setRetainInstance(true);
-			}else{
-                fragmentManager.beginTransaction()
-                        .replace(R.id.keyboardContainer, englishKeyboard, ENGLISH_FRAGMENT_TAG)
-                        .commit();
-            }
+				englishKeyboard.setRetainInstance(true);
+			} else {
+				fragmentManager.beginTransaction()
+						.replace(R.id.keyboardContainer, englishKeyboard, ENGLISH_FRAGMENT_TAG)
+						.commit();
+			}
 
 			currentKeyboard = Keyboard.ENGLISH;
 		} else if (keyChar == SWITCH_TO_MONGOLIAN) {
 			// load the Mongolian keyboard fragment
 
 			if (userMongolKeyboard == Keyboard.MONGOLIAN_AEIOU) {
-                //mongolAeiouKeyboard = (MongolAeiouKeyboard) fragmentManager
-                //       .findFragmentByTag(MONGOL_AEIOU_TAG);
-                // TODO for some reason findFragmentByTag is always null
-                if (mongolAeiouKeyboard == null) {
+				//mongolAeiouKeyboard = (MongolAeiouKeyboard) fragmentManager
+				//       .findFragmentByTag(MONGOL_AEIOU_TAG);
+				// TODO for some reason findFragmentByTag is always null
+				if (mongolAeiouKeyboard == null) {
 
-                    mongolAeiouKeyboard = new MongolAeiouKeyboard();
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.keyboardContainer, mongolAeiouKeyboard, MONGOL_AEIOU_TAG)
-                            .commit();
-                    mongolAeiouKeyboard.setRetainInstance(true);
-                }else{
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.keyboardContainer, mongolAeiouKeyboard, MONGOL_AEIOU_TAG)
-                            .commit();
-                }
+					mongolAeiouKeyboard = new MongolAeiouKeyboard();
+					fragmentManager.beginTransaction()
+							.replace(R.id.keyboardContainer, mongolAeiouKeyboard, MONGOL_AEIOU_TAG)
+							.commit();
+					mongolAeiouKeyboard.setRetainInstance(true);
+				} else {
+					fragmentManager.beginTransaction()
+							.replace(R.id.keyboardContainer, mongolAeiouKeyboard, MONGOL_AEIOU_TAG)
+							.commit();
+				}
 
 
 				currentKeyboard = Keyboard.MONGOLIAN_AEIOU;
 			} else {
-                //mongolQwertyKeyboard = (MongolQwertyKeyboard) fragmentManager
-                //        .findFragmentByTag(MONGOL_QWERTY_TAG);
-                // TODO for some reason findFragmentByTag is always null
-                if (mongolQwertyKeyboard == null) {
+				//mongolQwertyKeyboard = (MongolQwertyKeyboard) fragmentManager
+				//        .findFragmentByTag(MONGOL_QWERTY_TAG);
+				// TODO for some reason findFragmentByTag is always null
+				if (mongolQwertyKeyboard == null) {
 
-                    mongolQwertyKeyboard = new MongolQwertyKeyboard();
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.keyboardContainer, mongolQwertyKeyboard, MONGOL_QWERTY_TAG)
-                            .commit();
-                    mongolQwertyKeyboard.setRetainInstance(true);
-                }else{
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.keyboardContainer, mongolQwertyKeyboard, MONGOL_QWERTY_TAG)
-                            .commit();
-                }
+					mongolQwertyKeyboard = new MongolQwertyKeyboard();
+					fragmentManager.beginTransaction()
+							.replace(R.id.keyboardContainer, mongolQwertyKeyboard, MONGOL_QWERTY_TAG)
+							.commit();
+					mongolQwertyKeyboard.setRetainInstance(true);
+				} else {
+					fragmentManager.beginTransaction()
+							.replace(R.id.keyboardContainer, mongolQwertyKeyboard, MONGOL_QWERTY_TAG)
+							.commit();
+				}
 				currentKeyboard = Keyboard.MONGOLIAN_QWERTY;
 			}
 
 		} else if (MongolUnicodeRenderer.isVowel(keyChar)) {
 
-			// These rules are for convenience because unicode rules are unnatural
-			// Only apply them for non initial Y and W
-			if (MongolUnicodeRenderer.isMongolian(getSecondCharBeforeCursor())) {
+			// This rule are for convenience because unicode rules are unnatural
+			// Only apply them for non initial Y
+			if (MongolUnicodeRenderer.isMongolian(getSecondCharBeforeCursor())) { // This checks that is medial
 
 				if (getCharBeforeCursor() == MongolUnicodeRenderer.UNI_YA) {
 
@@ -616,11 +645,11 @@ public class MainActivity extends FragmentActivity implements MongolAeiouKeyboar
 						cursorPosition++;
 					}
 
-				} else if (getCharBeforeCursor() == MongolUnicodeRenderer.UNI_WA) {
+				/*} else if (getCharBeforeCursor() == MongolUnicodeRenderer.UNI_WA) {
 
 					// Automatically use the hooked W when followed with a vowel
 					unicodeText.insert(cursorPosition, MongolUnicodeRenderer.FVS1);
-					cursorPosition++;
+					cursorPosition++;*/
 				}
 			}
 			unicodeText.insert(cursorPosition, keyChar);
@@ -815,7 +844,7 @@ public class MainActivity extends FragmentActivity implements MongolAeiouKeyboar
 		if (cursorPosition > 0
 				&& replacementString.charAt(0) == NNBS
 				&& (unicodeText.charAt(cursorPosition - 1) == SPACE || unicodeText
-						.charAt(cursorPosition - 1) == NNBS)) {
+				.charAt(cursorPosition - 1) == NNBS)) {
 			unicodeText.delete(cursorPosition - 1, cursorPosition);
 			cursorPosition--;
 		}
@@ -854,83 +883,105 @@ public class MainActivity extends FragmentActivity implements MongolAeiouKeyboar
 
 		});
 
-		// Check if the view size needs changed
-		// TODO this is clunky
-		// TODO don't let users write off the screen OR make the screen scrollable
-		// http://stackoverflow.com/questions/27985992/how-to-know-what-size-a-textview-would-be-with-certain-string
-		if (renderedText.length() > renderedTextOldLength) {
-			if (rlMessage.getWidth() > rlMessage.getHeight()) {
 
-				if (rlMessage.getHeight() < rlTop.getHeight()) {
+		//int newHeight = getBestHeightForInputWindow(inputWindow);
 
-					if (rlMessage.getHeight() + inputWindowSizeIncrementPx < rlTop.getHeight()) {
-						// increase by increment unit
-						LayoutParams params = (LayoutParams) rlLimit.getLayoutParams();
-						params.height = rlMessage.getHeight() + inputWindowSizeIncrementPx;
-						rlLimit.setLayoutParams(params);
+		// Set the height of the input window
+		LayoutParams params = (LayoutParams) hsvScrollView.getLayoutParams();
 
-					} else {
-						// set input window height to max height
-						LayoutParams params = (LayoutParams) rlLimit.getLayoutParams();
-						params.height = rlTop.getHeight();
-						rlLimit.setLayoutParams(params);
-					}
-
-				}
-			} else if (2 * rlMessage.getWidth() < rlMessage.getHeight()
-					&& rlMessage.getWidth() < rlTop.getWidth()) {
-				// got too high, make it shorter
-				if (inputWindowMinHeightPx < rlMessage.getHeight() - inputWindowSizeIncrementPx) {
-					LayoutParams params = (LayoutParams) rlLimit.getLayoutParams();
-					params.height = rlMessage.getHeight() - inputWindowSizeIncrementPx;
-					rlLimit.setLayoutParams(params);
-				} else {
-					// Bump down to min height
-					LayoutParams params = (LayoutParams) rlLimit.getLayoutParams();
-					params.height = inputWindowMinHeightPx;
-					rlLimit.setLayoutParams(params);
-				}
-
-			}
-		} else { // length <= old length
-
-			if (2 * rlMessage.getWidth() < rlMessage.getHeight()) {
-				if (inputWindowMinHeightPx < rlMessage.getHeight() - inputWindowSizeIncrementPx) {
-					LayoutParams params = (LayoutParams) rlLimit.getLayoutParams();
-					params.height = rlMessage.getHeight() - inputWindowSizeIncrementPx;
-					rlLimit.setLayoutParams(params);
-				} else {
-					// Bump down to min height
-					LayoutParams params = (LayoutParams) rlLimit.getLayoutParams();
-					params.height = inputWindowMinHeightPx;
-					rlLimit.setLayoutParams(params);
-				}
-			} else if (rlMessage.getWidth() >= rlTop.getWidth()
-					&& rlMessage.getHeight() < rlTop.getHeight()) {
-				if (unicodeText.length() == 0) {
-					// set input window height to min height in the case that clear was pressed
-					LayoutParams params = (LayoutParams) rlLimit.getLayoutParams();
-					params.height = inputWindowMinHeightPx;
-					rlLimit.setLayoutParams(params);
-				} else {
-					// set input window height to max height in the case that a long string was
-					// pasted
-					LayoutParams params = (LayoutParams) rlLimit.getLayoutParams();
-					params.height = rlTop.getHeight();
-					rlLimit.setLayoutParams(params);
-				}
-			}
-
-			if (unicodeText.length() == 0 && rlMessage.getHeight() > inputWindowMinHeightPx) {
-				// set input window height to min height in the case that clear was pressed
-				LayoutParams params = (LayoutParams) rlLimit.getLayoutParams();
-				params.height = inputWindowMinHeightPx;
-				rlLimit.setLayoutParams(params);
-			}
-
+		Rect size = getBestSizeForInputWindow();
+		params.height = size.height();
+		if (size.width() < rlTop.getWidth()) {
+			params.width = size.width();
+		} else {
+			params.width = rlTop.getWidth();
 		}
-		renderedTextOldLength = renderedText.length();
+		hsvScrollView.setLayoutParams(params);
 
+
+		if (cursorPosition == unicodeText.length()) {
+			hsvScrollView.postDelayed(new Runnable() {
+				public void run() {
+					hsvScrollView.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
+				}
+			}, 100L);
+		}
+		//renderedTextOldLength = renderedText.length();
+
+
+	}
+
+	private Rect getBestSizeForInputWindow() {
+
+		int currentHeight = hsvScrollView.getHeight();
+		if (currentHeight < inputWindowMinHeightPx) {
+			currentHeight = inputWindowMinHeightPx;
+		}
+
+		inputWindow.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+				View.MeasureSpec.makeMeasureSpec(currentHeight, View.MeasureSpec.EXACTLY));
+
+		int h = inputWindow.getMeasuredHeight();
+		int w = inputWindow.getMeasuredWidth();
+		int maxH = rlTop.getHeight();
+		final int minH = inputWindowMinHeightPx;
+
+		if (w < minH / 2) {
+			w = minH / 2;
+		}
+		if (maxH < minH) {
+			maxH = minH;
+		}
+
+
+		if (h < w && h < maxH) { // need to increase h
+
+			while (h < maxH) {
+				h += inputWindowSizeIncrementPx;
+				if (h >= maxH) {
+					h = maxH;
+					inputWindow.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+							View.MeasureSpec.makeMeasureSpec(h, View.MeasureSpec.EXACTLY));
+					w = inputWindow.getMeasuredWidth();
+
+					break;
+				}
+				//inputWindow.setWidth(h);
+				inputWindow.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+						View.MeasureSpec.makeMeasureSpec(h, View.MeasureSpec.EXACTLY));
+				w = inputWindow.getMeasuredWidth();
+				if (h >= w) {
+					break;
+				}
+			}
+
+		} else if (h > 2 * w && h > minH) { // need to decrease h
+
+			while (h > minH) {
+				h -= inputWindowSizeIncrementPx;
+
+				if (h <= minH) {
+					h = minH;
+					inputWindow.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+							View.MeasureSpec.makeMeasureSpec(h, View.MeasureSpec.EXACTLY));
+					w = inputWindow.getMeasuredWidth();
+					break;
+				}
+
+				//inputWindow.setWidth(h);
+				inputWindow.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+						View.MeasureSpec.makeMeasureSpec(h, View.MeasureSpec.EXACTLY));
+				w = inputWindow.getMeasuredWidth();
+				if (h <= 2 * w) {
+					break;
+				}
+			}
+		}
+
+		if (w < minH / 2) {
+			w = minH / 2;
+		}
+		return new Rect(0, 0, w, h);
 	}
 
 	private void showToast(Context context, String text, int toastLength) {
@@ -986,38 +1037,10 @@ public class MainActivity extends FragmentActivity implements MongolAeiouKeyboar
 		inputWindow.post(new Runnable() {
 			@Override
 			public void run() {
-				// TODO already have a reference to messageOutline
-				RelativeLayout messageOutline = (RelativeLayout) findViewById(R.id.rlMessageOutline);
-				messageOutline.setDrawingCacheEnabled(true);
-				Bitmap bitmap = messageOutline.getDrawingCache(true);
 
-				try {
-					File cachePath = getApplicationContext().getExternalCacheDir();
-					FileOutputStream stream = new FileOutputStream(cachePath + "/image.png");
-					bitmap.compress(CompressFormat.PNG, 100, stream);
-					stream.close();
-
-					// Also save as text
-					FileOutputStream streamUnicode = new FileOutputStream(cachePath
-							+ "/unicode.txt");
-					OutputStreamWriter myOutWriter = new OutputStreamWriter(streamUnicode);
-					myOutWriter.append(unicodeText.toString());
-					myOutWriter.close();
-					streamUnicode.close();
-					// And the rendered text too
-					FileOutputStream streamRendered = new FileOutputStream(cachePath
-							+ "/rendered.txt");
-					OutputStreamWriter myOutWriter2 = new OutputStreamWriter(streamRendered);
-					myOutWriter2.append(mongolianConverter.unicodeToGlyphs(unicodeText.toString()));
-					myOutWriter2.close();
-					streamRendered.close();
-
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				messageOutline.setDrawingCacheEnabled(false);
+				createBitmap();
+				//messageOutline.setDrawingCacheEnabled(false);
+				//rlLimit.setDrawingCacheEnabled(false);
 
 				File imagePath = new File(getApplicationContext().getExternalCacheDir(), "/");
 				File newFile = new File(imagePath, "image.png");
@@ -1042,6 +1065,113 @@ public class MainActivity extends FragmentActivity implements MongolAeiouKeyboar
 
 			}
 		});
+
+	}
+
+	/*private Bitmap getBitmap(Context context, String unicodeString, int height) {
+
+		// convert unicode string to glyph string
+		//String glyphString = mongolianConverter.unicodeToGlyphs(unicodeString);
+
+
+		// Create a TextView of the right size
+		//final int height = 600; // TODO make it in dp
+		final int verseFontSize = 24;
+		//final int referenceFontSize = 20;
+		//final int marginBetweenVerseAndReference = 20;
+		final int layoutPaddingLeft = 20;
+		final int layoutPaddingTop = 20;
+		final int layoutPaddingRight = 20;
+		final int layoutPaddingBottom = 20;
+
+
+		// Layout
+		LinearLayout verseLayout = new LinearLayout(context);
+		verseLayout.setPadding(layoutPaddingLeft, layoutPaddingTop,
+				layoutPaddingRight, layoutPaddingBottom);
+		verseLayout.setBackgroundColor(Color.WHITE);
+		verseLayout.setOrientation(LinearLayout.HORIZONTAL);
+
+		// Verse text
+		MongolTextView tvVerse = new MongolTextView(context);
+		tvVerse.setTextColor(Color.BLACK);
+		LinearLayout.LayoutParams verseParams = new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.WRAP_CONTENT,
+				LinearLayout.LayoutParams.WRAP_CONTENT);
+		tvVerse.setTextSize(verseFontSize);
+		tvVerse.setWidth(height);
+		tvVerse.setLayoutParams(verseParams);
+		tvVerse.setBackgroundColor(Color.WHITE);
+		tvVerse.setText(mongolianConverter.unicodeToGlyphs(unicodeString));
+
+
+		// Add verse and reference to layout
+		verseLayout.addView(tvVerse);
+
+		// Measure and create the bitmap
+		verseLayout.setDrawingCacheEnabled(true);
+		verseLayout.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+				View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+		verseLayout.layout(0, 0, verseLayout.getMeasuredWidth(), verseLayout.getMeasuredHeight());
+		//verseLayout.buildDrawingCache(true);
+		//Bitmap bitmap = Bitmap.createBitmap(verseLayout.getDrawingCache());
+		//verseLayout.setDrawingCacheEnabled(false);
+
+		Bitmap bitmap = Bitmap.createBitmap(verseLayout.getWidth(), verseLayout.getHeight(),
+				Bitmap.Config.ARGB_8888);
+		Canvas canvas = new Canvas(bitmap);
+		verseLayout.draw(canvas);
+
+
+		*//*tvVerse.setDrawingCacheEnabled(true);
+		tvVerse.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+				View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+		tvVerse.layout(0, 0, tvVerse.getMeasuredWidth(), tvVerse.getMeasuredHeight());
+		tvVerse.buildDrawingCache(true);
+		Bitmap bitmap = Bitmap.createBitmap(tvVerse.getDrawingCache());
+		tvVerse.setDrawingCacheEnabled(false);*//*
+
+		// Get the bitmap from that
+
+		return bitmap;
+	}*/
+
+	private void createBitmap() {
+
+		RelativeLayout messageOutline = (RelativeLayout) findViewById(R.id.rlMessageOutline);
+
+		Bitmap bitmap = Bitmap.createBitmap(messageOutline.getWidth(), messageOutline.getHeight(),
+				Bitmap.Config.ARGB_8888);
+		Canvas canvas = new Canvas(bitmap);
+		messageOutline.draw(canvas);
+
+
+		try {
+			File cachePath = getApplicationContext().getExternalCacheDir();
+			FileOutputStream stream = new FileOutputStream(cachePath + "/image.png");
+			bitmap.compress(CompressFormat.PNG, 100, stream);
+			stream.close();
+
+			// Also save as text
+			FileOutputStream streamUnicode = new FileOutputStream(cachePath
+					+ "/unicode.txt");
+			OutputStreamWriter myOutWriter = new OutputStreamWriter(streamUnicode);
+			myOutWriter.append(unicodeText.toString());
+			myOutWriter.close();
+			streamUnicode.close();
+			// And the rendered text too
+			FileOutputStream streamRendered = new FileOutputStream(cachePath
+					+ "/rendered.txt");
+			OutputStreamWriter myOutWriter2 = new OutputStreamWriter(streamRendered);
+			myOutWriter2.append(mongolianConverter.unicodeToGlyphs(unicodeText.toString()));
+			myOutWriter2.close();
+			streamRendered.close();
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 	}
 
@@ -1075,9 +1205,11 @@ public class MainActivity extends FragmentActivity implements MongolAeiouKeyboar
 			@Override
 			public void run() {
 				// TODO already have a reference to messageOutline
-				RelativeLayout messageOutline = (RelativeLayout) findViewById(R.id.rlMessageOutline);
-				messageOutline.setDrawingCacheEnabled(true);
-				Bitmap bitmap = messageOutline.getDrawingCache(true);
+				//RelativeLayout messageOutline = (RelativeLayout) findViewById(R.id.rlMessageOutline);
+				//messageOutline.setDrawingCacheEnabled(true);
+				//Bitmap bitmap = messageOutline.getDrawingCache(true);
+
+				/*
 
 				try {
 					FileOutputStream stream = new FileOutputStream(getApplicationContext()
@@ -1089,7 +1221,9 @@ public class MainActivity extends FragmentActivity implements MongolAeiouKeyboar
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				messageOutline.setDrawingCacheEnabled(false);
+				messageOutline.setDrawingCacheEnabled(false);*/
+
+				createBitmap();
 
 				File imagePath = new File(getApplicationContext().getExternalCacheDir(), "/");
 				File newFile = new File(imagePath, "image.png");

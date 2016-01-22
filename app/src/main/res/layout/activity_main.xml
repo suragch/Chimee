@@ -131,9 +131,9 @@
 
             <!-- below is the message limit -->
 
-            <RelativeLayout
+            <HorizontalScrollView
                 android:id="@+id/rlMessageLimit"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="150dp"
                 android:layout_centerInParent="true" >
 
@@ -143,7 +143,6 @@
                     android:id="@+id/rlMessageOutline"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_centerInParent="true"
                     android:background="@color/white"
                     android:clickable="true"
                     android:minWidth="75dp" >
@@ -158,7 +157,7 @@
                         android:paddingTop="10dp"
                         android:textAppearance="?android:attr/textAppearanceMedium" />
                 </RelativeLayout>
-            </RelativeLayout>
+            </HorizontalScrollView>
         </RelativeLayout>
 
         <FrameLayout
@@ -199,7 +198,7 @@
 
         <!-- Tallest layout wraps content so main layout can also wrap -->
 
-        <FrameLayout
+        <RelativeLayout
             android:id="@+id/menuItemHistoryFrame"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -213,7 +212,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/menu_item_history" />
-        </FrameLayout>
+        </RelativeLayout>
 
         <View
             android:layout_width="1dp"

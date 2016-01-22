@@ -47,6 +47,7 @@ public class ColorChooserActivity extends Activity implements OnClickListener {
 
 	}
 
+
 	public void finishedClick(View v) {
 		Intent returnIntent = new Intent();
 		returnIntent.putExtra("resultBackground", backgroundColor);

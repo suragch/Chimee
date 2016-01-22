@@ -224,8 +224,8 @@
     <string name="e_key_f_punctuation">"]"</string>
     <string name="e_key_g_punctuation">"{"</string>
     <string name="e_key_h_punctuation">"}"</string>
-    <string name="e_key_j_punctuation">&lt;</string>
-    <string name="e_key_k_punctuation">&gt;</string>
+    <string name="e_key_j_punctuation">"+"</string>
+    <string name="e_key_k_punctuation">"-"</string>
     <string name="e_key_l_punctuation">"%"</string>
     <string name="e_key_z_punctuation">":"</string>
     <string name="e_key_x_punctuation">";"</string>

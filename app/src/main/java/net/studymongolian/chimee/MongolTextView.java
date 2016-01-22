@@ -110,6 +110,15 @@ public class MongolTextView extends TextView {
 		canvas.restore();
 	}
 
+	/*public int whatWouldBeTheWidth(int height){
+
+		this.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+				View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+		//this.getMeasuredHeight();
+
+		return this.getMeasuredHeight()
+	}*/
+
 	public void showCursor(boolean visible) {
 		mCursorIsVisible = visible;
 		this.invalidate();

@@ -7,7 +7,7 @@
     android:orientation="horizontal" >
 
     <LinearLayout
-        android:id="@+id/key_fvs1_top"
+        android:id="@+id/key_fvs1"
         style="@style/AppTheme.KeyLayoutStyle"
         android:layout_width="wrap_content"
         android:orientation="vertical" >
@@ -39,7 +39,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/key_fvs2_top"
+        android:id="@+id/key_fvs2"
         style="@style/AppTheme.KeyLayoutStyle"
         android:layout_width="wrap_content"
         android:orientation="vertical" >
@@ -71,7 +71,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/key_fvs3_top"
+        android:id="@+id/key_fvs3"
         style="@style/AppTheme.KeyLayoutStyle"
         android:layout_width="wrap_content"
         android:orientation="vertical" >

@@ -38,6 +38,7 @@ public class EnglishKeyboard extends Fragment implements OnClickListener, OnLong
 	private static Map<Integer, Character> idToCyrillic = new HashMap<Integer, Character>();
 	private static Map<Integer, Character> idToCyrillicCaps = new HashMap<Integer, Character>();
 
+
 	OnKeyTouchListener mCallback;
 	//Boolean punctuationOn = false;
 	Boolean capsOn = false;
@@ -87,6 +88,7 @@ public class EnglishKeyboard extends Fragment implements OnClickListener, OnLong
 	TextView tv41;
 	TextView tv42;
 	TextView tv44;
+
 
 	// Container Activity must implement this interface
 	public interface OnKeyTouchListener {

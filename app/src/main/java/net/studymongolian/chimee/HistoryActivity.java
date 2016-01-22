@@ -56,6 +56,7 @@ public class HistoryActivity extends FragmentActivity implements OnItemClickList
 		new GetRecentHistoryMessages().execute();
 		lvHistory.setOnItemClickListener(this);
 		lvHistory.setOnItemLongClickListener(this);
+		
 
 	}
 
