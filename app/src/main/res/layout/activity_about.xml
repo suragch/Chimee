@@ -70,7 +70,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_margin="20dp"
-                    android:src="@drawable/launcher" />
+                    android:src="@mipmap/ic_launcher" />
 
                 <TextView
                     android:id="@+id/aboutAppTitle"
