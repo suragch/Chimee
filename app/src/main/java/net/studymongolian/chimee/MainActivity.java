@@ -10,6 +10,7 @@ import java.util.List;
 import net.studymongolian.chimee.MongolTextView.CursorTouchLocationListener;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -22,10 +23,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
@@ -40,6 +43,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnLongClickListener;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
@@ -49,8 +54,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboard.Communicator,
-		MongolQwertyKeyboard.Communicator, EnglishKeyboard.OnKeyTouchListener,
-		InputWindowContextMenu.ContextMenuCallback {
+		MongolQwertyKeyboard.Communicator, EnglishKeyboard.OnKeyTouchListener {
 
 	protected static final char SPACE = ' ';
 	protected static final char NEW_LINE = '\n';
@@ -99,9 +103,8 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 	HorizontalScrollView hsvScrollView;
 	//RelativeLayout rlLimit;
 	RelativeLayout rlTop;
-	LinearLayout llMenu;
-	FrameLayout flContextMenuContainer;
-	View menuHiderForOutsideClicks;
+	Dialog overflowMenu;
+	Dialog contextMenu;
 	static final int INPUT_WINDOW_SIZE_INCREMENT_DP = 50;
 	int inputWindowSizeIncrementPx = 0; // size in pixels
 	static final int INPUT_WINDOW_MIN_HEIGHT_DP = 150;
@@ -118,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 	MongolAeiouKeyboard mongolAeiouKeyboard;
 	MongolQwertyKeyboard mongolQwertyKeyboard;
 	EnglishKeyboard englishKeyboard;
-	InputWindowContextMenu contextMenu;
+	//InputWindowContextMenu contextMenu;
 	FragmentManager fragmentManager;
 	String lastSentMessage = ""; // don't save two same messages to history
 
@@ -142,13 +145,6 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 		// get input window and set listeners
 		initInputWindow();
 
-		// Menu
-		llMenu = (LinearLayout) findViewById(R.id.menuLayout);
-		flContextMenuContainer = (FrameLayout) findViewById(R.id.flContextMenuContainer);
-		menuHiderForOutsideClicks = (View) findViewById(R.id.transparent_view);
-
-		// TODO testing:
-		// testingView = (TextView) findViewById(R.id.tvTestWindow);
 
 		// If WeChat is installed make the button visible
 		String weChatMessageTool = "com.tencent.mm.ui.tools.ShareImgUI";
@@ -159,8 +155,8 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 			for (ResolveInfo info : resInfo) {
 				if (info.activityInfo.name.equals(weChatMessageTool)) {
 
-					FrameLayout weChatButton = (FrameLayout) findViewById(R.id.shareToWeChatFrame);
-					weChatButton.setVisibility(View.VISIBLE);
+//					FrameLayout weChatButton = (FrameLayout) findViewById(R.id.shareToWeChatFrame);
+//					weChatButton.setVisibility(View.VISIBLE);
 					break;
 				}
 			}
@@ -184,10 +180,10 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 				mongolQwertyKeyboard.setRetainInstance(true);
 			}
 
-			contextMenu = new InputWindowContextMenu();
-			fragmentManager.beginTransaction()
-					.add(R.id.flContextMenuContainer, contextMenu, CONTEXT_MENU_TAG).commit();
-			contextMenu.setRetainInstance(true);
+			//contextMenu = new InputWindowContextMenu();
+			//fragmentManager.beginTransaction()
+			//		.add(R.id.flContextMenuContainer, contextMenu, CONTEXT_MENU_TAG).commit();
+			//contextMenu.setRetainInstance(true);
 		} else {
 
 			if (userMongolKeyboard == Keyboard.MONGOLIAN_AEIOU) {
@@ -201,8 +197,8 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 						.findFragmentByTag(ENGLISH_FRAGMENT_TAG);
 			}
 
-			contextMenu = (InputWindowContextMenu) fragmentManager
-					.findFragmentByTag(CONTEXT_MENU_TAG);
+			//contextMenu = (InputWindowContextMenu) fragmentManager
+			//		.findFragmentByTag(CONTEXT_MENU_TAG);
 
 		}
 
@@ -309,12 +305,8 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 	public void onPause() {
 		super.onPause();
 
-		// hide the menu if showing
-		if (llMenu.getVisibility() == View.VISIBLE) {
-			llMenu.setVisibility(View.GONE);
-			flContextMenuContainer.setVisibility(View.GONE);
-			menuHiderForOutsideClicks.setVisibility(View.GONE);
-		}
+		// hide the menus if showing
+		hideMenu();
 
 	}
 
@@ -380,6 +372,22 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
+
+		// If WeChat is installed make the menu item visible
+		String weChatMessageTool = "com.tencent.mm.ui.tools.ShareImgUI";
+		Intent shareIntent = new Intent();
+		shareIntent.setType("image/png");
+		List<ResolveInfo> resInfo = getPackageManager().queryIntentActivities(shareIntent, 0);
+		if (!resInfo.isEmpty()) {
+			for (ResolveInfo info : resInfo) {
+				if (info.activityInfo.name.equals(weChatMessageTool)) {
+					MenuItem item = menu.findItem(R.id.main_action_wechat);
+					item.setVisible(true);
+					break;
+				}
+			}
+		}
+		
         return true;
     }
 
@@ -388,27 +396,38 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
         switch (item.getItemId()) {
             case R.id.main_action_wechat:
                 // User chose the "Settings" item, show the app settings UI...
+				shareToWeChat();
                 return true;
 
             case R.id.main_action_share:
                 // User chose the "Favorite" action, mark the current item
                 // as a favorite...
+				shareToSystemApps();
                 return true;
 
             case R.id.main_action_favorite:
                 // User chose the "Favorite" action, mark the current item
                 // as a favorite...
+				favoriteActionBarClick();
                 return true;
 
             case R.id.main_action_photo:
                 // User chose the "Favorite" action, mark the current item
                 // as a favorite...
+				photoActionBarClick();
                 return true;
 
             case R.id.main_action_overflow:
                 // User chose the "Favorite" action, mark the current item
                 // as a favorite...
-                return true;
+				overflowActionBarClick();
+//				DialogFragment newFragment = new MainMenuDialog();
+//				newFragment.show(getSupportFragmentManager(), "missiles");
+//				newFragment.getWindow().setLayout(600, 400);
+
+
+
+				return true;
 
             default:
                 // If we got here, the user's action was not recognized.
@@ -424,9 +443,10 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 		public boolean onLongClick(View view) {
 			// Log.i("", "Long press!");
 			if (view.getId() == R.id.rlMessageOutline) {
-				flContextMenuContainer.setVisibility(View.VISIBLE);
-				menuHiderForOutsideClicks.setVisibility(View.VISIBLE);
+				//flContextMenuContainer.setVisibility(View.VISIBLE);
+				//menuHiderForOutsideClicks.setVisibility(View.VISIBLE);
 				// flContextMenuContainer.requestFocus();
+				showContextMenu();
 			}
 
 			return false;
@@ -434,116 +454,195 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 
 	};
 
-	public void hideMenu(View view) {
+	public void hideMenu() {
 
-		flContextMenuContainer.setVisibility(View.GONE);
-		llMenu.setVisibility(View.GONE);
-		menuHiderForOutsideClicks.setVisibility(View.GONE);
+		if (overflowMenu != null) {
+			overflowMenu.dismiss();
+		}
+
+		if (contextMenu != null) {
+			contextMenu.dismiss();
+		}
+
 	}
 
-	public boolean onKeyUp(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_MENU) {
+	private void showContextMenu() {
 
-			// open/close the menu from the phones physical menu button
-			if (llMenu.getVisibility() == View.GONE) {
-				llMenu.setVisibility(View.VISIBLE);
-				menuHiderForOutsideClicks.setVisibility(View.VISIBLE);
-				flContextMenuContainer.setVisibility(View.GONE);
-			} else {
-				hideMenu(null);
-			}
-
-			return true;
-		}
-		return super.onKeyUp(keyCode, event);
+		contextMenu = new Dialog(MainActivity.this);
+		// Making sure there's no title.
+		contextMenu.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		// Making dialog content transparent.
+		contextMenu.getWindow().setBackgroundDrawable(
+				new ColorDrawable(Color.TRANSPARENT));
+		// Removing window dim normally visible when dialog are shown.
+		contextMenu.getWindow().clearFlags(
+				WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+		// Setting position of content, relative to window.
+		WindowManager.LayoutParams params = contextMenu.getWindow().getAttributes();
+		params.gravity = Gravity.CENTER;
+		//params.x = 16;
+		//params.y = 16;
+		// If user taps anywhere on the screen, dialog will be cancelled.
+		contextMenu.setCancelable(true);
+		// Setting the content using prepared XML layout file.
+		contextMenu.setContentView(R.layout.contextmenu_inputwindow);
+		contextMenu.show();
 	}
 
 	@SuppressLint("NewApi")
 	@SuppressWarnings("deprecation")
-	@Override
-	public void contextMenuItemClicked(int itemCode) {
-		// Gets info from fragment
-
+	public void contextMenuCopy(View v) {
+		hideMenu();
 		int sdk = android.os.Build.VERSION.SDK_INT;
-
-		switch (itemCode) {
-			case InputWindowContextMenu.COPY:
-
-				if (sdk < android.os.Build.VERSION_CODES.HONEYCOMB) {
-					android.text.ClipboardManager clipboard = (android.text.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-					clipboard.setText(unicodeText);
-				} else {
-					android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-					android.content.ClipData clip = android.content.ClipData.newPlainText(
-							"ChimeeUnicodeText", unicodeText);
-					clipboard.setPrimaryClip(clip);
-				}
-
-				break;
-			case InputWindowContextMenu.PASTE:
-
-				String pasteData = "";
-				if (sdk < android.os.Build.VERSION_CODES.HONEYCOMB) {
-					android.text.ClipboardManager clipboard = (android.text.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-
-					try {
-						pasteData = clipboard.getText().toString();
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-
-				} else {
-					android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-
-					if (clipboard.getPrimaryClip() != null) {
-						android.content.ClipData.Item item = clipboard.getPrimaryClip().getItemAt(0);
-						pasteData = item.getText().toString();
-					}
-
-				}
-
-				if (pasteData != null) {
-					unicodeText.insert(cursorPosition, pasteData);
-					cursorPosition += pasteData.length();
-				}
-
-				updateDisplay();
-
-				break;
-			case InputWindowContextMenu.FAVORITES:
-
-				// catch empty string
-				if (unicodeText.toString().trim().length() == 0) {
-					Intent intent = new Intent(this, MongolDialogOneButton.class);
-					intent.putExtra(MongolDialogOneButton.MESSAGE,
-							getResources().getString(R.string.dialog_message_emptyfavorite));
-					startActivity(intent);
-					return;
-				}
-
-				// add string to db
-				new AddMessageToFavoriteDb().execute();
-
-				break;
-			case InputWindowContextMenu.CLEAR:
-
-				// TODO add a warning if longer than a certain length
-				unicodeText.setLength(0);
-				cursorPosition = 0;
-				updateDisplay();
-
-				break;
+		if (sdk < android.os.Build.VERSION_CODES.HONEYCOMB) {
+			android.text.ClipboardManager clipboard = (android.text.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+			clipboard.setText(unicodeText);
+		} else {
+			android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+			android.content.ClipData clip = android.content.ClipData.newPlainText(
+					"ChimeeUnicodeText", unicodeText);
+			clipboard.setPrimaryClip(clip);
 		}
-
-		hideMenu(null);
 	}
 
-	/*public void onSaveInstanceState(Bundle savedInstanceState) {
-		// Save text in case of screen rotation
-		savedInstanceState.putString("unicodeSave", unicodeText.toString());
-		savedInstanceState.putInt("positionSave", cursorPosition);
-		super.onSaveInstanceState(savedInstanceState);
-	}*/
+	@SuppressLint("NewApi")
+	@SuppressWarnings("deprecation")
+	public void contextMenuPaste(View v) {
+		hideMenu();
+
+		int sdk = android.os.Build.VERSION.SDK_INT;
+		String pasteData = "";
+		if (sdk < android.os.Build.VERSION_CODES.HONEYCOMB) {
+			android.text.ClipboardManager clipboard = (android.text.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+
+			try {
+				pasteData = clipboard.getText().toString();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		} else {
+			android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+
+			if (clipboard.getPrimaryClip() != null) {
+				android.content.ClipData.Item item = clipboard.getPrimaryClip().getItemAt(0);
+				pasteData = item.getText().toString();
+			}
+
+		}
+
+		if (pasteData != null) {
+			unicodeText.insert(cursorPosition, pasteData);
+			cursorPosition += pasteData.length();
+		}
+
+		updateDisplay();
+	}
+
+	public void contextMenuFavorites(View v) {
+		hideMenu();
+
+		// catch empty string
+		if (unicodeText.toString().trim().length() == 0) {
+			Intent intent = new Intent(this, MongolDialogOneButton.class);
+			intent.putExtra(MongolDialogOneButton.MESSAGE,
+					getResources().getString(R.string.dialog_message_emptyfavorite));
+			startActivity(intent);
+			return;
+		}
+
+		// add string to db
+		new AddMessageToFavoriteDb().execute();
+	}
+
+	public void contextMenuClear(View v) {
+		hideMenu();
+
+		// TODO add a warning if longer than a certain length
+		unicodeText.setLength(0);
+		cursorPosition = 0;
+		updateDisplay();
+	}
+
+//	@SuppressLint("NewApi")
+//	@SuppressWarnings("deprecation")
+//	//@Override
+//	public void contextMenuItemClicked(int itemCode) {
+//		// Gets info from fragment
+//
+//		int sdk = android.os.Build.VERSION.SDK_INT;
+//
+//		switch (itemCode) {
+//			case InputWindowContextMenu.COPY:
+//
+//				if (sdk < android.os.Build.VERSION_CODES.HONEYCOMB) {
+//					android.text.ClipboardManager clipboard = (android.text.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+//					clipboard.setText(unicodeText);
+//				} else {
+//					android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+//					android.content.ClipData clip = android.content.ClipData.newPlainText(
+//							"ChimeeUnicodeText", unicodeText);
+//					clipboard.setPrimaryClip(clip);
+//				}
+//
+//				break;
+//			case InputWindowContextMenu.PASTE:
+//
+//				String pasteData = "";
+//				if (sdk < android.os.Build.VERSION_CODES.HONEYCOMB) {
+//					android.text.ClipboardManager clipboard = (android.text.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+//
+//					try {
+//						pasteData = clipboard.getText().toString();
+//					} catch (Exception e) {
+//						e.printStackTrace();
+//					}
+//
+//				} else {
+//					android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+//
+//					if (clipboard.getPrimaryClip() != null) {
+//						android.content.ClipData.Item item = clipboard.getPrimaryClip().getItemAt(0);
+//						pasteData = item.getText().toString();
+//					}
+//
+//				}
+//
+//				if (pasteData != null) {
+//					unicodeText.insert(cursorPosition, pasteData);
+//					cursorPosition += pasteData.length();
+//				}
+//
+//				updateDisplay();
+//
+//				break;
+//			case InputWindowContextMenu.FAVORITES:
+//
+//				// catch empty string
+//				if (unicodeText.toString().trim().length() == 0) {
+//					Intent intent = new Intent(this, MongolDialogOneButton.class);
+//					intent.putExtra(MongolDialogOneButton.MESSAGE,
+//							getResources().getString(R.string.dialog_message_emptyfavorite));
+//					startActivity(intent);
+//					return;
+//				}
+//
+//				// add string to db
+//				new AddMessageToFavoriteDb().execute();
+//
+//				break;
+//			case InputWindowContextMenu.CLEAR:
+//
+//				// TODO add a warning if longer than a certain length
+//				unicodeText.setLength(0);
+//				cursorPosition = 0;
+//				updateDisplay();
+//
+//				break;
+//		}
+//
+//		hideMenu();
+//	}
 
 	@Override
 	public void onKeyTouched(char keyChar) {
@@ -1065,7 +1164,7 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 
 	}
 
-	public void shareToWeChat(View v) {
+	public void shareToWeChat() {
 
 		// catch empty string
 		if (unicodeText.toString().trim().length() == 0) {
@@ -1232,7 +1331,7 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 
 	}
 
-	public void shareToSystemApps(View v) {
+	public void shareToSystemApps() {
 
 		// catch empty string
 		if (unicodeText.toString().trim().length() == 0) {
@@ -1261,24 +1360,6 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 		inputWindow.post(new Runnable() {
 			@Override
 			public void run() {
-				// TODO already have a reference to messageOutline
-				//RelativeLayout messageOutline = (RelativeLayout) findViewById(R.id.rlMessageOutline);
-				//messageOutline.setDrawingCacheEnabled(true);
-				//Bitmap bitmap = messageOutline.getDrawingCache(true);
-
-				/*
-
-				try {
-					FileOutputStream stream = new FileOutputStream(getApplicationContext()
-							.getExternalCacheDir() + "/image.png");
-					bitmap.compress(CompressFormat.PNG, 80, stream);
-					stream.close();
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				messageOutline.setDrawingCacheEnabled(false);*/
 
 				createBitmap();
 
@@ -1300,7 +1381,7 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 	}
 
 
-    public void photoActionBarClick(View v) {
+    public void photoActionBarClick() {
 
         // Start photo editing activity
         Intent intent = new Intent(this, PhotoOverlayActivity.class);
@@ -1308,7 +1389,7 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
         startActivityForResult(intent, PHOTO_OVERLAY_REQUEST);
     }
 
-	public void favoriteActionBarClick(View v) {
+	public void favoriteActionBarClick() {
 
 		// Start About activity
 		Intent intent = new Intent(this, FavoriteActivity.class);
@@ -1316,20 +1397,33 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 		startActivityForResult(intent, FAVORITE_MESSAGE_REQUEST);
 	}
 
-	public void overflowActionBarClick(View v) {
+	public void overflowActionBarClick() {
 
-		if (llMenu.getVisibility() == View.GONE) {
-			llMenu.setVisibility(View.VISIBLE);
-			menuHiderForOutsideClicks.setVisibility(View.VISIBLE);
-		} else {
-			llMenu.setVisibility(View.GONE);
-			menuHiderForOutsideClicks.setVisibility(View.GONE);
-		}
+		overflowMenu = new Dialog(MainActivity.this);
+		// Making sure there's no title.
+		overflowMenu.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		// Making dialog content transparent.
+		overflowMenu.getWindow().setBackgroundDrawable(
+				new ColorDrawable(Color.TRANSPARENT));
+		// Removing window dim normally visible when dialog are shown.
+		overflowMenu.getWindow().clearFlags(
+				WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+		// Setting position of content, relative to window.
+		WindowManager.LayoutParams params = overflowMenu.getWindow().getAttributes();
+		params.gravity = Gravity.TOP | Gravity.RIGHT;
+		params.x = 16;
+		params.y = 16;
+		// If user taps anywhere on the screen, dialog will be cancelled.
+		overflowMenu.setCancelable(true);
+		// Setting the content using prepared XML layout file.
+		overflowMenu.setContentView(R.layout.dialog_main_overflow_menu);
+		overflowMenu.show();
+
+
 	}
 
 	public void menuHistoryClick(View v) {
-		llMenu.setVisibility(View.GONE);
-		menuHiderForOutsideClicks.setVisibility(View.GONE);
+		hideMenu();
 
 		// Start settings activity
 		Intent customIntent = new Intent(this, HistoryActivity.class);
@@ -1339,8 +1433,7 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 
 
 	public void menuSettingsClick(View v) {
-		llMenu.setVisibility(View.GONE);
-		menuHiderForOutsideClicks.setVisibility(View.GONE);
+		hideMenu();
 
 		// Start settings activity
 		Intent customIntent = new Intent(this, SettingsActivity.class);
@@ -1348,8 +1441,7 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 	}
 
 	public void menuAboutClick(View v) {
-		llMenu.setVisibility(View.GONE);
-		menuHiderForOutsideClicks.setVisibility(View.GONE);
+		hideMenu();
 
 		// Start About activity
 		Intent customIntent = new Intent(this, AboutActivity.class);
@@ -1357,8 +1449,7 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 	}
 
 	public void menuHelpClick(View v) {
-		llMenu.setVisibility(View.GONE);
-		menuHiderForOutsideClicks.setVisibility(View.GONE);
+		hideMenu();
 
 		Intent customIntent = new Intent(this, HelpActivity.class);
 		startActivity(customIntent);

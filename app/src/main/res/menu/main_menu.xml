@@ -6,6 +6,7 @@
     <item
         android:id="@+id/main_action_wechat"
         android:icon="@drawable/ic_wechat_white_24dp"
+        android:visible="false"
         android:title="todo"
         app:showAsAction="always"/>
 
