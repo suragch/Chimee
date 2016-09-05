@@ -8,10 +8,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
-public class HelpActivity extends Activity  {
+public class HelpActivity extends AppCompatActivity {
 
 	protected static final String HELP_URL = "http://www.studymongolian.net/apps/chimee/zh/chimee-help/";
 	
@@ -21,6 +23,10 @@ public class HelpActivity extends Activity  {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_help);
+
+		// setup toolbar
+		Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+		setSupportActionBar(myToolbar);
 
 		TextView tvHelpText = (TextView) findViewById(R.id.tvHelpContent);
 		tvHelpText.setText(converter.unicodeToGlyphs(readText()));

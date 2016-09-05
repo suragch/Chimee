@@ -17,6 +17,8 @@ public class AeChooserDialog extends Activity implements View.OnClickListener {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.dialog_ae_chooser);
 
+
+
 		// Initialize views
 		RelativeLayout rlA = (RelativeLayout) findViewById(R.id.rlDialogAeChooserA);
 		RelativeLayout rlE = (RelativeLayout) findViewById(R.id.rlDialogAeChooserE);

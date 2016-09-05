@@ -522,7 +522,7 @@
                 <ImageView
                     android:id="@+id/ivMkeyBackspace"
                     style="@style/AppTheme.MongolKeyImageStyle"
-                    android:src="@drawable/backspace" />
+                    android:src="@drawable/ic_keyboard_backspace_white_24dp" />
             </RelativeLayout>
         </LinearLayout>
 
@@ -595,7 +595,7 @@
                 <ImageView
                     android:id="@+id/ivMkeySpace"
                     style="@style/AppTheme.MongolKeyImageStyle"
-                    android:src="@drawable/sym_keyboard_space" />
+                    android:src="@drawable/ic_space_bar_white_24dp" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -634,7 +634,7 @@
                 <ImageView
                     android:id="@+id/ivMkeyReturn"
                     style="@style/AppTheme.MongolKeyImageStyle"
-                    android:src="@drawable/sym_keyboard_return" />
+                    android:src="@drawable/ic_keyboard_return_white_24dp" />
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>

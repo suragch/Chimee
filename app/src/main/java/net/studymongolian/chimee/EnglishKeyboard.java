@@ -239,7 +239,8 @@ public class EnglishKeyboard extends Fragment implements OnClickListener, OnLong
 		tv44 = (TextView) getView().findViewById(R.id.tvEkey44);
 
         capsOn = false;
-        ivShift.setImageResource(R.drawable.sym_keyboard_shift);
+		// TODO: remove this. it does nothing. Make the caps only stay one keypress.
+        ivShift.setImageResource(R.drawable.ic_keyboard_capslock_white_24dp);
         if (inputState == ENGLISH) {
             cyrillicSetVisibility(View.GONE);
         } else if (inputState == CYRILLIC) {
@@ -279,9 +280,9 @@ public class EnglishKeyboard extends Fragment implements OnClickListener, OnLong
 			if (inputState== PUNCTUATION) return;
 			capsOn = !capsOn;
 			if (capsOn){
-				ivShift.setImageResource(R.drawable.sym_keyboard_shift_locked);
+				ivShift.setImageResource(R.drawable.ic_keyboard_capslock_white_24dp); // TODO
 			}else{
-				ivShift.setImageResource(R.drawable.sym_keyboard_shift);
+				ivShift.setImageResource(R.drawable.ic_keyboard_capslock_white_24dp); // TODO
 			}
 			if (inputState == ENGLISH) {
 				setEnglishKeyLabels();
@@ -291,7 +292,7 @@ public class EnglishKeyboard extends Fragment implements OnClickListener, OnLong
 			return;
 		case R.id.ekey_41:
 			capsOn = false;
-			ivShift.setImageResource(R.drawable.sym_keyboard_shift);
+			ivShift.setImageResource(R.drawable.ic_keyboard_capslock_white_24dp); // TODO
 			// switch between English, Cyrillic, and puctuation
 			if (inputState == ENGLISH) {
 				inputState = CYRILLIC;

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="net.studymongolian.chimee" >
-
+    package="net.studymongolian.chimee">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -10,10 +9,10 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
-            android:name="net.studymongolian.chimee.MainActivity"
-            android:label="@string/app_name" >
+            android:name=".MainActivity"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,60 +20,92 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="net.studymongolian.chimee.FavoriteActivity"
-            android:label="@string/app_name" >
+            android:name=".FavoriteActivity"
+            android:label="@string/app_name"
+            android:parentActivityName="net.studymongolian.chimee.MainActivity">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="net.studymongolian.chimee.MainActivity" />
         </activity>
         <activity
-            android:name="net.studymongolian.chimee.HistoryActivity"
-            android:label="@string/app_name" >
+            android:name=".HistoryActivity"
+            android:label="@string/app_name"
+            android:parentActivityName="net.studymongolian.chimee.MainActivity">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="net.studymongolian.chimee.MainActivity" />
         </activity>
         <activity
-            android:name="net.studymongolian.chimee.SettingsActivity"
-            android:label="@string/app_name" >
+            android:name=".SettingsActivity"
+            android:label="@string/app_name"
+            android:parentActivityName="net.studymongolian.chimee.MainActivity">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="net.studymongolian.chimee.MainActivity" />
         </activity>
         <activity
-            android:name="net.studymongolian.chimee.ColorChooserActivity"
-            android:label="@string/app_name" >
+            android:name=".ColorChooserActivity"
+            android:label="@string/app_name"
+            android:parentActivityName="net.studymongolian.chimee.SettingsActivity">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="net.studymongolian.chimee.SettingsActivity" />
         </activity>
         <activity
-            android:name="net.studymongolian.chimee.AboutActivity"
-            android:label="@string/app_name" >
+            android:name=".AboutActivity"
+            android:label="@string/app_name"
+            android:parentActivityName="net.studymongolian.chimee.MainActivity">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="net.studymongolian.chimee.MainActivity" />
         </activity>
         <activity
-            android:name="net.studymongolian.chimee.HelpActivity"
-            android:label="@string/app_name" >
+            android:name=".HelpActivity"
+            android:label="@string/app_name"
+            android:parentActivityName="net.studymongolian.chimee.MainActivity">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="net.studymongolian.chimee.MainActivity" />
         </activity>
         <activity
-            android:name="net.studymongolian.chimee.MongolDialogOneButton"
-            android:theme="@android:style/Theme.Dialog" >
-        </activity>
+            android:name=".MongolDialogOneButton"
+            android:theme="@android:style/Theme.Dialog"/>
         <activity
-            android:name="net.studymongolian.chimee.MongolDialogTwoButton"
-            android:theme="@android:style/Theme.Dialog" >
-        </activity>
+            android:name=".MongolDialogTwoButton"
+            android:theme="@android:style/Theme.Dialog"/>
         <activity
-            android:name="net.studymongolian.chimee.FvsChooserDialog"
-            android:theme="@android:style/Theme.Dialog" >
-        </activity>
+            android:name=".FvsChooserDialog"
+            android:theme="@android:style/Theme.Dialog"/>
         <activity
-            android:name="net.studymongolian.chimee.AeChooserDialog"
-            android:theme="@android:style/Theme.Dialog" >
-        </activity>
+            android:name=".AeChooserDialog"
+            android:theme="@android:style/Theme.Dialog"/>
         <activity
-            android:name="net.studymongolian.chimee.FontChooserDialog"
-            android:theme="@android:style/Theme.Dialog" >
-        </activity>
+            android:name=".FontChooserDialog"
+            android:theme="@android:style/Theme.Dialog"/>
         <activity
-            android:name="net.studymongolian.chimee.SettingsKeyboardChooserDialog"
-            android:theme="@android:style/Theme.Dialog" >
+            android:name=".SettingsKeyboardChooserDialog"
+            android:theme="@android:style/Theme.Dialog"/>
+        <activity
+            android:name=".PhotoOverlayActivity"
+            android:label="@string/title_activity_photo_overlay"
+            android:parentActivityName="net.studymongolian.chimee.MainActivity">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="net.studymongolian.chimee.MainActivity" />
         </activity>
-        
 
         <provider
-            android:name="net.studymongolian.chimee.ChimeeUserDictionaryProvider"
+            android:name=".ChimeeUserDictionaryProvider"
             android:authorities="net.studymongolian.chimee.user_dictionary"
-            android:exported="false" >
-        </provider>
+            android:exported="false"/>
+
     </application>
 
 </manifest>

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
@@ -15,7 +16,7 @@ import android.widget.TextView;
  * default=OK) strings in an intent.
  * 
  */
-public class MongolDialogOneButton extends Activity {
+public class MongolDialogOneButton extends AppCompatActivity {
 	
 	public static final String TITLE = "title";
 	public static final String MESSAGE = "message";

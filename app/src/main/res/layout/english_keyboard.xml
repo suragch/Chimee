@@ -305,7 +305,7 @@
             <ImageView
                 android:id="@+id/ivEkeyShift"
                 style="@style/AppTheme.MongolKeyImageStyle"
-                android:src="@drawable/sym_keyboard_shift" />
+                android:src="@drawable/ic_keyboard_capslock_white_24dp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -417,7 +417,7 @@
 
             <ImageView
                 style="@style/AppTheme.MongolKeyImageStyle"
-                android:src="@drawable/backspace" />
+                android:src="@drawable/ic_keyboard_backspace_white_24dp" />
         </RelativeLayout>
     </LinearLayout>
 
@@ -470,7 +470,7 @@
             <ImageView
                 android:id="@+id/ivEkeySpace"
                 style="@style/AppTheme.MongolKeyImageStyle"
-                android:src="@drawable/sym_keyboard_space" />
+                android:src="@drawable/ic_space_bar_white_24dp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -509,7 +509,7 @@
             <ImageView
                 android:id="@+id/ivEkey45"
                 style="@style/AppTheme.MongolKeyImageStyle"
-                android:src="@drawable/sym_keyboard_return" />
+                android:src="@drawable/ic_keyboard_return_white_24dp" />
         </RelativeLayout>
     </LinearLayout>
 

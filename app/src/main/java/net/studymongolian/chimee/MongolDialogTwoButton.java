@@ -3,6 +3,7 @@ package net.studymongolian.chimee;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
@@ -14,7 +15,7 @@ import android.widget.TextView;
  * BUTTON_BOTTOM_TEXT (optional) strings in an intent.
  * 
  */
-public class MongolDialogTwoButton extends Activity {
+public class MongolDialogTwoButton extends AppCompatActivity {
 
 	public static final String TITLE = "title";
 	public static final String MESSAGE = "message";

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- "Mark Favorite", should appear as action button if possible -->
+    <item
+        android:id="@+id/main_action_wechat"
+        android:icon="@drawable/ic_wechat_white_24dp"
+        android:title="todo"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/main_action_share"
+        android:icon="@drawable/ic_share_white_24dp"
+        android:title="todo"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/main_action_favorite"
+        android:icon="@drawable/ic_star_white_24dp"
+        android:title="todo"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/main_action_photo"
+        android:icon="@drawable/ic_insert_photo_white_24dp"
+        android:title="todo"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/main_action_overflow"
+        android:icon="@drawable/ic_more_vert_white_24dp"
+        android:title="todo"
+        app:showAsAction="always"/>
+
+
+
+</menu>

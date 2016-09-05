@@ -14,6 +14,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
@@ -27,10 +28,16 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Size;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.widget.FrameLayout;
@@ -41,7 +48,7 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends FragmentActivity implements MongolAeiouKeyboard.Communicator,
+public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboard.Communicator,
 		MongolQwertyKeyboard.Communicator, EnglishKeyboard.OnKeyTouchListener,
 		InputWindowContextMenu.ContextMenuCallback {
 
@@ -67,6 +74,7 @@ public class MainActivity extends FragmentActivity implements MongolAeiouKeyboar
 	protected static final int FAVORITE_MESSAGE_REQUEST = 3;
 	protected static final int HISTORY_REQUEST = 4;
 	protected static final int AE_REQUEST = 5;
+    protected static final int PHOTO_OVERLAY_REQUEST = 6;
 
 	// Fragment tags
 	public static final String MONGOL_AEIOU_TAG = "mongol_aeiou";
@@ -118,6 +126,15 @@ public class MainActivity extends FragmentActivity implements MongolAeiouKeyboar
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+        // setup toolbar
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+
+		// disable rotation for smaller devices
+        if(getResources().getBoolean(R.bool.portrait_only)){
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
 
 		// Get the settings
 		initSettings();
@@ -360,8 +377,48 @@ public class MainActivity extends FragmentActivity implements MongolAeiouKeyboar
 		swapMongolKeyboards = false;
 	}
 
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
 
-	private OnLongClickListener longClickHandler = new OnLongClickListener() {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.main_action_wechat:
+                // User chose the "Settings" item, show the app settings UI...
+                return true;
+
+            case R.id.main_action_share:
+                // User chose the "Favorite" action, mark the current item
+                // as a favorite...
+                return true;
+
+            case R.id.main_action_favorite:
+                // User chose the "Favorite" action, mark the current item
+                // as a favorite...
+                return true;
+
+            case R.id.main_action_photo:
+                // User chose the "Favorite" action, mark the current item
+                // as a favorite...
+                return true;
+
+            case R.id.main_action_overflow:
+                // User chose the "Favorite" action, mark the current item
+                // as a favorite...
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+
+    private OnLongClickListener longClickHandler = new OnLongClickListener() {
 
 		@Override
 		public boolean onLongClick(View view) {
@@ -1242,6 +1299,15 @@ public class MainActivity extends FragmentActivity implements MongolAeiouKeyboar
 		});
 	}
 
+
+    public void photoActionBarClick(View v) {
+
+        // Start photo editing activity
+        Intent intent = new Intent(this, PhotoOverlayActivity.class);
+        intent.putExtra("message", unicodeText.toString());
+        startActivityForResult(intent, PHOTO_OVERLAY_REQUEST);
+    }
+
 	public void favoriteActionBarClick(View v) {
 
 		// Start About activity
@@ -1269,6 +1335,8 @@ public class MainActivity extends FragmentActivity implements MongolAeiouKeyboar
 		Intent customIntent = new Intent(this, HistoryActivity.class);
 		startActivityForResult(customIntent, HISTORY_REQUEST);
 	}
+
+
 
 	public void menuSettingsClick(View v) {
 		llMenu.setVisibility(View.GONE);

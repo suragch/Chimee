@@ -49,14 +49,13 @@
     <string name="about_description_contact_intro"> ᠄</string>
     <string name="about_description_contact_address">www.studymongolian.net/contact-zh/</string>
     <string name="help_address">www.studymongolian.net/apps/chimee/zh/chimee-help/</string>
-    
-    
-    
+
+
     <!-- Initial default values (in Unicode) for Favorite Table in Message db-->
     <string name="favorite_db_message1">ᠰᠠᠢᠨ ᠪᠠᠢᠨ᠎ᠠ ᠤᠤ?</string>
     <string name="favorite_db_message2">ᠵᠠᠬᠢᠶ᠎ᠠ ᠶᠢ ᠳᠣᠪᠴᠢᠳᠠᠪᠠᠯ ᠨᠠᠢᠷᠠᠭᠤᠯᠬᠤ ᠴᠣᠩᠬᠣᠨ ᠳᠤ ᠬᠠᠭᠤᠯᠤᠨ ᠠᠪᠴᠢᠷᠠᠨ᠎ᠠ᠃</string>
     <string name="favorite_db_message3">ᠳᠠᠷᠤᠪᠴᠢ ᠶᠢ ᠳᠠᠷᠤᠭᠠᠳ ᠪᠠᠢᠪᠠᠯ ᠵᠠᠬᠢᠶ᠎ᠠ ᠶᠢ ᠤᠰᠠᠳᠬᠠᠵᠤ ᠬᠠᠶᠠᠨ᠎ᠠ᠃</string>
-    
+
     <string name="m_a"></string>
     <string name="m_e"></string>
     <string name="m_i"></string>
@@ -234,9 +233,8 @@
     <string name="e_key_b_punctuation">"_"</string>
     <string name="e_key_n_punctuation">\'</string>
     <string name="e_key_m_punctuation">\"</string>
-    
-    
-    
+
+
     <string name="e_key_q_cyrillic">ф</string>
     <string name="e_key_w_cyrillic">ц</string>
     <string name="e_key_e_cyrillic">у</string>
@@ -271,7 +269,7 @@
     <string name="e_key_6_cyrillic">ь</string>
     <string name="e_key_7_cyrillic">в</string>
     <string name="e_key_8_cyrillic">ю</string>
-    
+
     <string name="e_key_q_cyrillic_caps">Ф</string>
     <string name="e_key_w_cyrillic_caps">Ц</string>
     <string name="e_key_e_cyrillic_caps">У</string>
@@ -306,7 +304,7 @@
     <string name="e_key_6_cyrillic_caps">Ь</string>
     <string name="e_key_7_cyrillic_caps">В</string>
     <string name="e_key_8_cyrillic_caps">Ю</string>
-    
+
     <string name="suffix_yin">ᠶᠢᠨ</string>
     <string name="suffix_on">ᠤᠨ</string>
     <string name="suffix_un">ᠦᠨ</string>
@@ -348,5 +346,6 @@
     <string name="suffix_nugud">ᠨᠦᠭᠦᠳ</string>
     <string name="suffix_nar">ᠨᠠᠷ</string>
     <string name="suffix_ner">ᠨᠡᠷ</string>
+    <string name="title_activity_photo_overlay">PhotoOverlayActivity</string>
 
 </resources>

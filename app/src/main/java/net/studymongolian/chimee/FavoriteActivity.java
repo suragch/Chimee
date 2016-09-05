@@ -8,6 +8,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,7 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class FavoriteActivity extends FragmentActivity implements OnItemClickListener,
+public class FavoriteActivity extends AppCompatActivity implements OnItemClickListener,
 		OnItemLongClickListener, FavoriteActivityContextMenu.ContextMenuCallback {
 
 	private static final String STATE_SCROLL_POSITION = "scrollPosition";
@@ -39,6 +41,10 @@ public class FavoriteActivity extends FragmentActivity implements OnItemClickLis
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_favorite);
+
+		// setup toolbar
+		Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+		setSupportActionBar(myToolbar);
 
 		Intent intent = getIntent();
 		currentMessage = intent.getStringExtra("message");

@@ -6,13 +6,16 @@ import java.util.Map;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-public class ColorChooserActivity extends Activity implements OnClickListener {
+public class ColorChooserActivity extends AppCompatActivity implements OnClickListener {
 
 	private static Map<Integer, Integer> idToLightColor = new HashMap<Integer, Integer>();
 	private static Map<Integer, Integer> idToDarkColor = new HashMap<Integer, Integer>();
@@ -25,6 +28,10 @@ public class ColorChooserActivity extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_color_chooser);
+
+		// setup toolbar
+		Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+		setSupportActionBar(myToolbar);
 
 		// Map<Integer, Integer> idToColor = new Map<Integer, Integer>();
 		initMap();

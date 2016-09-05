@@ -2,7 +2,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
     <!-- This is the custom top action bar -->
 
@@ -10,7 +20,7 @@
         android:id="@+id/topActionBarLayout"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_alignParentTop="true"
+        android:layout_below="@id/my_toolbar"
         android:background="@color/actionbar_bg"
         android:paddingLeft="10dp" >
 
@@ -20,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/logo" />
+            android:src="@drawable/ic_logo_white_24dp" />
 
         <FrameLayout
             android:id="@+id/overflowIconFrame"
@@ -37,14 +47,32 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_action_overflow" />
+                android:src="@drawable/ic_more_vert_white_24dp" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/photoIconFrame"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/overflowIconFrame"
+            android:background="@drawable/bar_icon"
+            android:clickable="true"
+            android:onClick="photoActionBarClick"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_insert_photo_white_24dp" />
         </FrameLayout>
 
         <FrameLayout
             android:id="@+id/favoriteIconFrame"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_toLeftOf="@id/overflowIconFrame"
+            android:layout_toLeftOf="@id/photoIconFrame"
             android:background="@drawable/bar_icon"
             android:clickable="true"
             android:onClick="favoriteActionBarClick"
@@ -55,7 +83,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_action_important" />
+                android:src="@drawable/ic_star_white_24dp" />
         </FrameLayout>
 
         <FrameLayout
@@ -73,7 +101,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_action_share" />
+                android:src="@drawable/ic_share_white_24dp" />
         </FrameLayout>
 
         <FrameLayout
@@ -92,7 +120,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/wechat_share" />
+                android:src="@drawable/ic_wechat_white_24dp" />
         </FrameLayout>
     </RelativeLayout>
 
@@ -113,21 +141,6 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/main_activity_top_bg" >
-
-            <!-- This is for testing. Delete me later -->
-            <!--
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true" >
-
-                <net.studymongolian.chimee.MongolTextView
-                    android:id="@+id/tvTestWindow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </FrameLayout>
-            -->
-
 
             <!-- below is the message limit -->
 
