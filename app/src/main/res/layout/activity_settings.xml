@@ -51,7 +51,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/leftCaretIcon"
                 android:paddingLeft="5dp"
-                android:src="@drawable/ic_settings_white_24dp" />
+                android:src="@drawable/ic_logo_white_24dp" />
         </RelativeLayout>
     </RelativeLayout>
 

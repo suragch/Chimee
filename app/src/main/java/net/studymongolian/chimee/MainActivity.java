@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 	//int renderedTextOldLength = 0;
 	int oldInputWindowHeight = -1;
 	StringBuilder unicodeText = new StringBuilder();
-	MongolUnicodeRenderer mongolianConverter = new MongolUnicodeRenderer();
+	MongolUnicodeRenderer renderer = new MongolUnicodeRenderer();
 	int cursorPosition = 0;
 	Keyboard currentKeyboard;
 	Keyboard userMongolKeyboard;
@@ -265,7 +265,7 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 				// convert glyphIndex to cursorPosition
 				// TODO rather than calculating it here could do it when ready to input text
 				// but that would leave room for errors
-				cursorPosition = mongolianConverter.getUnicodeIndex(unicodeText.toString(),
+				cursorPosition = renderer.getUnicodeIndex(unicodeText.toString(),
 						glyphIndex);
 
 			}
@@ -395,45 +395,19 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.main_action_wechat:
-                // User chose the "Settings" item, show the app settings UI...
 				shareToWeChat();
                 return true;
-
-            case R.id.main_action_share:
-                // User chose the "Favorite" action, mark the current item
-                // as a favorite...
-				shareToSystemApps();
-                return true;
-
+			case R.id.main_action_photo:
+				photoActionBarClick();
+				return true;
             case R.id.main_action_favorite:
-                // User chose the "Favorite" action, mark the current item
-                // as a favorite...
 				favoriteActionBarClick();
                 return true;
-
-            case R.id.main_action_photo:
-                // User chose the "Favorite" action, mark the current item
-                // as a favorite...
-				photoActionBarClick();
-                return true;
-
             case R.id.main_action_overflow:
-                // User chose the "Favorite" action, mark the current item
-                // as a favorite...
 				overflowActionBarClick();
-//				DialogFragment newFragment = new MainMenuDialog();
-//				newFragment.show(getSupportFragmentManager(), "missiles");
-//				newFragment.getWindow().setLayout(600, 400);
-
-
-
 				return true;
-
             default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
                 return super.onOptionsItemSelected(item);
-
         }
     }
 
@@ -486,6 +460,33 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 		contextMenu.setCancelable(true);
 		// Setting the content using prepared XML layout file.
 		contextMenu.setContentView(R.layout.contextmenu_inputwindow);
+
+		// set onClick listeners for the menu items
+		contextMenu.findViewById(R.id.rlContextMenuCopy).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				contextMenuCopy(v);
+			}
+		});
+		contextMenu.findViewById(R.id.rlContextMenuPaste).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				contextMenuPaste(v);
+			}
+		});
+		contextMenu.findViewById(R.id.rlContextMenuFavorites).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				contextMenuFavorites(v);
+			}
+		});
+		contextMenu.findViewById(R.id.rlContextMenuClear).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				contextMenuClear(v);
+			}
+		});
+
 		contextMenu.show();
 	}
 
@@ -564,85 +565,6 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 		updateDisplay();
 	}
 
-//	@SuppressLint("NewApi")
-//	@SuppressWarnings("deprecation")
-//	//@Override
-//	public void contextMenuItemClicked(int itemCode) {
-//		// Gets info from fragment
-//
-//		int sdk = android.os.Build.VERSION.SDK_INT;
-//
-//		switch (itemCode) {
-//			case InputWindowContextMenu.COPY:
-//
-//				if (sdk < android.os.Build.VERSION_CODES.HONEYCOMB) {
-//					android.text.ClipboardManager clipboard = (android.text.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-//					clipboard.setText(unicodeText);
-//				} else {
-//					android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-//					android.content.ClipData clip = android.content.ClipData.newPlainText(
-//							"ChimeeUnicodeText", unicodeText);
-//					clipboard.setPrimaryClip(clip);
-//				}
-//
-//				break;
-//			case InputWindowContextMenu.PASTE:
-//
-//				String pasteData = "";
-//				if (sdk < android.os.Build.VERSION_CODES.HONEYCOMB) {
-//					android.text.ClipboardManager clipboard = (android.text.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-//
-//					try {
-//						pasteData = clipboard.getText().toString();
-//					} catch (Exception e) {
-//						e.printStackTrace();
-//					}
-//
-//				} else {
-//					android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-//
-//					if (clipboard.getPrimaryClip() != null) {
-//						android.content.ClipData.Item item = clipboard.getPrimaryClip().getItemAt(0);
-//						pasteData = item.getText().toString();
-//					}
-//
-//				}
-//
-//				if (pasteData != null) {
-//					unicodeText.insert(cursorPosition, pasteData);
-//					cursorPosition += pasteData.length();
-//				}
-//
-//				updateDisplay();
-//
-//				break;
-//			case InputWindowContextMenu.FAVORITES:
-//
-//				// catch empty string
-//				if (unicodeText.toString().trim().length() == 0) {
-//					Intent intent = new Intent(this, MongolDialogOneButton.class);
-//					intent.putExtra(MongolDialogOneButton.MESSAGE,
-//							getResources().getString(R.string.dialog_message_emptyfavorite));
-//					startActivity(intent);
-//					return;
-//				}
-//
-//				// add string to db
-//				new AddMessageToFavoriteDb().execute();
-//
-//				break;
-//			case InputWindowContextMenu.CLEAR:
-//
-//				// TODO add a warning if longer than a certain length
-//				unicodeText.setLength(0);
-//				cursorPosition = 0;
-//				updateDisplay();
-//
-//				break;
-//		}
-//
-//		hideMenu();
-//	}
 
 	@Override
 	public void onKeyTouched(char keyChar) {
@@ -676,13 +598,13 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 			// add the correct A/E vowel depending on the word
 			String stringToAdd;
 			String thisWord = getWordBeforeCursor();
-			if (mongolianConverter.isMasculineWord(thisWord)) {
+			if (renderer.isMasculineWord(thisWord)) {
 
 				stringToAdd = Character.toString(keyChar) + MONGOLIAN_A;
 				unicodeText.insert(cursorPosition, stringToAdd);
 				cursorPosition += 2;
 
-			} else if (mongolianConverter.isFeminineWord(thisWord)) {
+			} else if (renderer.isFeminineWord(thisWord)) {
 
 				stringToAdd = Character.toString(keyChar) + MONGOLIAN_E;
 				unicodeText.insert(cursorPosition, stringToAdd);
@@ -1024,7 +946,7 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 		StringBuilder renderedText = new StringBuilder();
 		tempText.append(unicodeText.toString());
 		tempText.insert(cursorPosition, CURSOR_HOLDER);
-		renderedText.append(mongolianConverter.unicodeToGlyphs(tempText.toString()));
+		renderedText.append(renderer.unicodeToGlyphs(tempText.toString()));
 		final int glyphCursorPosition = renderedText.indexOf(String.valueOf(CURSOR_HOLDER));
 		if (glyphCursorPosition >= 0 && glyphCursorPosition < renderedText.length()) {
 			renderedText = renderedText.deleteCharAt(glyphCursorPosition);
@@ -1319,7 +1241,7 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 			FileOutputStream streamRendered = new FileOutputStream(cachePath
 					+ "/rendered.txt");
 			OutputStreamWriter myOutWriter2 = new OutputStreamWriter(streamRendered);
-			myOutWriter2.append(mongolianConverter.unicodeToGlyphs(unicodeText.toString()));
+			myOutWriter2.append(renderer.unicodeToGlyphs(unicodeText.toString()));
 			myOutWriter2.close();
 			streamRendered.close();
 
@@ -1411,12 +1333,38 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 		// Setting position of content, relative to window.
 		WindowManager.LayoutParams params = overflowMenu.getWindow().getAttributes();
 		params.gravity = Gravity.TOP | Gravity.RIGHT;
-		params.x = 16;
-		params.y = 16;
+		//params.x = 16;
+		//params.y = 16;
 		// If user taps anywhere on the screen, dialog will be cancelled.
 		overflowMenu.setCancelable(true);
 		// Setting the content using prepared XML layout file.
 		overflowMenu.setContentView(R.layout.dialog_main_overflow_menu);
+
+		// render strings
+		//MongolTextView tvShare = (MongolTextView) overflowMenu.findViewById(R.id.tvMainMenuItemShare);
+		//tvShare.setText(renderer.unicodeToGlyphs(tvShare.getText().toString()));
+
+		// set onClick listeners for the menu items
+		overflowMenu.findViewById(R.id.mainMenuItemShareFrame).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO share
+			}
+		});
+		overflowMenu.findViewById(R.id.mainMenuItemOpenSaveFrame).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO open/save
+			}
+		});
+		overflowMenu.findViewById(R.id.mainMenuItemSettingsFrame).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				menuSettingsClick(v);
+			}
+		});
+
+
 		overflowMenu.show();
 
 
@@ -1424,33 +1372,24 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 
 	public void menuHistoryClick(View v) {
 		hideMenu();
-
-		// Start settings activity
 		Intent customIntent = new Intent(this, HistoryActivity.class);
 		startActivityForResult(customIntent, HISTORY_REQUEST);
 	}
 
-
-
 	public void menuSettingsClick(View v) {
 		hideMenu();
-
-		// Start settings activity
 		Intent customIntent = new Intent(this, SettingsActivity.class);
 		startActivityForResult(customIntent, SETTINGS_REQUEST);
 	}
 
 	public void menuAboutClick(View v) {
 		hideMenu();
-
-		// Start About activity
 		Intent customIntent = new Intent(this, AboutActivity.class);
 		startActivity(customIntent);
 	}
 
 	public void menuHelpClick(View v) {
 		hideMenu();
-
 		Intent customIntent = new Intent(this, HelpActivity.class);
 		startActivity(customIntent);
 	}

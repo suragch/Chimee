@@ -4,7 +4,7 @@
     
     <!-- view background color -->
     <solid
-        android:color="@color/menu_item_pressed" >
+        android:color="@color/background_light_darker" >
     </solid>
 
 </shape>

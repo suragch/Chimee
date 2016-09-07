@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- TODO: use unicode for all strings -->
+
     <string name="app_name">Chimee</string>
     <string name="word_deleted"> </string>
     <string name="toast_message_deleted">  !</string>
@@ -8,7 +10,18 @@
     <string name="toast_message_empty">   </string>
     <string name="toast_no_sdcard_cant_send">SD   </string>
     <string name="toast_favorite_added"> </string>
-    <string name="menu_item_settings"></string>
+
+    <!-- Main Menu -->
+    <string name="menu_item_wechat">WeChat</string>
+    <string name="menu_item_photo">Photo</string>
+    <string name="menu_item_favorite">Important</string>
+    <string name="menu_item_overflow">More</string>
+    <string name="menu_item_share">share</string>
+    <string name="menu_item_open">open</string>
+    <string name="menu_item_save">save</string>
+    <string name="menu_item_settings">ᠳᠤᠬᠢᠷᠠᠭᠤᠯᠠᠭ᠎ᠠ</string>
+
+
     <string name="menu_item_about">  </string>
     <string name="menu_item_help"></string>
     <string name="menu_item_history">  </string>

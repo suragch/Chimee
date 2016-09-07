@@ -15,7 +15,6 @@
         android:layout_height="match_parent"
         android:background="@drawable/bar_icon"
         android:clickable="true"
-        android:onClick="contextMenuCopy"
         android:layout_weight="1"
         android:padding="10dp" >
 
@@ -50,7 +49,6 @@
         android:layout_height="match_parent"
         android:background="@drawable/bar_icon"
         android:clickable="true"
-        android:onClick="contextMenuPaste"
         android:layout_weight="1"
         android:padding="10dp" >
 
@@ -85,7 +83,6 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bar_icon"
         android:clickable="true"
-        android:onClick="contextMenuFavorites"
         android:layout_weight="1"
         android:padding="10dp" >
 
@@ -120,7 +117,6 @@
         android:layout_height="match_parent"
         android:background="@drawable/bar_icon"
         android:clickable="true"
-        android:onClick="contextMenuClear"
         android:layout_weight="1"
         android:padding="10dp" >
 

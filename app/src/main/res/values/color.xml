@@ -5,6 +5,11 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+
+    <color name="background_light">#ffffff</color>
+    <color name="background_light_darker">#e8eaf6</color>
+
+
     <color name="dusty_blue">#ff0099cc</color>
     <color name="dusty_blue_lighter">#ff00b3ee</color>
     <color name="dusty_blue_very_light">#ff00bfff</color>
