@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 public class MessageHistoryListAdapter extends ArrayAdapter<Message> {
 
-	MongolUnicodeRenderer converter;
+	MongolUnicodeRenderer renderer = MongolUnicodeRenderer.INSTANCE;
 	
 	// View lookup cache
 	private static class ViewHolder {
@@ -23,7 +23,7 @@ public class MessageHistoryListAdapter extends ArrayAdapter<Message> {
 
 	public MessageHistoryListAdapter(Context context, ArrayList<Message> messages) {
 		super(context, R.layout.message_history_listview_item, messages);
-		converter = new MongolUnicodeRenderer();
+		//converter = new MongolUnicodeRenderer();
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public class MessageHistoryListAdapter extends ArrayAdapter<Message> {
 		
 		// Populate the data into the template view using the data object
 		viewHolder.tvDate.setText(formattedDate);
-		viewHolder.tvMessage.setText(converter.unicodeToGlyphs(message.getMessage()));
+		viewHolder.tvMessage.setText(renderer.unicodeToGlyphs(message.getMessage()));
 		
 		// Return the completed view to render on screen
 		return convertView;

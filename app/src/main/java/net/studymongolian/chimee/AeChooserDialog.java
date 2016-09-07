@@ -39,14 +39,14 @@ public class AeChooserDialog extends Activity implements View.OnClickListener {
 		switch (v.getId()) {
 		case R.id.rlDialogAeChooserA:
 
-			returnIntent.putExtra("result", MongolUnicodeRenderer.UNI_A);
+			returnIntent.putExtra("result", MongolUnicodeRenderer.Uni.A);
 			setResult(RESULT_OK, returnIntent);
 			finish();
 
 			break;
 		case R.id.rlDialogAeChooserE:
 
-			returnIntent.putExtra("result", MongolUnicodeRenderer.UNI_E);
+			returnIntent.putExtra("result", MongolUnicodeRenderer.Uni.E);
 			setResult(RESULT_OK, returnIntent);
 			finish();
 

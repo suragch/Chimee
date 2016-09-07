@@ -9,7 +9,7 @@
         android:id="@+id/lvSuggestions"
         android:layout_width="40dp"
         android:layout_height="match_parent"
-        android:background="@color/keyboard_listview"
+        android:background="@color/colorPrimary"
         android:cacheColorHint="#00000000"
         android:descendantFocusability="blocksDescendants"
         android:divider="@drawable/listview_divider"

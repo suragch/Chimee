@@ -50,7 +50,7 @@ public class MongolAeiouKeyboard extends Fragment implements OnClickListener, On
 
 	Communicator mCallback;
 	Boolean punctuationOn = false;
-	MongolUnicodeRenderer converter = new MongolUnicodeRenderer();
+	MongolUnicodeRenderer renderer = MongolUnicodeRenderer.INSTANCE;
 	ListView lvSuggestions;
 	boolean isFollowing = false; // db id of word whose followings are in lv
 	boolean typingMongol = false;
@@ -220,7 +220,7 @@ public class MongolAeiouKeyboard extends Fragment implements OnClickListener, On
 			// Format the unicode from the db for the font
 			@Override
 			public void setViewText(TextView v, String text) {
-				String renderedText = converter.unicodeToGlyphs(text);
+				String renderedText = renderer.unicodeToGlyphs(text);
 				super.setViewText(v, renderedText);
 			}
 		};
@@ -528,133 +528,133 @@ public class MongolAeiouKeyboard extends Fragment implements OnClickListener, On
 			if (punctuationOn) {
 				key = '(';
 			} else {
-				key = MongolUnicodeRenderer.UNI_A;
+				key = MongolUnicodeRenderer.Uni.A;
 			}
 			break;
 		case R.id.key_e:
 			if (punctuationOn) {
 				key = ')';
 			} else {
-				key = MongolUnicodeRenderer.UNI_E;
+				key = MongolUnicodeRenderer.Uni.E;
 			}
 			break;
 		case R.id.key_i:
 			if (punctuationOn) {
 				key = PUNCTUATION_DOUBLEQUOTE_TOP;
 			} else {
-				key = MongolUnicodeRenderer.UNI_I;
+				key = MongolUnicodeRenderer.Uni.I;
 			}
 			break;
 		case R.id.key_v:
 			if (punctuationOn) {
 				key = PUNCTUATION_DOUBLEQUOTE_BOTTOM;
 			} else {
-				key = MongolUnicodeRenderer.UNI_U;
+				key = MongolUnicodeRenderer.Uni.U;
 			}
 			break;
 		case R.id.key_u:
 			if (punctuationOn) {
 				key = MONGOLIAN_DOT;
 			} else {
-				key = MongolUnicodeRenderer.UNI_UE;
+				key = MongolUnicodeRenderer.Uni.UE;
 			}
 			break;
 		case R.id.key_n:
 			if (punctuationOn) {
 				key = '1';
 			} else {
-				key = MongolUnicodeRenderer.UNI_NA;
+				key = MongolUnicodeRenderer.Uni.NA;
 			}
 			break;
 		case R.id.key_b:
 			if (punctuationOn) {
 				key = '2';
 			} else {
-				key = MongolUnicodeRenderer.UNI_BA;
+				key = MongolUnicodeRenderer.Uni.BA;
 			}
 			break;
 		case R.id.key_h:
 			if (punctuationOn) {
 				key = '3';
 			} else {
-				key = MongolUnicodeRenderer.UNI_QA;
+				key = MongolUnicodeRenderer.Uni.QA;
 			}
 			break;
 		case R.id.key_g:
 			if (punctuationOn) {
 				key = '4';
 			} else {
-				key = MongolUnicodeRenderer.UNI_GA;
+				key = MongolUnicodeRenderer.Uni.GA;
 			}
 			break;
 		case R.id.key_m:
 			if (punctuationOn) {
 				key = '5';
 			} else {
-				key = MongolUnicodeRenderer.UNI_MA;
+				key = MongolUnicodeRenderer.Uni.MA;
 			}
 			break;
 		case R.id.key_l:
 			if (punctuationOn) {
 				key = MONGOLIAN_DASH;
 			} else {
-				key = MongolUnicodeRenderer.UNI_LA;
+				key = MongolUnicodeRenderer.Uni.LA;
 			}
 			break;
 		case R.id.key_s:
 			if (punctuationOn) {
 				key = '6';
 			} else {
-				key = MongolUnicodeRenderer.UNI_SA;
+				key = MongolUnicodeRenderer.Uni.SA;
 			}
 			break;
 		case R.id.key_d:
 			if (punctuationOn) {
 				key = '7';
 			} else {
-				key = MongolUnicodeRenderer.UNI_DA;
+				key = MongolUnicodeRenderer.Uni.DA;
 			}
 			break;
 		case R.id.key_q:
 			if (punctuationOn) {
 				key = '8';
 			} else {
-				key = MongolUnicodeRenderer.UNI_CHA;
+				key = MongolUnicodeRenderer.Uni.CHA;
 			}
 			break;
 		case R.id.key_j:
 			if (punctuationOn) {
 				key = '9';
 			} else {
-				key = MongolUnicodeRenderer.UNI_JA;
+				key = MongolUnicodeRenderer.Uni.JA;
 			}
 			break;
 		case R.id.key_y:
 			if (punctuationOn) {
 				key = '0';
 			} else {
-				key = MongolUnicodeRenderer.UNI_YA;
+				key = MongolUnicodeRenderer.Uni.YA;
 			}
 			break;
 		case R.id.key_r:
 			if (punctuationOn) {
 				key = '.';
 			} else {
-				key = MongolUnicodeRenderer.UNI_RA;
+				key = MongolUnicodeRenderer.Uni.RA;
 			}
 			break;
 		case R.id.key_w:
 			if (punctuationOn) {
 				key = PUNCTUATION_QUESTION_EXCLAMATION;
 			} else {
-				key = MongolUnicodeRenderer.UNI_WA;
+				key = MongolUnicodeRenderer.Uni.WA;
 			}
 			break;
 		case R.id.key_z:
 			if (punctuationOn) {
 				key = PUNCTUATION_EXCLAMATION_EXCLAMATION;
 			} else {
-				key = MongolUnicodeRenderer.UNI_ZA;
+				key = MongolUnicodeRenderer.Uni.ZA;
 			}
 			break;
 
@@ -690,7 +690,7 @@ public class MongolAeiouKeyboard extends Fragment implements OnClickListener, On
 			punctuationOn = !punctuationOn;
 			break;
 		case R.id.key_comma:
-			key = MongolUnicodeRenderer.MONGOLIAN_COMMA;
+			key = MongolUnicodeRenderer.Uni.MONGOLIAN_COMMA;
 			break;
 		case R.id.key_space:
 			// Unreachable.
@@ -767,119 +767,119 @@ public class MongolAeiouKeyboard extends Fragment implements OnClickListener, On
 			if (punctuationOn) {
 				key = '[';
 			} else {
-				key = MongolUnicodeRenderer.MONGOLIAN_NIRUGU;
+				key = MongolUnicodeRenderer.Uni.MONGOLIAN_NIRUGU;
 			}
 			break;
 		case R.id.key_e:
 			if (punctuationOn) {
 				key = ']';
 			} else {
-				key = MongolUnicodeRenderer.UNI_EE;
+				key = MongolUnicodeRenderer.Uni.EE;
 			}
 			break;
 		case R.id.key_i:
 			if (punctuationOn) {
 				key = '<';
 			} else {
-				key = MongolUnicodeRenderer.UNI_I;
+				key = MongolUnicodeRenderer.Uni.I;
 			}
 			break;
 		case R.id.key_v:
 			if (punctuationOn) {
 				key = '>';
 			} else {
-				key = MongolUnicodeRenderer.UNI_O;
+				key = MongolUnicodeRenderer.Uni.O;
 			}
 			break;
 		case R.id.key_u:
 			if (punctuationOn) {
-				key = MongolUnicodeRenderer.MONGOLIAN_ELLIPSIS;
+				key = MongolUnicodeRenderer.Uni.MONGOLIAN_ELLIPSIS;
 			} else {
-				key = MongolUnicodeRenderer.UNI_OE;
+				key = MongolUnicodeRenderer.Uni.OE;
 			}
 			break;
 		case R.id.key_n:
 			if (punctuationOn) {
-				key = MongolUnicodeRenderer.MONGOLIAN_DIGIT_ONE;
+				key = MongolUnicodeRenderer.Uni.MONGOLIAN_DIGIT_ONE;
 			} else {
-				key = MongolUnicodeRenderer.UNI_ANG;
+				key = MongolUnicodeRenderer.Uni.ANG;
 			}
 			break;
 		case R.id.key_b:
 			if (punctuationOn) {
-				key = MongolUnicodeRenderer.MONGOLIAN_DIGIT_TWO;
+				key = MongolUnicodeRenderer.Uni.MONGOLIAN_DIGIT_TWO;
 			} else {
-				key = MongolUnicodeRenderer.UNI_PA;
+				key = MongolUnicodeRenderer.Uni.PA;
 			}
 			break;
 		case R.id.key_h:
 			if (punctuationOn) {
-				key = MongolUnicodeRenderer.MONGOLIAN_DIGIT_THREE;
+				key = MongolUnicodeRenderer.Uni.MONGOLIAN_DIGIT_THREE;
 			} else {
-				key = MongolUnicodeRenderer.UNI_HAA;
+				key = MongolUnicodeRenderer.Uni.HAA;
 			}
 			break;
 		case R.id.key_g:
 			if (punctuationOn) {
-				key = MongolUnicodeRenderer.MONGOLIAN_DIGIT_FOUR;
+				key = MongolUnicodeRenderer.Uni.MONGOLIAN_DIGIT_FOUR;
 			} else {
-				key = MongolUnicodeRenderer.UNI_KA;
+				key = MongolUnicodeRenderer.Uni.KA;
 			}
 			break;
 		case R.id.key_m:
 			if (punctuationOn) {
-				key = MongolUnicodeRenderer.MONGOLIAN_DIGIT_FIVE;
+				key = MongolUnicodeRenderer.Uni.MONGOLIAN_DIGIT_FIVE;
 			} else {
-				key = MongolUnicodeRenderer.UNI_MA;
+				key = MongolUnicodeRenderer.Uni.MA;
 			}
 			break;
 		case R.id.key_l:
 			if (punctuationOn) {
-				key = MongolUnicodeRenderer.MONGOLIAN_BIRGA;
+				key = MongolUnicodeRenderer.Uni.MONGOLIAN_BIRGA;
 			} else {
-				key = MongolUnicodeRenderer.UNI_LHA;
+				key = MongolUnicodeRenderer.Uni.LHA;
 			}
 			break;
 		case R.id.key_s:
 			if (punctuationOn) {
-				key = MongolUnicodeRenderer.MONGOLIAN_DIGIT_SIX;
+				key = MongolUnicodeRenderer.Uni.MONGOLIAN_DIGIT_SIX;
 			} else {
-				key = MongolUnicodeRenderer.UNI_SHA;
+				key = MongolUnicodeRenderer.Uni.SHA;
 			}
 			break;
 		case R.id.key_d:
 			if (punctuationOn) {
-				key = MongolUnicodeRenderer.MONGOLIAN_DIGIT_SEVEN;
+				key = MongolUnicodeRenderer.Uni.MONGOLIAN_DIGIT_SEVEN;
 			} else {
-				key = MongolUnicodeRenderer.UNI_TA;
+				key = MongolUnicodeRenderer.Uni.TA;
 			}
 			break;
 		case R.id.key_q:
 			if (punctuationOn) {
-				key = MongolUnicodeRenderer.MONGOLIAN_DIGIT_EIGHT;
+				key = MongolUnicodeRenderer.Uni.MONGOLIAN_DIGIT_EIGHT;
 			} else {
-				key = MongolUnicodeRenderer.UNI_CHI;
+				key = MongolUnicodeRenderer.Uni.CHI;
 			}
 			break;
 		case R.id.key_j:
 			if (punctuationOn) {
-				key = MongolUnicodeRenderer.MONGOLIAN_DIGIT_NINE;
+				key = MongolUnicodeRenderer.Uni.MONGOLIAN_DIGIT_NINE;
 			} else {
-				key = MongolUnicodeRenderer.UNI_ZHI;
+				key = MongolUnicodeRenderer.Uni.ZHI;
 			}
 			break;
 		case R.id.key_y:
 			if (punctuationOn) {
-				key = MongolUnicodeRenderer.MONGOLIAN_DIGIT_ZERO;
+				key = MongolUnicodeRenderer.Uni.MONGOLIAN_DIGIT_ZERO;
 			} else {
-				key = MongolUnicodeRenderer.UNI_YA;
+				key = MongolUnicodeRenderer.Uni.YA;
 			}
 			break;
 		case R.id.key_r:
 			if (punctuationOn) {
-				key = MongolUnicodeRenderer.MONGOLIAN_FOUR_DOTS;
+				key = MongolUnicodeRenderer.Uni.MONGOLIAN_FOUR_DOTS;
 			} else {
-				key = MongolUnicodeRenderer.UNI_ZRA;
+				key = MongolUnicodeRenderer.Uni.ZRA;
 			}
 			break;
 		case R.id.key_namalaga:
@@ -891,23 +891,23 @@ public class MongolAeiouKeyboard extends Fragment implements OnClickListener, On
 			break;
 		case R.id.key_w:
 			if (punctuationOn) {
-				key = MongolUnicodeRenderer.MONGOLIAN_COLON;
+				key = MongolUnicodeRenderer.Uni.MONGOLIAN_COLON;
 			} else {
-				key = MongolUnicodeRenderer.UNI_FA;
+				key = MongolUnicodeRenderer.Uni.FA;
 			}
 			break;
 		case R.id.key_z:
 			if (punctuationOn) {
 				key = ';';
 			} else {
-				key = MongolUnicodeRenderer.UNI_TSA;
+				key = MongolUnicodeRenderer.Uni.TSA;
 			}
 			break;
 		case R.id.key_input:
 			key = SWITCH_TO_ENGLISH;
 			break;
 		case R.id.key_comma:
-			key = MongolUnicodeRenderer.MONGOLIAN_FULL_STOP;
+			key = MongolUnicodeRenderer.Uni.MONGOLIAN_FULL_STOP;
 			break;
 		case R.id.key_question:
 			key = '!';
@@ -1059,10 +1059,10 @@ public class MongolAeiouKeyboard extends Fragment implements OnClickListener, On
 		}
 		if (MongolUnicodeRenderer.isVowel(endingChar)) {
 			ending = ENDING_VOWEL;
-		} else if (converter.isConsonant(endingChar)) {
-			if (endingChar == MongolUnicodeRenderer.UNI_NA) {
+		} else if (renderer.isConsonant(endingChar)) {
+			if (endingChar == MongolUnicodeRenderer.Uni.NA) {
 				ending = ENDING_N;
-			} else if (converter.isBGDRS(endingChar)) {
+			} else if (renderer.isBGDRS(endingChar)) {
 				ending = ENDING_BIG_DRESS;
 			} else {
 				ending = ENDING_CONSONANT;
@@ -1073,9 +1073,9 @@ public class MongolAeiouKeyboard extends Fragment implements OnClickListener, On
 
 		// Determine gender
 		int gender;
-		if (converter.isMasculineWord(previousWord)) {
+		if (renderer.isMasculineWord(previousWord)) {
 			gender = MASCULINE;
-		} else if (converter.isFeminineWord(previousWord)) {
+		} else if (renderer.isFeminineWord(previousWord)) {
 			gender = FEMININE;
 		} else {
 			gender = NEUTRAL;
@@ -1248,7 +1248,7 @@ public class MongolAeiouKeyboard extends Fragment implements OnClickListener, On
 		List<String> followingArray = new ArrayList<String>();
 		for (String item : followingSplit) {
 			suggestionsUnicode.add(item); // separate unicode list
-			followingArray.add(converter.unicodeToGlyphs(item));
+			followingArray.add(renderer.unicodeToGlyphs(item));
 		}
 
 		// set the listview adapter and bind to listview
@@ -1281,7 +1281,7 @@ public class MongolAeiouKeyboard extends Fragment implements OnClickListener, On
 		List<String> mongolSuffixArray = new ArrayList<String>();
 		suggestionsUnicode = getSuffixList(suffixStart);
 		for (String item : suggestionsUnicode) {
-			mongolSuffixArray.add(converter.unicodeToGlyphs(item));
+			mongolSuffixArray.add(renderer.unicodeToGlyphs(item));
 		}
 
 		// set the listview adapter and bind to listview
@@ -1317,23 +1317,23 @@ public class MongolAeiouKeyboard extends Fragment implements OnClickListener, On
 		// According to position do lookup
 		// Update keys
 		if (position == MongolUnicodeRenderer.Location.ISOLATE) {
-			tvFvs1Top.setText(converter.getInitial("" + previousChar + FVS1));
-			tvFvs2Top.setText(converter.getInitial("" + previousChar + FVS2));
-			tvFvs3Top.setText(converter.getInitial("" + previousChar + FVS3));
-			tvFvs1Bottom.setText(converter.getIsolate("" + previousChar + FVS1));
-			tvFvs2Bottom.setText(converter.getIsolate("" + previousChar + FVS2));
-			tvFvs3Bottom.setText(converter.getIsolate("" + previousChar + FVS3));
+			tvFvs1Top.setText(renderer.getInitial("" + previousChar + FVS1));
+			tvFvs2Top.setText(renderer.getInitial("" + previousChar + FVS2));
+			tvFvs3Top.setText(renderer.getInitial("" + previousChar + FVS3));
+			tvFvs1Bottom.setText(renderer.getIsolate("" + previousChar + FVS1));
+			tvFvs2Bottom.setText(renderer.getIsolate("" + previousChar + FVS2));
+			tvFvs3Bottom.setText(renderer.getIsolate("" + previousChar + FVS3));
 		} else if (position == MongolUnicodeRenderer.Location.INITIAL) {
 			// TODO never gets here?
 		} else if (position == MongolUnicodeRenderer.Location.MEDIAL) {
 			// TODO never gets here?
 		} else if (position == MongolUnicodeRenderer.Location.FINAL) {
-			tvFvs1Top.setText(converter.getMedial("" + previousChar + FVS1));
-			tvFvs2Top.setText(converter.getMedial("" + previousChar + FVS2));
-			tvFvs3Top.setText(converter.getMedial("" + previousChar + FVS3));
-			tvFvs1Bottom.setText(converter.getFinal("" + previousChar + FVS1));
-			tvFvs2Bottom.setText(converter.getFinal("" + previousChar + FVS2));
-			tvFvs3Bottom.setText(converter.getFinal("" + previousChar + FVS3));
+			tvFvs1Top.setText(renderer.getMedial("" + previousChar + FVS1));
+			tvFvs2Top.setText(renderer.getMedial("" + previousChar + FVS2));
+			tvFvs3Top.setText(renderer.getMedial("" + previousChar + FVS3));
+			tvFvs1Bottom.setText(renderer.getFinal("" + previousChar + FVS1));
+			tvFvs2Bottom.setText(renderer.getFinal("" + previousChar + FVS2));
+			tvFvs3Bottom.setText(renderer.getFinal("" + previousChar + FVS3));
 		}
 
 	}
@@ -1943,12 +1943,12 @@ public class MongolAeiouKeyboard extends Fragment implements OnClickListener, On
 	protected static final char BACKSPACE = '\u232b';
 	protected static final char SPACE = ' ';
 	protected static final char NEW_LINE = '\n';
-	protected static final char ZWJ = MongolUnicodeRenderer.ZWJ;// ZeroWidthJoiner
-	protected static final char NNBS = MongolUnicodeRenderer.NNBS;// NarrowNonBreakingSpace
-	protected static final char FVS1 = MongolUnicodeRenderer.FVS1;// FreeVariationSelector
-	protected static final char FVS2 = MongolUnicodeRenderer.FVS2;
-	protected static final char FVS3 = MongolUnicodeRenderer.FVS3;
-	protected static final char MVS = MongolUnicodeRenderer.MVS;// VOWEL SEPARATOR
+	protected static final char ZWJ = MongolUnicodeRenderer.Uni.ZWJ;// ZeroWidthJoiner
+	protected static final char NNBS = MongolUnicodeRenderer.Uni.NNBS;// NarrowNonBreakingSpace
+	protected static final char FVS1 = MongolUnicodeRenderer.Uni.FVS1;// FreeVariationSelector
+	protected static final char FVS2 = MongolUnicodeRenderer.Uni.FVS2;
+	protected static final char FVS3 = MongolUnicodeRenderer.Uni.FVS3;
+	protected static final char MVS = MongolUnicodeRenderer.Uni.MVS;// VOWEL SEPARATOR
 	protected static final char MONGOLIAN_DOT = '\u00b7';
 	protected static final char MONGOLIAN_DASH = '\ufe31';
 	protected static final char PUNCTUATION_QUESTION_EXCLAMATION = '\u2048';

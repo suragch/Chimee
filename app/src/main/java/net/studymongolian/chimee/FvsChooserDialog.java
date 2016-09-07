@@ -78,21 +78,21 @@ public class FvsChooserDialog extends Activity implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.key_fvs1:
 
-                returnIntent.putExtra("result", MongolUnicodeRenderer.FVS1);
+                returnIntent.putExtra("result", MongolUnicodeRenderer.Uni.FVS1);
                 setResult(RESULT_OK, returnIntent);
                 finish();
 
                 break;
             case R.id.key_fvs2:
 
-                returnIntent.putExtra("result", MongolUnicodeRenderer.FVS2);
+                returnIntent.putExtra("result", MongolUnicodeRenderer.Uni.FVS2);
                 setResult(RESULT_OK, returnIntent);
                 finish();
 
                 break;
             case R.id.key_fvs3:
 
-                returnIntent.putExtra("result", MongolUnicodeRenderer.FVS3);
+                returnIntent.putExtra("result", MongolUnicodeRenderer.Uni.FVS3);
                 setResult(RESULT_OK, returnIntent);
                 finish();
 

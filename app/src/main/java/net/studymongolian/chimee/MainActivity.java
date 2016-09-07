@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 	//int renderedTextOldLength = 0;
 	int oldInputWindowHeight = -1;
 	StringBuilder unicodeText = new StringBuilder();
-	MongolUnicodeRenderer renderer = new MongolUnicodeRenderer();
+	MongolUnicodeRenderer renderer = MongolUnicodeRenderer.INSTANCE;
 	int cursorPosition = 0;
 	Keyboard currentKeyboard;
 	Keyboard userMongolKeyboard;
@@ -592,8 +592,8 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 
 		} else if (keyChar == MONGOLIAN_MVS) {
 
-			final char MONGOLIAN_A = MongolUnicodeRenderer.UNI_A;
-			final char MONGOLIAN_E = MongolUnicodeRenderer.UNI_E;
+			final char MONGOLIAN_A = MongolUnicodeRenderer.Uni.A;
+			final char MONGOLIAN_E = MongolUnicodeRenderer.Uni.E;
 
 			// add the correct A/E vowel depending on the word
 			String stringToAdd;
@@ -709,29 +709,30 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 				currentKeyboard = Keyboard.MONGOLIAN_QWERTY;
 			}
 
-		} else if (MongolUnicodeRenderer.isVowel(keyChar)) {
-
-			// This rule are for convenience because unicode rules are unnatural
-			// Only apply them for non initial Y
-			if (MongolUnicodeRenderer.isMongolian(getSecondCharBeforeCursor())) { // This checks that is medial
-
-				if (getCharBeforeCursor() == MongolUnicodeRenderer.UNI_YA) {
-
-					// Automatically use the hooked Y when writing YI
-					if (keyChar == MongolUnicodeRenderer.UNI_I) {
-						unicodeText.insert(cursorPosition, MongolUnicodeRenderer.FVS1);
-						cursorPosition++;
-					}
-
-				/*} else if (getCharBeforeCursor() == MongolUnicodeRenderer.UNI_WA) {
-
-					// Automatically use the hooked W when followed with a vowel
-					unicodeText.insert(cursorPosition, MongolUnicodeRenderer.FVS1);
-					cursorPosition++;*/
-				}
-			}
-			unicodeText.insert(cursorPosition, keyChar);
-			cursorPosition++;
+			// disabling this convenience rule because it prevents writing namayi and chamayi
+//		} else if (MongolUnicodeRenderer.isVowel(keyChar)) {
+//
+//			// This rule are for convenience because unicode rules are unnatural
+//			// Only apply them for non initial Y
+//			if (MongolUnicodeRenderer.isMongolian(getSecondCharBeforeCursor())) { // This checks that is medial
+//
+//				if (getCharBeforeCursor() == MongolUnicodeRenderer.Uni.YA) {
+//
+//					// Automatically use the hooked Y when writing YI
+//					if (keyChar == MongolUnicodeRenderer.Uni.I) {
+//						unicodeText.insert(cursorPosition, MongolUnicodeRenderer.Uni.FVS1);
+//						cursorPosition++;
+//					}
+//
+//				/*} else if (getCharBeforeCursor() == MongolUnicodeRenderer.Uni.WA) {
+//
+//					// Automatically use the hooked W when followed with a vowel
+//					unicodeText.insert(cursorPosition, MongolUnicodeRenderer.FVS1);
+//					cursorPosition++;*/
+//				}
+//			}
+//			unicodeText.insert(cursorPosition, keyChar);
+//			cursorPosition++;
 
 		} else {
 
@@ -1480,7 +1481,7 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 			if (resultCode == RESULT_OK) {
 
 				if (data.hasExtra("result")) {
-					char aeValue = data.getCharExtra("result", MongolUnicodeRenderer.UNI_E);
+					char aeValue = data.getCharExtra("result", MongolUnicodeRenderer.Uni.E);
 					unicodeText.insert(cursorPosition, String.valueOf(aeValue));
 					cursorPosition++;
 					updateDisplay();
