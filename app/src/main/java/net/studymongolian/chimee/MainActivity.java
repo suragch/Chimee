@@ -34,6 +34,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Size;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -1322,42 +1323,54 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 
 	public void overflowActionBarClick() {
 
+		// *** set up menu ***
+
 		overflowMenu = new Dialog(MainActivity.this);
-		// Making sure there's no title.
 		overflowMenu.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		// Making dialog content transparent.
-		overflowMenu.getWindow().setBackgroundDrawable(
-				new ColorDrawable(Color.TRANSPARENT));
-		// Removing window dim normally visible when dialog are shown.
-		overflowMenu.getWindow().clearFlags(
-				WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-		// Setting position of content, relative to window.
+		overflowMenu.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+		overflowMenu.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
 		WindowManager.LayoutParams params = overflowMenu.getWindow().getAttributes();
 		params.gravity = Gravity.TOP | Gravity.RIGHT;
-		//params.x = 16;
-		//params.y = 16;
-		// If user taps anywhere on the screen, dialog will be cancelled.
 		overflowMenu.setCancelable(true);
-		// Setting the content using prepared XML layout file.
 		overflowMenu.setContentView(R.layout.dialog_main_overflow_menu);
 
-		// render strings
-		//MongolTextView tvShare = (MongolTextView) overflowMenu.findViewById(R.id.tvMainMenuItemShare);
-		//tvShare.setText(renderer.unicodeToGlyphs(tvShare.getText().toString()));
+		// *** Menu Items ***
 
-		// set onClick listeners for the menu items
+		// Share
+		MongolTextView tvShare = (MongolTextView) overflowMenu.findViewById(R.id.tvMainMenuItemShare);
+		tvShare.setTextWithRenderedUnicode(tvShare.getText());
+		// share
 		overflowMenu.findViewById(R.id.mainMenuItemShareFrame).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// TODO share
+				shareToSystemApps();
 			}
 		});
+
+		// Open / Save
+		MongolTextView tvOpenSave = (MongolTextView) overflowMenu.findViewById(R.id.tvMainMenuItemOpenSave);
+		if (TextUtils.isEmpty(unicodeText)) {
+			String openString = getResources().getString(R.string.menu_item_open);
+			tvOpenSave.setTextWithRenderedUnicode(openString);
+		} else {
+			String saveString = getResources().getString(R.string.menu_item_save);
+			tvOpenSave.setTextWithRenderedUnicode(saveString);
+		}
 		overflowMenu.findViewById(R.id.mainMenuItemOpenSaveFrame).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO open/save
+				if (TextUtils.isEmpty(unicodeText)) {
+					menuOpenClick(v);
+				} else {
+					menuSaveClick(v);
+				}
 			}
 		});
+
+		// Settings
+		MongolTextView tvSettings = (MongolTextView) overflowMenu.findViewById(R.id.tvMainMenuItemSettings);
+		tvSettings.setTextWithRenderedUnicode(tvSettings.getText());
 		overflowMenu.findViewById(R.id.mainMenuItemSettingsFrame).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -1366,9 +1379,9 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 		});
 
 
+		// *** show menu ***
+
 		overflowMenu.show();
-
-
 	}
 
 	public void menuHistoryClick(View v) {
@@ -1381,6 +1394,19 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 		hideMenu();
 		Intent customIntent = new Intent(this, SettingsActivity.class);
 		startActivityForResult(customIntent, SETTINGS_REQUEST);
+	}
+
+	public void menuOpenClick(View v) {
+		hideMenu();
+		Intent customIntent = new Intent(this, OpenActivity.class);
+		startActivity(customIntent);
+	}
+
+	public void menuSaveClick(View v) {
+		hideMenu();
+		Intent customIntent = new Intent(this, SaveActivity.class);
+		customIntent.putExtra("message", unicodeText.toString());
+		startActivity(customIntent);
 	}
 
 	public void menuAboutClick(View v) {

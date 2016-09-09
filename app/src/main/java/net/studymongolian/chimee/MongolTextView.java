@@ -18,6 +18,7 @@ public class MongolTextView extends TextView {
 	private Paint cursorPaint = new Paint();
 	private boolean mCursorIsVisible;
 	private CursorTouchLocationListener listener;
+	private MongolUnicodeRenderer renderer = MongolUnicodeRenderer.INSTANCE;
 
 	// Naming is based on pre-rotated/mirrored values
 	private float mCursorBaseY;
@@ -109,6 +110,19 @@ public class MongolTextView extends TextView {
 
 		canvas.restore();
 	}
+
+	public void setTextWithRenderedUnicode(CharSequence unicodeText) {
+		String renderedText = renderer.unicodeToGlyphs(unicodeText.toString());
+		this.setText(renderedText);
+	}
+
+//	@Override
+//	public void setText(CharSequence text, BufferType type) {
+//
+//
+//		String renderedText = renderer.unicodeToGlyphs(text.toString());
+//		super.setText(text + "a", type);
+//	}
 
 	/*public int whatWouldBeTheWidth(int height){
 

@@ -74,6 +74,33 @@
                 android:value="net.studymongolian.chimee.MainActivity" />
         </activity>
         <activity
+            android:name=".PhotoOverlayActivity"
+            android:label="@string/title_activity_photo_overlay"
+            android:parentActivityName="net.studymongolian.chimee.MainActivity">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="net.studymongolian.chimee.MainActivity" />
+        </activity>
+        <activity
+            android:name=".OpenActivity"
+            android:label="@string/app_name"
+            android:parentActivityName="net.studymongolian.chimee.MainActivity">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="net.studymongolian.chimee.MainActivity" />
+        </activity>
+        <activity
+            android:name=".SaveActivity"
+            android:label="@string/app_name"
+            android:parentActivityName="net.studymongolian.chimee.MainActivity">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="net.studymongolian.chimee.MainActivity" />
+        </activity>
+        <activity
             android:name=".MongolDialogOneButton"
             android:theme="@android:style/Theme.Dialog"/>
         <activity
@@ -91,15 +118,7 @@
         <activity
             android:name=".SettingsKeyboardChooserDialog"
             android:theme="@android:style/Theme.Dialog"/>
-        <activity
-            android:name=".PhotoOverlayActivity"
-            android:label="@string/title_activity_photo_overlay"
-            android:parentActivityName="net.studymongolian.chimee.MainActivity">
-            <!-- Parent activity meta-data to support 4.0 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="net.studymongolian.chimee.MainActivity" />
-        </activity>
+
 
         <provider
             android:name=".ChimeeUserDictionaryProvider"
