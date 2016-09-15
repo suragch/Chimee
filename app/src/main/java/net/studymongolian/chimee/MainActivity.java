@@ -31,9 +31,11 @@ import android.os.Environment;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Size;
 import android.util.TypedValue;
@@ -46,6 +48,7 @@ import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
@@ -54,8 +57,10 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboard.Communicator,
-		MongolQwertyKeyboard.Communicator, EnglishKeyboard.OnKeyTouchListener {
+public class MainActivity extends AppCompatActivity  implements KeyboardController.OnKeyboardControllerListener {
+
+	//public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboard.Communicator,
+			//MongolQwertyKeyboard.Communicator, EnglishKeyboard.OnKeyTouchListener {
 
 	protected static final char SPACE = ' ';
 	protected static final char NEW_LINE = '\n';
@@ -87,6 +92,44 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 	public static final String ENGLISH_FRAGMENT_TAG = "english";
 	public static final String CONTEXT_MENU_TAG = "context_menu";
 
+
+
+
+
+
+	// Keyboard Controller Listener methods
+
+	@Override
+	public void keyWasTapped(char character) {
+
+		inputWindow.getText().insert(inputWindow.getSelectionStart(), String.valueOf(character));
+	}
+
+	@Override
+	public void keyBackspace() {
+
+	}
+
+	@Override
+	public String oneMongolWordBeforeCursor() {
+		return null;
+	}
+
+	@Override
+	public TwoStrings twoMongolWordsBeforeCursor() {
+		return null;
+	}
+
+	@Override
+	public void replaceCurrentWordWith(String replacementWord) {
+
+	}
+
+
+
+
+
+
 	// public static final String NAVIGATION_FRAGMENT_TAG = "navigation";
 
 	private enum Keyboard {
@@ -96,12 +139,12 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 	;
 
 	// EditText inputWindow;
-	MongolTextView inputWindow;
+  	EditText inputWindow;
 	// TODO testing:
 	// TextView testingView;
 
-	RelativeLayout rlMessage;
-	HorizontalScrollView hsvScrollView;
+	//MongolViewGroup rlMessage;
+	//HorizontalScrollView hsvScrollView;
 	//RelativeLayout rlLimit;
 	RelativeLayout rlTop;
 	Dialog overflowMenu;
@@ -140,82 +183,115 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
 
-		// Get the settings
-		initSettings();
 
-		// get input window and set listeners
+		// prevent system keyboard from appearing
+		inputWindow = (EditText) findViewById(R.id.etInputWindow);
+		if (android.os.Build.VERSION.SDK_INT >= 11) {
+			inputWindow.setRawInputType(InputType.TYPE_CLASS_TEXT);
+			inputWindow.setTextIsSelectable(true);
+		} else {
+			inputWindow.setRawInputType(InputType.TYPE_NULL);
+			inputWindow.setFocusable(true);
+		}
+
+		/////////////////// Get the settings //////////////////////////
+		//initSettings();
+		settings = getSharedPreferences(SettingsActivity.PREFS_NAME, MODE_PRIVATE);
+		// TODO get the right keyboard
+//		String userKeyboard = settings.getString(SettingsActivity.MONGOLIAN_KEYBOARD_KEY,
+//				SettingsActivity.MONGOLIAN_KEYBOARD_DEFAULT);
+//		if (userKeyboard.equals(SettingsActivity.MONGOLIAN_AEIOU_KEYBOARD)) {
+//			userMongolKeyboard = Keyboard.MONGOLIAN_AEIOU;
+//		} else {
+//			userMongolKeyboard = Keyboard.MONGOLIAN_QWERTY;
+//		}
+//		currentKeyboard = userMongolKeyboard;
+		// get a saved draft
+		if (unicodeText.length() == 0) {
+			unicodeText.append(settings.getString(SettingsActivity.DRAFT_KEY, SettingsActivity.DRAFT_DEFAULT));
+			cursorPosition = settings.getInt(SettingsActivity.CURSOR_POSITION_KEY, SettingsActivity.CURSOR_POSITION_DEFAULT);
+		}
+
+
+		// TODO get input window and set listeners
 		initInputWindow();
 
 
-		// If WeChat is installed make the button visible
-		String weChatMessageTool = "com.tencent.mm.ui.tools.ShareImgUI";
-		Intent shareIntent = new Intent();
-		shareIntent.setType("image/png");
-		List<ResolveInfo> resInfo = getPackageManager().queryIntentActivities(shareIntent, 0);
-		if (!resInfo.isEmpty()) {
-			for (ResolveInfo info : resInfo) {
-				if (info.activityInfo.name.equals(weChatMessageTool)) {
-
+//		// If WeChat is installed make the button visible
+//		String weChatMessageTool = "com.tencent.mm.ui.tools.ShareImgUI";
+//		Intent shareIntent = new Intent();
+//		shareIntent.setType("image/png");
+//		List<ResolveInfo> resInfo = getPackageManager().queryIntentActivities(shareIntent, 0);
+//		if (!resInfo.isEmpty()) {
+//			for (ResolveInfo info : resInfo) {
+//				if (info.activityInfo.name.equals(weChatMessageTool)) {
+//
 //					FrameLayout weChatButton = (FrameLayout) findViewById(R.id.shareToWeChatFrame);
 //					weChatButton.setVisibility(View.VISIBLE);
-					break;
-				}
-			}
-		}
+//					break;
+//				}
+//			}
+//		}
 
-		// Set up fragments
-		fragmentManager = getSupportFragmentManager();
-		if (savedInstanceState == null) {
+		///////////// Set up fragments ///////////////////
 
-			if (userMongolKeyboard == Keyboard.MONGOLIAN_AEIOU) {
-				mongolAeiouKeyboard = new MongolAeiouKeyboard();
-				fragmentManager.beginTransaction()
-						.add(R.id.keyboardContainer, mongolAeiouKeyboard, MONGOL_AEIOU_TAG)
-						.commit();
-				mongolAeiouKeyboard.setRetainInstance(true);
-			} else {
-				mongolQwertyKeyboard = new MongolQwertyKeyboard();
-				fragmentManager.beginTransaction()
-						.add(R.id.keyboardContainer, mongolQwertyKeyboard, MONGOL_QWERTY_TAG)
-						.commit();
-				mongolQwertyKeyboard.setRetainInstance(true);
-			}
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		ft.replace(R.id.keyboardContainer, new KeyboardController());
+		ft.commit();
 
-			//contextMenu = new InputWindowContextMenu();
-			//fragmentManager.beginTransaction()
-			//		.add(R.id.flContextMenuContainer, contextMenu, CONTEXT_MENU_TAG).commit();
-			//contextMenu.setRetainInstance(true);
-		} else {
 
-			if (userMongolKeyboard == Keyboard.MONGOLIAN_AEIOU) {
-				mongolAeiouKeyboard = (MongolAeiouKeyboard) fragmentManager
-						.findFragmentByTag(MONGOL_AEIOU_TAG);
-			} else if (userMongolKeyboard == Keyboard.MONGOLIAN_QWERTY) {
-				mongolQwertyKeyboard = (MongolQwertyKeyboard) fragmentManager
-						.findFragmentByTag(MONGOL_QWERTY_TAG);
-			} else { // English keyboard
-				englishKeyboard = (EnglishKeyboard) fragmentManager
-						.findFragmentByTag(ENGLISH_FRAGMENT_TAG);
-			}
+//		fragmentManager = getSupportFragmentManager();
+//		if (savedInstanceState == null) {
+//
+//			if (userMongolKeyboard == Keyboard.MONGOLIAN_AEIOU) {
+//				mongolAeiouKeyboard = new MongolAeiouKeyboard();
+//				fragmentManager.beginTransaction()
+//						.add(R.id.keyboardContainer, mongolAeiouKeyboard, MONGOL_AEIOU_TAG)
+//						.commit();
+//				mongolAeiouKeyboard.setRetainInstance(true);
+//			} else {
+//				mongolQwertyKeyboard = new MongolQwertyKeyboard();
+//				fragmentManager.beginTransaction()
+//						.add(R.id.keyboardContainer, mongolQwertyKeyboard, MONGOL_QWERTY_TAG)
+//						.commit();
+//				mongolQwertyKeyboard.setRetainInstance(true);
+//			}
+//
+//			//contextMenu = new InputWindowContextMenu();
+//			//fragmentManager.beginTransaction()
+//			//		.add(R.id.flContextMenuContainer, contextMenu, CONTEXT_MENU_TAG).commit();
+//			//contextMenu.setRetainInstance(true);
+//		} else {
+//
+//			if (userMongolKeyboard == Keyboard.MONGOLIAN_AEIOU) {
+//				mongolAeiouKeyboard = (MongolAeiouKeyboard) fragmentManager
+//						.findFragmentByTag(MONGOL_AEIOU_TAG);
+//			} else if (userMongolKeyboard == Keyboard.MONGOLIAN_QWERTY) {
+//				mongolQwertyKeyboard = (MongolQwertyKeyboard) fragmentManager
+//						.findFragmentByTag(MONGOL_QWERTY_TAG);
+//			} else { // English keyboard
+//				englishKeyboard = (EnglishKeyboard) fragmentManager
+//						.findFragmentByTag(ENGLISH_FRAGMENT_TAG);
+//			}
+//
+//			//contextMenu = (InputWindowContextMenu) fragmentManager
+//			//		.findFragmentByTag(CONTEXT_MENU_TAG);
+//
+//		}
 
-			//contextMenu = (InputWindowContextMenu) fragmentManager
-			//		.findFragmentByTag(CONTEXT_MENU_TAG);
-
-		}
-
-		rlMessage = (RelativeLayout) findViewById(R.id.rlMessageOutline);
-		rlMessage.setOnLongClickListener(longClickHandler);
-		hsvScrollView = (HorizontalScrollView) findViewById(R.id.rlMessageLimit);
+		//rlMessage = (MongolViewGroup) findViewById(R.id.mvgMessageOutline);
+		//rlMessage.setOnLongClickListener(longClickHandler);
+		//hsvScrollView = (HorizontalScrollView) findViewById(R.id.rlMessageLimit);
 		//rlLimit = (RelativeLayout) findViewById(R.id.rlMessageLimit);
-		rlTop = (RelativeLayout) findViewById(R.id.rlTop);
+		//rlTop = (RelativeLayout) findViewById(R.id.rlTop);
 
 		// set colors
-		rlMessage.setBackgroundColor(settings.getInt(SettingsActivity.BGCOLOR_KEY,
-				SettingsActivity.BGCOLOR_DEFAULT));
-		int textColor = settings.getInt(SettingsActivity.TEXTCOLOR_KEY,
-				SettingsActivity.TEXTCOLOR_DEFAULT);
-		inputWindow.setTextColor(textColor);
-		inputWindow.setCursorColor(textColor);
+		//rlMessage.setBackgroundColor(settings.getInt(SettingsActivity.BGCOLOR_KEY,
+		//		SettingsActivity.BGCOLOR_DEFAULT));
+		//int textColor = settings.getInt(SettingsActivity.TEXTCOLOR_KEY,
+		//		SettingsActivity.TEXTCOLOR_DEFAULT);
+		//inputWindow.setTextColor(textColor);
+		//inputWindow.setCursorColor(textColor);
 
 		// set font
 		String font = settings.getString(SettingsActivity.FONT_KEY, SettingsActivity.FONT_DEFAULT);
@@ -247,60 +323,57 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 		}*/
 
 		// Make the cursor show and resize input window
-		rlMessage.post(new Runnable() {
-			public void run() {
-				updateDisplay();
-			}
-		});
+		//rlMessage.post(new Runnable() {
+		//	public void run() {
+		//		updateDisplay();
+		//	}
+		//});
 
 	}
 
 	private void initInputWindow() {
 
-		inputWindow = (MongolTextView) findViewById(R.id.tvInputWindow);
-		inputWindow.setOnTouchListener(inputWindow.new InputWindowTouchListener());
-		inputWindow.setCursorTouchLocationListener(new CursorTouchLocationListener() {
-			@Override
-			public void onCursorTouchLocationChanged(int glyphIndex) {
+		//inputWindow = (EditText) findViewById(R.id.etInputWindow);
 
-				// convert glyphIndex to cursorPosition
-				// TODO rather than calculating it here could do it when ready to input text
-				// but that would leave room for errors
-				cursorPosition = renderer.getUnicodeIndex(unicodeText.toString(),
-						glyphIndex);
+		// TODO: add a touch listener and update the unicode position based on the touch location
 
-			}
-		});
-		/*inputWindow.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-			@Override
-			public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-
-				showToast(getApplicationContext(), "This is some text", Toast.LENGTH_LONG);
-			}
-		});*/
-	}
-
-	private void initSettings() {
-
-		settings = getSharedPreferences(SettingsActivity.PREFS_NAME, MODE_PRIVATE);
-
-		// get the right keyboard
-		String userKeyboard = settings.getString(SettingsActivity.MONGOLIAN_KEYBOARD_KEY,
-				SettingsActivity.MONGOLIAN_KEYBOARD_DEFAULT);
-		if (userKeyboard.equals(SettingsActivity.MONGOLIAN_AEIOU_KEYBOARD)) {
-			userMongolKeyboard = Keyboard.MONGOLIAN_AEIOU;
-		} else {
-			userMongolKeyboard = Keyboard.MONGOLIAN_QWERTY;
-		}
-		currentKeyboard = userMongolKeyboard;
-
-		// get a saved draft
-		if (unicodeText.length() == 0) {
-			unicodeText.append(settings.getString(SettingsActivity.DRAFT_KEY, SettingsActivity.DRAFT_DEFAULT));
-			cursorPosition = settings.getInt(SettingsActivity.CURSOR_POSITION_KEY, SettingsActivity.CURSOR_POSITION_DEFAULT);
-		}
+//		inputWindow.setOnTouchListener(inputWindow.new InputWindowTouchListener());
+//		inputWindow.setCursorTouchLocationListener(new CursorTouchLocationListener() {
+//			@Override
+//			public void onCursorTouchLocationChanged(int glyphIndex) {
+//
+//				// convert glyphIndex to cursorPosition
+//				// TODO rather than calculating it here could do it when ready to input text
+//				// but that would leave room for errors
+//				cursorPosition = renderer.getUnicodeIndex(unicodeText.toString(),
+//						glyphIndex);
+//
+//			}
+//		});
 
 	}
+
+//	private void initSettings() {
+//
+//		settings = getSharedPreferences(SettingsActivity.PREFS_NAME, MODE_PRIVATE);
+//
+//		// get the right keyboard
+//		String userKeyboard = settings.getString(SettingsActivity.MONGOLIAN_KEYBOARD_KEY,
+//				SettingsActivity.MONGOLIAN_KEYBOARD_DEFAULT);
+//		if (userKeyboard.equals(SettingsActivity.MONGOLIAN_AEIOU_KEYBOARD)) {
+//			userMongolKeyboard = Keyboard.MONGOLIAN_AEIOU;
+//		} else {
+//			userMongolKeyboard = Keyboard.MONGOLIAN_QWERTY;
+//		}
+//		currentKeyboard = userMongolKeyboard;
+//
+//		// get a saved draft
+//		if (unicodeText.length() == 0) {
+//			unicodeText.append(settings.getString(SettingsActivity.DRAFT_KEY, SettingsActivity.DRAFT_DEFAULT));
+//			cursorPosition = settings.getInt(SettingsActivity.CURSOR_POSITION_KEY, SettingsActivity.CURSOR_POSITION_DEFAULT);
+//		}
+//
+//	}
 
 	@Override
 	public void onPause() {
@@ -388,7 +461,7 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 				}
 			}
 		}
-		
+
         return true;
     }
 
@@ -417,12 +490,12 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 		@Override
 		public boolean onLongClick(View view) {
 			// Log.i("", "Long press!");
-			if (view.getId() == R.id.rlMessageOutline) {
-				//flContextMenuContainer.setVisibility(View.VISIBLE);
-				//menuHiderForOutsideClicks.setVisibility(View.VISIBLE);
-				// flContextMenuContainer.requestFocus();
-				showContextMenu();
-			}
+//			if (view.getId() == R.id.rlMessageOutline) {
+//				//flContextMenuContainer.setVisibility(View.VISIBLE);
+//				//menuHiderForOutsideClicks.setVisibility(View.VISIBLE);
+//				// flContextMenuContainer.requestFocus();
+//				showContextMenu();
+//			}
 
 			return false;
 		}
@@ -567,7 +640,7 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 	}
 
 
-	@Override
+	// TODO @Override
 	public void onKeyTouched(char keyChar) {
 
 		// error checking
@@ -745,7 +818,7 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 
 	}
 
-	@Override
+	// TODO @Override
 	public String getPreviousWord() {
 
 		// If there is a space before the current word
@@ -806,7 +879,7 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 		return word.toString();
 	}
 
-	@Override
+	// TODO @Override
 	public String getWordBeforeCursor() {
 
 		StringBuilder word = new StringBuilder();
@@ -853,7 +926,7 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 		return word.toString();
 	}
 
-	@Override
+	// TODO @Override
 	public char getCharBeforeCursor() {
 
 		if (unicodeText.length() > 0 && cursorPosition > 0) {
@@ -874,7 +947,7 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 
 	}
 
-	@Override
+	// TODO @Override
 	public MongolUnicodeRenderer.Location getLocationOfCharInMongolWord(int cursorOffset) {
 
 		int index = cursorPosition + cursorOffset;
@@ -903,7 +976,7 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 
 	}
 
-	@Override
+	// TODO @Override
 	public void replaceFromWordStartToCursor(String replacementString) {
 
 		// Delete from cursor to beginning of word
@@ -944,125 +1017,126 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 		// Log.i("Chimee", Integer.toString(inputWindow.getLineCount()));
 
 		// Set text
-		StringBuilder tempText = new StringBuilder();
-		StringBuilder renderedText = new StringBuilder();
-		tempText.append(unicodeText.toString());
-		tempText.insert(cursorPosition, CURSOR_HOLDER);
-		renderedText.append(renderer.unicodeToGlyphs(tempText.toString()));
-		final int glyphCursorPosition = renderedText.indexOf(String.valueOf(CURSOR_HOLDER));
-		if (glyphCursorPosition >= 0 && glyphCursorPosition < renderedText.length()) {
-			renderedText = renderedText.deleteCharAt(glyphCursorPosition);
-		}
-		inputWindow.setText(renderedText);
-		inputWindow.post(new Runnable() {
-
-			@Override
-			public void run() {
-				inputWindow.setCursorLocation(glyphCursorPosition);
-			}
-
-		});
+//		StringBuilder tempText = new StringBuilder();
+//		StringBuilder renderedText = new StringBuilder();
+//		tempText.append(unicodeText.toString());
+//		tempText.insert(cursorPosition, CURSOR_HOLDER);
+//		renderedText.append(renderer.unicodeToGlyphs(tempText.toString()));
+//		final int glyphCursorPosition = renderedText.indexOf(String.valueOf(CURSOR_HOLDER));
+//		if (glyphCursorPosition >= 0 && glyphCursorPosition < renderedText.length()) {
+//			renderedText = renderedText.deleteCharAt(glyphCursorPosition);
+//		}
+//		inputWindow.setText(renderedText);
+//		inputWindow.post(new Runnable() {
+//
+//			@Override
+//			public void run() {
+//				//inputWindow.setCursorLocation(glyphCursorPosition);
+//				// TODO do I need to update the cursor position here?
+//			}
+//
+//		});
 
 
 		//int newHeight = getBestHeightForInputWindow(inputWindow);
 
 		// Set the height of the input window
-		LayoutParams params = (LayoutParams) hsvScrollView.getLayoutParams();
-
-		Rect size = getBestSizeForInputWindow();
-		params.height = size.height();
-		if (size.width() < rlTop.getWidth()) {
-			params.width = size.width();
-		} else {
-			params.width = rlTop.getWidth();
-		}
-		hsvScrollView.setLayoutParams(params);
-
-
-		if (cursorPosition == unicodeText.length()) {
-			hsvScrollView.postDelayed(new Runnable() {
-				public void run() {
-					hsvScrollView.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
-				}
-			}, 100L);
-		}
+//		LayoutParams params = (LayoutParams) hsvScrollView.getLayoutParams();
+//
+//		Rect size = getBestSizeForInputWindow();
+//		params.height = size.height();
+//		if (size.width() < rlTop.getWidth()) {
+//			params.width = size.width();
+//		} else {
+//			params.width = rlTop.getWidth();
+//		}
+//		hsvScrollView.setLayoutParams(params);
+//
+//
+//		if (cursorPosition == unicodeText.length()) {
+//			hsvScrollView.postDelayed(new Runnable() {
+//				public void run() {
+//					hsvScrollView.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
+//				}
+//			}, 100L);
+//		}
 		//renderedTextOldLength = renderedText.length();
 
 
 	}
 
-	private Rect getBestSizeForInputWindow() {
-
-		int currentHeight = hsvScrollView.getHeight();
-		if (currentHeight < inputWindowMinHeightPx) {
-			currentHeight = inputWindowMinHeightPx;
-		}
-
-		inputWindow.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-				View.MeasureSpec.makeMeasureSpec(currentHeight, View.MeasureSpec.EXACTLY));
-
-		int h = inputWindow.getMeasuredHeight();
-		int w = inputWindow.getMeasuredWidth();
-		int maxH = rlTop.getHeight();
-		final int minH = inputWindowMinHeightPx;
-
-		if (w < minH / 2) {
-			w = minH / 2;
-		}
-		if (maxH < minH) {
-			maxH = minH;
-		}
-
-
-		if (h < w && h < maxH) { // need to increase h
-
-			while (h < maxH) {
-				h += inputWindowSizeIncrementPx;
-				if (h >= maxH) {
-					h = maxH;
-					inputWindow.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-							View.MeasureSpec.makeMeasureSpec(h, View.MeasureSpec.EXACTLY));
-					w = inputWindow.getMeasuredWidth();
-
-					break;
-				}
-				//inputWindow.setWidth(h);
-				inputWindow.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-						View.MeasureSpec.makeMeasureSpec(h, View.MeasureSpec.EXACTLY));
-				w = inputWindow.getMeasuredWidth();
-				if (h >= w) {
-					break;
-				}
-			}
-
-		} else if (h > 2 * w && h > minH) { // need to decrease h
-
-			while (h > minH) {
-				h -= inputWindowSizeIncrementPx;
-
-				if (h <= minH) {
-					h = minH;
-					inputWindow.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-							View.MeasureSpec.makeMeasureSpec(h, View.MeasureSpec.EXACTLY));
-					w = inputWindow.getMeasuredWidth();
-					break;
-				}
-
-				//inputWindow.setWidth(h);
-				inputWindow.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-						View.MeasureSpec.makeMeasureSpec(h, View.MeasureSpec.EXACTLY));
-				w = inputWindow.getMeasuredWidth();
-				if (h <= 2 * w) {
-					break;
-				}
-			}
-		}
-
-		if (w < minH / 2) {
-			w = minH / 2;
-		}
-		return new Rect(0, 0, w, h);
-	}
+//	private Rect getBestSizeForInputWindow() {
+//
+//		int currentHeight = hsvScrollView.getHeight();
+//		if (currentHeight < inputWindowMinHeightPx) {
+//			currentHeight = inputWindowMinHeightPx;
+//		}
+//
+//		inputWindow.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+//				View.MeasureSpec.makeMeasureSpec(currentHeight, View.MeasureSpec.EXACTLY));
+//
+//		int h = inputWindow.getMeasuredHeight();
+//		int w = inputWindow.getMeasuredWidth();
+//		int maxH = rlTop.getHeight();
+//		final int minH = inputWindowMinHeightPx;
+//
+//		if (w < minH / 2) {
+//			w = minH / 2;
+//		}
+//		if (maxH < minH) {
+//			maxH = minH;
+//		}
+//
+//
+//		if (h < w && h < maxH) { // need to increase h
+//
+//			while (h < maxH) {
+//				h += inputWindowSizeIncrementPx;
+//				if (h >= maxH) {
+//					h = maxH;
+//					inputWindow.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+//							View.MeasureSpec.makeMeasureSpec(h, View.MeasureSpec.EXACTLY));
+//					w = inputWindow.getMeasuredWidth();
+//
+//					break;
+//				}
+//				//inputWindow.setWidth(h);
+//				inputWindow.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+//						View.MeasureSpec.makeMeasureSpec(h, View.MeasureSpec.EXACTLY));
+//				w = inputWindow.getMeasuredWidth();
+//				if (h >= w) {
+//					break;
+//				}
+//			}
+//
+//		} else if (h > 2 * w && h > minH) { // need to decrease h
+//
+//			while (h > minH) {
+//				h -= inputWindowSizeIncrementPx;
+//
+//				if (h <= minH) {
+//					h = minH;
+//					inputWindow.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+//							View.MeasureSpec.makeMeasureSpec(h, View.MeasureSpec.EXACTLY));
+//					w = inputWindow.getMeasuredWidth();
+//					break;
+//				}
+//
+//				//inputWindow.setWidth(h);
+//				inputWindow.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+//						View.MeasureSpec.makeMeasureSpec(h, View.MeasureSpec.EXACTLY));
+//				w = inputWindow.getMeasuredWidth();
+//				if (h <= 2 * w) {
+//					break;
+//				}
+//			}
+//		}
+//
+//		if (w < minH / 2) {
+//			w = minH / 2;
+//		}
+//		return new Rect(0, 0, w, h);
+//	}
 
 	private void showToast(Context context, String text, int toastLength) {
 
@@ -1090,61 +1164,61 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 
 	public void shareToWeChat() {
 
-		// catch empty string
-		if (unicodeText.toString().trim().length() == 0) {
-			showToast(getApplicationContext(),
-					getResources().getString(R.string.toast_message_empty), Toast.LENGTH_LONG);
-			return;
-		}
-
-		// Check to see if SD card is available
-		if (!externalStarageAvailable()) {
-			showToast(getApplicationContext(),
-					getResources().getString(R.string.toast_no_sdcard_cant_send), Toast.LENGTH_LONG);
-			return;
-		}
-
-		// Save to history if different than last message (this session)
-		if (!lastSentMessage.equals(unicodeText.toString())) {
-			new SaveMessageToHistory().execute(unicodeText.toString());
-			lastSentMessage = unicodeText.toString();
-		}
-
-		// Remove cursor from display
-		inputWindow.showCursor(false);
-
-		// Put this in a runnable to allow UI to update itself first
-		inputWindow.post(new Runnable() {
-			@Override
-			public void run() {
-
-				createBitmap();
-				//messageOutline.setDrawingCacheEnabled(false);
-				//rlLimit.setDrawingCacheEnabled(false);
-
-				File imagePath = new File(getApplicationContext().getExternalCacheDir(), "/");
-				File newFile = new File(imagePath, "image.png");
-				Uri contentUri = Uri.fromFile(newFile);
-
-				Intent shareIntent = new Intent();
-				shareIntent.setAction(Intent.ACTION_SEND);
-				shareIntent.setDataAndType(contentUri, "image/png");
-				shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
-				shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-
-				// String weChatMessageTool =
-				// "com.tencent.mm.ui.tools.shareimgui";
-				ComponentName comp = new ComponentName("com.tencent.mm",
-						"com.tencent.mm.ui.tools.ShareImgUI");
-				shareIntent.setComponent(comp);
-				startActivityForResult(shareIntent, WECHAT_REQUEST);
-
-				// Show cursor again
-				inputWindow.showCursor(true);
-
-			}
-		});
+//		// catch empty string
+//		if (unicodeText.toString().trim().length() == 0) {
+//			showToast(getApplicationContext(),
+//					getResources().getString(R.string.toast_message_empty), Toast.LENGTH_LONG);
+//			return;
+//		}
+//
+//		// Check to see if SD card is available
+//		if (!externalStarageAvailable()) {
+//			showToast(getApplicationContext(),
+//					getResources().getString(R.string.toast_no_sdcard_cant_send), Toast.LENGTH_LONG);
+//			return;
+//		}
+//
+//		// Save to history if different than last message (this session)
+//		if (!lastSentMessage.equals(unicodeText.toString())) {
+//			new SaveMessageToHistory().execute(unicodeText.toString());
+//			lastSentMessage = unicodeText.toString();
+//		}
+//
+//		// TODO: Remove cursor from display
+//		//inputWindow.showCursor(false);
+//
+//		// Put this in a runnable to allow UI to update itself first
+//		inputWindow.post(new Runnable() {
+//			@Override
+//			public void run() {
+//
+//				createBitmap();
+//				//messageOutline.setDrawingCacheEnabled(false);
+//				//rlLimit.setDrawingCacheEnabled(false);
+//
+//				File imagePath = new File(getApplicationContext().getExternalCacheDir(), "/");
+//				File newFile = new File(imagePath, "image.png");
+//				Uri contentUri = Uri.fromFile(newFile);
+//
+//				Intent shareIntent = new Intent();
+//				shareIntent.setAction(Intent.ACTION_SEND);
+//				shareIntent.setDataAndType(contentUri, "image/png");
+//				shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+//				shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//
+//
+//				// String weChatMessageTool =
+//				// "com.tencent.mm.ui.tools.shareimgui";
+//				ComponentName comp = new ComponentName("com.tencent.mm",
+//						"com.tencent.mm.ui.tools.ShareImgUI");
+//				shareIntent.setComponent(comp);
+//				startActivityForResult(shareIntent, WECHAT_REQUEST);
+//
+//				// TODO Show cursor again
+//				//inputWindow.showCursor(true);
+//
+//			}
+//		});
 
 	}
 
@@ -1218,90 +1292,90 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 
 	private void createBitmap() {
 
-		RelativeLayout messageOutline = (RelativeLayout) findViewById(R.id.rlMessageOutline);
-
-		Bitmap bitmap = Bitmap.createBitmap(messageOutline.getWidth(), messageOutline.getHeight(),
-				Bitmap.Config.ARGB_8888);
-		Canvas canvas = new Canvas(bitmap);
-		messageOutline.draw(canvas);
-
-
-		try {
-			File cachePath = getApplicationContext().getExternalCacheDir();
-			FileOutputStream stream = new FileOutputStream(cachePath + "/image.png");
-			bitmap.compress(CompressFormat.PNG, 100, stream);
-			stream.close();
-
-			// Also save as text
-			FileOutputStream streamUnicode = new FileOutputStream(cachePath
-					+ "/unicode.txt");
-			OutputStreamWriter myOutWriter = new OutputStreamWriter(streamUnicode);
-			myOutWriter.append(unicodeText.toString());
-			myOutWriter.close();
-			streamUnicode.close();
-			// And the rendered text too
-			FileOutputStream streamRendered = new FileOutputStream(cachePath
-					+ "/rendered.txt");
-			OutputStreamWriter myOutWriter2 = new OutputStreamWriter(streamRendered);
-			myOutWriter2.append(renderer.unicodeToGlyphs(unicodeText.toString()));
-			myOutWriter2.close();
-			streamRendered.close();
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		RelativeLayout messageOutline = (RelativeLayout) findViewById(R.id.rlMessageOutline);
+//
+//		Bitmap bitmap = Bitmap.createBitmap(messageOutline.getWidth(), messageOutline.getHeight(),
+//				Bitmap.Config.ARGB_8888);
+//		Canvas canvas = new Canvas(bitmap);
+//		messageOutline.draw(canvas);
+//
+//
+//		try {
+//			File cachePath = getApplicationContext().getExternalCacheDir();
+//			FileOutputStream stream = new FileOutputStream(cachePath + "/image.png");
+//			bitmap.compress(CompressFormat.PNG, 100, stream);
+//			stream.close();
+//
+//			// Also save as text
+//			FileOutputStream streamUnicode = new FileOutputStream(cachePath
+//					+ "/unicode.txt");
+//			OutputStreamWriter myOutWriter = new OutputStreamWriter(streamUnicode);
+//			myOutWriter.append(unicodeText.toString());
+//			myOutWriter.close();
+//			streamUnicode.close();
+//			// And the rendered text too
+//			FileOutputStream streamRendered = new FileOutputStream(cachePath
+//					+ "/rendered.txt");
+//			OutputStreamWriter myOutWriter2 = new OutputStreamWriter(streamRendered);
+//			myOutWriter2.append(renderer.unicodeToGlyphs(unicodeText.toString()));
+//			myOutWriter2.close();
+//			streamRendered.close();
+//
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 
 	}
 
 	public void shareToSystemApps() {
 
-		// catch empty string
-		if (unicodeText.toString().trim().length() == 0) {
-			showToast(getApplicationContext(),
-					getResources().getString(R.string.toast_message_empty), Toast.LENGTH_LONG);
-			return;
-		}
-
-		// Check to see if SD card is available
-		if (!externalStarageAvailable()) {
-			showToast(getApplicationContext(),
-					getResources().getString(R.string.toast_no_sdcard_cant_send), Toast.LENGTH_LONG);
-			return;
-		}
-
-		// Save to history if different than last message (this session)
-		if (!lastSentMessage.equals(unicodeText.toString())) {
-			new SaveMessageToHistory().execute(unicodeText.toString());
-			lastSentMessage = unicodeText.toString();
-		}
-
-		// Remove cursor from display
-		inputWindow.showCursor(false);
-
-		// Put this in a runnable to allow UI to update itself first
-		inputWindow.post(new Runnable() {
-			@Override
-			public void run() {
-
-				createBitmap();
-
-				File imagePath = new File(getApplicationContext().getExternalCacheDir(), "/");
-				File newFile = new File(imagePath, "image.png");
-				Uri contentUri = Uri.fromFile(newFile);
-
-				Intent shareIntent = new Intent();
-				shareIntent.setAction(Intent.ACTION_SEND);
-				shareIntent.setDataAndType(contentUri, "image/png");
-				shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
-				shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				startActivityForResult(Intent.createChooser(shareIntent, ""), SHARE_CHOOSER_REQUEST);
-
-				// Show cursor again
-				inputWindow.showCursor(true);
-			}
-		});
+//		// catch empty string
+//		if (unicodeText.toString().trim().length() == 0) {
+//			showToast(getApplicationContext(),
+//					getResources().getString(R.string.toast_message_empty), Toast.LENGTH_LONG);
+//			return;
+//		}
+//
+//		// Check to see if SD card is available
+//		if (!externalStarageAvailable()) {
+//			showToast(getApplicationContext(),
+//					getResources().getString(R.string.toast_no_sdcard_cant_send), Toast.LENGTH_LONG);
+//			return;
+//		}
+//
+//		// Save to history if different than last message (this session)
+//		if (!lastSentMessage.equals(unicodeText.toString())) {
+//			new SaveMessageToHistory().execute(unicodeText.toString());
+//			lastSentMessage = unicodeText.toString();
+//		}
+//
+//		// TODO: Remove cursor from display
+//		//inputWindow.showCursor(false);
+//
+//		// Put this in a runnable to allow UI to update itself first
+//		inputWindow.post(new Runnable() {
+//			@Override
+//			public void run() {
+//
+//				createBitmap();
+//
+//				File imagePath = new File(getApplicationContext().getExternalCacheDir(), "/");
+//				File newFile = new File(imagePath, "image.png");
+//				Uri contentUri = Uri.fromFile(newFile);
+//
+//				Intent shareIntent = new Intent();
+//				shareIntent.setAction(Intent.ACTION_SEND);
+//				shareIntent.setDataAndType(contentUri, "image/png");
+//				shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+//				shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//				startActivityForResult(Intent.createChooser(shareIntent, ""), SHARE_CHOOSER_REQUEST);
+//
+//				// TODO: Show cursor again
+//				//inputWindow.showCursor(true);
+//			}
+//		});
 	}
 
 
@@ -1464,12 +1538,12 @@ public class MainActivity extends AppCompatActivity implements MongolAeiouKeyboa
 
 				if (data.hasExtra("colorResult")) {
 
-					rlMessage.setBackgroundColor(settings.getInt(SettingsActivity.BGCOLOR_KEY,
-							SettingsActivity.BGCOLOR_DEFAULT));
-					int textColor = settings.getInt(SettingsActivity.TEXTCOLOR_KEY,
-							SettingsActivity.TEXTCOLOR_DEFAULT);
-					inputWindow.setTextColor(textColor);
-					inputWindow.setCursorColor(textColor);
+//					rlMessage.setBackgroundColor(settings.getInt(SettingsActivity.BGCOLOR_KEY,
+//							SettingsActivity.BGCOLOR_DEFAULT));
+//					int textColor = settings.getInt(SettingsActivity.TEXTCOLOR_KEY,
+//							SettingsActivity.TEXTCOLOR_DEFAULT);
+//					inputWindow.setTextColor(textColor);
+//					//inputWindow.setCursorColor(textColor);
 
 				}
 				if (data.hasExtra("fontResult")) {

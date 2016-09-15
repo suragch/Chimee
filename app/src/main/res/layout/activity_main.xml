@@ -34,35 +34,25 @@
 
             <!-- below is the message limit -->
 
-            <HorizontalScrollView
-                android:id="@+id/rlMessageLimit"
-                android:layout_width="wrap_content"
-                android:layout_height="150dp"
-                android:elevation="2dp"
-                android:background="@color/white"
-                android:layout_centerInParent="true" >
 
+            <net.studymongolian.chimee.MongolViewGroup
+                android:id="@+id/mvgMessageOutline"
+                android:layout_centerInParent="true"
+                android:background="#ffffff"
+                android:layout_width="75dp"
+                android:layout_height="150dp" >
+                <EditText
+                    android:id="@+id/etInputWindow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#ffff0f"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            </net.studymongolian.chimee.MongolViewGroup>
                 <!-- below is the message outline -->
 
-                <RelativeLayout
-                    android:id="@+id/rlMessageOutline"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="@color/white"
-                    android:clickable="true"
-                    android:minWidth="75dp" >
 
-                    <net.studymongolian.chimee.MongolTextView
-                        android:id="@+id/tvInputWindow"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingBottom="10dp"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="5dp"
-                        android:paddingTop="10dp"
-                        android:textAppearance="?android:attr/textAppearanceMedium" />
-                </RelativeLayout>
-            </HorizontalScrollView>
+
         </RelativeLayout>
 
         <FrameLayout
