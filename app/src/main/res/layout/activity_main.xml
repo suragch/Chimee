@@ -41,7 +41,7 @@
                 android:background="#ffffff"
                 android:layout_width="75dp"
                 android:layout_height="150dp" >
-                <EditText
+                <net.studymongolian.chimee.MongolEditText
                     android:id="@+id/etInputWindow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

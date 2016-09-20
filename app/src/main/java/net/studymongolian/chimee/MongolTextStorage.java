@@ -1,10 +1,13 @@
 package net.studymongolian.chimee;
 
+import android.text.Editable;
+import android.text.SpannableStringBuilder;
+
 // This class keeps track of the cursor position for rendered and unicode mongolian text
 // to be used in a Mongolian EditText.
 public class MongolTextStorage {
 
-    private StringBuilder unicodeText = new StringBuilder();
+    private Editable unicodeText = new SpannableStringBuilder();
     private MongolUnicodeRenderer renderer = MongolUnicodeRenderer.INSTANCE;
     private String cursorHolder = String.valueOf(MongolUnicodeRenderer.CURSOR_HOLDER);
     private int unicodeIndexForCursor = -1;
@@ -16,17 +19,17 @@ public class MongolTextStorage {
 
     public int glyphIndexForCursor = -1;
 
-    public String getUnicode() {
-        return unicodeText.toString();
+    public Editable getUnicode() {
+        return unicodeText;
     }
-    public void setUnicode(String newString) {
-        unicodeText.setLength(0);
+    public void setUnicode(CharSequence newString) {
+        unicodeText.clear();
         unicodeText.append(newString);
         unicodeIndexForCursor = unicodeText.length();
     }
 
     public String render() {
-        StringBuilder tempText = unicodeText;
+        StringBuilder tempText = new StringBuilder(unicodeText);
         tempText.insert(unicodeIndexForCursor, cursorHolder);
         String renderedText = renderer.unicodeToGlyphs(tempText.toString());
         int index = renderedText.indexOf(cursorHolder);
@@ -38,17 +41,17 @@ public class MongolTextStorage {
     }
 
     public void clear() {
-        unicodeText.setLength(0);
+        unicodeText.clear();
         unicodeIndexForCursor = 0;
         glyphIndexForCursor = 0;
     }
 
-    public void deleteBackwardsAtGlyphRange(int location, int length) {
+    public void deleteBackwardsAtGlyphRange(int startIndex, int endIndex) {
 
-        if (length == 0) { // cursor position
+        if (startIndex >= endIndex) { // cursor position
 
             // update unicode index
-            updateUnicodeIndex(location);
+            updateUnicodeIndex(startIndex);
 
             // return if at beginning
             if (unicodeIndexForCursor <= 0) {
@@ -60,7 +63,7 @@ public class MongolTextStorage {
             do {
                 unicodeIndexForCursor -= 1;
                 character = unicodeText.charAt(unicodeIndexForCursor);
-                unicodeText.deleteCharAt(unicodeIndexForCursor);
+                unicodeText.delete(unicodeIndexForCursor, unicodeIndexForCursor + 1);
 
             } while (unicodeIndexForCursor > 0 && isFormattingChar(character));
 
@@ -69,12 +72,12 @@ public class MongolTextStorage {
             // just delete the current range
 
             // get unicode range
-            int unicodeStart = renderer.getUnicodeIndex(unicodeText.toString(), location);
-            int unicodeEnd = renderer.getUnicodeIndex(unicodeText.toString(), location + length);
+            int unicodeStart = renderer.getUnicodeIndex(unicodeText.toString(), startIndex);
+            int unicodeEnd = renderer.getUnicodeIndex(unicodeText.toString(), endIndex);
 
             // delete range
             unicodeText.delete(unicodeStart, unicodeEnd);
-            unicodeIndexForCursor = location;
+            unicodeIndexForCursor = unicodeStart; // FIXME in Swift version (incorrectly set to glyph location)
         }
     }
 
@@ -94,41 +97,41 @@ public class MongolTextStorage {
         }
     }
 
-    public String unicodeForGlyphRange(int location, int length) {
+    public String unicodeForGlyphRange(int startIndex, int endIndex) {
 
-        if (length == 0) { // cursor position
+        if (startIndex >= endIndex) { // cursor position
 
             return "";
 
         } else { // range of text is selected
 
             // get unicode range
-            int unicodeStart = renderer.getUnicodeIndex(unicodeText.toString(), location);
-            int unicodeEnd = renderer.getUnicodeIndex(unicodeText.toString(), location + length);
+            int unicodeStart = renderer.getUnicodeIndex(unicodeText.toString(), startIndex);
+            int unicodeEnd = renderer.getUnicodeIndex(unicodeText.toString(), endIndex);
 
-            return unicodeText.substring(unicodeStart, unicodeEnd).toString();
+            return unicodeText.subSequence(unicodeStart, unicodeEnd).toString();
 
         }
     }
 
-    public void insertUnicodeForGlyphRange(int location, int length, String unicodeToInsert) {
+    public void insertUnicodeForGlyphRange(int startIndex, int endIndex, String unicodeToInsert) {
 
         // FIXME: this method assumes no emoji
 
-        if (length == 0) { // caret position
+        if (startIndex >= endIndex) { // caret position
 
             // if glyph index has changed, need to update unicode index
-            updateUnicodeIndex(location);
+            updateUnicodeIndex(startIndex);
 
         }else{ // range of text is selected
 
             // get unicode range
-            int unicodeStart = renderer.getUnicodeIndex(unicodeText.toString(), location);
-            int unicodeEnd = renderer.getUnicodeIndex(unicodeText.toString(), location + length);
+            int unicodeStart = renderer.getUnicodeIndex(unicodeText.toString(), startIndex);
+            int unicodeEnd = renderer.getUnicodeIndex(unicodeText.toString(), endIndex);
 
             // delete range
             unicodeText.delete(unicodeStart, unicodeEnd);
-            unicodeIndexForCursor = location;
+            unicodeIndexForCursor = unicodeStart;
 
         }
 
@@ -250,8 +253,8 @@ public class MongolTextStorage {
     ///
     /// - warning: Only gets called if cursor is after a Mongolian character
     /// - parameter glyphIndex: glyph index (not unicode index) of the cursor
-    /// - returns: tuple of optional strings: (first word from cursor, second word from cursor)
-    public TwoStrings unicodeTwoWordsBeforeCursor(int glyphIndex) {
+    /// - returns: String array of length 2: {first word from cursor, second word from cursor}
+    public String[] unicodeTwoWordsBeforeCursor(int glyphIndex) {
 
         // if glyph index has changed, need to update unicode index
         updateUnicodeIndex(glyphIndex);
@@ -259,12 +262,12 @@ public class MongolTextStorage {
         int startPosition = unicodeIndexForCursor - 1;
         // empty
         if (startPosition < 0) {
-            return new TwoStrings("", "");
+            return new String[] {"", ""};
         }
         // not mongolian char or nnbs
         if (!renderer.isMongolian(unicodeText.charAt(startPosition)) &&
                 unicodeText.charAt(startPosition) != MongolUnicodeRenderer.Uni.NNBS) {
-            return new TwoStrings("", "");
+            return new String[] {"", ""};
         }
 
 
@@ -301,12 +304,12 @@ public class MongolTextStorage {
 
         String wordsArray[] = words.toString().trim().split(String.valueOf(space));
         if (wordsArray.length == 1) {
-            return new TwoStrings(wordsArray[0], "");
+            return new String[] {wordsArray[0], ""};
         }else if (wordsArray.length > 1) {
-            return new TwoStrings(wordsArray[wordsArray.length - 1], wordsArray[wordsArray.length - 2]);
+            return new String[] {wordsArray[wordsArray.length - 1], wordsArray[wordsArray.length - 2]};
         }else{
-            return new TwoStrings("", "");
+            return new String[] {"", ""};
         }
     }
-    
+
 }

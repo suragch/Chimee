@@ -52,6 +52,7 @@ public class KeyboardController extends Fragment implements Keyboard.OnKeyboardL
     @Override
     public void keySuffix() {
         Log.i("TAG", "keySuffix: ");
+        mListener.keyWasTapped(MongolUnicodeRenderer.Uni.NNBS);
     }
 
     @Override
@@ -63,6 +64,7 @@ public class KeyboardController extends Fragment implements Keyboard.OnKeyboardL
 
     @Override
     public void keyBackspace() {
+        mListener.keyBackspace();
         Log.i("TAG", "keyBackspace: ");
     }
 
@@ -75,7 +77,7 @@ public class KeyboardController extends Fragment implements Keyboard.OnKeyboardL
         void keyWasTapped(char character);
         void keyBackspace();
         String oneMongolWordBeforeCursor();
-        TwoStrings twoMongolWordsBeforeCursor();
+        String[] twoMongolWordsBeforeCursor();
         void replaceCurrentWordWith(String replacementWord);
     }
 }

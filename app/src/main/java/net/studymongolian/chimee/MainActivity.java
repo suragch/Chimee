@@ -48,7 +48,6 @@ import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
@@ -102,12 +101,13 @@ public class MainActivity extends AppCompatActivity  implements KeyboardControll
 	@Override
 	public void keyWasTapped(char character) {
 
-		inputWindow.getText().insert(inputWindow.getSelectionStart(), String.valueOf(character));
+		inputWindow.insertMongolText(String.valueOf(character));
+		//getText().insert(inputWindow.getSelectionStart(), String.valueOf(character));
 	}
 
 	@Override
 	public void keyBackspace() {
-
+		inputWindow.deleteBackward();
 	}
 
 	@Override
@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity  implements KeyboardControll
 	}
 
 	@Override
-	public TwoStrings twoMongolWordsBeforeCursor() {
+	public String[] twoMongolWordsBeforeCursor() {
 		return null;
 	}
 
@@ -138,8 +138,8 @@ public class MainActivity extends AppCompatActivity  implements KeyboardControll
 
 	;
 
-	// EditText inputWindow;
-  	EditText inputWindow;
+	// MongolEditText inputWindow;
+  	MongolEditText inputWindow;
 	// TODO testing:
 	// TextView testingView;
 
@@ -185,7 +185,7 @@ public class MainActivity extends AppCompatActivity  implements KeyboardControll
 
 
 		// prevent system keyboard from appearing
-		inputWindow = (EditText) findViewById(R.id.etInputWindow);
+		inputWindow = (MongolEditText) findViewById(R.id.etInputWindow);
 		if (android.os.Build.VERSION.SDK_INT >= 11) {
 			inputWindow.setRawInputType(InputType.TYPE_CLASS_TEXT);
 			inputWindow.setTextIsSelectable(true);
@@ -333,7 +333,7 @@ public class MainActivity extends AppCompatActivity  implements KeyboardControll
 
 	private void initInputWindow() {
 
-		//inputWindow = (EditText) findViewById(R.id.etInputWindow);
+		//inputWindow = (MongolEditText) findViewById(R.id.etInputWindow);
 
 		// TODO: add a touch listener and update the unicode position based on the touch location
 
