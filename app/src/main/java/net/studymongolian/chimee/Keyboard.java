@@ -18,6 +18,20 @@ public abstract class Keyboard extends Fragment implements View.OnClickListener,
     OnKeyboardListener mListener;
 
     protected static final char SPACE = ' ';
+    protected static final char NEW_LINE = '\n';
+    protected static final char ZWJ = MongolUnicodeRenderer.Uni.ZWJ;// ZeroWidthJoiner
+    protected static final char NNBS = MongolUnicodeRenderer.Uni.NNBS;// NarrowNonBreakingSpace
+    protected static final char FVS1 = MongolUnicodeRenderer.Uni.FVS1;// FreeVariationSelector
+    protected static final char FVS2 = MongolUnicodeRenderer.Uni.FVS2;
+    protected static final char FVS3 = MongolUnicodeRenderer.Uni.FVS3;
+    protected static final char MVS = MongolUnicodeRenderer.Uni.MVS;// VOWEL SEPARATOR
+    protected static final char MONGOLIAN_DOT = '\u00b7';
+    protected static final char MONGOLIAN_DASH = '\ufe31';
+    protected static final char PUNCTUATION_QUESTION_EXCLAMATION = '\u2048';
+    protected static final char PUNCTUATION_EXCLAMATION_QUESTION = '\u2049';
+    protected static final char PUNCTUATION_EXCLAMATION_EXCLAMATION = '\u203c';
+    protected static final char PUNCTUATION_DOUBLEQUOTE_TOP = '\u00ab';
+    protected static final char PUNCTUATION_DOUBLEQUOTE_BOTTOM = '\u00bb';
 
     @Override
     public void onAttach(Context context) {
@@ -48,6 +62,8 @@ public abstract class Keyboard extends Fragment implements View.OnClickListener,
 
     public abstract void initMap();
 
+    public abstract void switchPunctuation();
+
     // Handles continuous space and backspace presses
     protected View.OnTouchListener handleSpace = new View.OnTouchListener() {
 
@@ -61,6 +77,7 @@ public abstract class Keyboard extends Fragment implements View.OnClickListener,
 
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
+                    clearFvsKeys();
                     view.setPressed(true);
                     doSpace();
                     if (handler != null)
@@ -109,6 +126,7 @@ public abstract class Keyboard extends Fragment implements View.OnClickListener,
 
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
+                    clearFvsKeys();
                     view.setPressed(true);
                     doBackspace();
                     if (handler != null)
@@ -130,7 +148,6 @@ public abstract class Keyboard extends Fragment implements View.OnClickListener,
 
         private void doBackspace(){
             mListener.keyBackspace();
-            //doPostKeyPressActivities(BACKSPACE);
         }
 
         Runnable actionBackspace = new Runnable() {
@@ -143,11 +160,17 @@ public abstract class Keyboard extends Fragment implements View.OnClickListener,
 
     };
 
+    public void clearFvsKeys() {
+        // This method may be overridden by subclasses
+    }
+
     public interface OnKeyboardListener {
         void keyWasTapped(char character);
         void keyBackspace();
         void keySuffix();
+        void keyMvs();
         void keyNewKeyboardChosen(KeyboardType type);
+        char getCharBeforeCursor();
     }
 
     protected final class Suffix {

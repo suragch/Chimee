@@ -1,7 +1,9 @@
 package net.studymongolian.chimee;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,31 +29,65 @@ public class KeyboardAeiou extends Keyboard {
 
 
     MongolUnicodeRenderer renderer = MongolUnicodeRenderer.INSTANCE;
-    //SimpleCursorAdapter cursorAdapter; // adapter for db words
-    //ListView lvSuggestions;
-    //String suggestionsParent = ""; // keep track of parent of following list
-    //List<String> suggestionsUnicode = new ArrayList<String>(); // following
-    //protected static final int WORDS_LOADER_ID = 0;
     Boolean punctuationOn = false;
 
-    protected static final char NULL_CHAR = '\u0000';
-    protected static final char BACKSPACE = '\u232b';
-    protected static final char SPACE = ' ';
-    protected static final char NEW_LINE = '\n';
-    protected static final char ZWJ = MongolUnicodeRenderer.Uni.ZWJ;// ZeroWidthJoiner
-    protected static final char NNBS = MongolUnicodeRenderer.Uni.NNBS;// NarrowNonBreakingSpace
-    protected static final char FVS1 = MongolUnicodeRenderer.Uni.FVS1;// FreeVariationSelector
-    protected static final char FVS2 = MongolUnicodeRenderer.Uni.FVS2;
-    protected static final char FVS3 = MongolUnicodeRenderer.Uni.FVS3;
-    protected static final char MVS = MongolUnicodeRenderer.Uni.MVS;// VOWEL SEPARATOR
-    protected static final char MONGOLIAN_DOT = '\u00b7';
-    protected static final char MONGOLIAN_DASH = '\ufe31';
-    protected static final char PUNCTUATION_QUESTION_EXCLAMATION = '\u2048';
-    protected static final char PUNCTUATION_EXCLAMATION_QUESTION = '\u2049';
-    protected static final char PUNCTUATION_EXCLAMATION_EXCLAMATION = '\u203c';
-    protected static final char PUNCTUATION_DOUBLEQUOTE_TOP = '\u00ab';
-    protected static final char PUNCTUATION_DOUBLEQUOTE_BOTTOM = '\u00bb';
+    //protected static final char NULL_CHAR = '\u0000';
+    //protected static final char BACKSPACE = '\u232b';
+    //protected static final char SPACE = ' ';
 
+
+    TextView tvA;
+    TextView tvE;
+    TextView tvI;
+    TextView tvV;
+    TextView tvU;
+    TextView tvN;
+    TextView tvB;
+    TextView tvH;
+    TextView tvG;
+    TextView tvM;
+    TextView tvL;
+    TextView tvS;
+    TextView tvD;
+    TextView tvQ;
+    TextView tvJ;
+    TextView tvY;
+    TextView tvR;
+    TextView tvW;
+    TextView tvZ;
+
+    TextView tvAlong;
+    TextView tvElong;
+    TextView tvIlong;
+    TextView tvVlong;
+    TextView tvUlong;
+    TextView tvNlong;
+    TextView tvBlong;
+    TextView tvHlong;
+    TextView tvGlong;
+    TextView tvMlong;
+    TextView tvLlong;
+    TextView tvSlong;
+    TextView tvDlong;
+    TextView tvQlong;
+    TextView tvJlong;
+    TextView tvYlong;
+    TextView tvRlong;
+    TextView tvWlong;
+    TextView tvZlong;
+
+    TextView tvNamalaga;
+    TextView tvCaseSuffix;
+    TextView tvFvs1Top;
+    TextView tvFvs1Bottom;
+    TextView tvFvs2Top;
+    TextView tvFvs2Bottom;
+    TextView tvFvs3Top;
+    TextView tvFvs3Bottom;
+    TextView tvInput;
+    TextView tvInputLong;
+    TextView tvInputMongol;
+    TextView tvInputMongolLong;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -140,7 +176,7 @@ public class KeyboardAeiou extends Keyboard {
         idToShortPunctuation.put(R.id.key_z, PUNCTUATION_EXCLAMATION_EXCLAMATION);
         idToShortPunctuation.put(R.id.key_comma, MongolUnicodeRenderer.Uni.MONGOLIAN_COMMA);
         idToShortPunctuation.put(R.id.key_question, '?');
-        idToShortPunctuation.put(R.id.key_namalaga, MongolUnicodeRenderer.Uni.MVS);
+        //idToShortPunctuation.put(R.id.key_namalaga, MongolUnicodeRenderer.Uni.MVS);
         idToShortPunctuation.put(R.id.key_return, NEW_LINE);
 
         // punctuation for long key presses
@@ -197,7 +233,6 @@ public class KeyboardAeiou extends Keyboard {
         v.findViewById(R.id.key_z).setOnClickListener(this);
         v.findViewById(R.id.key_comma).setOnClickListener(this);
         v.findViewById(R.id.key_question).setOnClickListener(this);
-        v.findViewById(R.id.key_namalaga).setOnClickListener(this);
         v.findViewById(R.id.key_return).setOnClickListener(this);
 
         // long click
@@ -228,6 +263,7 @@ public class KeyboardAeiou extends Keyboard {
         // *** Special Keys ***
 
         v.findViewById(R.id.key_fvs).setOnTouchListener(handleFvsTouch);
+        v.findViewById(R.id.key_namalaga).setOnClickListener(handleMvsClick);
         v.findViewById(R.id.key_case_suffix).setOnClickListener(handleCaseSuffixClick);
         v.findViewById(R.id.key_backspace).setOnTouchListener(handleBackspace);
         v.findViewById(R.id.key_input).setOnTouchListener(handleInputTouch);
@@ -235,25 +271,64 @@ public class KeyboardAeiou extends Keyboard {
 
     }
 
-//    private void initListView(View v) {
-//        // set up the adapter for the list view
-//        String[] fromColumns = { ChimeeUserDictionary.Words.WORD };
-//        int[] toViews = { R.id.tvMongolListViewItem };
-//        cursorAdapter = new SimpleCursorAdapter(getActivity().getApplicationContext(),
-//                R.layout.mongol_suggestions_listview, null, fromColumns, toViews, 0) {
-//            // Format the unicode from the db for the font
-//            @Override
-//            public void setViewText(TextView v, String text) {
-//                String renderedText = renderer.unicodeToGlyphs(text);
-//                super.setViewText(v, renderedText);
-//            }
-//        };
-//        lvSuggestions = (ListView) v.findViewById(R.id.lvSuggestions);
-//        lvSuggestions.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-//        lvSuggestions.setOnItemClickListener(this);
-//        lvSuggestions.setOnItemLongClickListener(this);
-//        lvSuggestions.setAdapter(cursorAdapter);
-//    }
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        tvA = (TextView) getView().findViewById(R.id.tvMkeyA);
+        tvE = (TextView) getView().findViewById(R.id.tvMkeyE);
+        tvI = (TextView) getView().findViewById(R.id.tvMkeyI);
+        tvV = (TextView) getView().findViewById(R.id.tvMkeyV);
+        tvU = (TextView) getView().findViewById(R.id.tvMkeyU);
+        tvN = (TextView) getView().findViewById(R.id.tvMkeyN);
+        tvB = (TextView) getView().findViewById(R.id.tvMkeyB);
+        tvH = (TextView) getView().findViewById(R.id.tvMkeyH);
+        tvG = (TextView) getView().findViewById(R.id.tvMkeyG);
+        tvM = (TextView) getView().findViewById(R.id.tvMkeyM);
+        tvL = (TextView) getView().findViewById(R.id.tvMkeyL);
+        tvS = (TextView) getView().findViewById(R.id.tvMkeyS);
+        tvD = (TextView) getView().findViewById(R.id.tvMkeyD);
+        tvQ = (TextView) getView().findViewById(R.id.tvMkeyQ);
+        tvJ = (TextView) getView().findViewById(R.id.tvMkeyJ);
+        tvY = (TextView) getView().findViewById(R.id.tvMkeyY);
+        tvR = (TextView) getView().findViewById(R.id.tvMkeyR);
+        tvW = (TextView) getView().findViewById(R.id.tvMkeyW);
+        tvZ = (TextView) getView().findViewById(R.id.tvMkeyZ);
+
+        tvAlong = (TextView) getView().findViewById(R.id.tvMkeyAlong);
+        tvElong = (TextView) getView().findViewById(R.id.tvMkeyElong);
+        tvIlong = (TextView) getView().findViewById(R.id.tvMkeyIlong);
+        tvVlong = (TextView) getView().findViewById(R.id.tvMkeyVlong);
+        tvUlong = (TextView) getView().findViewById(R.id.tvMkeyUlong);
+        tvNlong = (TextView) getView().findViewById(R.id.tvMkeyNlong);
+        tvBlong = (TextView) getView().findViewById(R.id.tvMkeyBlong);
+        tvHlong = (TextView) getView().findViewById(R.id.tvMkeyHlong);
+        tvGlong = (TextView) getView().findViewById(R.id.tvMkeyGlong);
+        tvMlong = (TextView) getView().findViewById(R.id.tvMkeyMlong);
+        tvLlong = (TextView) getView().findViewById(R.id.tvMkeyLlong);
+        tvSlong = (TextView) getView().findViewById(R.id.tvMkeySlong);
+        tvDlong = (TextView) getView().findViewById(R.id.tvMkeyDlong);
+        tvQlong = (TextView) getView().findViewById(R.id.tvMkeyQlong);
+        tvJlong = (TextView) getView().findViewById(R.id.tvMkeyJlong);
+        tvYlong = (TextView) getView().findViewById(R.id.tvMkeyYlong);
+        tvRlong = (TextView) getView().findViewById(R.id.tvMkeyRlong);
+        tvWlong = (TextView) getView().findViewById(R.id.tvMkeyWlong);
+        tvZlong = (TextView) getView().findViewById(R.id.tvMkeyZlong);
+
+        tvNamalaga = (TextView) getView().findViewById(R.id.tvMkeyNamalaga);
+        tvCaseSuffix = (TextView) getView().findViewById(R.id.tvMkeyCaseSuffix);
+        tvFvs1Top = (TextView) getView().findViewById(R.id.tvFvs1Top);
+        tvFvs1Bottom = (TextView) getView().findViewById(R.id.tvFvs1Bottom);
+        tvFvs2Top = (TextView) getView().findViewById(R.id.tvFvs2Top);
+        tvFvs2Bottom = (TextView) getView().findViewById(R.id.tvFvs2Bottom);
+        tvFvs3Top = (TextView) getView().findViewById(R.id.tvFvs3Top);
+        tvFvs3Bottom = (TextView) getView().findViewById(R.id.tvFvs3Bottom);
+        tvInput = (TextView) getView().findViewById(R.id.tvMkeyInput);
+        tvInputMongol = (TextView) getView().findViewById(R.id.tvMkeyInputMongol);
+        tvInputLong = (TextView) getView().findViewById(R.id.tvMkeyInputLong);
+        tvInputMongolLong = (TextView) getView().findViewById(R.id.tvMkeyInputMongolLong);
+
+    }
 
     @Override
     public void onClick(View v) {
@@ -264,6 +339,7 @@ public class KeyboardAeiou extends Keyboard {
             inputChar = idToShortPunctuation.get(v.getId());
         } else {
             inputChar = idToShort.get(v.getId());
+            updateFvsKeys(inputChar);
         }
 
         mListener.keyWasTapped(inputChar);
@@ -278,6 +354,7 @@ public class KeyboardAeiou extends Keyboard {
             inputChar = idToLongPunctuation.get(v.getId());
         } else {
             inputChar = idToLong.get(v.getId());
+            updateFvsKeys(inputChar);
         }
 
         mListener.keyWasTapped(inputChar);
@@ -297,12 +374,23 @@ public class KeyboardAeiou extends Keyboard {
         }
     };
 
+    private View.OnClickListener handleMvsClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+            clearFvsKeys();
+            if (punctuationOn) return;
+
+            mListener.keyMvs();
+        }
+    };
+
     private View.OnClickListener handleCaseSuffixClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            // TODO send char input
+            clearFvsKeys();
+            if (punctuationOn) return;
             mListener.keySuffix();
-            // TODO update suggestion bar
         }
     };
 
@@ -310,10 +398,188 @@ public class KeyboardAeiou extends Keyboard {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
 
+            int x = (int) event.getX();
+            int y = (int) event.getY();
+
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    clearFvsKeys();
+                    Log.i("TAG", "touched down");
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    Log.i("TAG", "moving: (" + x + ", " + y + ")");
+                    break;
+                case MotionEvent.ACTION_UP:
+                    Log.i("TAG", "touched up");
+                    switchPunctuation();
+                    break;
+            }
+
+
+
+
+
             // TODO if touch is shorter than threshold then switch punctuation mode
+
+            //switchPunctuation();
+            //punctuationOn = !punctuationOn;
+
             // TODO if longer then show keyboard chooser
 
-            return false;
+            return true;
         }
     };
+
+    @Override
+    public void clearFvsKeys() {
+        tvFvs1Top.setText("");
+        tvFvs1Bottom.setText("");
+        tvFvs2Top.setText("");
+        tvFvs2Bottom.setText("");
+        tvFvs3Top.setText("");
+        tvFvs3Bottom.setText("");
+    }
+
+    private void updateFvsKeys(char currentChar) {
+
+        clearFvsKeys();
+
+        // get last char before cursor
+        char previousChar = mListener.getCharBeforeCursor();
+
+        // Only do Mongolian characters
+        if (!MongolUnicodeRenderer.isMongolianAlphabet(currentChar)) {
+            return;
+        }
+
+        // According to position do lookup
+        // Update keys
+        if (MongolUnicodeRenderer.isMongolian(previousChar)) { // medial or final
+            tvFvs1Top.setText(renderer.getMedial("" + currentChar + FVS1));
+            tvFvs2Top.setText(renderer.getMedial("" + currentChar + FVS2));
+            tvFvs3Top.setText(renderer.getMedial("" + currentChar + FVS3));
+            tvFvs1Bottom.setText(renderer.getFinal("" + currentChar + FVS1));
+            tvFvs2Bottom.setText(renderer.getFinal("" + currentChar + FVS2));
+            tvFvs3Bottom.setText(renderer.getFinal("" + currentChar + FVS3));
+        } else {
+            tvFvs1Top.setText(renderer.getInitial("" + currentChar + FVS1));
+            tvFvs2Top.setText(renderer.getInitial("" + currentChar + FVS2));
+            tvFvs3Top.setText(renderer.getInitial("" + currentChar + FVS3));
+            tvFvs1Bottom.setText(renderer.getIsolate("" + currentChar + FVS1));
+            tvFvs2Bottom.setText(renderer.getIsolate("" + currentChar + FVS2));
+            tvFvs3Bottom.setText(renderer.getIsolate("" + currentChar + FVS3));
+        }
+
+    }
+
+    public void switchPunctuation() {
+        if (punctuationOn) {
+
+            tvA.setText(getResources().getString(R.string.m_a));
+            tvE.setText(getResources().getString(R.string.m_e));
+            tvI.setText(getResources().getString(R.string.m_i));
+            tvV.setText(getResources().getString(R.string.m_u));
+            tvU.setText(getResources().getString(R.string.m_ue));
+            tvN.setText(getResources().getString(R.string.m_na));
+            tvB.setText(getResources().getString(R.string.m_ba));
+            tvH.setText(getResources().getString(R.string.m_qa));
+            tvG.setText(getResources().getString(R.string.m_ga));
+            tvM.setText(getResources().getString(R.string.m_ma));
+            tvL.setText(getResources().getString(R.string.m_la));
+            tvS.setText(getResources().getString(R.string.m_sa));
+            //tvT.setText(getResources().getString(R.string.m_ta));
+            tvD.setText(getResources().getString(R.string.m_da));
+            tvQ.setText(getResources().getString(R.string.m_cha));
+            tvJ.setText(getResources().getString(R.string.m_ja));
+            tvY.setText(getResources().getString(R.string.m_ya));
+            tvR.setText(getResources().getString(R.string.m_ra));
+            tvW.setText(getResources().getString(R.string.m_wa));
+            tvZ.setText(getResources().getString(R.string.m_za));
+
+            tvAlong.setText(getResources().getString(R.string.m_key_niguru));
+            tvElong.setText(getResources().getString(R.string.m_ee));
+            tvIlong.setText("");
+            tvVlong.setText(getResources().getString(R.string.m_o));
+            tvUlong.setText(getResources().getString(R.string.m_oe));
+            tvNlong.setText(getResources().getString(R.string.m_ang));
+            tvBlong.setText(getResources().getString(R.string.m_pa));
+            tvHlong.setText(getResources().getString(R.string.m_haa));
+            tvGlong.setText(getResources().getString(R.string.m_ka));
+            tvMlong.setText("");
+            tvLlong.setText(getResources().getString(R.string.m_lha));
+            tvSlong.setText(getResources().getString(R.string.m_sha));
+            tvDlong.setText(getResources().getString(R.string.m_ta));
+            tvQlong.setText(getResources().getString(R.string.m_chi));
+            tvJlong.setText(getResources().getString(R.string.m_zhi));
+            tvYlong.setText("");
+            tvRlong.setText(getResources().getString(R.string.m_zra));
+            tvWlong.setText(getResources().getString(R.string.m_fa));
+            tvZlong.setText(getResources().getString(R.string.m_tsa));
+
+            //tvCaseSuffix.setText(getResources().getString(R.string.m_key_case_suffix));
+
+            tvInput.setVisibility(View.VISIBLE);
+            tvInputMongol.setVisibility(View.GONE);
+            tvInputLong.setVisibility(View.VISIBLE);
+            tvInputMongolLong.setVisibility(View.GONE);
+
+        } else { // punctuation is not on. Turn it on now.
+
+            tvA.setText(getResources().getString(R.string.m_key_p_top_paranthesis));
+            tvE.setText(getResources().getString(R.string.m_key_p_bottom_paranthesis));
+            tvI.setText(getResources().getString(R.string.m_key_p_top_double_quote));
+            tvV.setText(getResources().getString(R.string.m_key_p_bottom_double_quote));
+            tvU.setText(getResources().getString(R.string.m_key_p_dot));
+            tvN.setText(getResources().getString(R.string.m_key_p_1));
+            tvB.setText(getResources().getString(R.string.m_key_p_2));
+            tvH.setText(getResources().getString(R.string.m_key_p_3));
+            tvG.setText(getResources().getString(R.string.m_key_p_4));
+            tvM.setText(getResources().getString(R.string.m_key_p_5));
+            tvL.setText(getResources().getString(R.string.m_key_p_dash));
+            tvS.setText(getResources().getString(R.string.m_key_p_6));
+            tvD.setText(getResources().getString(R.string.m_key_p_7));
+            tvQ.setText(getResources().getString(R.string.m_key_p_8));
+            tvJ.setText(getResources().getString(R.string.m_key_p_9));
+            tvY.setText(getResources().getString(R.string.m_key_p_0));
+            tvR.setText(getResources().getString(R.string.m_key_p_full_stop));
+            tvW.setText(getResources().getString(R.string.m_key_p_question_exclamation));
+            tvZ.setText(getResources().getString(R.string.m_key_p_exclamation_exclamation));
+
+            tvAlong.setText(getResources().getString(R.string.m_key_p_top_square_bracket));
+            tvElong.setText(getResources().getString(R.string.m_key_p_bottom_square_bracket));
+            tvIlong.setText(getResources().getString(R.string.m_key_p_top_single_quote));
+            tvVlong.setText(getResources().getString(R.string.m_key_p_bottom_single_quote));
+            tvUlong.setText(getResources().getString(R.string.m_key_p_ellipsis));
+            tvNlong.setText(getResources().getString(R.string.m_key_p_mongol_1));
+            tvBlong.setText(getResources().getString(R.string.m_key_p_mongol_2));
+            tvHlong.setText(getResources().getString(R.string.m_key_p_mongol_3));
+            tvGlong.setText(getResources().getString(R.string.m_key_p_mongol_4));
+            tvMlong.setText(getResources().getString(R.string.m_key_p_mongol_5));
+            tvLlong.setText(getResources().getString(R.string.m_key_p_birga));
+            tvSlong.setText(getResources().getString(R.string.m_key_p_mongol_6));
+            tvDlong.setText(getResources().getString(R.string.m_key_p_mongol_7));
+            tvQlong.setText(getResources().getString(R.string.m_key_p_mongol_8));
+            tvJlong.setText(getResources().getString(R.string.m_key_p_mongol_9));
+            tvYlong.setText(getResources().getString(R.string.m_key_p_mongol_0));
+            tvRlong.setText(getResources().getString(R.string.m_key_p_four_dots));
+            tvWlong.setText(getResources().getString(R.string.m_key_p_colon));
+            tvZlong.setText(getResources().getString(R.string.m_key_p_semicolon));
+
+            tvFvs1Top.setText("");
+            tvFvs1Bottom.setText("");
+            tvFvs2Top.setText("");
+            tvFvs2Bottom.setText("");
+            tvFvs3Top.setText("");
+            tvFvs3Bottom.setText("");
+
+            tvInput.setVisibility(View.GONE);
+            tvInputMongol.setVisibility(View.VISIBLE);
+            tvInputLong.setVisibility(View.GONE);
+            tvInputMongolLong.setVisibility(View.VISIBLE);
+
+        }
+
+        punctuationOn = !punctuationOn;
+
+    }
 }

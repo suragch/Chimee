@@ -48,7 +48,7 @@ public class ChimeeUserDictionaryProvider extends ContentProvider {
 		public void onCreate(SQLiteDatabase db) {
 			db.execSQL("CREATE TABLE " + USERDICT_TABLE_NAME + " ("
 					+ ChimeeUserDictionary.Words._ID + " INTEGER PRIMARY KEY,"
-					+ ChimeeUserDictionary.Words.WORD + " TEXT NOT NULL,"
+					+ ChimeeUserDictionary.Words.WORD + " TEXT NOT NULL," // TODO make this unique
 					+ ChimeeUserDictionary.Words.FREQUENCY + " INTEGER,"
 					+ ChimeeUserDictionary.Words.FOLLOWING + " TEXT NOT NULL"
 					+ ");");

@@ -4,21 +4,15 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <ListView
-        android:id="@+id/lvSuggestions"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvSuggestions"
         android:layout_width="40dp"
-        android:layout_height="match_parent"
-        android:background="@color/red_200"
-        android:cacheColorHint="#00000000"
-        android:descendantFocusability="blocksDescendants"
-        android:divider="@drawable/listview_divider"
-        android:dividerHeight="1dp" >
-    </ListView>
+        android:layout_height="match_parent"/>
 
     <FrameLayout
         android:id="@+id/keyboard_container_frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></FrameLayout>
+        android:layout_height="match_parent"/>
 
 
 </LinearLayout>

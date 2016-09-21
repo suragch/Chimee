@@ -101,8 +101,48 @@ public class MainActivity extends AppCompatActivity  implements KeyboardControll
 	@Override
 	public void keyWasTapped(char character) {
 
-		inputWindow.insertMongolText(String.valueOf(character));
-		//getText().insert(inputWindow.getSelectionStart(), String.valueOf(character));
+		// add a space after punctuation
+		if (character == MONGOLIAN_COMMA || character == MONGOLIAN_FULL_STOP || character == '?'
+				|| character == '!') {
+			// Place punctuation automatically if entered after a space
+			if (inputWindow.unicodeCharBeforeCursor() == SPACE) {
+				inputWindow.deleteBackward();
+			}
+			inputWindow.insertMongolText("" + character + SPACE);
+		} else {
+			inputWindow.insertMongolText(String.valueOf(character));
+		}
+
+	}
+
+	@Override
+	public void keyNnbs() {
+		if (inputWindow.unicodeCharBeforeCursor() == ' ') {
+			inputWindow.deleteBackward();
+		}
+		inputWindow.insertMongolText(String.valueOf(MongolUnicodeRenderer.Uni.NNBS));
+	}
+
+	@Override
+	public void keyMvs() {
+
+		// add MVS
+		StringBuilder ending = new StringBuilder();
+		ending.append(MongolUnicodeRenderer.Uni.MVS);
+
+		// Add A or E depending on word gender
+		if (renderer.isMasculineWord(inputWindow.mongolWordBeforeCursor())) {
+			ending.append(MongolUnicodeRenderer.Uni.A);
+		} else  {
+			// Unknown gender words (I) are assumed to be feminine
+			ending.append(MongolUnicodeRenderer.Uni.E);
+		}
+
+		// Add space
+		ending.append(' ');
+
+		// insert text
+		inputWindow.insertMongolText(ending.toString());
 	}
 
 	@Override
@@ -111,20 +151,29 @@ public class MainActivity extends AppCompatActivity  implements KeyboardControll
 	}
 
 	@Override
-	public String oneMongolWordBeforeCursor() {
-		return null;
+	public char getCharBeforeCursor() {
+		return inputWindow.unicodeCharBeforeCursor();
 	}
 
 	@Override
-	public String[] twoMongolWordsBeforeCursor() {
-		return null;
+	public String oneMongolWordBeforeCursor() {
+		return inputWindow.mongolWordBeforeCursor();
+	}
+
+	@Override
+	public String secondMongolWordsBeforeCursor() {
+		return inputWindow.secondMongolWordBeforeCursor();
 	}
 
 	@Override
 	public void replaceCurrentWordWith(String replacementWord) {
-
+		inputWindow.replaceWordAtCursorWith(replacementWord);
 	}
 
+//	@Override
+//	public void replaceFromWordStartToCursor(String replacementWord) {
+//
+//	}
 
 
 
@@ -163,7 +212,7 @@ public class MainActivity extends AppCompatActivity  implements KeyboardControll
 	SharedPreferences settings;
 	boolean swapMongolKeyboards = false;
 	MongolAeiouKeyboard mongolAeiouKeyboard;
-	MongolQwertyKeyboard mongolQwertyKeyboard;
+	//MongolQwertyKeyboard mongolQwertyKeyboard;
 	EnglishKeyboard englishKeyboard;
 	//InputWindowContextMenu contextMenu;
 	FragmentManager fragmentManager;
@@ -425,15 +474,15 @@ public class MainActivity extends AppCompatActivity  implements KeyboardControll
 					userMongolKeyboard = Keyboard.MONGOLIAN_AEIOU;
 				} else {
 
-					mongolQwertyKeyboard = (MongolQwertyKeyboard) fragmentManager
-							.findFragmentByTag(MONGOL_QWERTY_TAG);
-					if (mongolQwertyKeyboard == null) {
-						mongolQwertyKeyboard = new MongolQwertyKeyboard();
-						fragmentManager
-								.beginTransaction()
-								.replace(R.id.keyboardContainer, mongolQwertyKeyboard,
-										MONGOL_QWERTY_TAG).commitAllowingStateLoss();
-					}
+//					mongolQwertyKeyboard = (MongolQwertyKeyboard) fragmentManager
+//							.findFragmentByTag(MONGOL_QWERTY_TAG);
+//					if (mongolQwertyKeyboard == null) {
+//						mongolQwertyKeyboard = new MongolQwertyKeyboard();
+//						fragmentManager
+//								.beginTransaction()
+//								.replace(R.id.keyboardContainer, mongolQwertyKeyboard,
+//										MONGOL_QWERTY_TAG).commitAllowingStateLoss();
+//					}
 					userMongolKeyboard = Keyboard.MONGOLIAN_QWERTY;
 				}
 				currentKeyboard = userMongolKeyboard;
@@ -640,148 +689,148 @@ public class MainActivity extends AppCompatActivity  implements KeyboardControll
 	}
 
 
-	// TODO @Override
-	public void onKeyTouched(char keyChar) {
-
-		// error checking
-		if (keyChar == NULL_CHAR) {
-			return;
-		}
-
-		if (keyChar == BACKSPACE) {
-
-			backspace();
-
-		} else if (keyChar == NNBS) {
-
-			// replace a space if there is one
-			char lastChar = getCharBeforeCursor();
-			if (lastChar == SPACE) {
-				unicodeText.insert(cursorPosition, keyChar);
-				unicodeText.delete(cursorPosition - 1, cursorPosition);
-			} else if (lastChar != NNBS) {
-				unicodeText.insert(cursorPosition, keyChar);
-				cursorPosition++;
-			}
-
-		} else if (keyChar == MONGOLIAN_MVS) {
-
-			final char MONGOLIAN_A = MongolUnicodeRenderer.Uni.A;
-			final char MONGOLIAN_E = MongolUnicodeRenderer.Uni.E;
-
-			// add the correct A/E vowel depending on the word
-			String stringToAdd;
-			String thisWord = getWordBeforeCursor();
-			if (renderer.isMasculineWord(thisWord)) {
-
-				stringToAdd = Character.toString(keyChar) + MONGOLIAN_A;
-				unicodeText.insert(cursorPosition, stringToAdd);
-				cursorPosition += 2;
-
-			} else if (renderer.isFeminineWord(thisWord)) {
-
-				stringToAdd = Character.toString(keyChar) + MONGOLIAN_E;
-				unicodeText.insert(cursorPosition, stringToAdd);
-				cursorPosition += 2;
-
-			} else {
-
-				// Unknown gender. Three choices:
-
-				// 1. Let the user choose.
-				// 2. Assume feminine
-				// 3. Assume masculine. If assuming this might be better than
-				// assuming feminine so that g/x are separate.
-
-				if (currentKeyboard == Keyboard.MONGOLIAN_QWERTY) {
-					// Let the user choose.
-					unicodeText.insert(cursorPosition, keyChar);
-					cursorPosition++;
-					// Bring up a dialog box with FVS choices
-					Intent intent = new Intent(getApplicationContext(), AeChooserDialog.class);
-					this.startActivityForResult(intent, AE_REQUEST);
-
-				} else {
-					// Assume feminine
-					stringToAdd = Character.toString(keyChar) + MONGOLIAN_E;
-					unicodeText.insert(cursorPosition, stringToAdd);
-					cursorPosition += 2;
-				}
-
-			}
-
-		} else if (keyChar == MONGOLIAN_COMMA || keyChar == MONGOLIAN_FULL_STOP || keyChar == '?'
-				|| keyChar == '!') {
-
-			// Place punctuation automatically if entered after a space
-			if (getCharBeforeCursor() == SPACE) {
-				unicodeText.insert(cursorPosition - 1, keyChar);
-				cursorPosition++;
-			} else {
-				String stringToAdd = Character.toString(keyChar) + SPACE;
-				unicodeText.insert(cursorPosition, stringToAdd);
-				cursorPosition += 2;
-			}
-
-		} else if (keyChar == SWITCH_TO_ENGLISH) {
-			// load the English keyboard fragment
-
-			//englishKeyboard = (EnglishKeyboard) fragmentManager
-			//       .findFragmentByTag(ENGLISH_FRAGMENT_TAG);
-			if (englishKeyboard == null) {
-
-				englishKeyboard = new EnglishKeyboard();
-				fragmentManager.beginTransaction()
-						.replace(R.id.keyboardContainer, englishKeyboard, ENGLISH_FRAGMENT_TAG)
-						.commit();
-				englishKeyboard.setRetainInstance(true);
-			} else {
-				fragmentManager.beginTransaction()
-						.replace(R.id.keyboardContainer, englishKeyboard, ENGLISH_FRAGMENT_TAG)
-						.commit();
-			}
-
-			currentKeyboard = Keyboard.ENGLISH;
-		} else if (keyChar == SWITCH_TO_MONGOLIAN) {
-			// load the Mongolian keyboard fragment
-
-			if (userMongolKeyboard == Keyboard.MONGOLIAN_AEIOU) {
-				//mongolAeiouKeyboard = (MongolAeiouKeyboard) fragmentManager
-				//       .findFragmentByTag(MONGOL_AEIOU_TAG);
-				// TODO for some reason findFragmentByTag is always null
-				if (mongolAeiouKeyboard == null) {
-
-					mongolAeiouKeyboard = new MongolAeiouKeyboard();
-					fragmentManager.beginTransaction()
-							.replace(R.id.keyboardContainer, mongolAeiouKeyboard, MONGOL_AEIOU_TAG)
-							.commit();
-					mongolAeiouKeyboard.setRetainInstance(true);
-				} else {
-					fragmentManager.beginTransaction()
-							.replace(R.id.keyboardContainer, mongolAeiouKeyboard, MONGOL_AEIOU_TAG)
-							.commit();
-				}
-
-
-				currentKeyboard = Keyboard.MONGOLIAN_AEIOU;
-			} else {
-				//mongolQwertyKeyboard = (MongolQwertyKeyboard) fragmentManager
-				//        .findFragmentByTag(MONGOL_QWERTY_TAG);
-				// TODO for some reason findFragmentByTag is always null
-				if (mongolQwertyKeyboard == null) {
-
-					mongolQwertyKeyboard = new MongolQwertyKeyboard();
-					fragmentManager.beginTransaction()
-							.replace(R.id.keyboardContainer, mongolQwertyKeyboard, MONGOL_QWERTY_TAG)
-							.commit();
-					mongolQwertyKeyboard.setRetainInstance(true);
-				} else {
-					fragmentManager.beginTransaction()
-							.replace(R.id.keyboardContainer, mongolQwertyKeyboard, MONGOL_QWERTY_TAG)
-							.commit();
-				}
-				currentKeyboard = Keyboard.MONGOLIAN_QWERTY;
-			}
+//	// TODO @Override
+//	public void onKeyTouched(char keyChar) {
+//
+//		// error checking
+//		if (keyChar == NULL_CHAR) {
+//			return;
+//		}
+//
+//		if (keyChar == BACKSPACE) {
+//
+//			backspace();
+//
+//		} else if (keyChar == NNBS) {
+//
+//			// replace a space if there is one
+//			char lastChar = getCharBeforeCursor();
+//			if (lastChar == SPACE) {
+//				unicodeText.insert(cursorPosition, keyChar);
+//				unicodeText.delete(cursorPosition - 1, cursorPosition);
+//			} else if (lastChar != NNBS) {
+//				unicodeText.insert(cursorPosition, keyChar);
+//				cursorPosition++;
+//			}
+//
+//		} else if (keyChar == MONGOLIAN_MVS) {
+//
+//			final char MONGOLIAN_A = MongolUnicodeRenderer.Uni.A;
+//			final char MONGOLIAN_E = MongolUnicodeRenderer.Uni.E;
+//
+//			// add the correct A/E vowel depending on the word
+//			String stringToAdd;
+//			String thisWord = getWordBeforeCursor();
+//			if (renderer.isMasculineWord(thisWord)) {
+//
+//				stringToAdd = Character.toString(keyChar) + MONGOLIAN_A;
+//				unicodeText.insert(cursorPosition, stringToAdd);
+//				cursorPosition += 2;
+//
+//			} else if (renderer.isFeminineWord(thisWord)) {
+//
+//				stringToAdd = Character.toString(keyChar) + MONGOLIAN_E;
+//				unicodeText.insert(cursorPosition, stringToAdd);
+//				cursorPosition += 2;
+//
+//			} else {
+//
+//				// Unknown gender. Three choices:
+//
+//				// 1. Let the user choose.
+//				// 2. Assume feminine
+//				// 3. Assume masculine. If assuming this might be better than
+//				// assuming feminine so that g/x are separate.
+//
+//				if (currentKeyboard == Keyboard.MONGOLIAN_QWERTY) {
+//					// Let the user choose.
+//					unicodeText.insert(cursorPosition, keyChar);
+//					cursorPosition++;
+//					// Bring up a dialog box with FVS choices
+//					Intent intent = new Intent(getApplicationContext(), AeChooserDialog.class);
+//					this.startActivityForResult(intent, AE_REQUEST);
+//
+//				} else {
+//					// Assume feminine
+//					stringToAdd = Character.toString(keyChar) + MONGOLIAN_E;
+//					unicodeText.insert(cursorPosition, stringToAdd);
+//					cursorPosition += 2;
+//				}
+//
+//			}
+//
+//		} else if (keyChar == MONGOLIAN_COMMA || keyChar == MONGOLIAN_FULL_STOP || keyChar == '?'
+//				|| keyChar == '!') {
+//
+//			// Place punctuation automatically if entered after a space
+//			if (getCharBeforeCursor() == SPACE) {
+//				unicodeText.insert(cursorPosition - 1, keyChar);
+//				cursorPosition++;
+//			} else {
+//				String stringToAdd = Character.toString(keyChar) + SPACE;
+//				unicodeText.insert(cursorPosition, stringToAdd);
+//				cursorPosition += 2;
+//			}
+//
+//		} else if (keyChar == SWITCH_TO_ENGLISH) {
+//			// load the English keyboard fragment
+//
+//			//englishKeyboard = (EnglishKeyboard) fragmentManager
+//			//       .findFragmentByTag(ENGLISH_FRAGMENT_TAG);
+//			if (englishKeyboard == null) {
+//
+//				englishKeyboard = new EnglishKeyboard();
+//				fragmentManager.beginTransaction()
+//						.replace(R.id.keyboardContainer, englishKeyboard, ENGLISH_FRAGMENT_TAG)
+//						.commit();
+//				englishKeyboard.setRetainInstance(true);
+//			} else {
+//				fragmentManager.beginTransaction()
+//						.replace(R.id.keyboardContainer, englishKeyboard, ENGLISH_FRAGMENT_TAG)
+//						.commit();
+//			}
+//
+//			currentKeyboard = Keyboard.ENGLISH;
+//		} else if (keyChar == SWITCH_TO_MONGOLIAN) {
+//			// load the Mongolian keyboard fragment
+//
+//			if (userMongolKeyboard == Keyboard.MONGOLIAN_AEIOU) {
+//				//mongolAeiouKeyboard = (MongolAeiouKeyboard) fragmentManager
+//				//       .findFragmentByTag(MONGOL_AEIOU_TAG);
+//				// TODO for some reason findFragmentByTag is always null
+//				if (mongolAeiouKeyboard == null) {
+//
+//					mongolAeiouKeyboard = new MongolAeiouKeyboard();
+//					fragmentManager.beginTransaction()
+//							.replace(R.id.keyboardContainer, mongolAeiouKeyboard, MONGOL_AEIOU_TAG)
+//							.commit();
+//					mongolAeiouKeyboard.setRetainInstance(true);
+//				} else {
+//					fragmentManager.beginTransaction()
+//							.replace(R.id.keyboardContainer, mongolAeiouKeyboard, MONGOL_AEIOU_TAG)
+//							.commit();
+//				}
+//
+//
+//				currentKeyboard = Keyboard.MONGOLIAN_AEIOU;
+//			} else {
+//				//mongolQwertyKeyboard = (MongolQwertyKeyboard) fragmentManager
+//				//        .findFragmentByTag(MONGOL_QWERTY_TAG);
+//				// TODO for some reason findFragmentByTag is always null
+//				if (mongolQwertyKeyboard == null) {
+//
+//					mongolQwertyKeyboard = new MongolQwertyKeyboard();
+//					fragmentManager.beginTransaction()
+//							.replace(R.id.keyboardContainer, mongolQwertyKeyboard, MONGOL_QWERTY_TAG)
+//							.commit();
+//					mongolQwertyKeyboard.setRetainInstance(true);
+//				} else {
+//					fragmentManager.beginTransaction()
+//							.replace(R.id.keyboardContainer, mongolQwertyKeyboard, MONGOL_QWERTY_TAG)
+//							.commit();
+//				}
+//				currentKeyboard = Keyboard.MONGOLIAN_QWERTY;
+//			}
 
 			// disabling this convenience rule because it prevents writing namayi and chamayi
 //		} else if (MongolUnicodeRenderer.isVowel(keyChar)) {
@@ -807,18 +856,18 @@ public class MainActivity extends AppCompatActivity  implements KeyboardControll
 //			}
 //			unicodeText.insert(cursorPosition, keyChar);
 //			cursorPosition++;
+//
+//		} else {
+//
+//			unicodeText.insert(cursorPosition, keyChar);
+//			cursorPosition++;
+//		}
+//
+//		updateDisplay();
+//
+//	}
 
-		} else {
-
-			unicodeText.insert(cursorPosition, keyChar);
-			cursorPosition++;
-		}
-
-		updateDisplay();
-
-	}
-
-	// TODO @Override
+//	// TODO @Override
 	public String getPreviousWord() {
 
 		// If there is a space before the current word
@@ -879,137 +928,137 @@ public class MainActivity extends AppCompatActivity  implements KeyboardControll
 		return word.toString();
 	}
 
-	// TODO @Override
-	public String getWordBeforeCursor() {
+//	// TODO @Override
+//	public String getWordBeforeCursor() {
+//
+//		StringBuilder word = new StringBuilder();
+//
+//		// Allow for certain single characters after the word (or two if it is a space)
+//		char s;
+//		int startPosition = cursorPosition - 1;
+//		if (startPosition >= 0) {
+//			s = unicodeText.charAt(startPosition);
+//			if (s == SPACE) {
+//				startPosition--;
+//				if (startPosition > 0) {
+//					s = unicodeText.charAt(startPosition);
+//					if (s == '?' || s == '!' || s == MONGOLIAN_COMMA || s == MONGOLIAN_FULL_STOP) {
+//
+//						startPosition--;
+//					}
+//				}
+//
+//			} else if (s == '?' || s == '!' || s == NEW_LINE || s == MONGOLIAN_COMMA
+//					|| s == MONGOLIAN_FULL_STOP || s == NNBS) {
+//				startPosition--;
+//			}
+//		} else {
+//			return "";
+//		}
+//
+//		// Get the word
+//		for (int i = startPosition; i >= 0; i--) {
+//
+//			if (unicodeText.charAt(i) == NNBS) {
+//				// Stop at NNBS.
+//				// Consider it part of the suffix
+//				// But consider anything before as a separate word
+//				word.insert(0, unicodeText.charAt(i));
+//				break;
+//			} else if (MongolUnicodeRenderer.isMongolian(unicodeText.charAt(i))) {
+//				word.insert(0, unicodeText.charAt(i));
+//			} else {
+//				break;
+//			}
+//		}
+//
+//		return word.toString();
+//	}
 
-		StringBuilder word = new StringBuilder();
+//	// TODO @Override
+//	public char getCharBeforeCursor() {
+//
+//		if (unicodeText.length() > 0 && cursorPosition > 0) {
+//			return unicodeText.charAt(cursorPosition - 1);
+//		} else {
+//			return NULL_CHAR;
+//		}
+//
+//	}
 
-		// Allow for certain single characters after the word (or two if it is a space)
-		char s;
-		int startPosition = cursorPosition - 1;
-		if (startPosition >= 0) {
-			s = unicodeText.charAt(startPosition);
-			if (s == SPACE) {
-				startPosition--;
-				if (startPosition > 0) {
-					s = unicodeText.charAt(startPosition);
-					if (s == '?' || s == '!' || s == MONGOLIAN_COMMA || s == MONGOLIAN_FULL_STOP) {
+//	private char getSecondCharBeforeCursor() {
+//
+//		if (unicodeText.length() > 1 && cursorPosition > 1) {
+//			return unicodeText.charAt(cursorPosition - 2);
+//		} else {
+//			return NULL_CHAR;
+//		}
+//
+//	}
 
-						startPosition--;
-					}
-				}
+//	// TODO @Override
+//	public MongolUnicodeRenderer.Location getLocationOfCharInMongolWord(int cursorOffset) {
+//
+//		int index = cursorPosition + cursorOffset;
+//
+//		if (index < 0 || index >= unicodeText.length()) {
+//			return MongolUnicodeRenderer.Location.NOT_MONGOLIAN;
+//		}
+//
+//		if (index < unicodeText.length() - 1
+//				&& MongolUnicodeRenderer.isMongolian(unicodeText.charAt(index + 1))) {
+//			// next char is mongolian
+//			if (index > 0 && MongolUnicodeRenderer.isMongolian(unicodeText.charAt(index - 1))) {
+//				// previous char is mongolian
+//				return MongolUnicodeRenderer.Location.MEDIAL;
+//			} else {// previous char isn't mongolian
+//				return MongolUnicodeRenderer.Location.INITIAL;
+//			}
+//		} else {// next char isn't mongolian
+//			if (index > 0 && MongolUnicodeRenderer.isMongolian(unicodeText.charAt(index - 1))) {
+//				// previous char is mongolian
+//				return MongolUnicodeRenderer.Location.FINAL;
+//			} else {// previous char isn't mongolian
+//				return MongolUnicodeRenderer.Location.ISOLATE;
+//			}
+//		}
+//
+//	}
 
-			} else if (s == '?' || s == '!' || s == NEW_LINE || s == MONGOLIAN_COMMA
-					|| s == MONGOLIAN_FULL_STOP || s == NNBS) {
-				startPosition--;
-			}
-		} else {
-			return "";
-		}
-
-		// Get the word
-		for (int i = startPosition; i >= 0; i--) {
-
-			if (unicodeText.charAt(i) == NNBS) {
-				// Stop at NNBS.
-				// Consider it part of the suffix
-				// But consider anything before as a separate word
-				word.insert(0, unicodeText.charAt(i));
-				break;
-			} else if (MongolUnicodeRenderer.isMongolian(unicodeText.charAt(i))) {
-				word.insert(0, unicodeText.charAt(i));
-			} else {
-				break;
-			}
-		}
-
-		return word.toString();
-	}
-
-	// TODO @Override
-	public char getCharBeforeCursor() {
-
-		if (unicodeText.length() > 0 && cursorPosition > 0) {
-			return unicodeText.charAt(cursorPosition - 1);
-		} else {
-			return NULL_CHAR;
-		}
-
-	}
-
-	private char getSecondCharBeforeCursor() {
-
-		if (unicodeText.length() > 1 && cursorPosition > 1) {
-			return unicodeText.charAt(cursorPosition - 2);
-		} else {
-			return NULL_CHAR;
-		}
-
-	}
-
-	// TODO @Override
-	public MongolUnicodeRenderer.Location getLocationOfCharInMongolWord(int cursorOffset) {
-
-		int index = cursorPosition + cursorOffset;
-
-		if (index < 0 || index >= unicodeText.length()) {
-			return MongolUnicodeRenderer.Location.NOT_MONGOLIAN;
-		}
-
-		if (index < unicodeText.length() - 1
-				&& MongolUnicodeRenderer.isMongolian(unicodeText.charAt(index + 1))) {
-			// next char is mongolian
-			if (index > 0 && MongolUnicodeRenderer.isMongolian(unicodeText.charAt(index - 1))) {
-				// previous char is mongolian
-				return MongolUnicodeRenderer.Location.MEDIAL;
-			} else {// previous char isn't mongolian
-				return MongolUnicodeRenderer.Location.INITIAL;
-			}
-		} else {// next char isn't mongolian
-			if (index > 0 && MongolUnicodeRenderer.isMongolian(unicodeText.charAt(index - 1))) {
-				// previous char is mongolian
-				return MongolUnicodeRenderer.Location.FINAL;
-			} else {// previous char isn't mongolian
-				return MongolUnicodeRenderer.Location.ISOLATE;
-			}
-		}
-
-	}
-
-	// TODO @Override
-	public void replaceFromWordStartToCursor(String replacementString) {
-
-		// Delete from cursor to beginning of word
-		int index = -1;
-		for (int i = cursorPosition - 1; i >= 0; i--) {
-			if (!MongolUnicodeRenderer.isMongolian(unicodeText.charAt(i))) {
-				index = i;
-				break;
-			}
-		}
-		index++;
-		if (index < cursorPosition) {
-			unicodeText.delete(index, cursorPosition);
-			cursorPosition = index;
-		}
-
-		// If this is an NNBS suffix then also delete the space
-		if (cursorPosition > 0
-				&& replacementString.charAt(0) == NNBS
-				&& (unicodeText.charAt(cursorPosition - 1) == SPACE || unicodeText
-				.charAt(cursorPosition - 1) == NNBS)) {
-			unicodeText.delete(cursorPosition - 1, cursorPosition);
-			cursorPosition--;
-		}
-
-		// Insert new word and a space
-		unicodeText.insert(cursorPosition, replacementString + " ");
-		cursorPosition = cursorPosition + replacementString.length() + 1;
-
-		// Update display
-		updateDisplay();
-
-	}
+//	// TODO @Override
+//	public void replaceFromWordStartToCursor(String replacementString) {
+//
+//		// Delete from cursor to beginning of word
+//		int index = -1;
+//		for (int i = cursorPosition - 1; i >= 0; i--) {
+//			if (!MongolUnicodeRenderer.isMongolian(unicodeText.charAt(i))) {
+//				index = i;
+//				break;
+//			}
+//		}
+//		index++;
+//		if (index < cursorPosition) {
+//			unicodeText.delete(index, cursorPosition);
+//			cursorPosition = index;
+//		}
+//
+//		// If this is an NNBS suffix then also delete the space
+//		if (cursorPosition > 0
+//				&& replacementString.charAt(0) == NNBS
+//				&& (unicodeText.charAt(cursorPosition - 1) == SPACE || unicodeText
+//				.charAt(cursorPosition - 1) == NNBS)) {
+//			unicodeText.delete(cursorPosition - 1, cursorPosition);
+//			cursorPosition--;
+//		}
+//
+//		// Insert new word and a space
+//		unicodeText.insert(cursorPosition, replacementString + " ");
+//		cursorPosition = cursorPosition + replacementString.length() + 1;
+//
+//		// Update display
+//		updateDisplay();
+//
+//	}
 
 
 	private void updateDisplay() {
@@ -1616,26 +1665,26 @@ public class MainActivity extends AppCompatActivity  implements KeyboardControll
 	}
 
 
-	// Deletes the character before the cursor
-	private void backspace() {
-		// if there are invisible formatting characters after the visible char
-		// then these should be deleted first.
-		char c;
-		if (cursorPosition <= 0) {
-			return;
-		}
-
-		do {
-			c = unicodeText.charAt(cursorPosition - 1);
-			unicodeText.deleteCharAt(cursorPosition - 1);
-			cursorPosition--;
-
-			// if it was an invisible formatting char then backspace over the
-			// next one too
-		} while (cursorPosition > 0
-				&& (c == ZWJ || c == MONGOLIAN_FVS1 || c == MONGOLIAN_FVS2 || c == MONGOLIAN_FVS3 || c == MONGOLIAN_MVS));
-
-	}
+//	// Deletes the character before the cursor
+//	private void backspace() {
+//		// if there are invisible formatting characters after the visible char
+//		// then these should be deleted first.
+//		char c;
+//		if (cursorPosition <= 0) {
+//			return;
+//		}
+//
+//		do {
+//			c = unicodeText.charAt(cursorPosition - 1);
+//			unicodeText.deleteCharAt(cursorPosition - 1);
+//			cursorPosition--;
+//
+//			// if it was an invisible formatting char then backspace over the
+//			// next one too
+//		} while (cursorPosition > 0
+//				&& (c == ZWJ || c == MONGOLIAN_FVS1 || c == MONGOLIAN_FVS2 || c == MONGOLIAN_FVS3 || c == MONGOLIAN_MVS));
+//
+//	}
 
 	// call: new AddMessageToFavoriteDb().execute();
 	private class AddMessageToFavoriteDb extends AsyncTask<Void, Void, Void> {

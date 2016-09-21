@@ -211,25 +211,25 @@ public class MongolAeiouKeyboard extends Fragment implements OnClickListener, On
 
 		View v = inflater.inflate(R.layout.mongol_aeiou_keyboard, container, false);
 
-		String[] fromColumns = { ChimeeUserDictionary.Words.WORD };
-		int[] toViews = { R.id.tvMongolListViewItem };
-
-		// set up the adapter for the list view
-		cursorAdapter = new SimpleCursorAdapter(getActivity().getApplicationContext(),
-				R.layout.mongol_suggestions_listview, null, fromColumns, toViews, 0) {
-			// Format the unicode from the db for the font
-			@Override
-			public void setViewText(TextView v, String text) {
-				String renderedText = renderer.unicodeToGlyphs(text);
-				super.setViewText(v, renderedText);
-			}
-		};
-
-		lvSuggestions = (ListView) v.findViewById(R.id.lvSuggestions);
-		lvSuggestions.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-		lvSuggestions.setOnItemClickListener(this);
-		lvSuggestions.setOnItemLongClickListener(this);
-		lvSuggestions.setAdapter(cursorAdapter);
+//		String[] fromColumns = { ChimeeUserDictionary.Words.WORD };
+//		int[] toViews = { R.id.tvMongolListViewItem };
+//
+//		// set up the adapter for the list view
+//		cursorAdapter = new SimpleCursorAdapter(getActivity().getApplicationContext(),
+//				R.layout.suggestions_recyclerview, null, fromColumns, toViews, 0) {
+//			// Format the unicode from the db for the font
+//			@Override
+//			public void setViewText(TextView v, String text) {
+//				String renderedText = renderer.unicodeToGlyphs(text);
+//				super.setViewText(v, renderedText);
+//			}
+//		};
+//
+//		lvSuggestions = (ListView) v.findViewById(R.id.lvSuggestions);
+//		lvSuggestions.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+//		lvSuggestions.setOnItemClickListener(this);
+//		lvSuggestions.setOnItemLongClickListener(this);
+//		lvSuggestions.setAdapter(cursorAdapter);
 
 		// Add listeners for all keys
 		RelativeLayout rlKeyA = (RelativeLayout) v.findViewById(R.id.key_a);
@@ -319,47 +319,47 @@ public class MongolAeiouKeyboard extends Fragment implements OnClickListener, On
 		return v;
 	}
 
-	class CustomListViewAdapter extends ArrayAdapter<String> {
-
-		Context context;
-		List<String> wordsArray;
-
-		CustomListViewAdapter(Context c, List<String> words) {
-			super(c, R.layout.mongol_suggestions_listview, R.id.tvMongolListViewItem, words);
-			this.context = c;
-			this.wordsArray = words;
-		}
-
-		class MyViewHolder {
-			// This is an optimization to avoid expensive findViewById calls
-			TextView tvWords;
-
-			MyViewHolder(View v) {
-				tvWords = (TextView) v.findViewById(R.id.tvMongolListViewItem);
-			}
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			View row = convertView;
-			MyViewHolder holder = null;
-
-			if (row == null) {
-				// Expensive LayoutInflator calls only done once
-				LayoutInflater inflater = (LayoutInflater) context
-						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				row = inflater.inflate(R.layout.mongol_suggestions_listview, parent, false);
-				holder = new MyViewHolder(row);
-				row.setTag(holder);
-			} else { // recycling
-				holder = (MyViewHolder) row.getTag();
-			}
-
-			holder.tvWords.setText(wordsArray.get(position));
-
-			return row;
-		}
-	}
+//	class CustomListViewAdapter extends ArrayAdapter<String> {
+//
+//		Context context;
+//		List<String> wordsArray;
+//
+//		CustomListViewAdapter(Context c, List<String> words) {
+//			super(c, R.layout.suggestions_recyclerview, R.id.tvMongolListViewItem, words);
+//			this.context = c;
+//			this.wordsArray = words;
+//		}
+//
+//		class MyViewHolder {
+//			// This is an optimization to avoid expensive findViewById calls
+//			TextView tvWords;
+//
+//			MyViewHolder(View v) {
+//				tvWords = (TextView) v.findViewById(R.id.tvMongolListViewItem);
+//			}
+//		}
+//
+//		@Override
+//		public View getView(int position, View convertView, ViewGroup parent) {
+//			View row = convertView;
+//			MyViewHolder holder = null;
+//
+//			if (row == null) {
+//				// Expensive LayoutInflator calls only done once
+//				LayoutInflater inflater = (LayoutInflater) context
+//						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//				row = inflater.inflate(R.layout.suggestions_recyclerview, parent, false);
+//				holder = new MyViewHolder(row);
+//				row.setTag(holder);
+//			} else { // recycling
+//				holder = (MyViewHolder) row.getTag();
+//			}
+//
+//			holder.tvWords.setText(wordsArray.get(position));
+//
+//			return row;
+//		}
+//	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -1253,8 +1253,8 @@ public class MongolAeiouKeyboard extends Fragment implements OnClickListener, On
 
 		// set the listview adapter and bind to listview
 		Context appContext = getActivity().getApplicationContext();
-		CustomListViewAdapter lvAdapter = new CustomListViewAdapter(appContext, followingArray);
-		lvSuggestions.setAdapter(lvAdapter);
+//		CustomListViewAdapter lvAdapter = new CustomListViewAdapter(appContext, followingArray);
+//		lvSuggestions.setAdapter(lvAdapter);
 
 	}
 
@@ -1286,8 +1286,8 @@ public class MongolAeiouKeyboard extends Fragment implements OnClickListener, On
 
 		// set the listview adapter and bind to listview
 		Context appContext = getActivity().getApplicationContext();
-		CustomListViewAdapter lvAdapter = new CustomListViewAdapter(appContext, mongolSuffixArray);
-		lvSuggestions.setAdapter(lvAdapter);
+//		CustomListViewAdapter lvAdapter = new CustomListViewAdapter(appContext, mongolSuffixArray);
+//		lvSuggestions.setAdapter(lvAdapter);
 
 	}
 

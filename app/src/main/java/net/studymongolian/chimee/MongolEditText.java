@@ -34,20 +34,7 @@ public class MongolEditText extends EditText {
         super(context, attrs);
     }
 
-//    // Overrides
-//
-//    @Override
-//    public Editable getText() {
-//        return textStorage.getUnicode();
-//    }
-//
-//    @Override
-//    public void setText(CharSequence text, BufferType type) {
-//        textStorage.setUnicode(text);
-//        super.setText(textStorage.render(), type);
-//    }
 
-    // TODO override selection methods
 
     // Mongol methods
 
@@ -98,9 +85,8 @@ public class MongolEditText extends EditText {
         return textStorage.unicodeOneWordBeforeCursor(getSelectionStart());
     }
 
-    /// - returns: String array of length 2: {first word from cursor, second word from cursor}
-    public String[] twoMongolWordsBeforeCursor() {
-        return textStorage.unicodeTwoWordsBeforeCursor(getSelectionStart());
+    public String secondMongolWordBeforeCursor() {
+        return textStorage.unicodeSecondWordBeforeCursor(getSelectionStart());
     }
 
 }
