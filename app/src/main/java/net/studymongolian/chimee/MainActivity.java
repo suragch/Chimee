@@ -110,40 +110,20 @@ public class MainActivity extends AppCompatActivity  implements KeyboardControll
 			}
 			inputWindow.insertMongolText("" + character + SPACE);
 		} else {
-			inputWindow.insertMongolText(String.valueOf(character));
+			inputWindow.insertMongolText(character);
 		}
 
 	}
 
-	@Override
-	public void keyNnbs() {
-		if (inputWindow.unicodeCharBeforeCursor() == ' ') {
-			inputWindow.deleteBackward();
-		}
-		inputWindow.insertMongolText(String.valueOf(MongolUnicodeRenderer.Uni.NNBS));
-	}
+//	@Override
+//	public void keyNnbs() {
+//		if (inputWindow.unicodeCharBeforeCursor() == ' ') {
+//			inputWindow.deleteBackward();
+//		}
+//		inputWindow.insertMongolText(MongolUnicodeRenderer.Uni.NNBS);
+//	}
 
-	@Override
-	public void keyMvs() {
 
-		// add MVS
-		StringBuilder ending = new StringBuilder();
-		ending.append(MongolUnicodeRenderer.Uni.MVS);
-
-		// Add A or E depending on word gender
-		if (renderer.isMasculineWord(inputWindow.mongolWordBeforeCursor())) {
-			ending.append(MongolUnicodeRenderer.Uni.A);
-		} else  {
-			// Unknown gender words (I) are assumed to be feminine
-			ending.append(MongolUnicodeRenderer.Uni.E);
-		}
-
-		// Add space
-		ending.append(' ');
-
-		// insert text
-		inputWindow.insertMongolText(ending.toString());
-	}
 
 	@Override
 	public void keyBackspace() {

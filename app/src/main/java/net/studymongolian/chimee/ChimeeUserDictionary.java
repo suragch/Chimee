@@ -149,6 +149,33 @@ public class ChimeeUserDictionary {
         }
 
         /**
+         * Queries the dictionary and returns a cursor with all matches of words that start with
+         * the given prefix.
+         *
+         * @param context
+         *            the current application context
+         * @param prefix
+         *            the prefix to search
+         */
+        public static Cursor queryPrefix(Context context, String prefix) {
+
+            // error checking
+            if (TextUtils.isEmpty(prefix)) {
+                return null;
+            }
+
+            final ContentResolver resolver = context.getContentResolver();
+            String[] projection = new String[] { _ID, WORD, FREQUENCY };
+            String selection = WORD + " LIKE ?";
+            String[] selectionArgs = { prefix + "%"};
+            String orderBy = DEFAULT_SORT_ORDER;
+
+            Cursor cursor = resolver.query(CONTENT_URI, projection, selection, selectionArgs, orderBy);
+
+            return cursor;
+        }
+
+        /**
          * Adds a word to the dictionary, with the given frequency and following
          * words.
          *

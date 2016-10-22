@@ -54,6 +54,10 @@ public class MongolEditText extends EditText {
         this.setSelection(textStorage.glyphIndexForCursor);
     }
 
+    public void insertMongolText(char unicode) {
+        insertMongolText(String.valueOf(unicode));
+    }
+
     public void replaceWordAtCursorWith(String replacementString) {
 
         textStorage.replaceWordAtCursorWith(replacementString, getSelectionStart());

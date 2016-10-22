@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.BaseColumns;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -24,7 +26,7 @@ import java.util.List;
 
 // This fragment holds the suggestion bar and a container for the keyboard
 // They keyboards are loaded as subfragments
-public class KeyboardController extends Fragment implements Keyboard.OnKeyboardListener {
+public class KeyboardController extends Fragment implements Keyboard.OnKeyboardListener, SuggestionsAdapter.ItemClickListener {
 
     private OnKeyboardControllerListener mListener;
 
@@ -38,11 +40,12 @@ public class KeyboardController extends Fragment implements Keyboard.OnKeyboardL
     boolean typingMongol = false;
     boolean isSuffix = false;
     String suggestionsParent = ""; // keep track of parent of following list
-    List<String> suggestionsUnicode = new ArrayList<String>(); // following
+    //List<String> suggestionsUnicode = new ArrayList<String>(); // following
 
     protected static final int WORDS_LOADER_ID = 0;
     protected static final int MIN_DICTIONARY_WORD_LENGTH = 2;
     protected static final int MAX_FOLLOWING_WORDS = 10;
+    protected static final int MAX_SUGGESTED_WORDS = 10;
     protected static final char SWITCH_TO_ENGLISH = 'α'; // arbitrary symbol
     protected static final char PUNCTUATION_KEY = 'γ'; // arbitrary symbol
     private static final int FVS_REQUEST = 10;
@@ -53,21 +56,22 @@ public class KeyboardController extends Fragment implements Keyboard.OnKeyboardL
         // Inflate the layout for this fragment
         View layout = inflater.inflate(R.layout.fragment_keyboard_controller, container, false);
         rvSuggestions = (RecyclerView) layout.findViewById(R.id.rvSuggestions);
-        suggestionsAdapter = new SuggestionsAdapter(getActivity(), getData());
+        suggestionsAdapter = new SuggestionsAdapter(getActivity(), new ArrayList<String>());
+        suggestionsAdapter.setClickListener(this);
         rvSuggestions.setAdapter(suggestionsAdapter);
         rvSuggestions.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         return layout;
     }
 
-    public static List<String> getData() {
-        List<String> data = new ArrayList<>();
-        String[] words = {"this", "is", "a", "test", "for", "you", "to", "try"};
-        for (int i = 0; i < words.length; i++) {
-            data.add(words[i]);
-        }
-        return data;
-    }
+//    public static List<String> getData() {
+//        List<String> data = new ArrayList<>();
+//        String[] words = {"this", "is", "a", "test", "for", "you", "to", "try"};
+//        for (int i = 0; i < words.length; i++) {
+//            data.add(words[i]);
+//        }
+//        return data;
+//    }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -94,19 +98,43 @@ public class KeyboardController extends Fragment implements Keyboard.OnKeyboardL
         mListener = null;
     }
 
+    @Override
+    public void onItemClick(View view, int position) {
+        Log.i("TAG", "onItemClick: " + position);
+    }
+
     // Keyboard callback methods
 
     @Override
     public void keySuffix() {
         Log.i("TAG", "keySuffix: ");
-        saveWord();
-        mListener.keyNnbs();
+
+        if (mListener.getCharBeforeCursor() == ' ') {
+            mListener.keyBackspace();
+        } else {
+            saveWord();
+        }
+        mListener.keyWasTapped(MongolUnicodeRenderer.Uni.NNBS);
 
         // TODO update suggestion bar
     }
 
     @Override
     public void keyWasTapped(char character) {
+
+        // FIXME delete testing
+        // BEGIN TESTING
+
+        if (character == MongolUnicodeRenderer.Uni.CHI) {
+            // print all words in db
+            printAllWords();
+            return;
+        }
+
+        // END TESTING
+
+
+
 
         if (character == ' ' || character == '\n' || character == '!' || character == '?' ||
                 character == MongolUnicodeRenderer.Uni.MONGOLIAN_COMMA ||
@@ -117,7 +145,14 @@ public class KeyboardController extends Fragment implements Keyboard.OnKeyboardL
         Log.i("TAG", "keyWasTapped: ");
         mListener.keyWasTapped(character);
 
-        // TODO update suggestion bar
+        // update suggestion bar
+        String currentWord = mListener.oneMongolWordBeforeCursor();
+        if (TextUtils.isEmpty(currentWord)) {
+            suggestionsAdapter.clear();
+        } else {
+            new QueryPrefixAndUpdateSuggestionBar().execute(currentWord);
+        }
+
     }
 
     @Override
@@ -130,7 +165,19 @@ public class KeyboardController extends Fragment implements Keyboard.OnKeyboardL
     public void keyMvs() {
         Log.i("TAG", "keyMvs: ");
 
-        mListener.keyMvs();
+        // input MVS
+        keyWasTapped(MongolUnicodeRenderer.Uni.MVS);
+
+        // Add A or E depending on word gender
+        if (renderer.isMasculineWord(mListener.oneMongolWordBeforeCursor())) {
+            keyWasTapped(MongolUnicodeRenderer.Uni.A);
+        } else  {
+            // Unknown gender words (I) are assumed to be feminine
+            keyWasTapped(MongolUnicodeRenderer.Uni.E);
+        }
+
+        // Add a space automatically (this will also save the word
+        keyWasTapped(' ');
     }
 
     @Override
@@ -148,8 +195,8 @@ public class KeyboardController extends Fragment implements Keyboard.OnKeyboardL
 
     public interface OnKeyboardControllerListener {
         void keyWasTapped(char character);
-        void keyNnbs();
-        void keyMvs();
+        //void keyNnbs();
+        //void keyMvs();
         void keyBackspace();
         char getCharBeforeCursor();
         String oneMongolWordBeforeCursor();
@@ -157,6 +204,25 @@ public class KeyboardController extends Fragment implements Keyboard.OnKeyboardL
         void replaceCurrentWordWith(String replacementWord);
         //void replaceFromWordStartToCursor(String replacementWord);
     }
+
+    // Suggestions bar
+
+//    private void updateSuggestionBar(String currentWord) {
+//
+//        // The purpose of this method is to do a new query of the db
+//        // to see which words start with the string before the cursor.
+//        // Then update the listview with those words
+//
+//        if (TextUtils.isEmpty(currentWord)) {
+//            // clear list
+//            suggestionsAdapter.clear();
+//            return;
+//        }
+//
+//        // update suggestions bar with database word query
+//        new QueryPrefixAndUpdateSuggestionBar().execute(currentWord);
+//
+//    }
 
     // Toast helper
 
@@ -297,6 +363,8 @@ public class KeyboardController extends Fragment implements Keyboard.OnKeyboardL
             return null;
         }
 
+
+
         private String reorderFollowing(String wordToAdd, String following) {
 
             if (TextUtils.isEmpty(following)) {
@@ -317,6 +385,115 @@ public class KeyboardController extends Fragment implements Keyboard.OnKeyboardL
                 return builder.toString();
             }
         }
+
+
+    }
+
+    // call with: new QueryPrefixAndUpdateSuggestionBar().execute(unicodeString)
+    private class QueryPrefixAndUpdateSuggestionBar extends AsyncTask<String, Void, List<String>> {
+
+        private Context context = getActivity().getApplicationContext();
+        String word;
+
+        @Override
+        protected List<String> doInBackground(String... params) {
+
+            // android.os.Debug.waitForDebugger();
+
+            // get the word
+            word = params[0];
+
+            // Query db to see if exists
+            Cursor cursor = ChimeeUserDictionary.Words.queryPrefix(context, word);
+
+            List<String> matches = new ArrayList<String>();
+            int columnIndex = cursor.getColumnIndex(ChimeeUserDictionary.Words.WORD);
+            int counter = 0;
+            while (cursor.moveToNext() && counter <= MAX_SUGGESTED_WORDS) {
+                matches.add(cursor.getString(columnIndex));
+                counter++;
+            }
+            cursor.close();
+
+            return matches;
+        }
+
+        @Override
+        protected void onPostExecute(List<String> matches) {
+            // update suggestion bar
+            suggestionsAdapter.swap(matches);
+        }
+    }
+
+//    // call with: new QueryFollowingAndUpdateLV().execute(unicodeString)
+//    private class QueryFollowingAndUpdateSuggestionBar extends AsyncTask<String, Void, String> {
+//
+//        private Context context = getActivity().getApplicationContext();
+//        String word;
+//
+//        @Override
+//        protected String doInBackground(String... params) {
+//
+//            // android.os.Debug.waitForDebugger();
+//
+//            // get the word
+//            word = params[0];
+//
+//            // Query db to see if exists
+//            Cursor cursor = ChimeeUserDictionary.Words.queryWord(context, word);
+//
+//            // If so then update then send results to UI and update LV
+//            String following = "";
+//            if (cursor.moveToNext()) {
+//                following = cursor.getString(cursor
+//                        .getColumnIndex(ChimeeUserDictionary.Words.FOLLOWING));
+//            }
+//            cursor.close();
+//
+//            return following;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String result) {
+//
+//            // This is the result from doInBackground
+//
+//            // Check if it is not too late to update LV
+//            // How do I know?
+//            // isFollowing = true
+//            // parent word is still the same
+//            if (isFollowing || isSuffix) {
+//                if (TextUtils.isEmpty(result)) {
+//                    lvSuggestions.setAdapter(null);
+//                } else {
+//                    updateLvFollowing(word, result);
+//                }
+//                isSuffix = false;
+//                isFollowing = true;
+//            } else {
+//                // do nothing. You just wasted your time.
+//            }
+//
+//        }
+//
+//    }
+
+
+    private class PrintAllWordsTask extends AsyncTask<Void, Void, Void> {
+
+        private Context context = getActivity().getApplicationContext();
+
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            // Query db to see if exists
+            String result = ChimeeUserDictionary.Words.getAllWords(context);
+            Log.i("TAG", result);
+            return null;
+
+        }
+
 
     }
 
@@ -460,5 +637,10 @@ public class KeyboardController extends Fragment implements Keyboard.OnKeyboardL
         if (thisWord != null && thisWord.length() >= MIN_DICTIONARY_WORD_LENGTH) {
             new AddOrUpdateDictionaryWordsTask().execute(thisWord, previousWord);
         }
+    }
+
+    // Testing
+    private void printAllWords() {
+        new PrintAllWordsTask().execute();
     }
 }
