@@ -68,6 +68,10 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.
         }
     }
 
+    public String getItem(int id) {
+        return mData.get(id);
+    }
+
     public void swap(List<String> newList){
         mData.clear();
         mData.addAll(newList);

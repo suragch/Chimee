@@ -225,7 +225,9 @@ public class MongolTextStorage {
             return "";
         }
 
-        if (!renderer.isMongolian(unicodeText.charAt(startPosition))) {
+        // make sure starts with mongolian or nnbs
+        if (!renderer.isMongolian(unicodeText.charAt(startPosition)) &&
+                unicodeText.charAt(startPosition) != MongolUnicodeRenderer.Uni.NNBS) {
             return "";
         }
 
@@ -249,44 +251,56 @@ public class MongolTextStorage {
         return word.toString();
     }
 
+    // Any mongol text adjacent the cursor is considered the first Mongol word
+    // An NNBS before the cursor is considered the first Mongol word
+    // Any Mongol text before the space or NNBS is the second Mongol word
     public String unicodeSecondWordBeforeCursor(int glyphIndex) {
 
         // if glyph index has changed, need to update unicode index
         updateUnicodeIndex(glyphIndex);
 
-        // If there is a space before the current word
-        // then get word before that
-        StringBuilder word = new StringBuilder();
-
-        // Allow for certain single characters after the end word
-        char s;
         int startPosition = unicodeIndexForCursor - 1;
-        if (startPosition >= 0) {
-            s = unicodeText.charAt(startPosition);
-            if (s == ' ') {
-                startPosition--;
-                if (startPosition > 0) {
-                    s = unicodeText.charAt(startPosition);
-                    if (s == '?' || s == '!' || s == MongolUnicodeRenderer.Uni.MONGOLIAN_COMMA ||
-                            s == MongolUnicodeRenderer.Uni.MONGOLIAN_FULL_STOP) {
-
-                        startPosition--;
-                    }
-                }
-
-            } else if (s == '?' || s == '!' || s == '\n' || s == MongolUnicodeRenderer.Uni.MONGOLIAN_COMMA
-                    || s == MongolUnicodeRenderer.Uni.MONGOLIAN_FULL_STOP || s == MongolUnicodeRenderer.Uni.NNBS) {
-                startPosition--;
-            }
-        } else {
+        if (startPosition < 1) {
             return "";
         }
+
+        // make sure cursor is adjacent mongolian or nnbs
+        if (!renderer.isMongolian(unicodeText.charAt(startPosition)) &&
+                unicodeText.charAt(startPosition) != MongolUnicodeRenderer.Uni.NNBS) {
+            return "";
+        }
+
+        StringBuilder word = new StringBuilder();
+
+//        // Allow for certain single characters after the end word
+//        char s;
+//        int startPosition = unicodeIndexForCursor - 1;
+//        if (startPosition >= 0) {
+//            s = unicodeText.charAt(startPosition);
+//            if (s == ' ') {
+//                startPosition--;
+//                if (startPosition > 0) {
+//                    s = unicodeText.charAt(startPosition);
+//                    if (s == '?' || s == '!' || s == MongolUnicodeRenderer.Uni.MONGOLIAN_COMMA ||
+//                            s == MongolUnicodeRenderer.Uni.MONGOLIAN_FULL_STOP) {
+//
+//                        startPosition--;
+//                    }
+//                }
+//
+//            } else if (s == '?' || s == '!' || s == '\n' || s == MongolUnicodeRenderer.Uni.MONGOLIAN_COMMA
+//                    || s == MongolUnicodeRenderer.Uni.MONGOLIAN_FULL_STOP || s == MongolUnicodeRenderer.Uni.NNBS) {
+//                startPosition--;
+//            }
+//        } else {
+//            return "";
+//        }
 
         // Back up to the space before current word if exists
         int spacePosition = 0;
         for (int i = startPosition; i >= 0; i--) {
             if (!MongolUnicodeRenderer.isMongolian(unicodeText.charAt(i))) {
-                if (i < startPosition
+                if (i <= startPosition
                         && (unicodeText.charAt(i) == ' ' || unicodeText.charAt(i) == MongolUnicodeRenderer.Uni.NNBS)) {
                     spacePosition = i;
                 }
@@ -313,69 +327,69 @@ public class MongolTextStorage {
         return word.toString();
     }
 
-    /// Gets the two Mongolian words before the cursor position
-    ///
-    /// - warning: Only gets called if cursor is after a Mongolian character
-    /// - parameter glyphIndex: glyph index (not unicode index) of the cursor
-    /// - returns: String array of length 2: {first word from cursor, second word from cursor}
-    ///
-    /// This is currently unused. It is a translation from Swift.
-    private String[] unicodeTwoWordsBeforeCursor(int glyphIndex) {
-
-        // if glyph index has changed, need to update unicode index
-        updateUnicodeIndex(glyphIndex);
-
-        int startPosition = unicodeIndexForCursor - 1;
-        // empty
-        if (startPosition < 0) {
-            return new String[] {"", ""};
-        }
-        // not mongolian char or nnbs
-        if (!renderer.isMongolian(unicodeText.charAt(startPosition)) &&
-                unicodeText.charAt(startPosition) != MongolUnicodeRenderer.Uni.NNBS) {
-            return new String[] {"", ""};
-        }
-
-
-        // Get the words
-        boolean firstWordHasEnded = false; // flag if between words, allow single space/NNBS
-        StringBuilder words = new StringBuilder();
-        for (int i = startPosition; i >= 0; i--) {
-
-            if (unicodeText.charAt(i) == MongolUnicodeRenderer.Uni.NNBS) {
-                // Stop at NNBS.
-                // Consider it part of the suffix
-                // But consider anything before as a separate word
-                words.insert(0, unicodeText.charAt(i));
-                if (firstWordHasEnded) {
-                    break;
-                }
-                firstWordHasEnded = true;
-                words.insert(0, space); // word delimeter is space
-            } else if (unicodeText.charAt(i) == space) {
-                // First space is kept as a delimeter between words
-                if (firstWordHasEnded) {
-                    break;
-                }
-                firstWordHasEnded = true;
-                words.insert(0, unicodeText.charAt(i));
-            } else if (renderer.isMongolian(unicodeText.charAt(i))) {
-                words.insert(0, unicodeText.charAt(i));
-            } else {
-                break;
-            }
-        }
-
-        // return (firstWordBackFromCursor, secondWordBackFromCursor)
-
-        String wordsArray[] = words.toString().trim().split(String.valueOf(space));
-        if (wordsArray.length == 1) {
-            return new String[] {wordsArray[0], ""};
-        }else if (wordsArray.length > 1) {
-            return new String[] {wordsArray[wordsArray.length - 1], wordsArray[wordsArray.length - 2]};
-        }else{
-            return new String[] {"", ""};
-        }
-    }
+//    /// Gets the two Mongolian words before the cursor position
+//    ///
+//    /// - warning: Only gets called if cursor is after a Mongolian character
+//    /// - parameter glyphIndex: glyph index (not unicode index) of the cursor
+//    /// - returns: String array of length 2: {first word from cursor, second word from cursor}
+//    ///
+//    /// This is currently unused. It is a translation from Swift.
+//    private String[] unicodeTwoWordsBeforeCursor(int glyphIndex) {
+//
+//        // if glyph index has changed, need to update unicode index
+//        updateUnicodeIndex(glyphIndex);
+//
+//        int startPosition = unicodeIndexForCursor - 1;
+//        // empty
+//        if (startPosition < 0) {
+//            return new String[] {"", ""};
+//        }
+//        // not mongolian char or nnbs
+//        if (!renderer.isMongolian(unicodeText.charAt(startPosition)) &&
+//                unicodeText.charAt(startPosition) != MongolUnicodeRenderer.Uni.NNBS) {
+//            return new String[] {"", ""};
+//        }
+//
+//
+//        // Get the words
+//        boolean firstWordHasEnded = false; // flag if between words, allow single space/NNBS
+//        StringBuilder words = new StringBuilder();
+//        for (int i = startPosition; i >= 0; i--) {
+//
+//            if (unicodeText.charAt(i) == MongolUnicodeRenderer.Uni.NNBS) {
+//                // Stop at NNBS.
+//                // Consider it part of the suffix
+//                // But consider anything before as a separate word
+//                words.insert(0, unicodeText.charAt(i));
+//                if (firstWordHasEnded) {
+//                    break;
+//                }
+//                firstWordHasEnded = true;
+//                words.insert(0, space); // word delimeter is space
+//            } else if (unicodeText.charAt(i) == space) {
+//                // First space is kept as a delimeter between words
+//                if (firstWordHasEnded) {
+//                    break;
+//                }
+//                firstWordHasEnded = true;
+//                words.insert(0, unicodeText.charAt(i));
+//            } else if (renderer.isMongolian(unicodeText.charAt(i))) {
+//                words.insert(0, unicodeText.charAt(i));
+//            } else {
+//                break;
+//            }
+//        }
+//
+//        // return (firstWordBackFromCursor, secondWordBackFromCursor)
+//
+//        String wordsArray[] = words.toString().trim().split(String.valueOf(space));
+//        if (wordsArray.length == 1) {
+//            return new String[] {wordsArray[0], ""};
+//        }else if (wordsArray.length > 1) {
+//            return new String[] {wordsArray[wordsArray.length - 1], wordsArray[wordsArray.length - 2]};
+//        }else{
+//            return new String[] {"", ""};
+//        }
+//    }
 
 }

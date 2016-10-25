@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 // This fragment holds the suggestion bar and a container for the keyboard
@@ -49,6 +50,9 @@ public class KeyboardController extends Fragment implements Keyboard.OnKeyboardL
     protected static final char SWITCH_TO_ENGLISH = 'α'; // arbitrary symbol
     protected static final char PUNCTUATION_KEY = 'γ'; // arbitrary symbol
     private static final int FVS_REQUEST = 10;
+
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -101,6 +105,23 @@ public class KeyboardController extends Fragment implements Keyboard.OnKeyboardL
     @Override
     public void onItemClick(View view, int position) {
         Log.i("TAG", "onItemClick: " + position);
+
+        // insert word into input window
+        String unicodeString = suggestionsAdapter.getItem(position);
+        mListener.replaceCurrentWordWith(unicodeString);
+
+        // update suggestion bar with following words
+        new QueryFollowingAndUpdateSuggestionBar().execute(unicodeString);
+
+        // update frequency of clicked word and add it to the previous word's following
+        saveWord();
+        mListener.keyWasTapped(' ');
+
+        // update frequency in suffix database
+        if (unicodeString.charAt(0)==MongolUnicodeRenderer.Uni.NNBS) {
+            new UpdateSuffixFrequency().execute(unicodeString);
+        }
+
     }
 
     // Keyboard callback methods
@@ -116,7 +137,8 @@ public class KeyboardController extends Fragment implements Keyboard.OnKeyboardL
         }
         mListener.keyWasTapped(MongolUnicodeRenderer.Uni.NNBS);
 
-        // TODO update suggestion bar
+        // update suggestion bar
+        updateSuggestionBarWithSuffixList(String.valueOf(MongolUnicodeRenderer.Uni.NNBS));
     }
 
     @Override
@@ -149,6 +171,10 @@ public class KeyboardController extends Fragment implements Keyboard.OnKeyboardL
         String currentWord = mListener.oneMongolWordBeforeCursor();
         if (TextUtils.isEmpty(currentWord)) {
             suggestionsAdapter.clear();
+            return;
+        }
+        if (currentWord.charAt(0) == MongolUnicodeRenderer.Uni.NNBS) {
+            updateSuggestionBarWithSuffixList(currentWord);
         } else {
             new QueryPrefixAndUpdateSuggestionBar().execute(currentWord);
         }
@@ -159,6 +185,9 @@ public class KeyboardController extends Fragment implements Keyboard.OnKeyboardL
     public void keyBackspace() {
         mListener.keyBackspace();
         Log.i("TAG", "keyBackspace: ");
+        if (suggestionsAdapter.getItemCount()!=0) {
+            suggestionsAdapter.clear();
+        }
     }
 
     @Override
@@ -207,22 +236,106 @@ public class KeyboardController extends Fragment implements Keyboard.OnKeyboardL
 
     // Suggestions bar
 
-//    private void updateSuggestionBar(String currentWord) {
+    public void updateSuggestionBarWithSuffixList(String suffixPrefix) {
+
+        // get current suffix start and previous word
+        //String suffixStart = mListener.oneMongolWordBeforeCursor();
+
+        // error checking on string
+        if (TextUtils.isEmpty(suffixPrefix)) {
+            suggestionsAdapter.clear();
+            return;
+        }
+
+        String previousWord = mListener.secondMongolWordsBeforeCursor();
+        Suffix.WordEnding ending = getEndingOf(previousWord);
+        Suffix.WordGender gender;
+        if (ending == Suffix.WordEnding.Nil) {
+            gender = getGenderOf(suffixPrefix);
+        } else {
+            gender = getGenderOf(previousWord);
+        }
+
+        // query db and update suggestion bar
+
+        new QuerySuffixesAndUpdateSuggestionBar(suffixPrefix, gender, ending).execute();
+
+
+//        let qualityOfServiceClass = QOS_CLASS_BACKGROUND
+//        let backgroundQueue = dispatch_get_global_queue(qualityOfServiceClass, 0)
+//        dispatch_async(backgroundQueue, {
 //
-//        // The purpose of this method is to do a new query of the db
-//        // to see which words start with the string before the cursor.
-//        // Then update the listview with those words
+//                // lookup words in suffix list that start with word before cursor
+//                var suggestionList: [String] = []
 //
-//        if (TextUtils.isEmpty(currentWord)) {
-//            // clear list
-//            suggestionsAdapter.clear();
-//            return;
+//        do {
+//            suggestionList = try SuffixListDataHelper.findSuffixesBeginningWith(suffixStart, withGender: gender, andEnding: ending)
+//        } catch _ {
+//            print("query for suggestions failed")
 //        }
 //
-//        // update suggestions bar with database word query
-//        new QueryPrefixAndUpdateSuggestionBar().execute(currentWord);
+//        // update suggestion bar with those words
+//        dispatch_async(dispatch_get_main_queue(), { () -> Void in
 //
-//    }
+//                self.suggestedWords = suggestionList
+//                self.suggestionBarTable?.reloadData()
+//        })
+//
+//        })
+
+
+    }
+
+    private Suffix.WordGender getGenderOf(String word) {
+
+        Suffix.WordGender gender = Suffix.WordGender.Neutral;
+
+        if (renderer.isMasculineWord(word)) {
+            gender = Suffix.WordGender.Masculine;
+        } else if (renderer.isFeminineWord(word)) {
+            gender = Suffix.WordGender.Feminine;
+        }
+
+        return gender;
+    }
+
+    private Suffix.WordEnding getEndingOf(String word) {
+
+        Suffix.WordEnding ending = Suffix.WordEnding.Nil;
+
+        if (TextUtils.isEmpty(word)) {
+            return ending;
+        }
+
+        // determine ending character
+        char endingChar = word.charAt(word.length() - 1);
+        if (endingChar == MongolUnicodeRenderer.Uni.FVS1 ||
+                endingChar == MongolUnicodeRenderer.Uni.FVS2 ||
+                endingChar == MongolUnicodeRenderer.Uni.FVS3) {
+            if (word.length() > 1) {
+                endingChar = word.charAt(word.length() - 2);
+            } else {
+                return ending;
+            }
+        }
+
+        // determine type
+        if (renderer.isVowel(endingChar)) {
+            ending = Suffix.WordEnding.Vowel;
+        } else if (renderer.isConsonant(endingChar)) {
+            if (endingChar == MongolUnicodeRenderer.Uni.NA) {
+                ending = Suffix.WordEnding.N;
+            } else if (renderer.isBGDRS(endingChar)) {
+                ending = Suffix.WordEnding.BigDress;
+            } else {
+                ending = Suffix.WordEnding.OtherConsonant;
+            }
+        }
+
+        return ending;
+    }
+
+
 
     // Toast helper
 
@@ -271,17 +384,20 @@ public class KeyboardController extends Fragment implements Keyboard.OnKeyboardL
             String word = params[0];
             String previousWord = params[1];
 
-            // check db for word
             ContentResolver resolver;
             if (getActivity()!=null){
                 resolver = getActivity().getContentResolver();
             }else{
                 return null;
             }
-            String[] projection = new String[] { BaseColumns._ID, ChimeeUserDictionary.Words.WORD,
-                    ChimeeUserDictionary.Words.FREQUENCY };
+
+
+            // check db for word
+
+            String[] projection = new String[]{BaseColumns._ID, ChimeeUserDictionary.Words.WORD,
+                    ChimeeUserDictionary.Words.FREQUENCY};
             String selection = ChimeeUserDictionary.Words.WORD + "=?";
-            String[] selectionArgs = { word };
+            String[] selectionArgs = new String[]{word};
 
             Cursor cursor = null;
             try {
@@ -317,6 +433,9 @@ public class KeyboardController extends Fragment implements Keyboard.OnKeyboardL
                 }
             }
 
+
+
+
             // Change following of previous word
 
             if (TextUtils.isEmpty(previousWord)) {
@@ -325,7 +444,7 @@ public class KeyboardController extends Fragment implements Keyboard.OnKeyboardL
 
             projection = new String[] { BaseColumns._ID, ChimeeUserDictionary.Words.WORD,
                     ChimeeUserDictionary.Words.FOLLOWING };
-            selectionArgs[0] = previousWord;
+            selectionArgs = new String[] { previousWord };
 
             // get previous word
             Cursor anotherCursor = null;
@@ -425,58 +544,106 @@ public class KeyboardController extends Fragment implements Keyboard.OnKeyboardL
         }
     }
 
-//    // call with: new QueryFollowingAndUpdateLV().execute(unicodeString)
-//    private class QueryFollowingAndUpdateSuggestionBar extends AsyncTask<String, Void, String> {
-//
-//        private Context context = getActivity().getApplicationContext();
-//        String word;
-//
-//        @Override
-//        protected String doInBackground(String... params) {
-//
-//            // android.os.Debug.waitForDebugger();
-//
-//            // get the word
-//            word = params[0];
-//
-//            // Query db to see if exists
-//            Cursor cursor = ChimeeUserDictionary.Words.queryWord(context, word);
-//
-//            // If so then update then send results to UI and update LV
-//            String following = "";
-//            if (cursor.moveToNext()) {
-//                following = cursor.getString(cursor
-//                        .getColumnIndex(ChimeeUserDictionary.Words.FOLLOWING));
-//            }
-//            cursor.close();
-//
-//            return following;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(String result) {
-//
-//            // This is the result from doInBackground
-//
-//            // Check if it is not too late to update LV
-//            // How do I know?
-//            // isFollowing = true
-//            // parent word is still the same
-//            if (isFollowing || isSuffix) {
-//                if (TextUtils.isEmpty(result)) {
-//                    lvSuggestions.setAdapter(null);
-//                } else {
-//                    updateLvFollowing(word, result);
-//                }
-//                isSuffix = false;
-//                isFollowing = true;
-//            } else {
-//                // do nothing. You just wasted your time.
-//            }
-//
-//        }
-//
-//    }
+    // call with: new QueryFollowingAndUpdateSuggestionBar().execute(unicodeString)
+    private class QueryFollowingAndUpdateSuggestionBar extends AsyncTask<String, Void, String> {
+
+        private Context context = getActivity().getApplicationContext();
+        String word;
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            // android.os.Debug.waitForDebugger();
+
+            // get the word
+            word = params[0];
+
+            // Query db to see if exists
+            Cursor cursor = ChimeeUserDictionary.Words.queryWord(context, word);
+
+            // If so then update then send results to UI and update suggestion bar
+            String following = "";
+            if (cursor.moveToNext()) {
+                following = cursor.getString(cursor
+                        .getColumnIndex(ChimeeUserDictionary.Words.FOLLOWING));
+            }
+            cursor.close();
+
+            return following;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            List<String> list = Arrays.asList(result.split(","));
+
+            // update suggestion bar
+            suggestionsAdapter.swap(list);
+
+            // TODO do I need to update following order?
+
+        }
+
+    }
+
+    // call with: new QuerySuffixesAndUpdateSuggestionBar().execute(unicodeString)
+    private class UpdateSuffixFrequency extends AsyncTask<String, Void, Void> {
+
+
+        private Context context = getActivity().getApplicationContext();
+
+
+        @Override
+        protected Void doInBackground(String... params) {
+
+            String suffix = params[0];
+
+            // Query db to see if exists
+            SuffixDatabaseAdapter adapter = new SuffixDatabaseAdapter(context);
+            adapter.updateFrequencyForSuffix(suffix);
+
+            return null;
+        }
+
+    }
+
+
+    // call with: new QuerySuffixesAndUpdateSuggestionBar().execute(unicodeString)
+    private class QuerySuffixesAndUpdateSuggestionBar extends AsyncTask<Void, Void, List<String>> {
+
+        private String searchPrefix;
+        private Suffix.WordGender gender;
+        private Suffix.WordEnding ending;
+
+        private Context context = getActivity().getApplicationContext();
+        //String word;
+
+        // constructor
+        public QuerySuffixesAndUpdateSuggestionBar(String searchPrefix, Suffix.WordGender gender, Suffix.WordEnding ending) {
+            this.searchPrefix = searchPrefix;
+            this.gender = gender;
+            this.ending = ending;
+        }
+
+        @Override
+        protected List<String> doInBackground(Void... params) {
+
+            // Query db to see if exists
+            SuffixDatabaseAdapter adapter = new SuffixDatabaseAdapter(context);
+            List<String> suffixes = adapter.findSuffixesBeginningWith(searchPrefix, gender, ending);
+
+            return suffixes;
+        }
+
+
+        @Override
+        protected void onPostExecute(List<String> result) {
+            // update suggestion bar
+            suggestionsAdapter.swap(result);
+
+        }
+
+    }
 
 
     private class PrintAllWordsTask extends AsyncTask<Void, Void, Void> {
@@ -496,129 +663,128 @@ public class KeyboardController extends Fragment implements Keyboard.OnKeyboardL
 
 
     }
-
-    // call with: new incrementWordFrequencyTask(rowId, frequency).execute();
-    private class IncrementWordFrequencyTask extends AsyncTask<Void, Void, Void> {
-
-        long rowId;
-        int frequency;
-        private Context context = getActivity().getApplicationContext();
-
-        public IncrementWordFrequencyTask(long rowId, int frequency) {
-            this.rowId = rowId;
-            this.frequency = frequency;
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-
-            // android.os.Debug.waitForDebugger();
-
-            // Increment frequency
-            if (context!=null){
-                ChimeeUserDictionary.Words.updateFrequency(context, rowId, frequency + 1);
-            }
-
-            return null;
-        }
-
-    }
-
-    // call with: new UpdateFollowingWordTask().execute(word,
-    // followingWordToAdd);
-    private class UpdateFollowingWordTask extends AsyncTask<String, Void, Void> {
-
-        private Context context = getActivity().getApplicationContext();
-
-        @Override
-        protected Void doInBackground(String... params) {
-
-            // android.os.Debug.waitForDebugger();
-
-            // get the word
-            String word = params[0];
-            String followingWordList = params[1];
-
-            // Update following
-            if (context!=null){
-                ChimeeUserDictionary.Words.addFollowing(context, word, followingWordList);
-            }
-
-            return null;
-        }
-
-    }
-
-    // call with: new DeleteWordTask().execute(word);
-    private class DeleteWordByIdTask extends AsyncTask<Long, Void, Integer> {
-
-        private Context context = getActivity().getApplicationContext();
-
-        @Override
-        protected Integer doInBackground(Long... params) {
-
-            // android.os.Debug.waitForDebugger();
-
-            // get the word
-            long wordId = params[0];
-
-            // Delete word
-            int count = 0;
-            if (context!=null){
-                count = ChimeeUserDictionary.Words.deleteWord(context, wordId);
-            }
-
-            return count;
-        }
-
-        @Override
-        protected void onPostExecute(Integer count) {
-
-            // This is the result from doInBackground
-
-            if (count > 0) {
-                // Notify the user that the word was deleted
-                showToast(context, getResources().getString(R.string.word_deleted),
-                        Toast.LENGTH_SHORT);
-            }
-        }
-    }
-
-    // call with: new DeleteFollowingWordTask().execute(word, following);
-    private class DeleteFollowingWordTask extends AsyncTask<String, Void, Integer> {
-
-        private Context context = getActivity().getApplicationContext();
-
-        @Override
-        protected Integer doInBackground(String... params) {
-
-            // android.os.Debug.waitForDebugger();
-
-            // get the words
-            String word = params[0];
-            String following = params[1];
-
-            // Udpate word
-            int count = 0;
-            if (context!=null){
-                count = ChimeeUserDictionary.Words.updateFollowing(context, word, following);
-            }
-
-            return count;
-        }
-
-        @Override
-        protected void onPostExecute(Integer count) {
-
-            // This is the result from doInBackground
-
-            if (count > 0) {
-                // Notify the user that the word was deleted
-                showToast(context, getResources().getString(R.string.word_deleted),
-                        Toast.LENGTH_SHORT);
-            }
-        }
-    }
+//
+//    // call with: new incrementWordFrequencyTask(rowId, frequency).execute();
+//    private class IncrementWordFrequencyTask extends AsyncTask<Void, Void, Void> {
+//
+//        long rowId;
+//        int frequency;
+//        private Context context = getActivity().getApplicationContext();
+//
+//        public IncrementWordFrequencyTask(long rowId, int frequency) {
+//            this.rowId = rowId;
+//            this.frequency = frequency;
+//        }
+//
+//        @Override
+//        protected Void doInBackground(Void... params) {
+//
+//            // android.os.Debug.waitForDebugger();
+//
+//            // Increment frequency
+//            if (context!=null){
+//                ChimeeUserDictionary.Words.updateFrequency(context, rowId, frequency + 1);
+//            }
+//
+//            return null;
+//        }
+//
+//    }
+//
+//    // call with: new UpdateFollowingWordTask().execute(word, followingWordToAdd);
+//    private class UpdateFollowingWordTask extends AsyncTask<String, Void, Void> {
+//
+//        private Context context = getActivity().getApplicationContext();
+//
+//        @Override
+//        protected Void doInBackground(String... params) {
+//
+//            // android.os.Debug.waitForDebugger();
+//
+//            // get the word
+//            String word = params[0];
+//            String followingWordList = params[1];
+//
+//            // Update following
+//            if (context!=null){
+//                ChimeeUserDictionary.Words.addFollowing(context, word, followingWordList);
+//            }
+//
+//            return null;
+//        }
+//
+//    }
+//
+//    // call with: new DeleteWordTask().execute(word);
+//    private class DeleteWordByIdTask extends AsyncTask<Long, Void, Integer> {
+//
+//        private Context context = getActivity().getApplicationContext();
+//
+//        @Override
+//        protected Integer doInBackground(Long... params) {
+//
+//            // android.os.Debug.waitForDebugger();
+//
+//            // get the word
+//            long wordId = params[0];
+//
+//            // Delete word
+//            int count = 0;
+//            if (context!=null){
+//                count = ChimeeUserDictionary.Words.deleteWord(context, wordId);
+//            }
+//
+//            return count;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Integer count) {
+//
+//            // This is the result from doInBackground
+//
+//            if (count > 0) {
+//                // Notify the user that the word was deleted
+//                showToast(context, getResources().getString(R.string.word_deleted),
+//                        Toast.LENGTH_SHORT);
+//            }
+//        }
+//    }
+//
+//    // call with: new DeleteFollowingWordTask().execute(word, following);
+//    private class DeleteFollowingWordTask extends AsyncTask<String, Void, Integer> {
+//
+//        private Context context = getActivity().getApplicationContext();
+//
+//        @Override
+//        protected Integer doInBackground(String... params) {
+//
+//            // android.os.Debug.waitForDebugger();
+//
+//            // get the words
+//            String word = params[0];
+//            String following = params[1];
+//
+//            // Udpate word
+//            int count = 0;
+//            if (context!=null){
+//                count = ChimeeUserDictionary.Words.updateFollowing(context, word, following);
+//            }
+//
+//            return count;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Integer count) {
+//
+//            // This is the result from doInBackground
+//
+//            if (count > 0) {
+//                // Notify the user that the word was deleted
+//                showToast(context, getResources().getString(R.string.word_deleted),
+//                        Toast.LENGTH_SHORT);
+//            }
+//        }
+//    }
 
 
 
