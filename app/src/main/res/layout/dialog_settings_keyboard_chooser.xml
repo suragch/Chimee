@@ -31,7 +31,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"
-            android:text="@string/settings_keyboard_aeiou"
+            android:text="@string/keyboard_aeiou"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <RadioButton
@@ -62,7 +62,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"
-            android:text="@string/settings_keyboard_qwerty"
+            android:text="@string/keyboard_qwerty"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <RadioButton

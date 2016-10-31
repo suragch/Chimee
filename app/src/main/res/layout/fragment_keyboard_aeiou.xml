@@ -502,31 +502,10 @@
             style="@style/AppTheme.FormatKeyLayoutStyle"
             android:layout_weight="1" >
 
-            <net.studymongolian.chimee.MongolTextView
-                android:id="@+id/tvMkeyInputMongol"
-                style="@style/AppTheme.MongolKeyTextStyle"
-                android:text="@string/m_key_input_mongol"
-                android:textSize="18dp"
-                android:visibility="gone" />
-
-            <net.studymongolian.chimee.MongolTextView
-                android:id="@+id/tvMkeyInputMongolLong"
-                style="@style/AppTheme.MongolLongPressKeyTextStyle"
-                android:text="@string/m_key_input_long"
-                android:textSize="10dp"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/tvMkeyInput"
-                style="@style/AppTheme.MongolKeyTextStyle"
-                android:text="@string/m_key_input"
-                android:textSize="18dp" />
-
-            <TextView
-                android:id="@+id/tvMkeyInputLong"
-                style="@style/AppTheme.MongolLongPressKeyTextStyle"
-                android:text="@string/m_key_input_long"
-                android:textSize="10dp" />
+            <ImageView
+                android:id="@+id/ivKeyInput"
+                style="@style/AppTheme.MongolKeyImageStyle"
+                android:src="@drawable/ic_keyboard_white_24dp" />
         </RelativeLayout>
 
 

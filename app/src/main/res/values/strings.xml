@@ -52,10 +52,12 @@
     <string name="settings_font_detail"></string>
     <string name="settings_clear_item">    </string>
     <string name="settings_keyboard_item">  </string>
-    <string name="settings_keyboard_aeiou">     </string>
-    <string name="settings_keyboard_qwerty_short"></string>
-    <string name="settings_keyboard_aeiou_short"> </string>
-    <string name="settings_keyboard_qwerty">    </string>
+    <string name="keyboard_aeiou">     </string>
+    <string name="keyboard_qwerty_short"></string>
+    <string name="keyboard_aeiou_short"> </string>
+    <string name="keyboard_qwerty">    </string>
+    <string name="keyboard_abc">abc</string>
+    <string name="keyboard_cyrillic">cyrillic</string>
     <string name="about_description_site_intro">Chimee      ᠄</string>
     <string name="about_description_site_address">www.studymongolian.net/apps/chimee/zh/</string>
     <string name="about_description_message">                ᠃</string>

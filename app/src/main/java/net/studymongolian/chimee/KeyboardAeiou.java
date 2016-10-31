@@ -1,14 +1,22 @@
 package net.studymongolian.chimee;
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.view.MotionEventCompat;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -28,12 +36,24 @@ public class KeyboardAeiou extends Keyboard {
     private static Map<Integer, Character> idToLongPunctuation = new HashMap<Integer, Character>();
 
 
+    private final String DEBUG_TAG = "debug tag";
     MongolUnicodeRenderer renderer = MongolUnicodeRenderer.INSTANCE;
     Boolean punctuationOn = false;
+    private CurrentSelection currentSelection = CurrentSelection.FVS1;
+    //View popupView;
+    //PopupWindow popupWindow;
 
     //protected static final char NULL_CHAR = '\u0000';
     //protected static final char BACKSPACE = '\u232b';
     //protected static final char SPACE = ' ';
+
+    private enum CurrentSelection {
+        OutOfBoundsLeft,
+        FVS1,
+        FVS2,
+        FVS3,
+        OutOfBoundsRight
+    }
 
 
     TextView tvA;
@@ -84,10 +104,6 @@ public class KeyboardAeiou extends Keyboard {
     TextView tvFvs2Bottom;
     TextView tvFvs3Top;
     TextView tvFvs3Bottom;
-    TextView tvInput;
-    TextView tvInputLong;
-    TextView tvInputMongol;
-    TextView tvInputMongolLong;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -98,6 +114,8 @@ public class KeyboardAeiou extends Keyboard {
         // inflate layout and add listeners to each key
         View layout = inflater.inflate(R.layout.fragment_keyboard_aeiou, container, false);
         addListeners(layout);
+        //popupView = getActivity().getLayoutInflater().inflate(R.layout.dialog_fvs_chooser, null);
+
 
         return layout;
     }
@@ -323,10 +341,6 @@ public class KeyboardAeiou extends Keyboard {
         tvFvs2Bottom = (TextView) getView().findViewById(R.id.tvFvs2Bottom);
         tvFvs3Top = (TextView) getView().findViewById(R.id.tvFvs3Top);
         tvFvs3Bottom = (TextView) getView().findViewById(R.id.tvFvs3Bottom);
-        tvInput = (TextView) getView().findViewById(R.id.tvMkeyInput);
-        tvInputMongol = (TextView) getView().findViewById(R.id.tvMkeyInputMongol);
-        tvInputLong = (TextView) getView().findViewById(R.id.tvMkeyInputLong);
-        tvInputMongolLong = (TextView) getView().findViewById(R.id.tvMkeyInputMongolLong);
 
     }
 
@@ -341,6 +355,8 @@ public class KeyboardAeiou extends Keyboard {
             inputChar = idToShort.get(v.getId());
             updateFvsKeys(inputChar);
         }
+
+        //showPopup(v);
 
         mListener.keyWasTapped(inputChar);
     }
@@ -359,10 +375,52 @@ public class KeyboardAeiou extends Keyboard {
 
         mListener.keyWasTapped(inputChar);
 
+
+
         return true;
     }
 
+    public void showPopup(View anchorView) {
+
+        View popupView = getActivity().getLayoutInflater().inflate(R.layout.dialog_fvs_chooser, null);
+
+        PopupWindow popupWindow = new PopupWindow(popupView,
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        // Example: If you have a TextView inside `popup_layout.xml`
+        TextView tv = (TextView) popupView.findViewById(R.id.tvFvs1Top);
+
+        tv.setText("a");
+
+        // If the PopupWindow should be focusable
+        popupWindow.setFocusable(true);
+
+        // If you need the PopupWindow to dismiss when when touched outside
+        popupWindow.setBackgroundDrawable(new ColorDrawable());
+
+        int location[] = new int[2];
+
+        // Get the View's(the one that was clicked in the Fragment) location
+        anchorView.getLocationOnScreen(location);
+
+        // Using location, the PopupWindow will be displayed right under anchorView
+        popupWindow.showAtLocation(anchorView, Gravity.NO_GRAVITY,
+                location[0], location[1] + anchorView.getHeight());
+
+    }
+
     private View.OnTouchListener handleFvsTouch = new View.OnTouchListener() {
+
+
+        View popupView;
+        int popupWidth;
+        PopupWindow popupWindow;
+        LinearLayout llFvs1;
+        LinearLayout llFvs2;
+        LinearLayout llFvs3;
+        int numberOfFvsChoices = 3;
+
+
         @Override
         public boolean onTouch(View v, MotionEvent event) {
 
@@ -370,7 +428,143 @@ public class KeyboardAeiou extends Keyboard {
             // TODO update hilighted on touch move
             // TODO hide fvs chooser view and send fvs char on touch up
 
-            return false;
+
+
+            int action = MotionEventCompat.getActionMasked(event);
+
+            switch(action) {
+                case (MotionEvent.ACTION_DOWN) :
+                    Log.d(DEBUG_TAG,"Action was DOWN");
+
+                    // No input values, so cancel touch events
+                    if (TextUtils.isEmpty(tvFvs1Top.getText()) && TextUtils.isEmpty(tvFvs1Bottom.getText())) {
+                        return false;
+                    }
+
+                    // If only FVS1 is available
+                    if (TextUtils.isEmpty(tvFvs2Top.getText()) && TextUtils.isEmpty(tvFvs2Bottom.getText())) {
+                        mListener.keyWasTapped(MongolUnicodeRenderer.Uni.FVS1);
+                        clearFvsKeys();
+                        return false;
+                    } else {
+                        // set text for FVS1 and FVS2
+                        popupView = getActivity().getLayoutInflater().inflate(R.layout.dialog_fvs_chooser, null);
+                        TextView tv1Top = (TextView) popupView.findViewById(R.id.tvFvs1Top);
+                        tv1Top.setText(tvFvs1Top.getText());
+                        TextView tv1Bottom = (TextView) popupView.findViewById(R.id.tvFvs1Bottom);
+                        tv1Bottom.setText(tvFvs1Bottom.getText());
+                        TextView tv2Top = (TextView) popupView.findViewById(R.id.tvFvs2Top);
+                        tv2Top.setText(tvFvs2Top.getText());
+                        TextView tv2Bottom = (TextView) popupView.findViewById(R.id.tvFvs2Bottom);
+                        tv2Bottom.setText(tvFvs2Bottom.getText());
+
+                        llFvs1 = (LinearLayout) popupView.findViewById(R.id.key_fvs1);
+                        llFvs2 = (LinearLayout) popupView.findViewById(R.id.key_fvs2);
+                        llFvs3 = (LinearLayout) popupView.findViewById(R.id.key_fvs3);
+
+                        llFvs1.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.accent, null));
+                        llFvs2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+                        llFvs3.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+                    }
+
+                    // If only FVS1 and FVS2 are available, hide 3rd button
+                    if (TextUtils.isEmpty(tvFvs3Top.getText()) && TextUtils.isEmpty(tvFvs3Bottom.getText())) {
+                        llFvs3.setVisibility(View.GONE);
+                        numberOfFvsChoices = 2;
+                    } else {
+                        // set text for FVS3
+                        TextView tv3Top = (TextView) popupView.findViewById(R.id.tvFvs3Top);
+                        tv3Top.setText(tvFvs3Top.getText());
+                        TextView tv3Bottom = (TextView) popupView.findViewById(R.id.tvFvs3Bottom);
+                        tv3Bottom.setText(tvFvs3Bottom.getText());
+                        numberOfFvsChoices = 3;
+                    }
+
+                    // Show popup window above fvs key
+                    popupWindow = new PopupWindow(popupView,
+                            LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    int location[] = new int[2];
+                    v.getLocationOnScreen(location);
+                    //View popupLayout = getActivity().getLayoutInflater().inflate(R.layout.linearlayout_popup, base);
+                    popupView.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+                    popupWidth = popupView.getMeasuredWidth();
+                    popupWindow.showAtLocation(v, Gravity.NO_GRAVITY, location[0], location[1] - popupView.getMeasuredHeight());
+
+                    return true;
+                case (MotionEvent.ACTION_MOVE):
+                    Log.d(DEBUG_TAG, "Action was MOVE " + event.getX());
+
+                    float x = event.getX();
+                    //int padding = 0; // TODO is this needed?
+                    float unit = popupWidth / numberOfFvsChoices; // TODO what about for 2 buttons?
+
+                    // select FVS1-3 and set highlight background color
+                    if (x < 0) {
+                        if (currentSelection != CurrentSelection.OutOfBoundsLeft) {
+                            llFvs1.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+                            llFvs2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+                            llFvs3.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+                            currentSelection = CurrentSelection.OutOfBoundsLeft;
+                        }
+                    } else if (x > 0 && x <= unit) {
+                        if (currentSelection != CurrentSelection.FVS1) {
+                            llFvs1.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.accent, null));
+                            llFvs2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+                            llFvs3.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+                            currentSelection = CurrentSelection.FVS1;
+                        }
+                    } else if (x > unit && x <= 2 * unit) {
+                        if (currentSelection != CurrentSelection.FVS2) {
+                            llFvs1.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+                            llFvs2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.accent, null));
+                            llFvs3.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+                            currentSelection = CurrentSelection.FVS2;
+                        }
+                    } else if (x > 2 * unit && x <= 3 * unit) {
+                        if (numberOfFvsChoices == 2) {
+                            if (currentSelection != CurrentSelection.OutOfBoundsRight) {
+                                llFvs1.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+                                llFvs2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+                                currentSelection = CurrentSelection.OutOfBoundsRight;
+                            }
+                        } else if (numberOfFvsChoices == 3) {
+                            if (currentSelection != CurrentSelection.FVS3) {
+                                llFvs1.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+                                llFvs2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+                                llFvs3.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.accent, null));
+                                currentSelection = CurrentSelection.FVS3;
+                            }
+                        }
+                    } else if (x > 3 * unit) {
+                        if (currentSelection != CurrentSelection.OutOfBoundsRight) {
+                            llFvs1.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+                            llFvs2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+                            llFvs3.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+                            currentSelection = CurrentSelection.OutOfBoundsRight;
+                        }
+                    }
+
+                    return true;
+                case (MotionEvent.ACTION_UP) :
+                    // allow to fall through to the default (dismiss the popup window)
+                    if (currentSelection == CurrentSelection.FVS1) {
+                        mListener.keyWasTapped(MongolUnicodeRenderer.Uni.FVS1);
+                        clearFvsKeys();
+                    } else if (currentSelection == CurrentSelection.FVS2) {
+                        mListener.keyWasTapped(MongolUnicodeRenderer.Uni.FVS2);
+                        clearFvsKeys();
+                    } else if (currentSelection == CurrentSelection.FVS3) {
+                        mListener.keyWasTapped(MongolUnicodeRenderer.Uni.FVS3);
+                        clearFvsKeys();
+                    }
+
+                default :
+                    if (popupWindow != null) {
+                        popupWindow.dismiss();
+                    }
+                    return false;
+            }
         }
     };
 
@@ -395,22 +589,71 @@ public class KeyboardAeiou extends Keyboard {
     };
 
     private View.OnTouchListener handleInputTouch = new View.OnTouchListener() {
+
+        Handler handler = new Handler();
+        int LONGPRESS_THRESHOLD = 500; // milliseconds
+        View popupView;
+        int popupWidth;
+        PopupWindow popupWindow;
+
         @Override
-        public boolean onTouch(View v, MotionEvent event) {
+        public boolean onTouch(final View v, MotionEvent event) {
 
             int x = (int) event.getX();
             int y = (int) event.getY();
+
+            int LONGPRESS_THRESHOLD = 500; // milliseconds
 
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     clearFvsKeys();
                     Log.i("TAG", "touched down");
+
+
+                    handler = new Handler();
+
+                    Runnable runnableCode = new Runnable() {
+                        @Override
+                        public void run() {
+
+                            // TODO show popup
+                            Log.i("TAG", "popup shown");
+                            // Show popup window above keyboard chooser key
+                            popupView = getActivity().getLayoutInflater().inflate(R.layout.popup_keyboard_chooser, null);
+                            TextView tvFirst = (TextView) popupView.findViewById(R.id.tvKeyboardFirstChoice);
+                            tvFirst.setText(getString(R.string.keyboard_abc));
+                            TextView tvSecond = (TextView) popupView.findViewById(R.id.tvKeyboardSecondChoice);
+                            tvSecond.setText(getString(R.string.keyboard_cyrillic));
+                            TextView tvThird = (TextView) popupView.findViewById(R.id.tvKeyboardThirdChoice);
+                            tvThird.setText(getString(R.string.keyboard_qwerty_short));
+
+
+                            popupWindow = new PopupWindow(popupView,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                            int location[] = new int[2];
+                            v.getLocationOnScreen(location);
+                            popupView.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+                            popupWidth = popupView.getMeasuredWidth();
+                            popupWindow.showAtLocation(v, Gravity.NO_GRAVITY, location[0], location[1] - popupView.getMeasuredHeight());
+
+
+                        }
+                    };
+
+                    handler.postDelayed(runnableCode, LONGPRESS_THRESHOLD);
+
+
+
                     break;
                 case MotionEvent.ACTION_MOVE:
                     Log.i("TAG", "moving: (" + x + ", " + y + ")");
                     break;
                 case MotionEvent.ACTION_UP:
                     Log.i("TAG", "touched up");
+
+                    handler.removeCallbacksAndMessages(null);
+
                     switchPunctuation();
                     break;
             }
@@ -516,12 +759,6 @@ public class KeyboardAeiou extends Keyboard {
             tvWlong.setText(getResources().getString(R.string.m_fa));
             tvZlong.setText(getResources().getString(R.string.m_tsa));
 
-            //tvCaseSuffix.setText(getResources().getString(R.string.m_key_case_suffix));
-
-            tvInput.setVisibility(View.VISIBLE);
-            tvInputMongol.setVisibility(View.GONE);
-            tvInputLong.setVisibility(View.VISIBLE);
-            tvInputMongolLong.setVisibility(View.GONE);
 
         } else { // punctuation is not on. Turn it on now.
 
@@ -572,10 +809,7 @@ public class KeyboardAeiou extends Keyboard {
             tvFvs3Top.setText("");
             tvFvs3Bottom.setText("");
 
-            tvInput.setVisibility(View.GONE);
-            tvInputMongol.setVisibility(View.VISIBLE);
-            tvInputLong.setVisibility(View.GONE);
-            tvInputMongolLong.setVisibility(View.VISIBLE);
+
 
         }
 

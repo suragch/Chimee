@@ -84,9 +84,9 @@ public class SettingsActivity extends AppCompatActivity {
 		String userKeyboard = settings
 				.getString(MONGOLIAN_KEYBOARD_KEY, MONGOLIAN_KEYBOARD_DEFAULT);
 		if (userKeyboard.equals(MONGOLIAN_AEIOU_KEYBOARD)) {
-			tvKeyboard.setText(getResources().getString(R.string.settings_keyboard_aeiou_short));
+			tvKeyboard.setText(getResources().getString(R.string.keyboard_aeiou_short));
 		} else {
-			tvKeyboard.setText(getResources().getString(R.string.settings_keyboard_qwerty_short));
+			tvKeyboard.setText(getResources().getString(R.string.keyboard_qwerty_short));
 		}
 
 		// initialize things that need to be updated on result
@@ -140,10 +140,10 @@ public class SettingsActivity extends AppCompatActivity {
 				// update display
 				if (chosenKeyboard.equals(MONGOLIAN_AEIOU_KEYBOARD)) {
 					tvKeyboard.setText(getResources().getString(
-							R.string.settings_keyboard_aeiou_short));
+							R.string.keyboard_aeiou_short));
 				} else {
 					tvKeyboard.setText(getResources().getString(
-							R.string.settings_keyboard_qwerty_short));
+							R.string.keyboard_qwerty_short));
 				}
 
 				// change keyboard on return
