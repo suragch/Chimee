@@ -1,0 +1,613 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/key_q"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1">
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyQ"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/m_cha"/>
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyQlong"
+                style="@style/AppTheme.MongolLongPressKeyTextStyle"
+                android:text="@string/m_chi"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/key_w"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1">
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyW"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/m_wa"/>
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyWlong"
+                style="@style/AppTheme.MongolLongPressKeyTextStyle"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/key_e"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1">
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyE"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/m_e"/>
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyElong"
+                style="@style/AppTheme.MongolLongPressKeyTextStyle"
+                android:text="@string/m_ee"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/key_r"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1">
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyR"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/m_ra"/>
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyRlong"
+                style="@style/AppTheme.MongolLongPressKeyTextStyle"
+                android:text="@string/m_zra"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/key_t"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1">
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyT"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/m_ta"/>
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyTlong"
+                style="@style/AppTheme.MongolLongPressKeyTextStyle"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/key_y"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1">
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyY"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/m_ya"/>
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyYlong"
+                style="@style/AppTheme.MongolLongPressKeyTextStyle"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/key_u"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1">
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyU"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/m_ue"/>
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyUlong"
+                style="@style/AppTheme.MongolLongPressKeyTextStyle"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/key_i"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1">
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyI"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/m_i"/>
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyIlong"
+                style="@style/AppTheme.MongolLongPressKeyTextStyle"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/key_o"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1">
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyO"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/m_oe"/>
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyOlong"
+                style="@style/AppTheme.MongolLongPressKeyTextStyle"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/key_p"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1">
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyP"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/m_pa"/>
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyPlong"
+                style="@style/AppTheme.MongolLongPressKeyTextStyle"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/key_a"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1">
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyA"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/m_a"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/key_s"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1">
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyS"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/m_sa"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/key_d"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1">
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyD"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/m_da"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/key_f"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1">
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyF"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/m_fa"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/key_g"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1">
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyG"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/m_ga"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/key_h"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1">
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyH"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/m_qa"/>
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyHlong"
+                style="@style/AppTheme.MongolLongPressKeyTextStyle"
+                android:text="@string/m_haa"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/key_j"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1">
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyJ"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/m_ja"/>
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyJlong"
+                style="@style/AppTheme.MongolLongPressKeyTextStyle"
+                android:text="@string/m_zhi"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/key_k"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1">
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyK"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/m_ka"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/key_l"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1">
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyL"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/m_la"/>
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyLlong"
+                style="@style/AppTheme.MongolLongPressKeyTextStyle"
+                android:text="@string/m_lha"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/key_ng"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1">
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyNg"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/m_ang"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/key_fvs"
+            style="@style/AppTheme.FormatKeyLayoutStyle"
+            android:layout_weight="1.5">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1">
+
+                        <net.studymongolian.chimee.MongolTextView
+                            android:id="@+id/tvFvs1Top"
+                            style="@style/AppTheme.MongolKeyTextStyle"
+                            android:layout_gravity="center"
+                            android:textSize="14sp"/>
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1">
+
+                        <net.studymongolian.chimee.MongolTextView
+                            android:id="@+id/tvFvs2Top"
+                            style="@style/AppTheme.MongolKeyTextStyle"
+                            android:layout_gravity="center"
+                            android:textSize="14sp"/>
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1">
+
+                        <net.studymongolian.chimee.MongolTextView
+                            android:id="@+id/tvFvs3Top"
+                            style="@style/AppTheme.MongolKeyTextStyle"
+                            android:layout_gravity="center"
+                            android:textSize="14sp"/>
+                    </FrameLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/white_6"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1">
+
+                        <net.studymongolian.chimee.MongolTextView
+                            android:id="@+id/tvFvs1Bottom"
+                            style="@style/AppTheme.MongolKeyTextStyle"
+                            android:layout_gravity="center"
+                            android:textSize="14sp"/>
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1">
+
+                        <net.studymongolian.chimee.MongolTextView
+                            android:id="@+id/tvFvs2Bottom"
+                            style="@style/AppTheme.MongolKeyTextStyle"
+                            android:layout_gravity="center"
+                            android:textSize="14sp"/>
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1">
+
+                        <net.studymongolian.chimee.MongolTextView
+                            android:id="@+id/tvFvs3Bottom"
+                            style="@style/AppTheme.MongolKeyTextStyle"
+                            android:layout_gravity="center"
+                            android:textSize="14sp"/>
+                    </FrameLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/key_z"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1">
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyZ"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/m_za"/>
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyZlong"
+                style="@style/AppTheme.MongolLongPressKeyTextStyle"
+                android:text="@string/m_tsa"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/key_x"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1">
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyX"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/m_sha"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/key_c"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1">
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyC"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/m_o"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/key_v"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1">
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyV"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/m_u"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/key_b"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1">
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyB"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/m_ba"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/key_n"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1">
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyN"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/m_na"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/key_m"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1">
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyM"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/m_ma"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/key_backspace"
+            style="@style/AppTheme.FormatKeyLayoutStyle"
+            android:layout_weight="1.5">
+
+            <ImageView
+                android:id="@+id/ivMkeyBackspace"
+                style="@style/AppTheme.MongolKeyImageStyle"
+                android:src="@drawable/ic_keyboard_backspace_white_24dp"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/key_input"
+            style="@style/AppTheme.FormatKeyLayoutStyle"
+            android:layout_weight="1.5" >
+
+            <ImageView
+                android:id="@+id/ivKeyInput"
+                style="@style/AppTheme.MongolKeyImageStyle"
+                android:src="@drawable/ic_keyboard_white_24dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/key_namalaga"
+            style="@style/AppTheme.FormatKeyLayoutStyle"
+            android:layout_weight="1">
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyNamalaga"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/m_key_namalaga"
+                android:textSize="14sp"/>
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/key_comma"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1">
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyComma"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/m_key_comma"/>
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyCommaLong"
+                style="@style/AppTheme.MongolLongPressKeyTextStyle"
+                android:text="@string/m_key_comma_long"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/key_space"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="3">
+
+            <ImageView
+                android:id="@+id/ivMkeySpace"
+                style="@style/AppTheme.MongolKeyImageStyle"
+                android:src="@drawable/ic_space_bar_white_24dp"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/key_question"
+            style="@style/AppTheme.KeyLayoutStyle"
+            android:layout_weight="1">
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyQuestion"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/m_key_question"/>
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyQuestionLong"
+                style="@style/AppTheme.MongolLongPressKeyTextStyle"
+                android:text="@string/m_key_question_long"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/key_case_suffix"
+            style="@style/AppTheme.FormatKeyLayoutStyle"
+            android:layout_weight="1">
+
+            <net.studymongolian.chimee.MongolTextView
+                android:id="@+id/tvMkeyCaseSuffix"
+                style="@style/AppTheme.MongolKeyTextStyle"
+                android:text="@string/m_key_case_suffix"
+                android:textSize="14sp"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/key_return"
+            style="@style/AppTheme.FormatKeyLayoutStyle"
+            android:layout_weight="1.5">
+
+            <ImageView
+                android:id="@+id/ivMkeyReturn"
+                style="@style/AppTheme.MongolKeyImageStyle"
+                android:src="@drawable/ic_keyboard_return_white_24dp"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -3,27 +3,53 @@
               android:orientation="horizontal"
               android:background="@color/white"
               android:layout_width="wrap_content"
-              android:layout_height="wrap_content">
+              android:layout_height="100dp">
 
-    <net.studymongolian.chimee.MongolTextView
-        android:id="@+id/tvKeyboardFirstChoice"
+    <FrameLayout
+        android:id="@+id/flKeyboardFirstChoice"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:layout_height="match_parent">
 
-    <net.studymongolian.chimee.MongolTextView
-        android:id="@+id/tvKeyboardSecondChoice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        <net.studymongolian.chimee.MongolTextView
+            android:id="@+id/tvKeyboardFirstChoice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </FrameLayout>
 
-    <net.studymongolian.chimee.MongolTextView
-        android:id="@+id/tvKeyboardThirdChoice"
+    <FrameLayout
+        android:id="@+id/flKeyboardSecondChoice"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:layout_height="match_parent">
+
+        <net.studymongolian.chimee.MongolTextView
+            android:id="@+id/tvKeyboardSecondChoice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </FrameLayout>
+
+
+
+    <FrameLayout
+        android:id="@+id/flKeyboardThirdChoice"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <net.studymongolian.chimee.MongolTextView
+            android:id="@+id/tvKeyboardThirdChoice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </FrameLayout>
+
+
+
+
+
+
 
 </LinearLayout>

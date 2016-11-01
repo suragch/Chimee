@@ -33,6 +33,15 @@ public abstract class Keyboard extends Fragment implements View.OnClickListener,
     protected static final char PUNCTUATION_DOUBLEQUOTE_TOP = '\u00ab';
     protected static final char PUNCTUATION_DOUBLEQUOTE_BOTTOM = '\u00bb';
 
+    protected enum CurrentFvsSelection {
+        OutOfBoundsLeft,
+        FVS1,
+        FVS2,
+        FVS3,
+        OutOfBoundsRight
+    }
+
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

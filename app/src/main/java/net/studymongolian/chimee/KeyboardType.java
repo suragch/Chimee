@@ -5,5 +5,6 @@ public enum KeyboardType {
     Qwerty,
     Aeiou,
     English,
-    Cyrillic;
+    Cyrillic,
+    Unselected
 }

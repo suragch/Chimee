@@ -79,7 +79,11 @@ public class KeyboardController extends Fragment implements Keyboard.OnKeyboardL
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        Fragment childFragment = new KeyboardAeiou();
+//        Fragment childFragment = new KeyboardAeiou();
+//        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+//        transaction.replace(R.id.keyboard_container_frame, childFragment).commit();
+
+        Fragment childFragment = new KeyboardQwerty();
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.replace(R.id.keyboard_container_frame, childFragment).commit();
     }
@@ -147,11 +151,11 @@ public class KeyboardController extends Fragment implements Keyboard.OnKeyboardL
         // FIXME delete testing
         // BEGIN TESTING
 
-        if (character == MongolUnicodeRenderer.Uni.CHI) {
-            // print all words in db
-            printAllWords();
-            return;
-        }
+//        if (character == MongolUnicodeRenderer.Uni.CHI) {
+//            // print all words in db
+//            printAllWords();
+//            return;
+//        }
 
         // END TESTING
 

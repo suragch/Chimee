@@ -3,10 +3,8 @@ package net.studymongolian.chimee;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.MotionEventCompat;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -16,20 +14,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
+/**
+ * Created by yonghu on 16-11-1.
+ */
 
-/// See Keyboard.java for implementation common to all keyboards
-
-public class KeyboardAeiou extends Keyboard {
+public class KeyboardQwerty extends Keyboard {
 
     private static Map<Integer, Character> idToShort = new HashMap<Integer, Character>();
     private static Map<Integer, Character> idToLong = new HashMap<Integer, Character>();
@@ -37,53 +33,53 @@ public class KeyboardAeiou extends Keyboard {
     private static Map<Integer, Character> idToLongPunctuation = new HashMap<Integer, Character>();
 
 
-    private final String DEBUG_TAG = "debug tag";
+    //private final String DEBUG_TAG = "debug tag";
     MongolUnicodeRenderer renderer = MongolUnicodeRenderer.INSTANCE;
     Boolean punctuationOn = false;
     private CurrentFvsSelection currentFvsSelection = CurrentFvsSelection.FVS1;
 
 
-
-
-
-    TextView tvA;
+    TextView tvQ;
+    TextView tvW;
     TextView tvE;
-    TextView tvI;
-    TextView tvV;
+    TextView tvR;
+    TextView tvT;
+    TextView tvY;
     TextView tvU;
-    TextView tvN;
-    TextView tvB;
-    TextView tvH;
-    TextView tvG;
-    TextView tvM;
-    TextView tvL;
+    TextView tvI;
+    TextView tvO;
+    TextView tvP;
+    TextView tvA;
     TextView tvS;
     TextView tvD;
-    TextView tvQ;
+    TextView tvF;
+    TextView tvG;
+    TextView tvH;
     TextView tvJ;
-    TextView tvY;
-    TextView tvR;
-    TextView tvW;
+    TextView tvK;
+    TextView tvL;
+    TextView tvNg;
     TextView tvZ;
+    TextView tvX;
+    TextView tvC;
+    TextView tvV;
+    TextView tvB;
+    TextView tvN;
+    TextView tvM;
 
-    TextView tvAlong;
-    TextView tvElong;
-    TextView tvIlong;
-    TextView tvVlong;
-    TextView tvUlong;
-    TextView tvNlong;
-    TextView tvBlong;
-    TextView tvHlong;
-    TextView tvGlong;
-    TextView tvMlong;
-    TextView tvLlong;
-    TextView tvSlong;
-    TextView tvDlong;
     TextView tvQlong;
-    TextView tvJlong;
-    TextView tvYlong;
-    TextView tvRlong;
     TextView tvWlong;
+    TextView tvElong;
+    TextView tvRlong;
+    TextView tvTlong;
+    TextView tvYlong;
+    TextView tvUlong;
+    TextView tvIlong;
+    TextView tvOlong;
+    TextView tvPlong;
+    TextView tvHlong;
+    TextView tvJlong;
+    TextView tvLlong;
     TextView tvZlong;
 
     TextView tvNamalaga;
@@ -102,7 +98,7 @@ public class KeyboardAeiou extends Keyboard {
         initMap();
 
         // inflate layout and add listeners to each key
-        View layout = inflater.inflate(R.layout.fragment_keyboard_aeiou, container, false);
+        View layout = inflater.inflate(R.layout.fragment_keyboard_qwerty, container, false);
         addListeners(layout);
         //popupView = getActivity().getLayoutInflater().inflate(R.layout.dialog_fvs_chooser, null);
 
@@ -114,99 +110,104 @@ public class KeyboardAeiou extends Keyboard {
     public void initMap() {
 
         // unicode characters for key taps
-        idToShort.put(R.id.key_a, MongolUnicodeRenderer.Uni.A);
+        idToShort.put(R.id.key_q, MongolUnicodeRenderer.Uni.CHA);
+        idToShort.put(R.id.key_w, MongolUnicodeRenderer.Uni.WA);
         idToShort.put(R.id.key_e, MongolUnicodeRenderer.Uni.E);
-        idToShort.put(R.id.key_i, MongolUnicodeRenderer.Uni.I);
-        idToShort.put(R.id.key_v, MongolUnicodeRenderer.Uni.U);
+        idToShort.put(R.id.key_r, MongolUnicodeRenderer.Uni.RA);
+        idToShort.put(R.id.key_t, MongolUnicodeRenderer.Uni.TA);
+        idToShort.put(R.id.key_y, MongolUnicodeRenderer.Uni.YA);
         idToShort.put(R.id.key_u, MongolUnicodeRenderer.Uni.UE);
-        idToShort.put(R.id.key_n, MongolUnicodeRenderer.Uni.NA);
-        idToShort.put(R.id.key_b, MongolUnicodeRenderer.Uni.BA);
-        idToShort.put(R.id.key_h, MongolUnicodeRenderer.Uni.QA);
-        idToShort.put(R.id.key_g, MongolUnicodeRenderer.Uni.GA);
-        idToShort.put(R.id.key_m, MongolUnicodeRenderer.Uni.MA);
-        idToShort.put(R.id.key_l, MongolUnicodeRenderer.Uni.LA);
+        idToShort.put(R.id.key_i, MongolUnicodeRenderer.Uni.I);
+        idToShort.put(R.id.key_o, MongolUnicodeRenderer.Uni.OE);
+        idToShort.put(R.id.key_p, MongolUnicodeRenderer.Uni.PA);
+        idToShort.put(R.id.key_a, MongolUnicodeRenderer.Uni.A);
         idToShort.put(R.id.key_s, MongolUnicodeRenderer.Uni.SA);
         idToShort.put(R.id.key_d, MongolUnicodeRenderer.Uni.DA);
-        idToShort.put(R.id.key_q, MongolUnicodeRenderer.Uni.CHA);
+        idToShort.put(R.id.key_f, MongolUnicodeRenderer.Uni.FA);
+        idToShort.put(R.id.key_g, MongolUnicodeRenderer.Uni.GA);
+        idToShort.put(R.id.key_h, MongolUnicodeRenderer.Uni.QA);
         idToShort.put(R.id.key_j, MongolUnicodeRenderer.Uni.JA);
-        idToShort.put(R.id.key_y, MongolUnicodeRenderer.Uni.YA);
-        idToShort.put(R.id.key_r, MongolUnicodeRenderer.Uni.RA);
-        idToShort.put(R.id.key_w, MongolUnicodeRenderer.Uni.WA);
+        idToShort.put(R.id.key_k, MongolUnicodeRenderer.Uni.KA);
+        idToShort.put(R.id.key_l, MongolUnicodeRenderer.Uni.LA);
+        idToShort.put(R.id.key_ng, MongolUnicodeRenderer.Uni.ANG);
         idToShort.put(R.id.key_z, MongolUnicodeRenderer.Uni.ZA);
+        idToShort.put(R.id.key_x, MongolUnicodeRenderer.Uni.SHA);
+        idToShort.put(R.id.key_c, MongolUnicodeRenderer.Uni.O);
+        idToShort.put(R.id.key_v, MongolUnicodeRenderer.Uni.U);
+        idToShort.put(R.id.key_b, MongolUnicodeRenderer.Uni.BA);
+        idToShort.put(R.id.key_n, MongolUnicodeRenderer.Uni.NA);
+        idToShort.put(R.id.key_m, MongolUnicodeRenderer.Uni.MA);
         idToShort.put(R.id.key_comma, MongolUnicodeRenderer.Uni.MONGOLIAN_COMMA);
         idToShort.put(R.id.key_question, '?');
         idToShort.put(R.id.key_namalaga, MongolUnicodeRenderer.Uni.MVS);
         idToShort.put(R.id.key_return, NEW_LINE);
 
         // unicode characters for long key presses
-        idToLong.put(R.id.key_a, MongolUnicodeRenderer.Uni.MONGOLIAN_NIRUGU);
-        idToLong.put(R.id.key_e, MongolUnicodeRenderer.Uni.EE);
-        idToLong.put(R.id.key_i, MongolUnicodeRenderer.Uni.I);
-        idToLong.put(R.id.key_v, MongolUnicodeRenderer.Uni.O);
-        idToLong.put(R.id.key_u, MongolUnicodeRenderer.Uni.OE);
-        idToLong.put(R.id.key_n, MongolUnicodeRenderer.Uni.ANG);
-        idToLong.put(R.id.key_b, MongolUnicodeRenderer.Uni.PA);
-        idToLong.put(R.id.key_h, MongolUnicodeRenderer.Uni.HAA);
-        idToLong.put(R.id.key_g, MongolUnicodeRenderer.Uni.KA);
-        idToLong.put(R.id.key_m, MongolUnicodeRenderer.Uni.MA);
-        idToLong.put(R.id.key_l, MongolUnicodeRenderer.Uni.LHA);
-        idToLong.put(R.id.key_s, MongolUnicodeRenderer.Uni.SHA);
-        idToLong.put(R.id.key_d, MongolUnicodeRenderer.Uni.TA);
         idToLong.put(R.id.key_q, MongolUnicodeRenderer.Uni.CHI);
-        idToLong.put(R.id.key_j, MongolUnicodeRenderer.Uni.ZHI);
-        idToLong.put(R.id.key_y, MongolUnicodeRenderer.Uni.YA);
+        idToLong.put(R.id.key_w, MongolUnicodeRenderer.Uni.WA);
+        idToLong.put(R.id.key_e, MongolUnicodeRenderer.Uni.EE);
         idToLong.put(R.id.key_r, MongolUnicodeRenderer.Uni.ZRA);
-        idToLong.put(R.id.key_w, MongolUnicodeRenderer.Uni.FA);
+        idToLong.put(R.id.key_t, MongolUnicodeRenderer.Uni.TA);
+        idToLong.put(R.id.key_y, MongolUnicodeRenderer.Uni.YA);
+        idToLong.put(R.id.key_u, MongolUnicodeRenderer.Uni.UE);
+        idToLong.put(R.id.key_i, MongolUnicodeRenderer.Uni.I);
+        idToLong.put(R.id.key_o, MongolUnicodeRenderer.Uni.OE);
+        idToLong.put(R.id.key_p, MongolUnicodeRenderer.Uni.PA);
+        idToLong.put(R.id.key_h, MongolUnicodeRenderer.Uni.HAA);
+        idToLong.put(R.id.key_j, MongolUnicodeRenderer.Uni.ZHI);
+        idToLong.put(R.id.key_l, MongolUnicodeRenderer.Uni.LHA);
         idToLong.put(R.id.key_z, MongolUnicodeRenderer.Uni.TSA);
         idToLong.put(R.id.key_comma, MongolUnicodeRenderer.Uni.MONGOLIAN_FULL_STOP);
         idToLong.put(R.id.key_question, '!');
         idToLong.put(R.id.key_namalaga, MongolUnicodeRenderer.Uni.ZWJ);
 
         // punctuation for key taps
+        idToShortPunctuation.put(R.id.key_q, '1');
+        idToShortPunctuation.put(R.id.key_w, '2');
+        idToShortPunctuation.put(R.id.key_e, '3');
+        idToShortPunctuation.put(R.id.key_r, '4');
+        idToShortPunctuation.put(R.id.key_t, '5');
+        idToShortPunctuation.put(R.id.key_y, '6');
+        idToShortPunctuation.put(R.id.key_u, '7');
+        idToShortPunctuation.put(R.id.key_i, '8');
+        idToShortPunctuation.put(R.id.key_o, '9');
+        idToShortPunctuation.put(R.id.key_p, '0');
         idToShortPunctuation.put(R.id.key_a, '(');
-        idToShortPunctuation.put(R.id.key_e, ')');
-        idToShortPunctuation.put(R.id.key_i, PUNCTUATION_DOUBLEQUOTE_TOP);
-        idToShortPunctuation.put(R.id.key_v, PUNCTUATION_DOUBLEQUOTE_BOTTOM);
-        idToShortPunctuation.put(R.id.key_u, MONGOLIAN_DOT);
-        idToShortPunctuation.put(R.id.key_n, '1');
-        idToShortPunctuation.put(R.id.key_b, '2');
-        idToShortPunctuation.put(R.id.key_h, '3');
-        idToShortPunctuation.put(R.id.key_g, '4');
-        idToShortPunctuation.put(R.id.key_m, '5');
-        idToShortPunctuation.put(R.id.key_l, MONGOLIAN_DASH);
-        idToShortPunctuation.put(R.id.key_s, '6');
-        idToShortPunctuation.put(R.id.key_d, '7');
-        idToShortPunctuation.put(R.id.key_q, '8');
-        idToShortPunctuation.put(R.id.key_j, '9');
-        idToShortPunctuation.put(R.id.key_y, '0');
-        idToShortPunctuation.put(R.id.key_r, '.');
-        idToShortPunctuation.put(R.id.key_w, PUNCTUATION_QUESTION_EXCLAMATION);
-        idToShortPunctuation.put(R.id.key_z, PUNCTUATION_EXCLAMATION_EXCLAMATION);
+        idToShortPunctuation.put(R.id.key_s, ')');
+        idToShortPunctuation.put(R.id.key_d, '<');
+        idToShortPunctuation.put(R.id.key_f, '>');
+        idToShortPunctuation.put(R.id.key_g, PUNCTUATION_DOUBLEQUOTE_TOP);
+        idToShortPunctuation.put(R.id.key_h, PUNCTUATION_DOUBLEQUOTE_BOTTOM);
+        idToShortPunctuation.put(R.id.key_j, PUNCTUATION_QUESTION_EXCLAMATION);
+        idToShortPunctuation.put(R.id.key_k, PUNCTUATION_EXCLAMATION_QUESTION);
+        idToShortPunctuation.put(R.id.key_l, PUNCTUATION_EXCLAMATION_EXCLAMATION);
+        idToShortPunctuation.put(R.id.key_ng, MongolUnicodeRenderer.Uni.MONGOLIAN_COLON);
+        idToShortPunctuation.put(R.id.key_z, MongolUnicodeRenderer.Uni.MONGOLIAN_ELLIPSIS);
+        idToShortPunctuation.put(R.id.key_x, MongolUnicodeRenderer.Uni.MONGOLIAN_FOUR_DOTS);
+        idToShortPunctuation.put(R.id.key_c, MONGOLIAN_DOT);
+        idToShortPunctuation.put(R.id.key_v, '.');
+        idToShortPunctuation.put(R.id.key_b, MongolUnicodeRenderer.Uni.MONGOLIAN_NIRUGU);
+        idToShortPunctuation.put(R.id.key_n, MONGOLIAN_DASH);
+        idToShortPunctuation.put(R.id.key_m, ';');
         idToShortPunctuation.put(R.id.key_comma, MongolUnicodeRenderer.Uni.MONGOLIAN_COMMA);
         idToShortPunctuation.put(R.id.key_question, '?');
-        //idToShortPunctuation.put(R.id.key_namalaga, MongolUnicodeRenderer.Uni.MVS);
         idToShortPunctuation.put(R.id.key_return, NEW_LINE);
 
         // punctuation for long key presses
-        idToLongPunctuation.put(R.id.key_a, '[');
-        idToLongPunctuation.put(R.id.key_e, ']');
-        idToLongPunctuation.put(R.id.key_i, '<');
-        idToLongPunctuation.put(R.id.key_v, '>');
-        idToLongPunctuation.put(R.id.key_u, MongolUnicodeRenderer.Uni.MONGOLIAN_ELLIPSIS);
-        idToLongPunctuation.put(R.id.key_n, MongolUnicodeRenderer.Uni.MONGOLIAN_DIGIT_ONE);
-        idToLongPunctuation.put(R.id.key_b, MongolUnicodeRenderer.Uni.MONGOLIAN_DIGIT_TWO);
-        idToLongPunctuation.put(R.id.key_h, MongolUnicodeRenderer.Uni.MONGOLIAN_DIGIT_THREE);
-        idToLongPunctuation.put(R.id.key_g, MongolUnicodeRenderer.Uni.MONGOLIAN_DIGIT_FOUR);
-        idToLongPunctuation.put(R.id.key_m, MongolUnicodeRenderer.Uni.MONGOLIAN_DIGIT_FIVE);
-        idToLongPunctuation.put(R.id.key_l, MongolUnicodeRenderer.Uni.MONGOLIAN_BIRGA);
-        idToLongPunctuation.put(R.id.key_s, MongolUnicodeRenderer.Uni.MONGOLIAN_DIGIT_SIX);
-        idToLongPunctuation.put(R.id.key_d, MongolUnicodeRenderer.Uni.MONGOLIAN_DIGIT_SEVEN);
-        idToLongPunctuation.put(R.id.key_q, MongolUnicodeRenderer.Uni.MONGOLIAN_DIGIT_EIGHT);
-        idToLongPunctuation.put(R.id.key_j, MongolUnicodeRenderer.Uni.MONGOLIAN_DIGIT_NINE);
-        idToLongPunctuation.put(R.id.key_y, MongolUnicodeRenderer.Uni.MONGOLIAN_DIGIT_ZERO);
-        idToLongPunctuation.put(R.id.key_r, MongolUnicodeRenderer.Uni.MONGOLIAN_FOUR_DOTS);
-        idToLongPunctuation.put(R.id.key_w, MongolUnicodeRenderer.Uni.MONGOLIAN_COLON);
-        idToLongPunctuation.put(R.id.key_z, ';');
+        idToLongPunctuation.put(R.id.key_q, MongolUnicodeRenderer.Uni.MONGOLIAN_DIGIT_ONE);
+        idToLongPunctuation.put(R.id.key_w, MongolUnicodeRenderer.Uni.MONGOLIAN_DIGIT_TWO);
+        idToLongPunctuation.put(R.id.key_e, MongolUnicodeRenderer.Uni.MONGOLIAN_DIGIT_THREE);
+        idToLongPunctuation.put(R.id.key_r, MongolUnicodeRenderer.Uni.MONGOLIAN_DIGIT_FOUR);
+        idToLongPunctuation.put(R.id.key_t, MongolUnicodeRenderer.Uni.MONGOLIAN_DIGIT_FIVE);
+        idToLongPunctuation.put(R.id.key_y, MongolUnicodeRenderer.Uni.MONGOLIAN_DIGIT_SIX);
+        idToLongPunctuation.put(R.id.key_u, MongolUnicodeRenderer.Uni.MONGOLIAN_DIGIT_SEVEN);
+        idToLongPunctuation.put(R.id.key_i, MongolUnicodeRenderer.Uni.MONGOLIAN_DIGIT_EIGHT);
+        idToLongPunctuation.put(R.id.key_o, MongolUnicodeRenderer.Uni.MONGOLIAN_DIGIT_NINE);
+        idToLongPunctuation.put(R.id.key_p, MongolUnicodeRenderer.Uni.MONGOLIAN_DIGIT_ZERO);
+        idToLongPunctuation.put(R.id.key_h, PUNCTUATION_DOUBLEQUOTE_BOTTOM);
+        idToLongPunctuation.put(R.id.key_j, PUNCTUATION_QUESTION_EXCLAMATION);
+        idToLongPunctuation.put(R.id.key_l, PUNCTUATION_EXCLAMATION_EXCLAMATION);
+        idToLongPunctuation.put(R.id.key_z, MongolUnicodeRenderer.Uni.MONGOLIAN_ELLIPSIS);
         idToLongPunctuation.put(R.id.key_comma, MongolUnicodeRenderer.Uni.MONGOLIAN_FULL_STOP);
         idToLongPunctuation.put(R.id.key_question, '!');
         idToLongPunctuation.put(R.id.key_namalaga, MongolUnicodeRenderer.Uni.ZWJ);
@@ -220,48 +221,51 @@ public class KeyboardAeiou extends Keyboard {
         // *** Normal Keys ***
 
         // click
-        v.findViewById(R.id.key_a).setOnClickListener(this);
+        v.findViewById(R.id.key_q).setOnClickListener(this);
+        v.findViewById(R.id.key_w).setOnClickListener(this);
         v.findViewById(R.id.key_e).setOnClickListener(this);
-        v.findViewById(R.id.key_i).setOnClickListener(this);
-        v.findViewById(R.id.key_v).setOnClickListener(this);
+        v.findViewById(R.id.key_r).setOnClickListener(this);
+        v.findViewById(R.id.key_t).setOnClickListener(this);
+        v.findViewById(R.id.key_y).setOnClickListener(this);
         v.findViewById(R.id.key_u).setOnClickListener(this);
-        v.findViewById(R.id.key_n).setOnClickListener(this);
-        v.findViewById(R.id.key_b).setOnClickListener(this);
-        v.findViewById(R.id.key_h).setOnClickListener(this);
-        v.findViewById(R.id.key_g).setOnClickListener(this);
-        v.findViewById(R.id.key_m).setOnClickListener(this);
-        v.findViewById(R.id.key_l).setOnClickListener(this);
+        v.findViewById(R.id.key_i).setOnClickListener(this);
+        v.findViewById(R.id.key_o).setOnClickListener(this);
+        v.findViewById(R.id.key_p).setOnClickListener(this);
+        v.findViewById(R.id.key_a).setOnClickListener(this);
         v.findViewById(R.id.key_s).setOnClickListener(this);
         v.findViewById(R.id.key_d).setOnClickListener(this);
-        v.findViewById(R.id.key_q).setOnClickListener(this);
+        v.findViewById(R.id.key_f).setOnClickListener(this);
+        v.findViewById(R.id.key_g).setOnClickListener(this);
+        v.findViewById(R.id.key_h).setOnClickListener(this);
         v.findViewById(R.id.key_j).setOnClickListener(this);
-        v.findViewById(R.id.key_y).setOnClickListener(this);
-        v.findViewById(R.id.key_r).setOnClickListener(this);
-        v.findViewById(R.id.key_w).setOnClickListener(this);
+        v.findViewById(R.id.key_k).setOnClickListener(this);
+        v.findViewById(R.id.key_l).setOnClickListener(this);
+        v.findViewById(R.id.key_ng).setOnClickListener(this);
         v.findViewById(R.id.key_z).setOnClickListener(this);
+        v.findViewById(R.id.key_x).setOnClickListener(this);
+        v.findViewById(R.id.key_c).setOnClickListener(this);
+        v.findViewById(R.id.key_v).setOnClickListener(this);
+        v.findViewById(R.id.key_b).setOnClickListener(this);
+        v.findViewById(R.id.key_n).setOnClickListener(this);
+        v.findViewById(R.id.key_m).setOnClickListener(this);
         v.findViewById(R.id.key_comma).setOnClickListener(this);
         v.findViewById(R.id.key_question).setOnClickListener(this);
         v.findViewById(R.id.key_return).setOnClickListener(this);
 
         // long click
-        v.findViewById(R.id.key_a).setOnLongClickListener(this);
-        v.findViewById(R.id.key_e).setOnLongClickListener(this);
-        v.findViewById(R.id.key_i).setOnLongClickListener(this);
-        v.findViewById(R.id.key_v).setOnLongClickListener(this);
-        v.findViewById(R.id.key_u).setOnLongClickListener(this);
-        v.findViewById(R.id.key_n).setOnLongClickListener(this);
-        v.findViewById(R.id.key_b).setOnLongClickListener(this);
-        v.findViewById(R.id.key_h).setOnLongClickListener(this);
-        v.findViewById(R.id.key_g).setOnLongClickListener(this);
-        v.findViewById(R.id.key_m).setOnLongClickListener(this);
-        v.findViewById(R.id.key_l).setOnLongClickListener(this);
-        v.findViewById(R.id.key_s).setOnLongClickListener(this);
-        v.findViewById(R.id.key_d).setOnLongClickListener(this);
         v.findViewById(R.id.key_q).setOnLongClickListener(this);
-        v.findViewById(R.id.key_j).setOnLongClickListener(this);
-        v.findViewById(R.id.key_y).setOnLongClickListener(this);
-        v.findViewById(R.id.key_r).setOnLongClickListener(this);
         v.findViewById(R.id.key_w).setOnLongClickListener(this);
+        v.findViewById(R.id.key_e).setOnLongClickListener(this);
+        v.findViewById(R.id.key_r).setOnLongClickListener(this);
+        v.findViewById(R.id.key_t).setOnLongClickListener(this);
+        v.findViewById(R.id.key_y).setOnLongClickListener(this);
+        v.findViewById(R.id.key_u).setOnLongClickListener(this);
+        v.findViewById(R.id.key_i).setOnLongClickListener(this);
+        v.findViewById(R.id.key_o).setOnLongClickListener(this);
+        v.findViewById(R.id.key_p).setOnLongClickListener(this);
+        v.findViewById(R.id.key_h).setOnLongClickListener(this);
+        v.findViewById(R.id.key_j).setOnLongClickListener(this);
+        v.findViewById(R.id.key_l).setOnLongClickListener(this);
         v.findViewById(R.id.key_z).setOnLongClickListener(this);
         v.findViewById(R.id.key_comma).setOnLongClickListener(this);
         v.findViewById(R.id.key_question).setOnLongClickListener(this);
@@ -283,44 +287,47 @@ public class KeyboardAeiou extends Keyboard {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        tvA = (TextView) getView().findViewById(R.id.tvMkeyA);
+        tvQ = (TextView) getView().findViewById(R.id.tvMkeyQ);
+        tvW = (TextView) getView().findViewById(R.id.tvMkeyW);
         tvE = (TextView) getView().findViewById(R.id.tvMkeyE);
-        tvI = (TextView) getView().findViewById(R.id.tvMkeyI);
-        tvV = (TextView) getView().findViewById(R.id.tvMkeyV);
+        tvR = (TextView) getView().findViewById(R.id.tvMkeyR);
+        tvT = (TextView) getView().findViewById(R.id.tvMkeyT);
+        tvY = (TextView) getView().findViewById(R.id.tvMkeyY);
         tvU = (TextView) getView().findViewById(R.id.tvMkeyU);
-        tvN = (TextView) getView().findViewById(R.id.tvMkeyN);
-        tvB = (TextView) getView().findViewById(R.id.tvMkeyB);
-        tvH = (TextView) getView().findViewById(R.id.tvMkeyH);
-        tvG = (TextView) getView().findViewById(R.id.tvMkeyG);
-        tvM = (TextView) getView().findViewById(R.id.tvMkeyM);
-        tvL = (TextView) getView().findViewById(R.id.tvMkeyL);
+        tvI = (TextView) getView().findViewById(R.id.tvMkeyI);
+        tvO = (TextView) getView().findViewById(R.id.tvMkeyO);
+        tvP = (TextView) getView().findViewById(R.id.tvMkeyP);
+        tvA = (TextView) getView().findViewById(R.id.tvMkeyA);
         tvS = (TextView) getView().findViewById(R.id.tvMkeyS);
         tvD = (TextView) getView().findViewById(R.id.tvMkeyD);
-        tvQ = (TextView) getView().findViewById(R.id.tvMkeyQ);
+        tvF = (TextView) getView().findViewById(R.id.tvMkeyF);
+        tvG = (TextView) getView().findViewById(R.id.tvMkeyG);
+        tvH = (TextView) getView().findViewById(R.id.tvMkeyH);
         tvJ = (TextView) getView().findViewById(R.id.tvMkeyJ);
-        tvY = (TextView) getView().findViewById(R.id.tvMkeyY);
-        tvR = (TextView) getView().findViewById(R.id.tvMkeyR);
-        tvW = (TextView) getView().findViewById(R.id.tvMkeyW);
+        tvK = (TextView) getView().findViewById(R.id.tvMkeyK);
+        tvL = (TextView) getView().findViewById(R.id.tvMkeyL);
+        tvNg = (TextView) getView().findViewById(R.id.tvMkeyNg);
         tvZ = (TextView) getView().findViewById(R.id.tvMkeyZ);
+        tvX = (TextView) getView().findViewById(R.id.tvMkeyX);
+        tvC = (TextView) getView().findViewById(R.id.tvMkeyC);
+        tvV = (TextView) getView().findViewById(R.id.tvMkeyV);
+        tvB = (TextView) getView().findViewById(R.id.tvMkeyB);
+        tvN = (TextView) getView().findViewById(R.id.tvMkeyN);
+        tvM = (TextView) getView().findViewById(R.id.tvMkeyM);
 
-        tvAlong = (TextView) getView().findViewById(R.id.tvMkeyAlong);
-        tvElong = (TextView) getView().findViewById(R.id.tvMkeyElong);
-        tvIlong = (TextView) getView().findViewById(R.id.tvMkeyIlong);
-        tvVlong = (TextView) getView().findViewById(R.id.tvMkeyVlong);
-        tvUlong = (TextView) getView().findViewById(R.id.tvMkeyUlong);
-        tvNlong = (TextView) getView().findViewById(R.id.tvMkeyNlong);
-        tvBlong = (TextView) getView().findViewById(R.id.tvMkeyBlong);
-        tvHlong = (TextView) getView().findViewById(R.id.tvMkeyHlong);
-        tvGlong = (TextView) getView().findViewById(R.id.tvMkeyGlong);
-        tvMlong = (TextView) getView().findViewById(R.id.tvMkeyMlong);
-        tvLlong = (TextView) getView().findViewById(R.id.tvMkeyLlong);
-        tvSlong = (TextView) getView().findViewById(R.id.tvMkeySlong);
-        tvDlong = (TextView) getView().findViewById(R.id.tvMkeyDlong);
         tvQlong = (TextView) getView().findViewById(R.id.tvMkeyQlong);
-        tvJlong = (TextView) getView().findViewById(R.id.tvMkeyJlong);
-        tvYlong = (TextView) getView().findViewById(R.id.tvMkeyYlong);
-        tvRlong = (TextView) getView().findViewById(R.id.tvMkeyRlong);
         tvWlong = (TextView) getView().findViewById(R.id.tvMkeyWlong);
+        tvElong = (TextView) getView().findViewById(R.id.tvMkeyElong);
+        tvRlong = (TextView) getView().findViewById(R.id.tvMkeyRlong);
+        tvTlong = (TextView) getView().findViewById(R.id.tvMkeyTlong);
+        tvYlong = (TextView) getView().findViewById(R.id.tvMkeyYlong);
+        tvUlong = (TextView) getView().findViewById(R.id.tvMkeyUlong);
+        tvIlong = (TextView) getView().findViewById(R.id.tvMkeyIlong);
+        tvOlong = (TextView) getView().findViewById(R.id.tvMkeyOlong);
+        tvPlong = (TextView) getView().findViewById(R.id.tvMkeyPlong);
+        tvHlong = (TextView) getView().findViewById(R.id.tvMkeyHlong);
+        tvJlong = (TextView) getView().findViewById(R.id.tvMkeyJlong);
+        tvLlong = (TextView) getView().findViewById(R.id.tvMkeyLlong);
         tvZlong = (TextView) getView().findViewById(R.id.tvMkeyZlong);
 
         tvNamalaga = (TextView) getView().findViewById(R.id.tvMkeyNamalaga);
@@ -346,8 +353,6 @@ public class KeyboardAeiou extends Keyboard {
             updateFvsKeys(inputChar);
         }
 
-        //showPopup(v);
-
         mListener.keyWasTapped(inputChar);
     }
 
@@ -365,38 +370,7 @@ public class KeyboardAeiou extends Keyboard {
 
         mListener.keyWasTapped(inputChar);
 
-
-
         return true;
-    }
-
-    public void showPopup(View anchorView) {
-
-        View popupView = getActivity().getLayoutInflater().inflate(R.layout.dialog_fvs_chooser, null);
-
-        PopupWindow popupWindow = new PopupWindow(popupView,
-                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-
-        // Example: If you have a TextView inside `popup_layout.xml`
-        TextView tv = (TextView) popupView.findViewById(R.id.tvFvs1Top);
-
-        tv.setText("a");
-
-        // If the PopupWindow should be focusable
-        popupWindow.setFocusable(true);
-
-        // If you need the PopupWindow to dismiss when when touched outside
-        popupWindow.setBackgroundDrawable(new ColorDrawable());
-
-        int location[] = new int[2];
-
-        // Get the View's(the one that was clicked in the Fragment) location
-        anchorView.getLocationOnScreen(location);
-
-        // Using location, the PopupWindow will be displayed right under anchorView
-        popupWindow.showAtLocation(anchorView, Gravity.NO_GRAVITY,
-                location[0], location[1] + anchorView.getHeight());
-
     }
 
     private View.OnTouchListener handleFvsTouch = new View.OnTouchListener() {
@@ -424,7 +398,7 @@ public class KeyboardAeiou extends Keyboard {
 
             switch(action) {
                 case (MotionEvent.ACTION_DOWN) :
-                    Log.d(DEBUG_TAG,"Action was DOWN");
+                    Log.d("DEBUG_TAG","Action was DOWN");
 
                     // No input values, so cancel touch events
                     if (TextUtils.isEmpty(tvFvs1Top.getText()) && TextUtils.isEmpty(tvFvs1Bottom.getText())) {
@@ -483,7 +457,7 @@ public class KeyboardAeiou extends Keyboard {
 
                     return true;
                 case (MotionEvent.ACTION_MOVE):
-                    Log.d(DEBUG_TAG, "Action was MOVE " + event.getX());
+                    Log.d("DEBUG_TAG", "Action was MOVE " + event.getX());
 
                     float x = event.getX();
                     //int padding = 0; // TODO is this needed?
@@ -491,60 +465,60 @@ public class KeyboardAeiou extends Keyboard {
 
                     // select FVS1-3 and set highlight background color
                     if (x < 0) {
-                        if (currentFvsSelection != CurrentFvsSelection.OutOfBoundsLeft) {
+                        if (currentFvsSelection != KeyboardAeiou.CurrentFvsSelection.OutOfBoundsLeft) {
                             llFvs1.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
                             llFvs2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
                             llFvs3.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
-                            currentFvsSelection = CurrentFvsSelection.OutOfBoundsLeft;
+                            currentFvsSelection = KeyboardAeiou.CurrentFvsSelection.OutOfBoundsLeft;
                         }
                     } else if (x > 0 && x <= unit) {
-                        if (currentFvsSelection != CurrentFvsSelection.FVS1) {
+                        if (currentFvsSelection != KeyboardAeiou.CurrentFvsSelection.FVS1) {
                             llFvs1.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.accent, null));
                             llFvs2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
                             llFvs3.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
-                            currentFvsSelection = CurrentFvsSelection.FVS1;
+                            currentFvsSelection = KeyboardAeiou.CurrentFvsSelection.FVS1;
                         }
                     } else if (x > unit && x <= 2 * unit) {
-                        if (currentFvsSelection != CurrentFvsSelection.FVS2) {
+                        if (currentFvsSelection != KeyboardAeiou.CurrentFvsSelection.FVS2) {
                             llFvs1.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
                             llFvs2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.accent, null));
                             llFvs3.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
-                            currentFvsSelection = CurrentFvsSelection.FVS2;
+                            currentFvsSelection = KeyboardAeiou.CurrentFvsSelection.FVS2;
                         }
                     } else if (x > 2 * unit && x <= 3 * unit) {
                         if (numberOfFvsChoices == 2) {
-                            if (currentFvsSelection != CurrentFvsSelection.OutOfBoundsRight) {
+                            if (currentFvsSelection != KeyboardAeiou.CurrentFvsSelection.OutOfBoundsRight) {
                                 llFvs1.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
                                 llFvs2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
-                                currentFvsSelection = CurrentFvsSelection.OutOfBoundsRight;
+                                currentFvsSelection = KeyboardAeiou.CurrentFvsSelection.OutOfBoundsRight;
                             }
                         } else if (numberOfFvsChoices == 3) {
-                            if (currentFvsSelection != CurrentFvsSelection.FVS3) {
+                            if (currentFvsSelection != KeyboardAeiou.CurrentFvsSelection.FVS3) {
                                 llFvs1.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
                                 llFvs2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
                                 llFvs3.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.accent, null));
-                                currentFvsSelection = CurrentFvsSelection.FVS3;
+                                currentFvsSelection = KeyboardAeiou.CurrentFvsSelection.FVS3;
                             }
                         }
                     } else if (x > 3 * unit) {
-                        if (currentFvsSelection != CurrentFvsSelection.OutOfBoundsRight) {
+                        if (currentFvsSelection != KeyboardAeiou.CurrentFvsSelection.OutOfBoundsRight) {
                             llFvs1.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
                             llFvs2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
                             llFvs3.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
-                            currentFvsSelection = CurrentFvsSelection.OutOfBoundsRight;
+                            currentFvsSelection = KeyboardAeiou.CurrentFvsSelection.OutOfBoundsRight;
                         }
                     }
 
                     return true;
                 case (MotionEvent.ACTION_UP) :
                     // allow to fall through to the default (dismiss the popup window)
-                    if (currentFvsSelection == CurrentFvsSelection.FVS1) {
+                    if (currentFvsSelection == KeyboardAeiou.CurrentFvsSelection.FVS1) {
                         mListener.keyWasTapped(MongolUnicodeRenderer.Uni.FVS1);
                         clearFvsKeys();
-                    } else if (currentFvsSelection == CurrentFvsSelection.FVS2) {
+                    } else if (currentFvsSelection == KeyboardAeiou.CurrentFvsSelection.FVS2) {
                         mListener.keyWasTapped(MongolUnicodeRenderer.Uni.FVS2);
                         clearFvsKeys();
-                    } else if (currentFvsSelection == CurrentFvsSelection.FVS3) {
+                    } else if (currentFvsSelection == KeyboardAeiou.CurrentFvsSelection.FVS3) {
                         mListener.keyWasTapped(MongolUnicodeRenderer.Uni.FVS3);
                         clearFvsKeys();
                     }
@@ -618,7 +592,7 @@ public class KeyboardAeiou extends Keyboard {
                             TextView tvSecond = (TextView) popupView.findViewById(R.id.tvKeyboardSecondChoice);
                             tvSecond.setText(getString(R.string.keyboard_cyrillic));
                             TextView tvThird = (TextView) popupView.findViewById(R.id.tvKeyboardThirdChoice);
-                            tvThird.setText(getString(R.string.keyboard_qwerty_short));
+                            tvThird.setText(getString(R.string.keyboard_aeiou_short));
 
                             fl1 = (FrameLayout) popupView.findViewById(R.id.flKeyboardFirstChoice);
                             fl2 = (FrameLayout) popupView.findViewById(R.id.flKeyboardSecondChoice);
@@ -649,7 +623,7 @@ public class KeyboardAeiou extends Keyboard {
 
                     break;
                 case MotionEvent.ACTION_MOVE:
-                    //Log.i("TAG", "moving: (" + x + ", " + y + ")");
+
                     if (!showingPopup) {
                         break;
                     }
@@ -680,11 +654,11 @@ public class KeyboardAeiou extends Keyboard {
                             currentSelection = KeyboardType.Cyrillic;
                         }
                     } else if (x > 2 * unit && x <= 3 * unit) {
-                        if (currentSelection != KeyboardType.Qwerty) {
+                        if (currentSelection != KeyboardType.Aeiou) {
                             fl1.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
                             fl2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
                             fl3.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.accent, null));
-                            currentSelection = KeyboardType.Qwerty;
+                            currentSelection = KeyboardType.Aeiou;
                         }
                     }
 
@@ -759,89 +733,94 @@ public class KeyboardAeiou extends Keyboard {
     public void switchPunctuation() {
         if (punctuationOn) {
 
-            tvA.setText(getString(R.string.m_a));
-            tvE.setText(getString(R.string.m_e));
-            tvI.setText(getString(R.string.m_i));
-            tvV.setText(getString(R.string.m_u));
-            tvU.setText(getString(R.string.m_ue));
-            tvN.setText(getString(R.string.m_na));
-            tvB.setText(getString(R.string.m_ba));
-            tvH.setText(getString(R.string.m_qa));
-            tvG.setText(getString(R.string.m_ga));
-            tvM.setText(getString(R.string.m_ma));
-            tvL.setText(getString(R.string.m_la));
-            tvS.setText(getString(R.string.m_sa));
-            //tvT.setText(getString(R.string.m_ta));
-            tvD.setText(getString(R.string.m_da));
             tvQ.setText(getString(R.string.m_cha));
-            tvJ.setText(getString(R.string.m_ja));
-            tvY.setText(getString(R.string.m_ya));
-            tvR.setText(getString(R.string.m_ra));
             tvW.setText(getString(R.string.m_wa));
+            tvE.setText(getString(R.string.m_e));
+            tvR.setText(getString(R.string.m_ra));
+            tvT.setText(getString(R.string.m_ta));
+            tvY.setText(getString(R.string.m_ya));
+            tvU.setText(getString(R.string.m_ue));
+            tvI.setText(getString(R.string.m_i));
+            tvO.setText(getString(R.string.m_oe));
+            tvP.setText(getString(R.string.m_pa));
+            tvA.setText(getString(R.string.m_a));
+            tvS.setText(getString(R.string.m_sa));
+            tvD.setText(getString(R.string.m_da));
+            tvF.setText(getString(R.string.m_fa));
+            tvG.setText(getString(R.string.m_ga));
+            tvH.setText(getString(R.string.m_qa));
+            tvJ.setText(getString(R.string.m_ja));
+            tvK.setText(getString(R.string.m_ka));
+            tvL.setText(getString(R.string.m_la));
+            tvNg.setText(getString(R.string.m_ang));
             tvZ.setText(getString(R.string.m_za));
+            tvX.setText(getString(R.string.m_sha));
+            tvC.setText(getString(R.string.m_o));
+            tvV.setText(getString(R.string.m_u));
+            tvB.setText(getString(R.string.m_ba));
+            tvN.setText(getString(R.string.m_na));
+            tvM.setText(getString(R.string.m_ma));
 
-            tvAlong.setText(getString(R.string.m_key_niguru));
-            tvElong.setText(getString(R.string.m_ee));
-            tvIlong.setText("");
-            tvVlong.setText(getString(R.string.m_o));
-            tvUlong.setText(getString(R.string.m_oe));
-            tvNlong.setText(getString(R.string.m_ang));
-            tvBlong.setText(getString(R.string.m_pa));
-            tvHlong.setText(getString(R.string.m_haa));
-            tvGlong.setText(getString(R.string.m_ka));
-            tvMlong.setText("");
-            tvLlong.setText(getString(R.string.m_lha));
-            tvSlong.setText(getString(R.string.m_sha));
-            tvDlong.setText(getString(R.string.m_ta));
             tvQlong.setText(getString(R.string.m_chi));
-            tvJlong.setText(getString(R.string.m_zhi));
-            tvYlong.setText("");
+            tvWlong.setText("");
+            tvElong.setText(getString(R.string.m_ee));
             tvRlong.setText(getString(R.string.m_zra));
-            tvWlong.setText(getString(R.string.m_fa));
+            tvTlong.setText("");
+            tvYlong.setText("");
+            tvUlong.setText("");
+            tvIlong.setText("");
+            tvOlong.setText("");
+            tvPlong.setText("");
+            tvHlong.setText(getString(R.string.m_haa));
+            tvJlong.setText(getString(R.string.m_zhi));
+            tvLlong.setText(getString(R.string.m_lha));
             tvZlong.setText(getString(R.string.m_tsa));
-
 
         } else { // punctuation is not on. Turn it on now.
 
+            tvQ.setText(getString(R.string.m_key_p_1));
+            tvW.setText(getString(R.string.m_key_p_2));
+            tvE.setText(getString(R.string.m_key_p_3));
+            tvR.setText(getString(R.string.m_key_p_4));
+            tvT.setText(getString(R.string.m_key_p_5));
+            tvY.setText(getString(R.string.m_key_p_6));
+            tvU.setText(getString(R.string.m_key_p_7));
+            tvI.setText(getString(R.string.m_key_p_8));
+            tvO.setText(getString(R.string.m_key_p_9));
+            tvP.setText(getString(R.string.m_key_p_0));
             tvA.setText(getString(R.string.m_key_p_top_paranthesis));
-            tvE.setText(getString(R.string.m_key_p_bottom_paranthesis));
-            tvI.setText(getString(R.string.m_key_p_top_double_quote));
-            tvV.setText(getString(R.string.m_key_p_bottom_double_quote));
-            tvU.setText(getString(R.string.m_key_p_dot));
-            tvN.setText(getString(R.string.m_key_p_1));
-            tvB.setText(getString(R.string.m_key_p_2));
-            tvH.setText(getString(R.string.m_key_p_3));
-            tvG.setText(getString(R.string.m_key_p_4));
-            tvM.setText(getString(R.string.m_key_p_5));
-            tvL.setText(getString(R.string.m_key_p_dash));
-            tvS.setText(getString(R.string.m_key_p_6));
-            tvD.setText(getString(R.string.m_key_p_7));
-            tvQ.setText(getString(R.string.m_key_p_8));
-            tvJ.setText(getString(R.string.m_key_p_9));
-            tvY.setText(getString(R.string.m_key_p_0));
-            tvR.setText(getString(R.string.m_key_p_full_stop));
-            tvW.setText(getString(R.string.m_key_p_question_exclamation));
-            tvZ.setText(getString(R.string.m_key_p_exclamation_exclamation));
+            tvS.setText(getString(R.string.m_key_p_bottom_paranthesis));
+            tvD.setText(getString(R.string.m_key_p_top_single_quote));
+            tvF.setText(getString(R.string.m_key_p_bottom_single_quote));
+            tvG.setText(getString(R.string.m_key_p_top_double_quote));
+            tvH.setText(getString(R.string.m_key_p_bottom_double_quote));
+            tvJ.setText(getString(R.string.m_key_p_question_exclamation));
+            tvK.setText(getString(R.string.m_key_p_exclamation_question));
+            tvL.setText(getString(R.string.m_key_p_exclamation_exclamation));
+            tvNg.setText(getString(R.string.m_key_p_colon));
+            tvZ.setText(getString(R.string.m_key_p_ellipsis));
+            tvX.setText(getString(R.string.m_key_p_four_dots));
+            tvC.setText(getString(R.string.m_key_p_dot));
+            tvV.setText(getString(R.string.m_key_p_full_stop));
+            tvB.setText(getString(R.string.m_key_niguru));
+            tvN.setText(getString(R.string.m_key_p_dash));
+            tvM.setText(getString(R.string.m_key_p_semicolon));
 
-            tvAlong.setText(getString(R.string.m_key_p_top_square_bracket));
-            tvElong.setText(getString(R.string.m_key_p_bottom_square_bracket));
-            tvIlong.setText(getString(R.string.m_key_p_top_single_quote));
-            tvVlong.setText(getString(R.string.m_key_p_bottom_single_quote));
-            tvUlong.setText(getString(R.string.m_key_p_ellipsis));
-            tvNlong.setText(getString(R.string.m_key_p_mongol_1));
-            tvBlong.setText(getString(R.string.m_key_p_mongol_2));
-            tvHlong.setText(getString(R.string.m_key_p_mongol_3));
-            tvGlong.setText(getString(R.string.m_key_p_mongol_4));
-            tvMlong.setText(getString(R.string.m_key_p_mongol_5));
-            tvLlong.setText(getString(R.string.m_key_p_birga));
-            tvSlong.setText(getString(R.string.m_key_p_mongol_6));
-            tvDlong.setText(getString(R.string.m_key_p_mongol_7));
-            tvQlong.setText(getString(R.string.m_key_p_mongol_8));
-            tvJlong.setText(getString(R.string.m_key_p_mongol_9));
-            tvYlong.setText(getString(R.string.m_key_p_mongol_0));
-            tvRlong.setText(getString(R.string.m_key_p_four_dots));
-            tvWlong.setText(getString(R.string.m_key_p_colon));
-            tvZlong.setText(getString(R.string.m_key_p_semicolon));
+
+            tvQlong.setText(getString(R.string.m_key_p_mongol_1));
+            tvWlong.setText(getString(R.string.m_key_p_mongol_2));
+            tvElong.setText(getString(R.string.m_key_p_mongol_3));
+            tvRlong.setText(getString(R.string.m_key_p_mongol_4));
+            tvTlong.setText(getString(R.string.m_key_p_mongol_5));
+            tvYlong.setText(getString(R.string.m_key_p_mongol_6));
+            tvUlong.setText(getString(R.string.m_key_p_mongol_7));
+            tvIlong.setText(getString(R.string.m_key_p_mongol_8));
+            tvOlong.setText(getString(R.string.m_key_p_mongol_9));
+            tvPlong.setText(getString(R.string.m_key_p_mongol_0));
+            tvHlong.setText("");
+            tvJlong.setText("");
+            tvLlong.setText("");
+            tvZlong.setText("");
 
             tvFvs1Top.setText("");
             tvFvs1Bottom.setText("");
@@ -850,11 +829,10 @@ public class KeyboardAeiou extends Keyboard {
             tvFvs3Top.setText("");
             tvFvs3Bottom.setText("");
 
-
-
         }
 
         punctuationOn = !punctuationOn;
 
     }
+
 }
