@@ -83,7 +83,11 @@ public class KeyboardController extends Fragment implements Keyboard.OnKeyboardL
 //        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
 //        transaction.replace(R.id.keyboard_container_frame, childFragment).commit();
 
-        Fragment childFragment = new KeyboardQwerty();
+//        Fragment childFragment = new KeyboardQwerty();
+//        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+//        transaction.replace(R.id.keyboard_container_frame, childFragment).commit();
+
+        Fragment childFragment = new KeyboardEnglish();
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.replace(R.id.keyboard_container_frame, childFragment).commit();
     }

@@ -39,11 +39,9 @@ public class KeyboardAeiou extends Keyboard {
 
     private final String DEBUG_TAG = "debug tag";
     MongolUnicodeRenderer renderer = MongolUnicodeRenderer.INSTANCE;
-    Boolean punctuationOn = false;
+    //Boolean punctuationOn = false;
+    KeyMode currentKeyMode = KeyMode.Mongol;
     private CurrentFvsSelection currentFvsSelection = CurrentFvsSelection.FVS1;
-
-
-
 
 
     TextView tvA;
@@ -274,8 +272,14 @@ public class KeyboardAeiou extends Keyboard {
         v.findViewById(R.id.key_namalaga).setOnClickListener(handleMvsClick);
         v.findViewById(R.id.key_case_suffix).setOnClickListener(handleCaseSuffixClick);
         v.findViewById(R.id.key_backspace).setOnTouchListener(handleBackspace);
-        v.findViewById(R.id.key_input).setOnTouchListener(handleInputTouch);
         v.findViewById(R.id.key_space).setOnTouchListener(handleSpace);
+
+        // input key
+        ArrayList<KeyboardType> displayOrder = new ArrayList<>();
+        displayOrder.add(KeyboardType.English);
+        displayOrder.add(KeyboardType.Cyrillic);
+        displayOrder.add(KeyboardType.Qwerty);
+        super.setOnTouchListenerForKeybordSwitcherView(v.findViewById(R.id.key_input), displayOrder);
 
     }
 
@@ -337,36 +341,25 @@ public class KeyboardAeiou extends Keyboard {
     @Override
     public void onClick(View v) {
 
-        char inputChar;
-
-        if (punctuationOn) {
-            inputChar = idToShortPunctuation.get(v.getId());
-        } else {
-            inputChar = idToShort.get(v.getId());
+        if (currentKeyMode == KeyMode.Punctuation) {
+            mListener.keyWasTapped(idToShortPunctuation.get(v.getId()));
+        } else if (currentKeyMode == KeyMode.Mongol) {
+            char inputChar = idToShort.get(v.getId());
+            mListener.keyWasTapped(inputChar);
             updateFvsKeys(inputChar);
         }
-
-        //showPopup(v);
-
-        mListener.keyWasTapped(inputChar);
     }
 
     @Override
     public boolean onLongClick(View v) {
 
-        char inputChar;
-
-        if (punctuationOn) {
-            inputChar = idToLongPunctuation.get(v.getId());
-        } else {
-            inputChar = idToLong.get(v.getId());
+        if (currentKeyMode == KeyMode.Punctuation) {
+            mListener.keyWasTapped(idToLongPunctuation.get(v.getId()));
+        } else if (currentKeyMode == KeyMode.Mongol) {
+            char inputChar = idToLong.get(v.getId());
+            mListener.keyWasTapped(inputChar);
             updateFvsKeys(inputChar);
         }
-
-        mListener.keyWasTapped(inputChar);
-
-
-
         return true;
     }
 
@@ -561,10 +554,8 @@ public class KeyboardAeiou extends Keyboard {
     private View.OnClickListener handleMvsClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
             clearFvsKeys();
-            if (punctuationOn) return;
-
+            if (currentKeyMode == KeyMode.Punctuation) return;
             mListener.keyMvs();
         }
     };
@@ -573,146 +564,146 @@ public class KeyboardAeiou extends Keyboard {
         @Override
         public void onClick(View v) {
             clearFvsKeys();
-            if (punctuationOn) return;
+            if (currentKeyMode == KeyMode.Punctuation) return;
             mListener.keySuffix();
         }
     };
 
-    private View.OnTouchListener handleInputTouch = new View.OnTouchListener() {
-
-        Handler handler = new Handler();
-        int LONGPRESS_THRESHOLD = 500; // milliseconds
-        View popupView;
-        int popupWidth;
-        PopupWindow popupWindow;
-        boolean showingPopup = false;
-        KeyboardType currentSelection = KeyboardType.English;
-        FrameLayout fl1;
-        FrameLayout fl2;
-        FrameLayout fl3;
-
-        @Override
-        public boolean onTouch(final View v, MotionEvent event) {
-
-
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    clearFvsKeys();
-                    Log.i("TAG", "touched down");
-
-
-                    handler = new Handler();
-
-                    Runnable runnableCode = new Runnable() {
-                        @Override
-                        public void run() {
-
-
-
-                            // TODO show popup
-                            Log.i("TAG", "popup shown");
-                            // Show popup window above keyboard chooser key
-                            popupView = getActivity().getLayoutInflater().inflate(R.layout.popup_keyboard_chooser, null);
-                            TextView tvFirst = (TextView) popupView.findViewById(R.id.tvKeyboardFirstChoice);
-                            tvFirst.setText(getString(R.string.keyboard_abc));
-                            TextView tvSecond = (TextView) popupView.findViewById(R.id.tvKeyboardSecondChoice);
-                            tvSecond.setText(getString(R.string.keyboard_cyrillic));
-                            TextView tvThird = (TextView) popupView.findViewById(R.id.tvKeyboardThirdChoice);
-                            tvThird.setText(getString(R.string.keyboard_qwerty_short));
-
-                            fl1 = (FrameLayout) popupView.findViewById(R.id.flKeyboardFirstChoice);
-                            fl2 = (FrameLayout) popupView.findViewById(R.id.flKeyboardSecondChoice);
-                            fl3 = (FrameLayout) popupView.findViewById(R.id.flKeyboardThirdChoice);
-
-                            fl1.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.accent, null));
-                            fl2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
-                            fl3.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
-
-
-                            popupWindow = new PopupWindow(popupView,
-                                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                            int location[] = new int[2];
-                            v.getLocationOnScreen(location);
-                            popupView.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-                                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-                            popupWidth = popupView.getMeasuredWidth();
-                            popupWindow.showAtLocation(v, Gravity.NO_GRAVITY, location[0], location[1] - popupView.getMeasuredHeight());
-
-                            showingPopup = true;
-
-                        }
-                    };
-
-                    handler.postDelayed(runnableCode, LONGPRESS_THRESHOLD);
-
-
-
-                    break;
-                case MotionEvent.ACTION_MOVE:
-                    //Log.i("TAG", "moving: (" + x + ", " + y + ")");
-                    if (!showingPopup) {
-                        break;
-                    }
-
-                    float x = event.getX();
-                    float unit = popupWidth / 3;
-
-                    // select FVS1-3 and set highlight background color
-                    if (x < 0 || x > 3 * unit) {
-                        if (currentSelection != KeyboardType.Unselected) {
-                            fl1.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
-                            fl2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
-                            fl3.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
-                            currentSelection = KeyboardType.Unselected;
-                        }
-                    } else if (x >= 0 && x <= unit) {
-                        if (currentSelection != KeyboardType.English) {
-                            fl1.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.accent, null));
-                            fl2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
-                            fl3.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
-                            currentSelection = KeyboardType.English;
-                        }
-                    } else if (x > unit && x <= 2 * unit) {
-                        if (currentSelection != KeyboardType.Cyrillic) {
-                            fl1.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
-                            fl2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.accent, null));
-                            fl3.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
-                            currentSelection = KeyboardType.Cyrillic;
-                        }
-                    } else if (x > 2 * unit && x <= 3 * unit) {
-                        if (currentSelection != KeyboardType.Qwerty) {
-                            fl1.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
-                            fl2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
-                            fl3.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.accent, null));
-                            currentSelection = KeyboardType.Qwerty;
-                        }
-                    }
-
-                    break;
-                case MotionEvent.ACTION_UP:
-                    Log.i("TAG", "touched up");
-
-                    handler.removeCallbacksAndMessages(null);
-
-                    if (showingPopup) {
-                        // hide popup
-                        if (popupWindow != null) {
-                            popupWindow.dismiss();
-                            showingPopup = false;
-                            if (currentSelection != KeyboardType.Unselected) {
-                                mListener.keyNewKeyboardChosen(currentSelection);
-                            }
-                        }
-                    } else {
-                        switchPunctuation();
-                    }
-
-                    break;
-            }
-
-            return true;
-        }
-    };
+//    private View.OnTouchListener handleInputTouch = new View.OnTouchListener() {
+//
+//        Handler handler = new Handler();
+//        int LONGPRESS_THRESHOLD = 500; // milliseconds
+//        View popupView;
+//        int popupWidth;
+//        PopupWindow popupWindow;
+//        boolean showingPopup = false;
+//        KeyboardType currentSelection = KeyboardType.English;
+//        FrameLayout fl1;
+//        FrameLayout fl2;
+//        FrameLayout fl3;
+//
+//        @Override
+//        public boolean onTouch(final View v, MotionEvent event) {
+//
+//
+//            switch (event.getAction()) {
+//                case MotionEvent.ACTION_DOWN:
+//                    clearFvsKeys();
+//                    Log.i("TAG", "touched down");
+//
+//
+//                    handler = new Handler();
+//
+//                    Runnable runnableCode = new Runnable() {
+//                        @Override
+//                        public void run() {
+//
+//
+//
+//                            // TODO show popup
+//                            Log.i("TAG", "popup shown");
+//                            // Show popup window above keyboard chooser key
+//                            popupView = getActivity().getLayoutInflater().inflate(R.layout.popup_keyboard_chooser, null);
+//                            TextView tvFirst = (TextView) popupView.findViewById(R.id.tvKeyboardFirstChoice);
+//                            tvFirst.setText(getString(R.string.keyboard_abc));
+//                            TextView tvSecond = (TextView) popupView.findViewById(R.id.tvKeyboardSecondChoice);
+//                            tvSecond.setText(getString(R.string.keyboard_cyrillic));
+//                            TextView tvThird = (TextView) popupView.findViewById(R.id.tvKeyboardThirdChoice);
+//                            tvThird.setText(getString(R.string.keyboard_qwerty_short));
+//
+//                            fl1 = (FrameLayout) popupView.findViewById(R.id.flKeyboardFirstChoice);
+//                            fl2 = (FrameLayout) popupView.findViewById(R.id.flKeyboardSecondChoice);
+//                            fl3 = (FrameLayout) popupView.findViewById(R.id.flKeyboardThirdChoice);
+//
+//                            fl1.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.accent, null));
+//                            fl2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+//                            fl3.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+//
+//
+//                            popupWindow = new PopupWindow(popupView,
+//                                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//                            int location[] = new int[2];
+//                            v.getLocationOnScreen(location);
+//                            popupView.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+//                                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+//                            popupWidth = popupView.getMeasuredWidth();
+//                            popupWindow.showAtLocation(v, Gravity.NO_GRAVITY, location[0], location[1] - popupView.getMeasuredHeight());
+//
+//                            showingPopup = true;
+//
+//                        }
+//                    };
+//
+//                    handler.postDelayed(runnableCode, LONGPRESS_THRESHOLD);
+//
+//
+//
+//                    break;
+//                case MotionEvent.ACTION_MOVE:
+//                    //Log.i("TAG", "moving: (" + x + ", " + y + ")");
+//                    if (!showingPopup) {
+//                        break;
+//                    }
+//
+//                    float x = event.getX();
+//                    float unit = popupWidth / 3;
+//
+//                    // select FVS1-3 and set highlight background color
+//                    if (x < 0 || x > 3 * unit) {
+//                        if (currentSelection != KeyboardType.Unselected) {
+//                            fl1.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+//                            fl2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+//                            fl3.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+//                            currentSelection = KeyboardType.Unselected;
+//                        }
+//                    } else if (x >= 0 && x <= unit) {
+//                        if (currentSelection != KeyboardType.English) {
+//                            fl1.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.accent, null));
+//                            fl2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+//                            fl3.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+//                            currentSelection = KeyboardType.English;
+//                        }
+//                    } else if (x > unit && x <= 2 * unit) {
+//                        if (currentSelection != KeyboardType.Cyrillic) {
+//                            fl1.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+//                            fl2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.accent, null));
+//                            fl3.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+//                            currentSelection = KeyboardType.Cyrillic;
+//                        }
+//                    } else if (x > 2 * unit && x <= 3 * unit) {
+//                        if (currentSelection != KeyboardType.Qwerty) {
+//                            fl1.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+//                            fl2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+//                            fl3.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.accent, null));
+//                            currentSelection = KeyboardType.Qwerty;
+//                        }
+//                    }
+//
+//                    break;
+//                case MotionEvent.ACTION_UP:
+//                    Log.i("TAG", "touched up");
+//
+//                    handler.removeCallbacksAndMessages(null);
+//
+//                    if (showingPopup) {
+//                        // hide popup
+//                        if (popupWindow != null) {
+//                            popupWindow.dismiss();
+//                            showingPopup = false;
+//                            if (currentSelection != KeyboardType.Unselected) {
+//                                mListener.keyNewKeyboardChosen(currentSelection);
+//                            }
+//                        }
+//                    } else {
+//                        switchPunctuation();
+//                    }
+//
+//                    break;
+//            }
+//
+//            return true;
+//        }
+//    };
 
     @Override
     public void clearFvsKeys() {
@@ -756,8 +747,21 @@ public class KeyboardAeiou extends Keyboard {
 
     }
 
-    public void switchPunctuation() {
-        if (punctuationOn) {
+    public void switchKeys(KeyMode mode) {
+
+        // swap between Mongol and Punctuation
+        if (mode == currentKeyMode) {
+            if (mode == KeyMode.Mongol) {
+                currentKeyMode = KeyMode.Punctuation;
+            } else {
+                currentKeyMode = KeyMode.Mongol;
+            }
+        } else {
+            currentKeyMode = mode;
+        }
+
+
+        if (currentKeyMode == KeyMode.Mongol) {
 
             tvA.setText(getString(R.string.m_a));
             tvE.setText(getString(R.string.m_e));
@@ -801,7 +805,7 @@ public class KeyboardAeiou extends Keyboard {
             tvZlong.setText(getString(R.string.m_tsa));
 
 
-        } else { // punctuation is not on. Turn it on now.
+        } else if (currentKeyMode == KeyMode.Punctuation) {
 
             tvA.setText(getString(R.string.m_key_p_top_paranthesis));
             tvE.setText(getString(R.string.m_key_p_bottom_paranthesis));
@@ -850,11 +854,6 @@ public class KeyboardAeiou extends Keyboard {
             tvFvs3Top.setText("");
             tvFvs3Bottom.setText("");
 
-
-
         }
-
-        punctuationOn = !punctuationOn;
-
     }
 }

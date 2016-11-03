@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/keyboard_base_theme"
-    android:orientation="vertical" >
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/keyboard_base_theme"
+              android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,7 +13,7 @@
         android:orientation="horizontal" >
 
         <RelativeLayout
-            android:id="@+id/ekey_q"
+            android:id="@+id/key_q"
             style="@style/AppTheme.KeyLayoutStyle"
             android:layout_weight="1" >
 
@@ -24,7 +24,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/ekey_w"
+            android:id="@+id/key_w"
             style="@style/AppTheme.KeyLayoutStyle"
             android:layout_weight="1" >
 
@@ -35,7 +35,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/ekey_e"
+            android:id="@+id/key_e"
             style="@style/AppTheme.KeyLayoutStyle"
             android:layout_weight="1" >
 
@@ -46,7 +46,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/ekey_r"
+            android:id="@+id/key_r"
             style="@style/AppTheme.KeyLayoutStyle"
             android:layout_weight="1" >
 
@@ -57,7 +57,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/ekey_t"
+            android:id="@+id/key_t"
             style="@style/AppTheme.KeyLayoutStyle"
             android:layout_weight="1" >
 
@@ -68,7 +68,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/ekey_y"
+            android:id="@+id/key_y"
             style="@style/AppTheme.KeyLayoutStyle"
             android:layout_weight="1" >
 
@@ -79,7 +79,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/ekey_u"
+            android:id="@+id/key_u"
             style="@style/AppTheme.KeyLayoutStyle"
             android:layout_weight="1" >
 
@@ -90,7 +90,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/ekey_i"
+            android:id="@+id/key_i"
             style="@style/AppTheme.KeyLayoutStyle"
             android:layout_weight="1" >
 
@@ -101,7 +101,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/ekey_o"
+            android:id="@+id/key_o"
             style="@style/AppTheme.KeyLayoutStyle"
             android:layout_weight="1" >
 
@@ -112,7 +112,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/ekey_p"
+            android:id="@+id/key_p"
             style="@style/AppTheme.KeyLayoutStyle"
             android:layout_weight="1" >
 
@@ -122,29 +122,6 @@
                 android:text="@string/e_key_p" />
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/ekey_1"
-            style="@style/AppTheme.KeyLayoutStyle"
-            android:layout_weight="1"
-            android:visibility="gone" >
-
-            <TextView
-                android:id="@+id/tvEkey1"
-                style="@style/AppTheme.MongolKeyTextStyle"
-                android:text="@string/e_key_1_cyrillic" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/ekey_2"
-            style="@style/AppTheme.KeyLayoutStyle"
-            android:layout_weight="1"
-            android:visibility="gone" >
-
-            <TextView
-                android:id="@+id/tvEkey2"
-                style="@style/AppTheme.MongolKeyTextStyle"
-                android:text="@string/e_key_2_cyrillic" />
-        </RelativeLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -155,7 +132,7 @@
         android:orientation="horizontal" >
 
         <RelativeLayout
-            android:id="@+id/ekey_a"
+            android:id="@+id/key_a"
             style="@style/AppTheme.KeyLayoutStyle"
             android:layout_weight="1" >
 
@@ -166,7 +143,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/ekey_s"
+            android:id="@+id/key_s"
             style="@style/AppTheme.KeyLayoutStyle"
             android:layout_weight="1" >
 
@@ -177,7 +154,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/ekey_d"
+            android:id="@+id/key_d"
             style="@style/AppTheme.KeyLayoutStyle"
             android:layout_weight="1" >
 
@@ -188,7 +165,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/ekey_f"
+            android:id="@+id/key_f"
             style="@style/AppTheme.KeyLayoutStyle"
             android:layout_weight="1" >
 
@@ -199,7 +176,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/ekey_g"
+            android:id="@+id/key_g"
             style="@style/AppTheme.KeyLayoutStyle"
             android:layout_weight="1" >
 
@@ -210,7 +187,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/ekey_h"
+            android:id="@+id/key_h"
             style="@style/AppTheme.KeyLayoutStyle"
             android:layout_weight="1" >
 
@@ -221,7 +198,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/ekey_j"
+            android:id="@+id/key_j"
             style="@style/AppTheme.KeyLayoutStyle"
             android:layout_weight="1" >
 
@@ -232,7 +209,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/ekey_k"
+            android:id="@+id/key_k"
             style="@style/AppTheme.KeyLayoutStyle"
             android:layout_weight="1" >
 
@@ -243,7 +220,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/ekey_l"
+            android:id="@+id/key_l"
             style="@style/AppTheme.KeyLayoutStyle"
             android:layout_weight="1" >
 
@@ -253,41 +230,6 @@
                 android:text="@string/e_key_l" />
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/ekey_3"
-            style="@style/AppTheme.KeyLayoutStyle"
-            android:layout_weight="1"
-            android:visibility="gone" >
-
-            <TextView
-                android:id="@+id/tvEkey3"
-                style="@style/AppTheme.MongolKeyTextStyle"
-                android:text="@string/e_key_3_cyrillic" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/ekey_4"
-            style="@style/AppTheme.KeyLayoutStyle"
-            android:layout_weight="1"
-            android:visibility="gone" >
-
-            <TextView
-                android:id="@+id/tvEkey4"
-                style="@style/AppTheme.MongolKeyTextStyle"
-                android:text="@string/e_key_4_cyrillic" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/ekey_5"
-            style="@style/AppTheme.KeyLayoutStyle"
-            android:layout_weight="1"
-            android:visibility="gone" >
-
-            <TextView
-                android:id="@+id/tvEkey5"
-                style="@style/AppTheme.MongolKeyTextStyle"
-                android:text="@string/e_key_5_cyrillic" />
-        </RelativeLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -298,7 +240,7 @@
         android:orientation="horizontal" >
 
         <RelativeLayout
-            android:id="@+id/ekey_shift"
+            android:id="@+id/key_shift"
             style="@style/AppTheme.FormatKeyLayoutStyle"
             android:layout_weight="1.5" >
 
@@ -309,7 +251,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/ekey_z"
+            android:id="@+id/key_z"
             style="@style/AppTheme.KeyLayoutStyle"
             android:layout_weight="1" >
 
@@ -320,7 +262,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/ekey_x"
+            android:id="@+id/key_x"
             style="@style/AppTheme.KeyLayoutStyle"
             android:layout_weight="1" >
 
@@ -331,7 +273,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/ekey_c"
+            android:id="@+id/key_c"
             style="@style/AppTheme.KeyLayoutStyle"
             android:layout_weight="1" >
 
@@ -342,7 +284,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/ekey_v"
+            android:id="@+id/key_v"
             style="@style/AppTheme.KeyLayoutStyle"
             android:layout_weight="1" >
 
@@ -353,7 +295,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/ekey_b"
+            android:id="@+id/key_b"
             style="@style/AppTheme.KeyLayoutStyle"
             android:layout_weight="1" >
 
@@ -364,7 +306,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/ekey_n"
+            android:id="@+id/key_n"
             style="@style/AppTheme.KeyLayoutStyle"
             android:layout_weight="1" >
 
@@ -375,7 +317,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/ekey_m"
+            android:id="@+id/key_m"
             style="@style/AppTheme.KeyLayoutStyle"
             android:layout_weight="1" >
 
@@ -386,32 +328,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/ekey_6"
-            style="@style/AppTheme.KeyLayoutStyle"
-            android:layout_weight="1"
-            android:visibility="gone" >
-
-            <TextView
-                android:id="@+id/tvEkey6"
-                style="@style/AppTheme.MongolKeyTextStyle"
-                android:text="@string/e_key_6_cyrillic" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/ekey_7"
-            style="@style/AppTheme.KeyLayoutStyle"
-            android:layout_weight="1"
-            android:visibility="gone" >
-
-            <TextView
-                android:id="@+id/tvEkey7"
-                style="@style/AppTheme.MongolKeyTextStyle"
-                android:text="@string/e_key_7_cyrillic" />
-        </RelativeLayout>
-
-
-        <RelativeLayout
-            android:id="@+id/ekey_backspace"
+            android:id="@+id/key_backspace"
             style="@style/AppTheme.FormatKeyLayoutStyle"
             android:layout_weight="1.5" >
 
@@ -429,41 +346,34 @@
         android:orientation="horizontal" >
 
         <RelativeLayout
-            android:id="@+id/ekey_41"
+            android:id="@+id/key_input"
             style="@style/AppTheme.FormatKeyLayoutStyle"
             android:layout_weight="1.5" >
 
-            <TextView
-                android:id="@+id/tvEkey41"
-                style="@style/AppTheme.MongolKeyTextStyle"
-                android:text="@string/e_key_41_cyrillic"
-                android:textSize="18dp" />
-
-            <net.studymongolian.chimee.MongolTextView
-                android:id="@+id/tvEkey41_long_a"
-                style="@style/AppTheme.MongolLongPressKeyTextStyle"
-                android:text="@string/e_key_41_long"
-                android:textSize="10dp" />
+            <ImageView
+                android:id="@+id/ivKeyInput"
+                style="@style/AppTheme.MongolKeyImageStyle"
+                android:src="@drawable/ic_keyboard_white_24dp" />
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/ekey_42"
+            android:id="@+id/key_comma"
             style="@style/AppTheme.KeyLayoutStyle"
             android:layout_weight="1" >
 
             <TextView
-                android:id="@+id/tvEkey42"
+                android:id="@+id/tvEkeyComma"
                 style="@style/AppTheme.MongolKeyTextStyle"
-                android:text="@string/e_key_42" />
+                android:text="@string/e_key_comma" />
 
             <TextView
                 android:id="@+id/tvEkey42long"
                 style="@style/AppTheme.MongolLongPressKeyTextStyle"
-                android:text="@string/e_key_42_long" />
+                android:text="@string/e_key_comma_long" />
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/ekey_space"
+            android:id="@+id/key_space"
             style="@style/AppTheme.KeyLayoutStyle"
             android:layout_weight="3" >
 
@@ -474,40 +384,28 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/ekey_44"
+            android:id="@+id/key_question"
             style="@style/AppTheme.KeyLayoutStyle"
             android:layout_weight="1" >
 
             <TextView
-                android:id="@+id/tvEkey44"
+                android:id="@+id/tvEkeyQuestion"
                 style="@style/AppTheme.MongolKeyTextStyle"
-                android:text="@string/e_key_44" />
+                android:text="@string/e_key_question" />
 
             <TextView
-                android:id="@+id/tvEkey44long"
+                android:id="@+id/tvEkeyQuestionLong"
                 style="@style/AppTheme.MongolLongPressKeyTextStyle"
-                android:text="@string/e_key_44_long" />
+                android:text="@string/e_key_question_long" />
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/ekey_8"
-            style="@style/AppTheme.KeyLayoutStyle"
-            android:layout_weight="1"
-            android:visibility="gone" >
-
-            <TextView
-                android:id="@+id/tvEkey8"
-                style="@style/AppTheme.MongolKeyTextStyle"
-                android:text="@string/e_key_8_cyrillic" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/ekey_45"
+            android:id="@+id/key_return"
             style="@style/AppTheme.FormatKeyLayoutStyle"
             android:layout_weight="1.5" >
 
             <ImageView
-                android:id="@+id/ivEkey45"
+                android:id="@+id/ivEkeyReturn"
                 style="@style/AppTheme.MongolKeyImageStyle"
                 android:src="@drawable/ic_keyboard_return_white_24dp" />
         </RelativeLayout>

@@ -193,7 +193,7 @@ public class MainActivity extends AppCompatActivity  implements KeyboardControll
 	boolean swapMongolKeyboards = false;
 	MongolAeiouKeyboard mongolAeiouKeyboard;
 	//MongolQwertyKeyboard mongolQwertyKeyboard;
-	EnglishKeyboard englishKeyboard;
+	//EnglishKeyboard englishKeyboard;
 	//InputWindowContextMenu contextMenu;
 	FragmentManager fragmentManager;
 	String lastSentMessage = ""; // don't save two same messages to history
