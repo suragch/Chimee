@@ -29,7 +29,6 @@ public class KeyboardEnglish extends Keyboard {
     private static Map<Integer, Character> idToPunctuation = new HashMap<Integer, Character>();
 
     KeyMode currentKeyMode = KeyMode.Lowercase;
-    //Boolean punctuationOn = false;
 
     TextView tvQ;
     TextView tvW;

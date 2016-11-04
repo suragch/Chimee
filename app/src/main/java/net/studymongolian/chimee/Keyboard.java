@@ -9,7 +9,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -44,11 +46,10 @@ public abstract class Keyboard extends Fragment implements View.OnClickListener,
     protected static final char PUNCTUATION_DOUBLEQUOTE_BOTTOM = '\u00bb';
 
     protected enum CurrentFvsSelection {
-        OutOfBoundsLeft,
         FVS1,
         FVS2,
         FVS3,
-        OutOfBoundsRight
+        Unselected
     }
 
     protected enum KeyMode {
@@ -185,6 +186,165 @@ public abstract class Keyboard extends Fragment implements View.OnClickListener,
 
     };
 
+    protected View.OnTouchListener handleFvsTouch = new View.OnTouchListener() {
+
+
+        View popupView;
+        int popupWidth;
+        PopupWindow popupWindow;
+        LinearLayout llFvs1;
+        LinearLayout llFvs2;
+        LinearLayout llFvs3;
+        int numberOfFvsChoices = 3;
+        CurrentFvsSelection currentFvsSelection = CurrentFvsSelection.FVS1;
+
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+
+            // show fvs chooser view on touch down
+            // update hilighted on touch move
+            // hide fvs chooser view and send fvs char on touch up
+
+
+
+            int action = MotionEventCompat.getActionMasked(event);
+
+            switch(action) {
+                case (MotionEvent.ACTION_DOWN) :
+
+
+                    TextView tvFvs1Top = (TextView) v.findViewById(R.id.tvFvs1Top);
+                    TextView tvFvs1Bottom = (TextView) v.findViewById(R.id.tvFvs1Bottom);
+                    TextView tvFvs2Top = (TextView) v.findViewById(R.id.tvFvs2Top);
+                    TextView tvFvs2Bottom = (TextView) v.findViewById(R.id.tvFvs2Bottom);
+                    TextView tvFvs3Top = (TextView) v.findViewById(R.id.tvFvs3Top);
+                    TextView tvFvs3Bottom = (TextView) v.findViewById(R.id.tvFvs3Bottom);
+
+                    // No input values, so cancel touch events
+                    if (TextUtils.isEmpty(tvFvs1Top.getText()) && TextUtils.isEmpty(tvFvs1Bottom.getText())) {
+                        return false;
+                    }
+
+                    // If only FVS1 is available
+                    if (TextUtils.isEmpty(tvFvs2Top.getText()) && TextUtils.isEmpty(tvFvs2Bottom.getText())) {
+                        mListener.keyWasTapped(MongolUnicodeRenderer.Uni.FVS1);
+                        clearFvsKeys();
+                        return false;
+                    } else {
+                        // set text for FVS1 and FVS2
+                        popupView = getActivity().getLayoutInflater().inflate(R.layout.dialog_fvs_chooser, null);
+                        TextView tv1Top = (TextView) popupView.findViewById(R.id.tvFvs1Top);
+                        tv1Top.setText(tvFvs1Top.getText());
+                        TextView tv1Bottom = (TextView) popupView.findViewById(R.id.tvFvs1Bottom);
+                        tv1Bottom.setText(tvFvs1Bottom.getText());
+                        TextView tv2Top = (TextView) popupView.findViewById(R.id.tvFvs2Top);
+                        tv2Top.setText(tvFvs2Top.getText());
+                        TextView tv2Bottom = (TextView) popupView.findViewById(R.id.tvFvs2Bottom);
+                        tv2Bottom.setText(tvFvs2Bottom.getText());
+
+                        llFvs1 = (LinearLayout) popupView.findViewById(R.id.key_fvs1);
+                        llFvs2 = (LinearLayout) popupView.findViewById(R.id.key_fvs2);
+                        llFvs3 = (LinearLayout) popupView.findViewById(R.id.key_fvs3);
+
+                        llFvs1.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.accent, null));
+                        llFvs2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+                        llFvs3.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+                    }
+
+                    // If only FVS1 and FVS2 are available, hide 3rd button
+                    if (TextUtils.isEmpty(tvFvs3Top.getText()) && TextUtils.isEmpty(tvFvs3Bottom.getText())) {
+                        llFvs3.setVisibility(View.GONE);
+                        numberOfFvsChoices = 2;
+                    } else {
+                        // set text for FVS3
+                        TextView tv3Top = (TextView) popupView.findViewById(R.id.tvFvs3Top);
+                        tv3Top.setText(tvFvs3Top.getText());
+                        TextView tv3Bottom = (TextView) popupView.findViewById(R.id.tvFvs3Bottom);
+                        tv3Bottom.setText(tvFvs3Bottom.getText());
+                        numberOfFvsChoices = 3;
+                    }
+
+                    // Show popup window above fvs key
+                    popupWindow = new PopupWindow(popupView,
+                            LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    int location[] = new int[2];
+                    v.getLocationOnScreen(location);
+                    //View popupLayout = getActivity().getLayoutInflater().inflate(R.layout.linearlayout_popup, base);
+                    popupView.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+                    popupWidth = popupView.getMeasuredWidth();
+                    popupWindow.showAtLocation(v, Gravity.NO_GRAVITY, location[0], location[1] - popupView.getMeasuredHeight());
+
+                    return true;
+                case (MotionEvent.ACTION_MOVE):
+
+                    float x = event.getX();
+                    //int padding = 0; // TODO is this needed?
+                    float unit = popupWidth / numberOfFvsChoices; // TODO what about for 2 buttons?
+
+                    // select FVS1-3 and set highlight background color
+                    if (x < 0 || x > 3 * unit) {
+                        if (currentFvsSelection != CurrentFvsSelection.Unselected) {
+                            llFvs1.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+                            llFvs2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+                            llFvs3.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+                            currentFvsSelection = CurrentFvsSelection.Unselected;
+                        }
+                    } else if (x > 0 && x <= unit) {
+                        if (currentFvsSelection != CurrentFvsSelection.FVS1) {
+                            llFvs1.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.accent, null));
+                            llFvs2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+                            llFvs3.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+                            currentFvsSelection = CurrentFvsSelection.FVS1;
+                        }
+                    } else if (x > unit && x <= 2 * unit) {
+                        if (currentFvsSelection != CurrentFvsSelection.FVS2) {
+                            llFvs1.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+                            llFvs2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.accent, null));
+                            llFvs3.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+                            currentFvsSelection = CurrentFvsSelection.FVS2;
+                        }
+                    } else if (x > 2 * unit && x <= 3 * unit) {
+                        if (numberOfFvsChoices == 2) {
+                            if (currentFvsSelection != CurrentFvsSelection.Unselected) {
+                                llFvs1.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+                                llFvs2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+                                currentFvsSelection = CurrentFvsSelection.Unselected;
+                            }
+                        } else if (numberOfFvsChoices == 3) {
+                            if (currentFvsSelection != CurrentFvsSelection.FVS3) {
+                                llFvs1.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+                                llFvs2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+                                llFvs3.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.accent, null));
+                                currentFvsSelection = CurrentFvsSelection.FVS3;
+                            }
+                        }
+                    }
+
+                    return true;
+                case (MotionEvent.ACTION_UP) :
+                    // allow to fall through to the default (dismiss the popup window)
+                    if (currentFvsSelection == CurrentFvsSelection.FVS1) {
+                        mListener.keyWasTapped(MongolUnicodeRenderer.Uni.FVS1);
+                        clearFvsKeys();
+                    } else if (currentFvsSelection == CurrentFvsSelection.FVS2) {
+                        mListener.keyWasTapped(MongolUnicodeRenderer.Uni.FVS2);
+                        clearFvsKeys();
+                    } else if (currentFvsSelection == CurrentFvsSelection.FVS3) {
+                        mListener.keyWasTapped(MongolUnicodeRenderer.Uni.FVS3);
+                        clearFvsKeys();
+                    }
+
+                default :
+                    if (popupWindow != null) {
+                        popupWindow.dismiss();
+                    }
+                    return false;
+            }
+        }
+    };
+
     protected void setOnTouchListenerForKeybordSwitcherView(View view, final ArrayList<KeyboardType> displayOrder) {
 
         final int LONGPRESS_THRESHOLD = 500; // milliseconds
@@ -228,13 +388,13 @@ public abstract class Keyboard extends Fragment implements View.OnClickListener,
 
                                 // get the popup view
                                 popupView = getActivity().getLayoutInflater().inflate(R.layout.popup_keyboard_chooser, null);
-                                TextView tvFirst = (TextView) popupView.findViewById(R.id.tvKeyboardFirstChoice);
-                                TextView tvSecond = (TextView) popupView.findViewById(R.id.tvKeyboardSecondChoice);
-                                TextView tvThird = (TextView) popupView.findViewById(R.id.tvKeyboardThirdChoice);
+                                MongolTextView tvFirst = (MongolTextView) popupView.findViewById(R.id.tvKeyboardFirstChoice);
+                                MongolTextView tvSecond = (MongolTextView) popupView.findViewById(R.id.tvKeyboardSecondChoice);
+                                MongolTextView tvThird = (MongolTextView) popupView.findViewById(R.id.tvKeyboardThirdChoice);
 
-                                tvFirst.setText(displayOrder.get(0).toString());
-                                tvSecond.setText(displayOrder.get(1).toString());
-                                tvThird.setText(displayOrder.get(2).toString());
+                                tvFirst.setTextWithRenderedUnicode(displayOrder.get(0).toString());
+                                tvSecond.setTextWithRenderedUnicode(displayOrder.get(1).toString());
+                                tvThird.setTextWithRenderedUnicode(displayOrder.get(2).toString());
 
                                 fl1 = (FrameLayout) popupView.findViewById(R.id.flKeyboardFirstChoice);
                                 fl2 = (FrameLayout) popupView.findViewById(R.id.flKeyboardSecondChoice);

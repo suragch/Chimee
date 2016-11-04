@@ -2,6 +2,7 @@ package net.studymongolian.chimee;
 
 import android.text.Editable;
 import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
 
 // This class keeps track of the cursor position for rendered and unicode mongolian text
 // to be used in a Mongolian EditText.
@@ -143,7 +144,9 @@ public class MongolTextStorage {
 
     public void replaceWordAtCursorWith(String replacementString, int glyphIndex) {
 
-        //let myReplacementString = ScalarString(replacementString)
+        if (TextUtils.isEmpty(replacementString)) {
+            return;
+        }
 
         // if glyph index has changed, need to update unicode index
         updateUnicodeIndex(glyphIndex);

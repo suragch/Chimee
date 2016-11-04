@@ -7,7 +7,7 @@ import java.util.Map;
 
 /*
  * Chimee Mongol Unicode Rendering Engine
- * Version 3.0.0
+ * Version 3.0.1
  * 
  * Current version needs to be used with Almas font glyphs
  * copied to PUA starting at \uE360. To use different glyph
@@ -1625,8 +1625,8 @@ public final class MongolUnicodeRenderer {
         public static final char CHI = '\u1842';
     };
 
-    // public static final char CURSOR_HOLDER = '\uE359'; // arbitrary unused char
-    public static final char CURSOR_HOLDER = '|';
+    public static final char CURSOR_HOLDER = '\uE359'; // arbitrary unused char
+    //public static final char CURSOR_HOLDER = '|';
 
     private class Glyph {
 

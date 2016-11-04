@@ -10,6 +10,7 @@ import android.os.Looper;
 import android.provider.BaseColumns;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -24,6 +25,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static android.support.v7.recyclerview.R.attr.layoutManager;
 
 // This fragment holds the suggestion bar and a container for the keyboard
 // They keyboards are loaded as subfragments
@@ -63,33 +66,33 @@ public class KeyboardController extends Fragment implements Keyboard.OnKeyboardL
         suggestionsAdapter = new SuggestionsAdapter(getActivity(), new ArrayList<String>());
         suggestionsAdapter.setClickListener(this);
         rvSuggestions.setAdapter(suggestionsAdapter);
-        rvSuggestions.setLayoutManager(new LinearLayoutManager(getActivity()));
-
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        rvSuggestions.setLayoutManager(layoutManager);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvSuggestions.getContext(),
+                layoutManager.getOrientation());
+        rvSuggestions.addItemDecoration(dividerItemDecoration);
         return layout;
     }
 
-//    public static List<String> getData() {
-//        List<String> data = new ArrayList<>();
-//        String[] words = {"this", "is", "a", "test", "for", "you", "to", "try"};
-//        for (int i = 0; i < words.length; i++) {
-//            data.add(words[i]);
-//        }
-//        return data;
-//    }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-//        Fragment childFragment = new KeyboardAeiou();
+//        Fragment childFragment = new KeyboardCyrillic();
 //        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
 //        transaction.replace(R.id.keyboard_container_frame, childFragment).commit();
+
+
+        Fragment childFragment = new KeyboardAeiou();
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        transaction.replace(R.id.keyboard_container_frame, childFragment).commit();
 
 //        Fragment childFragment = new KeyboardQwerty();
 //        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
 //        transaction.replace(R.id.keyboard_container_frame, childFragment).commit();
 
-        Fragment childFragment = new KeyboardEnglish();
-        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        transaction.replace(R.id.keyboard_container_frame, childFragment).commit();
+//        Fragment childFragment = new KeyboardEnglish();
+//        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+//        transaction.replace(R.id.keyboard_container_frame, childFragment).commit();
     }
 
 
@@ -155,11 +158,28 @@ public class KeyboardController extends Fragment implements Keyboard.OnKeyboardL
         // FIXME delete testing
         // BEGIN TESTING
 
-//        if (character == MongolUnicodeRenderer.Uni.CHI) {
-//            // print all words in db
-//            printAllWords();
-//            return;
-//        }
+        if (character == MongolUnicodeRenderer.Uni.CHI) {
+            // print all words in db
+            //printAllWords();
+
+
+            String myString = null;
+
+            if (TextUtils.isEmpty(myString)) {
+                // string is null or empty
+                Log.i("TAG", "empty");
+                return; // or break, continue, throw
+            }
+
+            // string is neither null nor empty if this point is reached
+            Log.i("TAG", myString);
+
+
+
+
+
+            return;
+        }
 
         // END TESTING
 
@@ -220,6 +240,22 @@ public class KeyboardController extends Fragment implements Keyboard.OnKeyboardL
     @Override
     public void keyNewKeyboardChosen(KeyboardType type) {
 
+        Fragment childFragment = null;
+
+        if (type == KeyboardType.Aeiou) {
+            childFragment = new KeyboardAeiou();
+        } else if (type == KeyboardType.Qwerty) {
+            childFragment = new KeyboardQwerty();
+        } else if (type == KeyboardType.English) {
+            childFragment = new KeyboardEnglish();
+        } else if (type == KeyboardType.Cyrillic) {
+            childFragment = new KeyboardCyrillic();
+        }
+
+        if (childFragment != null) {
+            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+            transaction.replace(R.id.keyboard_container_frame, childFragment).commit();
+        }
     }
 
     @Override
@@ -566,6 +602,10 @@ public class KeyboardController extends Fragment implements Keyboard.OnKeyboardL
             // get the word
             word = params[0];
 
+            if (TextUtils.isEmpty(word)) {
+                return null;
+            }
+
             // Query db to see if exists
             Cursor cursor = ChimeeUserDictionary.Words.queryWord(context, word);
 
@@ -582,6 +622,11 @@ public class KeyboardController extends Fragment implements Keyboard.OnKeyboardL
 
         @Override
         protected void onPostExecute(String result) {
+
+            if (TextUtils.isEmpty(result)) {
+                suggestionsAdapter.clear();
+                return;
+            }
 
             List<String> list = Arrays.asList(result.split(","));
 
