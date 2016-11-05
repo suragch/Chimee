@@ -50,11 +50,11 @@ public class HistoryActivity extends AppCompatActivity implements OnItemClickLis
 
 		// create objects
 		lvHistory = (ListView) findViewById(R.id.lvHistory);
-		footerView = ((LayoutInflater) getApplicationContext().getSystemService(
-				Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.listview_footer, null, false);
-		progressSpinner = (ProgressBar) footerView.findViewById(R.id.pbListviewFooter);
-		tvListviewFooter = (TextView) footerView.findViewById(R.id.tvListviewFooter);
-		lvHistory.addFooterView(footerView);
+//		footerView = ((LayoutInflater) getApplicationContext().getSystemService(
+//				Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.listview_footer, null, false);
+//		progressSpinner = (ProgressBar) footerView.findViewById(R.id.pbListviewFooter);
+//		tvListviewFooter = (TextView) footerView.findViewById(R.id.tvListviewFooter);
+//		lvHistory.addFooterView(footerView);
 		menuLayout = (LinearLayout) findViewById(R.id.menuLayout);
 		menuHiderForOutsideClicks =  findViewById(R.id.transparent_view);
 

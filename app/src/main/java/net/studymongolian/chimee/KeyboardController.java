@@ -45,6 +45,7 @@ public class KeyboardController extends Fragment implements Keyboard.OnKeyboardL
     boolean isSuffix = false;
     String suggestionsParent = ""; // keep track of parent of following list
     //List<String> suggestionsUnicode = new ArrayList<String>(); // following
+    //Keyboard genericKeyboard;
 
     protected static final int WORDS_LOADER_ID = 0;
     protected static final int MIN_DICTIONARY_WORD_LENGTH = 2;
@@ -68,8 +69,9 @@ public class KeyboardController extends Fragment implements Keyboard.OnKeyboardL
         rvSuggestions.setAdapter(suggestionsAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         rvSuggestions.setLayoutManager(layoutManager);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvSuggestions.getContext(),
-                layoutManager.getOrientation());
+        //DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvSuggestions.getContext(),
+        //        layoutManager.getOrientation());
+        SuggestionsItemDecoration dividerItemDecoration = new SuggestionsItemDecoration(getActivity(), R.drawable.suggestions_divider);
         rvSuggestions.addItemDecoration(dividerItemDecoration);
         return layout;
     }
@@ -85,6 +87,9 @@ public class KeyboardController extends Fragment implements Keyboard.OnKeyboardL
         Fragment childFragment = new KeyboardAeiou();
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.replace(R.id.keyboard_container_frame, childFragment).commit();
+
+        //genericKeyboard = (Keyboard) getChildFragmentManager().findFragmentById(R.id.keyboard_container_frame);
+
 
 //        Fragment childFragment = new KeyboardQwerty();
 //        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
@@ -116,6 +121,9 @@ public class KeyboardController extends Fragment implements Keyboard.OnKeyboardL
     @Override
     public void onItemClick(View view, int position) {
         Log.i("TAG", "onItemClick: " + position);
+
+        // FIXME clear fvs
+        // genericKeyboard.clearFvsKeys();
 
         // insert word into input window
         String unicodeString = suggestionsAdapter.getItem(position);
@@ -160,25 +168,16 @@ public class KeyboardController extends Fragment implements Keyboard.OnKeyboardL
 
         if (character == MongolUnicodeRenderer.Uni.CHI) {
             // print all words in db
-            //printAllWords();
+            printAllWords();
 
-
-            String myString = null;
-
-            if (TextUtils.isEmpty(myString)) {
-                // string is null or empty
-                Log.i("TAG", "empty");
-                return; // or break, continue, throw
-            }
-
-            // string is neither null nor empty if this point is reached
-            Log.i("TAG", myString);
 
 
 
 
 
             return;
+
+
         }
 
         // END TESTING

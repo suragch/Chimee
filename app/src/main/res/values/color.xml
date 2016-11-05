@@ -11,6 +11,33 @@
     <color name="icons">#FFFFFF</color>
     <color name="divider">#BDBDBD</color>
 
+    <!-- other colors -->
+    <color name="clear">#00000000</color>
+    <color name="white">#ffffffff</color>
+    <color name="black">#ff000000</color>
+
+
+
+    <!-- keyboard -->
+    <color name="keyboard_background">@color/black</color>
+    <color name="keyboard_keys_normal">@color/primary</color>
+    <color name="keyboard_keys_normal_shadow">@color/medium_grey_lighter</color>
+    <color name="keyboard_keys_pressed">@color/accent</color>
+    <color name="keyboard_keys_pressed_shadow">@color/dusty_blue_lighter</color>
+    <color name="keyboard_format_keys_normal">@color/primary_dark</color>
+    <color name="keyboard_format_keys_normal_shadow">@color/dark_grey_lighter</color>
+    <color name="keyboard_suggestionbar_text">@color/dark_grey</color>
+    <color name="keyboard_suggestionbar_divider">@color/primary</color>
+    <color name="keyboard_suggestionbar_highlight">@color/accent</color>
+    <color name="keyboard_letters">@color/white</color>
+    <color name="keyboard_longtouch_letters">@color/light_grey</color>
+
+
+    <!-- TODO The following colors need to be redone according to theme -->
+
+
+
+
     <color name="background_light">#ffffff</color>
     <color name="background_light_darker">#e8eaf6</color>
 
@@ -42,7 +69,6 @@
     <color name="white_d">#d0ffffff</color>
     <color name="white_e">#e0ffffff</color>
     <color name="white_f">#f0ffffff</color>
-    <color name="white">#ffffffff</color>
     
     <!-- Light to dark -->
     <color name="black_1">#10000000</color>
@@ -60,7 +86,6 @@
     <color name="black_d">#d0000000</color>
     <color name="black_e">#e0000000</color>
     <color name="black_f">#f0000000</color>
-    <color name="black">#ff000000</color>
     
     <color name="actionbar_bg">@color/dark_grey</color>
     <color name="bar_icon_pressed">@color/white_4</color>
@@ -77,18 +102,7 @@
     <color name="about_description_bg">@color/dark_grey_lighter</color>
     <color name="about_description_border">@color/black</color>
     
-    <color name="keyboard_base_theme">@color/black</color>
-    <color name="keyboard_keys_normal">@color/medium_grey</color>
-    <color name="keyboard_keys_normal_shadow">@color/medium_grey_lighter</color>
-    <color name="keyboard_keys_pressed">@color/dusty_blue</color>
-    <color name="keyboard_keys_pressed_shadow">@color/dusty_blue_lighter</color>
-    <color name="keyboard_format_keys_normal">@color/dark_grey</color>
-    <color name="keyboard_format_keys_normal_shadow">@color/dark_grey_lighter</color>
-    
-    <color name="keyboard_listview">@color/dark_grey</color>
-    <color name="keyboard_list_divider">@color/medium_grey_lighter</color>
-    <color name="keyboard_letters">@color/white</color>
-    <color name="keyboard_longtouch_letters">@color/light_grey</color>
+
     
     
     <color name="main_activity_top_bg">@color/very_light_grey</color>

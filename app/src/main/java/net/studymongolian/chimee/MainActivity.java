@@ -191,7 +191,7 @@ public class MainActivity extends AppCompatActivity  implements KeyboardControll
 	Keyboard userMongolKeyboard;
 	SharedPreferences settings;
 	boolean swapMongolKeyboards = false;
-	MongolAeiouKeyboard mongolAeiouKeyboard;
+	//MongolAeiouKeyboard mongolAeiouKeyboard;
 	//MongolQwertyKeyboard mongolQwertyKeyboard;
 	//EnglishKeyboard englishKeyboard;
 	//InputWindowContextMenu contextMenu;
@@ -428,48 +428,48 @@ public class MainActivity extends AppCompatActivity  implements KeyboardControll
 	@Override
 	protected void onPostResume() {
 		super.onPostResume();
-		if (swapMongolKeyboards) {
-			// Committing transactions in onPostResume to avoid state loss exception
-			Keyboard savedKeyboard;
-			String savedKeyboardString = settings.getString(
-					SettingsActivity.MONGOLIAN_KEYBOARD_KEY,
-					SettingsActivity.MONGOLIAN_KEYBOARD_DEFAULT);
-			if (savedKeyboardString.equals(SettingsActivity.MONGOLIAN_AEIOU_KEYBOARD)) {
-				savedKeyboard = Keyboard.MONGOLIAN_AEIOU;
-			} else {
-				savedKeyboard = Keyboard.MONGOLIAN_QWERTY;
-			}
-			if (!(savedKeyboard == userMongolKeyboard)) {
-				if (savedKeyboard == Keyboard.MONGOLIAN_AEIOU) {
-
-					mongolAeiouKeyboard = (MongolAeiouKeyboard) fragmentManager
-							.findFragmentByTag(MONGOL_AEIOU_TAG);
-					if (mongolAeiouKeyboard == null) {
-						mongolAeiouKeyboard = new MongolAeiouKeyboard();
-						fragmentManager
-								.beginTransaction()
-								.replace(R.id.keyboardContainer, mongolAeiouKeyboard,
-										MONGOL_AEIOU_TAG).commitAllowingStateLoss();
-					}
-					userMongolKeyboard = Keyboard.MONGOLIAN_AEIOU;
-				} else {
-
-//					mongolQwertyKeyboard = (MongolQwertyKeyboard) fragmentManager
-//							.findFragmentByTag(MONGOL_QWERTY_TAG);
-//					if (mongolQwertyKeyboard == null) {
-//						mongolQwertyKeyboard = new MongolQwertyKeyboard();
+//		if (swapMongolKeyboards) {
+//			// Committing transactions in onPostResume to avoid state loss exception
+//			Keyboard savedKeyboard;
+//			String savedKeyboardString = settings.getString(
+//					SettingsActivity.MONGOLIAN_KEYBOARD_KEY,
+//					SettingsActivity.MONGOLIAN_KEYBOARD_DEFAULT);
+//			if (savedKeyboardString.equals(SettingsActivity.MONGOLIAN_AEIOU_KEYBOARD)) {
+//				savedKeyboard = Keyboard.MONGOLIAN_AEIOU;
+//			} else {
+//				savedKeyboard = Keyboard.MONGOLIAN_QWERTY;
+//			}
+//			if (!(savedKeyboard == userMongolKeyboard)) {
+//				if (savedKeyboard == Keyboard.MONGOLIAN_AEIOU) {
+//
+//					mongolAeiouKeyboard = (MongolAeiouKeyboard) fragmentManager
+//							.findFragmentByTag(MONGOL_AEIOU_TAG);
+//					if (mongolAeiouKeyboard == null) {
+//						mongolAeiouKeyboard = new MongolAeiouKeyboard();
 //						fragmentManager
 //								.beginTransaction()
-//								.replace(R.id.keyboardContainer, mongolQwertyKeyboard,
-//										MONGOL_QWERTY_TAG).commitAllowingStateLoss();
+//								.replace(R.id.keyboardContainer, mongolAeiouKeyboard,
+//										MONGOL_AEIOU_TAG).commitAllowingStateLoss();
 //					}
-					userMongolKeyboard = Keyboard.MONGOLIAN_QWERTY;
-				}
-				currentKeyboard = userMongolKeyboard;
-			}
-		}
-		// Reset the boolean flag back to false for next time.
-		swapMongolKeyboards = false;
+//					userMongolKeyboard = Keyboard.MONGOLIAN_AEIOU;
+//				} else {
+//
+////					mongolQwertyKeyboard = (MongolQwertyKeyboard) fragmentManager
+////							.findFragmentByTag(MONGOL_QWERTY_TAG);
+////					if (mongolQwertyKeyboard == null) {
+////						mongolQwertyKeyboard = new MongolQwertyKeyboard();
+////						fragmentManager
+////								.beginTransaction()
+////								.replace(R.id.keyboardContainer, mongolQwertyKeyboard,
+////										MONGOL_QWERTY_TAG).commitAllowingStateLoss();
+////					}
+//					userMongolKeyboard = Keyboard.MONGOLIAN_QWERTY;
+//				}
+//				currentKeyboard = userMongolKeyboard;
+//			}
+//		}
+//		// Reset the boolean flag back to false for next time.
+//		swapMongolKeyboards = false;
 	}
 
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -29,7 +29,7 @@
             android:id="@+id/rlTop"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight=".4"
             android:background="@color/main_activity_top_bg" >
 
             <!-- below is the message limit -->
@@ -45,7 +45,7 @@
                     android:id="@+id/etInputWindow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="#ffff0f"
+                    android:background="@color/white"
                     android:textAppearance="?android:attr/textAppearanceLarge" />
 
             </net.studymongolian.chimee.MongolViewGroup>
@@ -59,7 +59,7 @@
             android:id="@+id/keyboardContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" >
+            android:layout_weight=".6" >
         </FrameLayout>
     </LinearLayout>
 
