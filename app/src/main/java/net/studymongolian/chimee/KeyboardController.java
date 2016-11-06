@@ -36,27 +36,13 @@ public class KeyboardController extends Fragment implements Keyboard.OnKeyboardL
 
     private RecyclerView rvSuggestions;
     private SuggestionsAdapter suggestionsAdapter;
-
-    //SimpleCursorAdapter cursorAdapter; // adapter for db words
     MongolUnicodeRenderer renderer = MongolUnicodeRenderer.INSTANCE;
-    //ListView lvSuggestions;
-    boolean isFollowing = false; // db id of word whose followings are in lv
-    boolean typingMongol = false;
-    boolean isSuffix = false;
-    String suggestionsParent = ""; // keep track of parent of following list
-    //List<String> suggestionsUnicode = new ArrayList<String>(); // following
-    //Keyboard genericKeyboard;
+    //Keyboard currentKeyboard;
 
-    protected static final int WORDS_LOADER_ID = 0;
+
     protected static final int MIN_DICTIONARY_WORD_LENGTH = 2;
     protected static final int MAX_FOLLOWING_WORDS = 10;
     protected static final int MAX_SUGGESTED_WORDS = 10;
-    protected static final char SWITCH_TO_ENGLISH = 'α'; // arbitrary symbol
-    protected static final char PUNCTUATION_KEY = 'γ'; // arbitrary symbol
-    private static final int FVS_REQUEST = 10;
-
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,8 +55,6 @@ public class KeyboardController extends Fragment implements Keyboard.OnKeyboardL
         rvSuggestions.setAdapter(suggestionsAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         rvSuggestions.setLayoutManager(layoutManager);
-        //DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvSuggestions.getContext(),
-        //        layoutManager.getOrientation());
         SuggestionsItemDecoration dividerItemDecoration = new SuggestionsItemDecoration(getActivity(), R.drawable.suggestions_divider);
         rvSuggestions.addItemDecoration(dividerItemDecoration);
         return layout;
@@ -87,6 +71,8 @@ public class KeyboardController extends Fragment implements Keyboard.OnKeyboardL
         Fragment childFragment = new KeyboardAeiou();
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.replace(R.id.keyboard_container_frame, childFragment).commit();
+
+
 
         //genericKeyboard = (Keyboard) getChildFragmentManager().findFragmentById(R.id.keyboard_container_frame);
 
@@ -124,6 +110,8 @@ public class KeyboardController extends Fragment implements Keyboard.OnKeyboardL
 
         // FIXME clear fvs
         // genericKeyboard.clearFvsKeys();
+        Keyboard currentKeyboard = (Keyboard) getChildFragmentManager().findFragmentById(R.id.keyboard_container_frame);
+        currentKeyboard.clearFvsKeys();
 
         // insert word into input window
         String unicodeString = suggestionsAdapter.getItem(position);
