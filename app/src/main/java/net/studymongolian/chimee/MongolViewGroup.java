@@ -20,7 +20,7 @@ public class MongolViewGroup extends ViewGroup {
 	private final RectF tempRectF2 = new RectF();
 	private final float[] viewTouchPoint = new float[2];
 	private final float[] childTouchPoint = new float[2];
-	private boolean angleChanged = true;
+	//private boolean angleChanged = true;
 	
 	public MongolViewGroup(Context context) {
 		this(context, null);
@@ -49,7 +49,7 @@ public class MongolViewGroup extends ViewGroup {
 
 	@Override
 	protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-		if (angleChanged) {
+		//if (angleChanged) {
 			final RectF layoutRect = tempRectF1;
 			final RectF layoutRectRotated = tempRectF2;
 			layoutRect.set(0, 0, right - left, bottom - top);
@@ -57,8 +57,8 @@ public class MongolViewGroup extends ViewGroup {
 			rotateMatrix.postScale(-1, 1);
 			rotateMatrix.mapRect(layoutRectRotated, layoutRect);
 			layoutRectRotated.round(viewRectRotated);
-			angleChanged = false;
-		}
+		//	angleChanged = false;
+		//}
 		final View view = getView();
 		if (view != null) {
 			view.layout(viewRectRotated.left, viewRectRotated.top, viewRectRotated.right,
