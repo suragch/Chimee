@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/menuLayout"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:background="@color/white"
+              android:elevation="8dp"
+              android:layout_margin="8dp"
+              android:orientation="horizontal" >
+
+    <!-- Tallest layout wraps content so main layout can also wrap -->
+
+    <RelativeLayout
+        android:id="@+id/fabMenuItemCopyFrame"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@drawable/menu_item"
+        android:clickable="true"
+        android:padding="10dp" >
+
+        <ImageView
+            android:id="@+id/ivCopyIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/ic_content_copy_black_24dp" />
+
+
+        <net.studymongolian.chimee.MongolTextView
+            android:id="@+id/tvFabMenuItemCopy"
+            style="@style/AppTheme.MenuTextStyle"
+            android:layout_below="@id/ivCopyIcon"
+            android:text="@string/fab_item_copy" />
+    </RelativeLayout>
+
+    <!--<View-->
+    <!--android:layout_width="1dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:background="@color/background_material_light" />-->
+
+    <RelativeLayout
+        android:id="@+id/fabMenuItemPasteFrame"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@drawable/menu_item"
+        android:clickable="true"
+        android:padding="10dp" >
+
+        <ImageView
+            android:id="@+id/ivPasteIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/ic_content_paste_black_24dp" />
+
+
+        <net.studymongolian.chimee.MongolTextView
+            android:id="@+id/tvFabMenuItemPaste"
+            style="@style/AppTheme.MenuTextStyle"
+            android:layout_below="@id/ivPasteIcon"
+            android:text="@string/fab_item_paste" />
+    </RelativeLayout>
+
+    <!--<View-->
+    <!--android:layout_width="1dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:background="@color/background_material_light" />-->
+
+    <RelativeLayout
+        android:id="@+id/fabMenuItemClearFrame"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@drawable/menu_item"
+        android:clickable="true"
+        android:padding="10dp" >
+
+        <ImageView
+            android:id="@+id/ivClearIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/ic_clear_black_24dp" />
+
+
+        <net.studymongolian.chimee.MongolTextView
+            android:id="@+id/tvFabMenuItemClear"
+            style="@style/AppTheme.MenuTextStyle"
+            android:layout_below="@id/ivClearIcon"
+            android:text="@string/fab_item_clear" />
+    </RelativeLayout>
+
+    <!--<View-->
+    <!--android:layout_width="1dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:background="@color/background_material_light" />-->
+
+    <RelativeLayout
+        android:id="@+id/fabMenuItemColorFrame"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@drawable/menu_item"
+        android:clickable="true"
+        android:padding="10dp" >
+
+        <ImageView
+            android:id="@+id/ivColorIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/ic_palette_black_24dp" />
+
+
+        <net.studymongolian.chimee.MongolTextView
+            android:id="@+id/tvFabMenuItemColor"
+            style="@style/AppTheme.MenuTextStyle"
+            android:layout_below="@id/ivColorIcon"
+            android:text="@string/fab_item_color" />
+    </RelativeLayout>
+
+    <!--<View-->
+    <!--android:layout_width="1dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:background="@color/background_material_light" />-->
+
+    <RelativeLayout
+        android:id="@+id/fabMenuItemFontFrame"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@drawable/menu_item"
+        android:clickable="true"
+        android:padding="10dp" >
+
+        <ImageView
+            android:id="@+id/ivFontIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/ic_text_fields_black_24dp" />
+
+
+        <net.studymongolian.chimee.MongolTextView
+            android:id="@+id/tvFabMenuItemFont"
+            style="@style/AppTheme.MenuTextStyle"
+            android:layout_below="@id/ivFontIcon"
+            android:text="@string/fab_item_font" />
+    </RelativeLayout>
+
+    <!--<View-->
+    <!--android:layout_width="1dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:background="@color/background_material_light" />-->
+</LinearLayout>

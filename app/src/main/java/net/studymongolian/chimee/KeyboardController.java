@@ -106,7 +106,6 @@ public class KeyboardController extends Fragment implements Keyboard.OnKeyboardL
 
     @Override
     public void onItemClick(View view, int position) {
-        Log.i("TAG", "onItemClick: " + position);
 
         // FIXME clear fvs
         // genericKeyboard.clearFvsKeys();

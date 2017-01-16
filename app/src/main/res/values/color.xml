@@ -14,6 +14,7 @@
     <!-- other colors -->
     <color name="clear">#00000000</color>
     <color name="white">#ffffffff</color>
+    <color name="secondary_text_white">#B3FFFFFF</color>
     <color name="black">#ff000000</color>
 
 
@@ -30,7 +31,7 @@
     <color name="keyboard_suggestionbar_divider">@color/primary</color>
     <color name="keyboard_suggestionbar_highlight">@color/accent</color>
     <color name="keyboard_letters">@color/white</color>
-    <color name="keyboard_longtouch_letters">@color/light_grey</color>
+    <color name="keyboard_longtouch_letters">@color/secondary_text_white</color>
 
 
     <!-- TODO The following colors need to be redone according to theme -->

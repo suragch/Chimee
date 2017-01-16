@@ -21,6 +21,12 @@
     <string name="menu_item_save">save</string>
     <string name="menu_item_settings">ᠳᠤᠬᠢᠷᠠᠭᠤᠯᠠᠭ᠎ᠠ</string>
 
+    <!-- Fab Menu -->
+    <string name="fab_item_copy">Copy</string>
+    <string name="fab_item_paste">Paste</string>
+    <string name="fab_item_clear">Clear</string>
+    <string name="fab_item_color">Color</string>
+    <string name="fab_item_font">Font</string>
 
     <string name="menu_item_about">  </string>
     <string name="menu_item_help"></string>

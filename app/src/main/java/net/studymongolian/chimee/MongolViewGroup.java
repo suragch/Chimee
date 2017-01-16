@@ -20,7 +20,6 @@ public class MongolViewGroup extends ViewGroup {
 	private final RectF tempRectF2 = new RectF();
 	private final float[] viewTouchPoint = new float[2];
 	private final float[] childTouchPoint = new float[2];
-	//private boolean angleChanged = true;
 	
 	public MongolViewGroup(Context context) {
 		this(context, null);

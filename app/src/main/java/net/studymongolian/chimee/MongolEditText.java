@@ -1,14 +1,23 @@
 package net.studymongolian.chimee;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.support.v7.view.ActionMode;
 import android.text.Editable;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
+
+import java.lang.reflect.Field;
 
 /**
  * This class allows Mongol Unicode input and font rendering when combined with MongolTextStorage.
@@ -44,6 +53,7 @@ public class MongolEditText extends EditText {
         this.listener = null;
     }
 
+
     // Custom listener
 
     public interface SizeChangedListener {
@@ -64,6 +74,11 @@ public class MongolEditText extends EditText {
 
 
     // Mongol methods
+
+    //returns unicode rather than the actual glyphs that are in the EditText
+    public Editable getTextUnicode() {
+        return textStorage.getUnicode();
+    }
 
     public String getSelectedText() {
         return textStorage.unicodeForGlyphRange(getSelectionStart(), getSelectionEnd());
@@ -121,7 +136,14 @@ public class MongolEditText extends EditText {
     }
 
 
+    private class ActionModeCallbackInterceptor implements ActionMode.Callback {
+        //private final String TAG = NoMenuEditText.class.getSimpleName();
 
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) { return false; }
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) { return false; }
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) { return false; }
+        public void onDestroyActionMode(ActionMode mode) {}
+    }
 
     // testing
 
