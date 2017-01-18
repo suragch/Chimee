@@ -136,43 +136,12 @@ public class MongolEditText extends EditText {
     }
 
 
+    // FIXME this is not currently called from anywhere because it wasn't working
     private class ActionModeCallbackInterceptor implements ActionMode.Callback {
-        //private final String TAG = NoMenuEditText.class.getSimpleName();
-
         public boolean onCreateActionMode(ActionMode mode, Menu menu) { return false; }
         public boolean onPrepareActionMode(ActionMode mode, Menu menu) { return false; }
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) { return false; }
         public void onDestroyActionMode(ActionMode mode) {}
     }
-
-    // testing
-
-//    private int angle = 90;
-//    private final Matrix rotateMatrix = new Matrix();
-//    private final Rect viewRectRotated = new Rect();
-//    private final RectF tempRectF1 = new RectF();
-//    private final RectF tempRectF2 = new RectF();
-//    private final float[] viewTouchPoint = new float[2];
-//    private final float[] childTouchPoint = new float[2];
-//    private boolean angleChanged = true;
-//
-//    @Override
-//    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-//        if (angleChanged) {
-//            final RectF layoutRect = tempRectF1;
-//            final RectF layoutRectRotated = tempRectF2;
-//            layoutRect.set(0, 0, right - left, bottom - top);
-//            rotateMatrix.setRotate(angle, layoutRect.centerX(), layoutRect.centerY());
-//            rotateMatrix.postScale(-1, 1);
-//            rotateMatrix.mapRect(layoutRectRotated, layoutRect);
-//            layoutRectRotated.round(viewRectRotated);
-//            angleChanged = false;
-//        }
-//        final View view = getView();
-//        if (view != null) {
-//            view.layout(viewRectRotated.left, viewRectRotated.top, viewRectRotated.right,
-//                    viewRectRotated.bottom);
-//        }
-//    }
 
 }
