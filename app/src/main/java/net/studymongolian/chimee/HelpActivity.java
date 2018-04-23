@@ -17,7 +17,7 @@ public class HelpActivity extends AppCompatActivity {
 
 	protected static final String HELP_URL = "http://www.studymongolian.net/apps/chimee/zh/chimee-help/";
 	
-	MongolUnicodeRenderer renderer = MongolUnicodeRenderer.INSTANCE;
+	//MongolUnicodeRenderer renderer = MongolUnicodeRenderer.INSTANCE;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +29,7 @@ public class HelpActivity extends AppCompatActivity {
 		setSupportActionBar(myToolbar);
 
 		TextView tvHelpText = (TextView) findViewById(R.id.tvHelpContent);
-		tvHelpText.setText(renderer.unicodeToGlyphs(readText()));
+		//tvHelpText.setText(renderer.unicodeToGlyphs(readText()));
 
 	}
 

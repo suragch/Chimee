@@ -75,10 +75,10 @@ public class SettingsActivity extends AppCompatActivity {
 		String font = settings.getString(FONT_KEY, FONT_DEFAULT);
 		tvFontSetting = (TextView) findViewById(R.id.tvSettingsFontSelected);
 		tvFontSetting.setText(getResources().getString(R.string.settings_font_detail));
-		Typeface tf = FontCache.get(font, getApplicationContext());
-        if(tf != null) {
-        	tvFontSetting.setTypeface(tf);
-        }
+//		Typeface tf = FontCache.get(font, getApplicationContext());
+//        if(tf != null) {
+//        	tvFontSetting.setTypeface(tf);
+//        }
 		
 		// Keyboard type
 		String userKeyboard = settings
@@ -186,10 +186,10 @@ public class SettingsActivity extends AppCompatActivity {
 				editor.commit();
 
 				// Update settings view
-				Typeface tf = FontCache.get(font, getApplicationContext());
-		        if(tf != null) {
-		        	tvFontSetting.setTypeface(tf);
-		        }
+//				Typeface tf = FontCache.get(font, getApplicationContext());
+//		        if(tf != null) {
+//		        	tvFontSetting.setTypeface(tf);
+//		        }
 
 				// send message to main view to update that
 				boolean fontChanged = true;

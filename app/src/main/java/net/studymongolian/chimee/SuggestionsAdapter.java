@@ -20,7 +20,7 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.
     private ItemClickListener clickListener;
 
     //private Context mContext;
-    MongolUnicodeRenderer renderer = MongolUnicodeRenderer.INSTANCE;
+    //MongolUnicodeRenderer renderer = MongolUnicodeRenderer.INSTANCE;
 
     public SuggestionsAdapter(Context context, List<String> data) {
         this.mInflater = LayoutInflater.from(context);
@@ -40,8 +40,8 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         String currentWord = mData.get(position);
-        String renderedText = renderer.unicodeToGlyphs(currentWord);
-        holder.tvWord.setText(renderedText);
+//        String renderedText = renderer.unicodeToGlyphs(currentWord);
+//        holder.tvWord.setText(renderedText);
     }
 
     @Override

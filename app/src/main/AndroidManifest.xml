@@ -102,15 +102,6 @@
                 android:value="net.studymongolian.chimee.MainActivity" />
         </activity>
         <activity
-            android:name=".MongolDialogOneButton"
-            android:theme="@android:style/Theme.Dialog"/>
-        <activity
-            android:name=".MongolDialogTwoButton"
-            android:theme="@android:style/Theme.Dialog"/>
-        <activity
-            android:name=".FvsChooserDialog"
-            android:theme="@android:style/Theme.Dialog"/>
-        <activity
             android:name=".AeChooserDialog"
             android:theme="@android:style/Theme.Dialog"/>
         <activity

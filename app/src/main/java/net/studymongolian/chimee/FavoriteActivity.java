@@ -123,9 +123,9 @@ public class FavoriteActivity extends AppCompatActivity implements OnItemClickLi
 
 	private void showNoContentDialog() {
 
-		Intent intent = new Intent(this, MongolDialogOneButton.class);
-		intent.putExtra(MongolDialogOneButton.MESSAGE, getResources().getString(R.string.dialog_message_emptyfavorite));
-		startActivity(intent);
+//		Intent intent = new Intent(this, MongolDialogOneButton.class);
+//		intent.putExtra(MongolDialogOneButton.MESSAGE, getResources().getString(R.string.dialog_message_emptyfavorite));
+//		startActivity(intent);
 
 	}
 
@@ -266,8 +266,8 @@ public class FavoriteActivity extends AppCompatActivity implements OnItemClickLi
 
 			if (count > 0) {
 				// Notify the user that the message was deleted
-				showToast(context, getResources().getString(R.string.toast_message_deleted),
-						Toast.LENGTH_SHORT);
+//				showToast(context, getResources().getString(R.string.toast_message_deleted),
+//						Toast.LENGTH_SHORT);
 				// update display
 				savedPosition = lvFavorite.getFirstVisiblePosition();
 				new GetFavoriteMessages().execute();
@@ -282,29 +282,7 @@ public class FavoriteActivity extends AppCompatActivity implements OnItemClickLi
 		longClickedItem = -1;
 	}
 
-	private void showToast(Context context, String text, int toastLength) {
 
-		// TextView
-		final float scale = getResources().getDisplayMetrics().density;
-		int padding_8dp = (int) (8 * scale + 0.5f);
-		MongolTextView tvMongolToastMessage = new MongolTextView(context);
-		tvMongolToastMessage.setText(text);
-		tvMongolToastMessage.setPadding(padding_8dp, padding_8dp, padding_8dp, padding_8dp);
-		tvMongolToastMessage.setTextColor(getResources().getColor(R.color.white));
-
-		// Layout
-		LinearLayout toastLayout = new LinearLayout(context);
-		toastLayout.setBackgroundResource(R.color.black_c);
-		toastLayout.addView(tvMongolToastMessage);
-
-		// Toast
-		Toast mongolToast = new Toast(context);
-		mongolToast.setView(toastLayout);
-		mongolToast.setDuration(toastLength);
-		mongolToast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-		mongolToast.show();
-
-	}
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long rowId) {

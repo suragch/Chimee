@@ -235,8 +235,8 @@ public class HistoryActivity extends AppCompatActivity implements OnItemClickLis
 
 			if (count > 0) {
 				// Notify the user that the message was deleted
-				showToast(context, getResources().getString(R.string.toast_message_deleted),
-						Toast.LENGTH_SHORT);
+//				showToast(context, getResources().getString(R.string.toast_message_deleted),
+//						Toast.LENGTH_SHORT);
 				// update display
 				if (lvPosition >= 0) {
 					historyMessages.remove(lvPosition);
@@ -299,42 +299,20 @@ public class HistoryActivity extends AppCompatActivity implements OnItemClickLis
 	public void menuDeleteAllClick(View view) {
 
 		// confirm with two button dialog
-		Intent intent = new Intent(getApplicationContext(), MongolDialogTwoButton.class);
-		intent.putExtra(MongolDialogTwoButton.TITLE,
-				getResources().getString(R.string.dialog_delete_history_title));
-		intent.putExtra(MongolDialogTwoButton.MESSAGE,
-				getResources().getString(R.string.dialog_delete_history_message));
-		intent.putExtra(MongolDialogTwoButton.BUTTON_TOP_TEXT,
-				getResources().getString(R.string.dialog_delete_history_top_button));
-		intent.putExtra(MongolDialogTwoButton.BUTTON_BOTTOM_TEXT,
-				getResources().getString(R.string.dialog_delete_history_bottom_button));
-		this.startActivityForResult(intent, DELETE_REQUEST);
+//		Intent intent = new Intent(getApplicationContext(), MongolDialogTwoButton.class);
+//		intent.putExtra(MongolDialogTwoButton.TITLE,
+//				getResources().getString(R.string.dialog_delete_history_title));
+//		intent.putExtra(MongolDialogTwoButton.MESSAGE,
+//				getResources().getString(R.string.dialog_delete_history_message));
+//		intent.putExtra(MongolDialogTwoButton.BUTTON_TOP_TEXT,
+//				getResources().getString(R.string.dialog_delete_history_top_button));
+//		intent.putExtra(MongolDialogTwoButton.BUTTON_BOTTOM_TEXT,
+//				getResources().getString(R.string.dialog_delete_history_bottom_button));
+//		this.startActivityForResult(intent, DELETE_REQUEST);
 		// if yes then delete
 	}
 
-	private void showToast(Context context, String text, int toastLength) {
 
-		// TextView
-		final float scale = getResources().getDisplayMetrics().density;
-		int padding_8dp = (int) (8 * scale + 0.5f);
-		MongolTextView tvMongolToastMessage = new MongolTextView(context);
-		tvMongolToastMessage.setText(text);
-		tvMongolToastMessage.setPadding(padding_8dp, padding_8dp, padding_8dp, padding_8dp);
-		tvMongolToastMessage.setTextColor(getResources().getColor(R.color.white));
-
-		// Layout
-		LinearLayout toastLayout = new LinearLayout(context);
-		toastLayout.setBackgroundResource(R.color.black_c);
-		toastLayout.addView(tvMongolToastMessage);
-
-		// Toast
-		Toast mongolToast = new Toast(context);
-		mongolToast.setView(toastLayout);
-		mongolToast.setDuration(toastLength);
-		mongolToast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-		mongolToast.show();
-
-	}
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long rowId) {

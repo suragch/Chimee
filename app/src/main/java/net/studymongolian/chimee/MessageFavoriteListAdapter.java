@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 public class MessageFavoriteListAdapter extends ArrayAdapter<Message> {
 
-	MongolUnicodeRenderer renderer = MongolUnicodeRenderer.INSTANCE;
+	//MongolUnicodeRenderer renderer = MongolUnicodeRenderer.INSTANCE;
 	
 	// View lookup cache
 	private static class ViewHolder {
@@ -46,7 +46,7 @@ public class MessageFavoriteListAdapter extends ArrayAdapter<Message> {
 		}
 
 		// Populate the data into the template view using the data object
-		viewHolder.tvMessage.setText(renderer.unicodeToGlyphs(message.getMessage()));
+		//viewHolder.tvMessage.setText(renderer.unicodeToGlyphs(message.getMessage()));
 		
 		// Return the completed view to render on screen
 		return convertView;

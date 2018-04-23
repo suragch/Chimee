@@ -19,27 +19,27 @@ public class FontChooserDialog extends Activity implements View.OnClickListener 
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.dialog_font_chooser);
 		
-		// Set the fonts
-		TextView tvWhite = (TextView) findViewById(R.id.tvSettingsDialogFontWhite);
-		TextView tvWriting = (TextView) findViewById(R.id.tvSettingsDialogFontWriting);
-		TextView tvArt = (TextView) findViewById(R.id.tvSettingsDialogFontArt);
-		TextView tvTitle = (TextView) findViewById(R.id.tvSettingsDialogFontTitle);
-		Typeface tf = FontCache.get(SettingsActivity.FONT_WHITE, getApplicationContext());
-        if(tf != null) {
-        	tvWhite.setTypeface(tf);
-        }
-        tf = FontCache.get(SettingsActivity.FONT_WRITING, getApplicationContext());
-        if(tf != null) {
-        	tvWriting.setTypeface(tf);
-        }
-        tf = FontCache.get(SettingsActivity.FONT_ART, getApplicationContext());
-        if(tf != null) {
-        	tvArt.setTypeface(tf);
-        }
-        tf = FontCache.get(SettingsActivity.FONT_TITLE, getApplicationContext());
-        if(tf != null) {
-        	tvTitle.setTypeface(tf);
-        }
+//		// Set the fonts
+//		TextView tvWhite = (TextView) findViewById(R.id.tvSettingsDialogFontWhite);
+//		TextView tvWriting = (TextView) findViewById(R.id.tvSettingsDialogFontWriting);
+//		TextView tvArt = (TextView) findViewById(R.id.tvSettingsDialogFontArt);
+//		TextView tvTitle = (TextView) findViewById(R.id.tvSettingsDialogFontTitle);
+//		Typeface tf = FontCache.get(SettingsActivity.FONT_WHITE, getApplicationContext());
+//        if(tf != null) {
+//        	tvWhite.setTypeface(tf);
+//        }
+//        tf = FontCache.get(SettingsActivity.FONT_WRITING, getApplicationContext());
+//        if(tf != null) {
+//        	tvWriting.setTypeface(tf);
+//        }
+//        tf = FontCache.get(SettingsActivity.FONT_ART, getApplicationContext());
+//        if(tf != null) {
+//        	tvArt.setTypeface(tf);
+//        }
+//        tf = FontCache.get(SettingsActivity.FONT_TITLE, getApplicationContext());
+//        if(tf != null) {
+//        	tvTitle.setTypeface(tf);
+//        }
 
 		// Get radio buttons
 		final RadioButton rbWhite = (RadioButton) findViewById(R.id.rbSettingsDialogFontWhite);
