@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
@@ -11,67 +12,66 @@
         android:background="?attr/colorPrimary"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
     <!-- This is the main content -->
 
-    <LinearLayout
-        android:id="@+id/mainContentLayout"
+    <!--<LinearLayout-->
+    <!--android:id="@+id/mainContentLayout"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_below="@id/my_toolbar"-->
+    <!--android:orientation="vertical">-->
+
+    <!-- below is the top half of the screen -->
+
+    <FrameLayout
+        android:id="@+id/rlTop"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/my_toolbar"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        android:layout_weight=".6"
+        android:background="@color/main_activity_top_bg">
 
-        <!-- below is the top half of the screen -->
+        <!-- input window -->
 
-        <FrameLayout
-            android:id="@+id/rlTop"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight=".6"
-            android:background="@color/main_activity_top_bg">
-
-            <!-- input window -->
-
-            <net.studymongolian.chimee.ResizingScrollView
-                android:id="@+id/resizingScrollView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@android:color/white"
-                />
-
-            <!--<HorizontalScrollView-->
-                <!--android:id="@+id/horizontalScrollView"-->
-                <!--android:layout_width="75dp"-->
-                <!--android:layout_height="150dp"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:background="@color/white"-->
-                <!--android:elevation="2dp">-->
-
-                <!--<net.studymongolian.mongollibrary.MongolEditText-->
-                    <!--android:id="@+id/mongolEditText"-->
-                    <!--android:padding="5dp"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content" />-->
-
-            <!--</HorizontalScrollView>-->
-
-        </FrameLayout>
-
-        <net.studymongolian.mongollibrary.ImeContainer
-            android:id="@+id/imeContainer"
+        <net.studymongolian.chimee.ResizingScrollView
+            android:id="@+id/resizingScrollView"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight=".4">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@android:color/white" />
 
-            <net.studymongolian.mongollibrary.KeyboardAeiou
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+        <!--<HorizontalScrollView-->
+        <!--android:id="@+id/horizontalScrollView"-->
+        <!--android:layout_width="75dp"-->
+        <!--android:layout_height="150dp"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:background="@color/white"-->
+        <!--android:elevation="2dp">-->
+
+        <!--<net.studymongolian.mongollibrary.MongolEditText-->
+        <!--android:id="@+id/mongolEditText"-->
+        <!--android:padding="5dp"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content" />-->
+
+        <!--</HorizontalScrollView>-->
+
+    </FrameLayout>
+
+    <net.studymongolian.mongollibrary.ImeContainer
+        android:id="@+id/imeContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight=".4">
+
+        <net.studymongolian.mongollibrary.KeyboardAeiou
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
 
-        </net.studymongolian.mongollibrary.ImeContainer>
+    </net.studymongolian.mongollibrary.ImeContainer>
 
-    </LinearLayout>
+    <!--</LinearLayout>-->
 
-</RelativeLayout>
+</LinearLayout>
