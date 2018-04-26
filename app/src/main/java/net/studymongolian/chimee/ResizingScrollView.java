@@ -1,7 +1,6 @@
 package net.studymongolian.chimee;
 
 import android.content.Context;
-import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.HorizontalScrollView;
@@ -15,10 +14,10 @@ public class ResizingScrollView extends HorizontalScrollView {
     private static final int HEIGHT_STEP_DP = 50;
 
 
-    private float mOldHeight = 0;
-    private float mOldWidth = 0;
-    private int mDesiredHeight;
-    private int mDesiredWidth;
+    private int mOldHeight;
+    private int mOldWidth;
+    private int mMinHeightPx;
+    private int mMinWidthPx;
     private int mHeightStepPx;
 
 
@@ -40,9 +39,11 @@ public class ResizingScrollView extends HorizontalScrollView {
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
-        mDesiredHeight = (int) convertDpToPx(MIN_HEIGHT_DP);
-        mDesiredWidth = (int) convertDpToPx(MIN_WIDTH_DP);
+        mMinHeightPx = (int) convertDpToPx(MIN_HEIGHT_DP);
+        mMinWidthPx = (int) convertDpToPx(MIN_WIDTH_DP);
         mHeightStepPx = (int) convertDpToPx(HEIGHT_STEP_DP);
+        mOldHeight = mMinHeightPx;
+        mOldWidth = mMinWidthPx;
 
         editText = new MongolEditText(context, attrs, defStyleAttr);
         editText.setPadding(10, 10, 10, 10);
@@ -65,29 +66,53 @@ public class ResizingScrollView extends HorizontalScrollView {
             //return;
         }
 
-        int specHeight = MeasureSpec.makeMeasureSpec(mDesiredHeight, MeasureSpec.EXACTLY);
+        int desiredHeight = Math.max(mMinHeightPx, mOldHeight);
+        int desiredWidth;
+
+        int specHeight = MeasureSpec.makeMeasureSpec(mOldHeight, MeasureSpec.EXACTLY);
         int specWidth = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
-
         editText.measure(specWidth, specHeight);
-
         int editTextWidth = editText.getMeasuredWidth();
         int editTextHeight = editText.getMeasuredHeight();
-        if (editTextWidth > mDesiredWidth) {
-            mDesiredWidth = editTextWidth;
-            if (mDesiredWidth > mDesiredHeight) {
-                int newHeight = (int) Math.sqrt(2*editTextHeight*editTextWidth);
-                if (newHeight - mDesiredHeight > mHeightStepPx) {
-                    mDesiredHeight += mHeightStepPx;
-                }
-                if (mDesiredHeight > heightSize) {
-                    mDesiredHeight = Math.min(mDesiredHeight, heightSize);
-                }
-                specHeight = MeasureSpec.makeMeasureSpec(mDesiredHeight, MeasureSpec.EXACTLY);
+        desiredWidth = Math.max(mMinWidthPx, editTextWidth);
+
+        if (editTextWidth > mOldWidth) {
+            if (editTextWidth > 1.5 * mOldHeight) {
+                desiredHeight = (int) Math.sqrt(2*editTextHeight*editTextWidth);
+                desiredHeight = Math.min(desiredHeight, heightSize);
+                specHeight = MeasureSpec.makeMeasureSpec(desiredHeight, MeasureSpec.EXACTLY);
                 editText.measure(specWidth, specHeight);
-                mDesiredWidth = editText.getMeasuredWidth();
+                desiredWidth = editText.getMeasuredWidth();
+            } else if (editTextWidth > mOldHeight) {
+                desiredHeight = mOldHeight + mHeightStepPx;
+                desiredHeight = Math.min(desiredHeight, heightSize);
+                specHeight = MeasureSpec.makeMeasureSpec(desiredHeight, MeasureSpec.EXACTLY);
+                editText.measure(specWidth, specHeight);
+                desiredWidth = editText.getMeasuredWidth();
+            } else {
+                desiredWidth = editTextWidth;
             }
+        } else if (editTextWidth < mOldWidth) {
+            if (3 * editTextWidth < mOldHeight) {
+                desiredHeight = (int) Math.sqrt(2*editTextHeight*editTextWidth);
+                desiredHeight = Math.min(desiredHeight, heightSize);
+                specHeight = MeasureSpec.makeMeasureSpec(desiredHeight, MeasureSpec.EXACTLY);
+                editText.measure(specWidth, specHeight);
+                desiredWidth = editText.getMeasuredWidth();
+            } else if (2 * editTextWidth < mOldHeight) {
+                desiredHeight = mOldHeight - mHeightStepPx;
+                desiredHeight = Math.min(desiredHeight, heightSize);
+                specHeight = MeasureSpec.makeMeasureSpec(desiredHeight, MeasureSpec.EXACTLY);
+                editText.measure(specWidth, specHeight);
+                desiredWidth = editText.getMeasuredWidth();
+            }
+            desiredHeight = Math.max(desiredHeight, mMinHeightPx);
+            desiredWidth = Math.max(desiredWidth, mMinWidthPx);
         }
-        Log.i("TAG", "onMeasure: " + mDesiredWidth);
+
+
+
+        Log.i("TAG", "onMeasure: " + desiredWidth);
 
 
         int width;
@@ -97,38 +122,43 @@ public class ResizingScrollView extends HorizontalScrollView {
         if (widthMode == MeasureSpec.EXACTLY) {
             width = widthSize;
         } else if (widthMode == MeasureSpec.AT_MOST) {
-            width = Math.min(mDesiredWidth, widthSize);
+            width = Math.min(desiredWidth, widthSize);
         } else {
-            width = mDesiredWidth;
+            width = desiredWidth;
         }
 
         //Measure Height
         if (heightMode == MeasureSpec.EXACTLY) {
             height = heightSize;
         } else if (heightMode == MeasureSpec.AT_MOST) {
-            height = Math.min(mDesiredHeight, heightSize);
+            height = Math.min(desiredHeight, heightSize);
         } else {
-            height = mDesiredHeight;
+            height = desiredHeight;
         }
 
-        if (height != mDesiredHeight) {
+        if (height != desiredHeight) {
             specHeight = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
             editText.measure(specWidth, specHeight);
         }
 
+        mOldWidth = Math.max(mMinWidthPx, editText.getMeasuredWidth());
+        mOldHeight = Math.max(mMinHeightPx, editText.getMeasuredHeight());
         setMeasuredDimension(width, height);
     }
+//
+//    private boolean widthIsGreaterThanHeight() {
+//        return mDesiredWidth > mDesiredHeight;
+//    }
+//
+//    private boolean widthIsMuchGreaterThanHeight() {
+//        return mDesiredWidth > 1.5 * mDesiredHeight;
+//    }
+//
+//    private Rect getDesiredSize() {
+//        return null;
+//    }
 
-    private Rect getDesiredSize() {
-        return null;
-    }
 
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        mOldHeight = oldh;
-        mOldWidth = oldw;
-    }
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {

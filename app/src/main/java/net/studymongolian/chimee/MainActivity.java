@@ -142,6 +142,8 @@ public class MainActivity extends AppCompatActivity {
         Log.i("TAG", "onOptionsItemSelected: "
                 + topFrame.getHeight() + " "
                 + inputWindow.getHeight());
+
+        inputWindow.getEditText().setText(";lkja sd;lkfj a;lskdjf ;alsjdkf akjsdghfjgasdlfiuya sdkhf lakjsdhflkjashd flkha sdlkfjh alksdjfh laksdjhfl kajbsdlkfjbhalskdhfaiouwedhf lbsdfl kabjsdf lkjbhasdljkfhalksjdhf lkah");
         return super.onOptionsItemSelected(item);
     }
 }
