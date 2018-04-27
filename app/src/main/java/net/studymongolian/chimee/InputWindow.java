@@ -1,52 +1,60 @@
 package net.studymongolian.chimee;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 
 import net.studymongolian.mongollibrary.MongolEditText;
 
-public class ResizingScrollView extends HorizontalScrollView {
+public class InputWindow extends HorizontalScrollView {
 
     private static final int MIN_HEIGHT_DP = 150;
-    private static final int MIN_WIDTH_DP = 75;
+    private static final float MIN_HEIGHT_TO_WIDTH_PROPORTION = 2;
+    //private static final int MIN_WIDTH_DP = 75;
     private static final int HEIGHT_STEP_DP = 50;
 
+    private static final String TAG = "TAG";
+
     private int mMinHeightPx;
-    private int mMinWidthPx;
+    //private int mMinWidthPx;
     private int mHeightStepPx;
+    //private int mDesiredHeight;
 
 
     private MongolEditText editText;
 
-    public ResizingScrollView(Context context) {
+    public InputWindow(Context context) {
         super(context);
         init(context, null, 0);
     }
 
-    public ResizingScrollView(Context context, AttributeSet attrs) {
+    public InputWindow(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs, 0);
     }
 
-    public ResizingScrollView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public InputWindow(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs, defStyleAttr);
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
-        mMinHeightPx = (int) convertDpToPx(MIN_HEIGHT_DP);
-        mMinWidthPx = (int) convertDpToPx(MIN_WIDTH_DP);
-        mHeightStepPx = (int) convertDpToPx(HEIGHT_STEP_DP);
+        mMinHeightPx = convertDpToPx(MIN_HEIGHT_DP);
+        //mMinWidthPx = (int) convertDpToPx(MIN_WIDTH_DP);
+        mHeightStepPx = convertDpToPx(HEIGHT_STEP_DP);
 
         editText = new MongolEditText(context, attrs, defStyleAttr);
         editText.setPadding(10, 10, 10, 10);
+        editText.setBackgroundColor(Color.YELLOW);
         this.addView(editText);
     }
 
-    private float convertDpToPx(float dp) {
-        return dp * getResources().getDisplayMetrics().density;
+    private int convertDpToPx(float dp) {
+        return (int) (dp * getResources().getDisplayMetrics().density);
     }
 
     @Override
@@ -95,9 +103,11 @@ public class ResizingScrollView extends HorizontalScrollView {
 
         int h = currentHeight;
         int w = measureWidthFromHeight(h);
+        float p = MIN_HEIGHT_TO_WIDTH_PROPORTION;
 
-        if (w < mMinWidthPx) {
-            w = mMinWidthPx;
+        int minW = getMinWidth();
+        if (w < minW) {
+            w = minW;
         }
         if (maxHeight < mMinHeightPx) {
             maxHeight = mMinHeightPx;
@@ -119,7 +129,7 @@ public class ResizingScrollView extends HorizontalScrollView {
                 }
             }
 
-        } else if (h > 2 * w && h > mMinHeightPx) { // need to decrease h
+        } else if (h > p * w && h > mMinHeightPx) { // need to decrease h
 
             while (h > mMinHeightPx) {
                 h -= mHeightStepPx;
@@ -130,16 +140,26 @@ public class ResizingScrollView extends HorizontalScrollView {
                     break;
                 }
                 w = measureWidthFromHeight(h);
-                if (h <= 2 * w) {
+                if (h <= p * w) {
                     break;
                 }
             }
         }
 
-        if (w < mMinWidthPx) {
-            w = mMinWidthPx;
+        if (w < minW) {
+            w = minW;
         }
+        //mDesiredHeight = h;
         return new Rect(0, 0, w, h);
+    }
+
+    private int getMinWidth() {
+        return (int) (mMinHeightPx / MIN_HEIGHT_TO_WIDTH_PROPORTION);
+    }
+
+    private void updateMinHeight(int height) {
+
+        mMinHeightPx = height;
     }
 
     private int measureWidthFromHeight(int height) {
@@ -149,7 +169,24 @@ public class ResizingScrollView extends HorizontalScrollView {
         return editText.getMeasuredWidth();
     }
 
+//    @Override
+//    public void setLayoutParams(ViewGroup.LayoutParams params) {
+//        int height = params.height;
+//
+//        super.setLayoutParams(params);
+//        Log.i(TAG, "setLayoutParams: " + height);
+//        updateMinHeight(height);
+//
+//    }
+
     public MongolEditText getEditText() {
         return editText;
+    }
+
+    public void setMinHeight(int height) {
+        int absoluteMin = convertDpToPx(MIN_HEIGHT_DP);
+        if (height < absoluteMin) return;
+        mMinHeightPx = height;
+        requestLayout();
     }
 }

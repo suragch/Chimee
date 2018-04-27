@@ -14,19 +14,10 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-    <!-- This is the main content -->
-
-    <!--<LinearLayout-->
-    <!--android:id="@+id/mainContentLayout"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_below="@id/my_toolbar"-->
-    <!--android:orientation="vertical">-->
-
     <!-- below is the top half of the screen -->
 
     <FrameLayout
-        android:id="@+id/rlTop"
+        android:id="@+id/flTop"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight=".6"
@@ -34,28 +25,12 @@
 
         <!-- input window -->
 
-        <net.studymongolian.chimee.ResizingScrollView
+        <net.studymongolian.chimee.InputWindow
             android:id="@+id/resizingScrollView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@android:color/white" />
-
-        <!--<HorizontalScrollView-->
-        <!--android:id="@+id/horizontalScrollView"-->
-        <!--android:layout_width="75dp"-->
-        <!--android:layout_height="150dp"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:background="@color/white"-->
-        <!--android:elevation="2dp">-->
-
-        <!--<net.studymongolian.mongollibrary.MongolEditText-->
-        <!--android:id="@+id/mongolEditText"-->
-        <!--android:padding="5dp"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content" />-->
-
-        <!--</HorizontalScrollView>-->
 
     </FrameLayout>
 
@@ -71,7 +46,5 @@
 
 
     </net.studymongolian.mongollibrary.ImeContainer>
-
-    <!--</LinearLayout>-->
 
 </LinearLayout>

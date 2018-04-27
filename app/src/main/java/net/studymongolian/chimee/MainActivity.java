@@ -16,10 +16,14 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 
@@ -38,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         Other
     }
 
-    ResizingScrollView inputWindow;
+    InputWindow inputWindow;
     HorizontalScrollView hsvScrollView;
     FrameLayout rlTop;
     Dialog overflowMenu;
@@ -49,6 +53,9 @@ public class MainActivity extends AppCompatActivity {
     int inputWindowMinHeightPx = 0;
     SharedPreferences settings;
     String lastSentMessage = ""; // don't save two same messages to history
+    private ScaleGestureDetector mScaleDetector;
+    private float mScaleFactor = 1.f;
+
 
 
     @Override
@@ -64,6 +71,9 @@ public class MainActivity extends AppCompatActivity {
         if (getResources().getBoolean(R.bool.portrait_only)) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
+
+        // add gesture detector to top layout
+        addGestureDetectorToTopLayout();
 
         // set up the keyboard
         ImeContainer imeContainer = findViewById(R.id.imeContainer);
@@ -92,6 +102,20 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+    private void addGestureDetectorToTopLayout() {
+        FrameLayout topLayout = findViewById(R.id.flTop);
+        mScaleDetector = new ScaleGestureDetector(this, new ScaleListener());
+        topLayout.setOnTouchListener(touchListener);
+    }
+
+    View.OnTouchListener touchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            mScaleDetector.onTouchEvent(event);
+            return true;
+        }
+    };
 
     private void showWeChatButton() {
         // If WeChat is installed make the button visible
@@ -136,8 +160,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        FrameLayout topFrame = findViewById(R.id.rlTop);
-        ResizingScrollView inputWindow = findViewById(R.id.resizingScrollView);
+        FrameLayout topFrame = findViewById(R.id.flTop);
+        InputWindow inputWindow = findViewById(R.id.resizingScrollView);
 
         Log.i("TAG", "onOptionsItemSelected: "
                 + topFrame.getHeight() + " "
@@ -146,4 +170,45 @@ public class MainActivity extends AppCompatActivity {
         inputWindow.getEditText().setText(";lkja sd;lkfj a;lskdjf ;alsjdkf akjsdghfjgasdlfiuya sdkhf lakjsdhflkjashd flkha sdlkfjh alksdjfh laksdjhfl kajbsdlkfjbhalskdhfaiouwedhf lbsdfl kabjsdf lkjbhasdljkfhalksjdhf lkah");
         return super.onOptionsItemSelected(item);
     }
+
+    private class ScaleListener
+            extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+
+        int initialSize;
+
+        @Override
+        public boolean onScaleBegin(ScaleGestureDetector detector) {
+            initialSize = inputWindow.getHeight();
+            mScaleFactor = 1.0f;
+            return super.onScaleBegin(detector);
+        }
+
+        @Override
+        public boolean onScale(ScaleGestureDetector detector) {
+
+            mScaleFactor *= detector.getScaleFactor();
+            // Don't let the object get too small or too large.
+            mScaleFactor = Math.max(0.1f, Math.min(mScaleFactor, 5.0f));
+            resizeInputWindow(initialSize);
+            return true;
+        }
+    }
+
+    boolean isTest = true;
+    private void resizeInputWindow(int initialSize) {
+        //if (!isTest) return;
+//        isTest = false;
+        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) inputWindow.getLayoutParams();
+//        //params.height = (int) (100);
+//        //params.width = (int) (100);
+        int newHeight = (int) (initialSize * mScaleFactor);
+        Log.i("TAG", "onScale: " + mScaleFactor
+                + " " + initialSize + " " + newHeight);
+        //params.height = (int) (initialSize * mScaleFactor);
+        //params.width = (int) (params.width * mScaleFactor);
+        //inputWindow.setLayoutParams(params);
+        inputWindow.setMinHeight(newHeight);
+        //inputWindow.manuallySetHeight(newHeight);
+    }
+
 }
