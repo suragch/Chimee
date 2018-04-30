@@ -1,11 +1,8 @@
 package net.studymongolian.chimee;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 
 import net.studymongolian.mongollibrary.MongolEditText;
@@ -14,17 +11,13 @@ public class InputWindow extends HorizontalScrollView {
 
     private static final int MIN_HEIGHT_DP = 150;
     private static final float MIN_HEIGHT_TO_WIDTH_PROPORTION = 2;
-    //private static final int MIN_WIDTH_DP = 75;
     private static final int HEIGHT_STEP_DP = 50;
 
-    private static final String TAG = "TAG";
-
     private int mMinHeightPx;
-    //private int mMinWidthPx;
     private int mHeightStepPx;
-    //private int mDesiredHeight;
-
-
+    private int mDesiredHeight;
+    private boolean mIsManualScaling = false;
+    private Rect mOldGoodSize;
     private MongolEditText editText;
 
     public InputWindow(Context context) {
@@ -44,12 +37,13 @@ public class InputWindow extends HorizontalScrollView {
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
         mMinHeightPx = convertDpToPx(MIN_HEIGHT_DP);
-        //mMinWidthPx = (int) convertDpToPx(MIN_WIDTH_DP);
+        mDesiredHeight = mMinHeightPx;
         mHeightStepPx = convertDpToPx(HEIGHT_STEP_DP);
+        int width = (int) (mDesiredHeight / MIN_HEIGHT_TO_WIDTH_PROPORTION);
+        mOldGoodSize = new Rect(0, 0, width, mDesiredHeight);
 
         editText = new MongolEditText(context, attrs, defStyleAttr);
         editText.setPadding(10, 10, 10, 10);
-        editText.setBackgroundColor(Color.YELLOW);
         this.addView(editText);
     }
 
@@ -68,7 +62,12 @@ public class InputWindow extends HorizontalScrollView {
             return;
         }
 
-        Rect desiredSize = getBestSizeForInputWindow(heightSize);
+        Rect desiredSize;
+        if (mIsManualScaling) {
+            desiredSize = getDesiredManualSizeForInputWindow(heightSize);
+        } else {
+            desiredSize = getBestAutoSizeForInputWindow(heightSize);
+        }
 
         int width;
         int height;
@@ -94,7 +93,27 @@ public class InputWindow extends HorizontalScrollView {
         setMeasuredDimension(width, height);
     }
 
-    private Rect getBestSizeForInputWindow(int maxHeight) {
+    private Rect getDesiredManualSizeForInputWindow(int maxHeight) {
+
+        int h = Math.min(mDesiredHeight, maxHeight);
+        int absoluteMinWidth = getAbsoluteMinWidth();
+        int w = Math.max(measureWidthFromHeight(h), absoluteMinWidth);
+        float p = MIN_HEIGHT_TO_WIDTH_PROPORTION;
+        if (w > h) {
+            int oldHeight = mOldGoodSize.height();
+            measureWidthFromHeight(oldHeight);
+            return mOldGoodSize;
+        }
+        if (p * w < h) {
+            w = (int) (h / p);
+        }
+        mMinHeightPx = h;
+        mOldGoodSize = new Rect(0, 0, w, h);
+        return mOldGoodSize;
+    }
+
+    private Rect getBestAutoSizeForInputWindow(int maxHeight) {
+
 
         int currentHeight = editText.getMeasuredHeight();
         if (currentHeight < mMinHeightPx) {
@@ -112,7 +131,6 @@ public class InputWindow extends HorizontalScrollView {
         if (maxHeight < mMinHeightPx) {
             maxHeight = mMinHeightPx;
         }
-
 
         if (h < w && h < maxHeight) { // need to increase h
 
@@ -149,17 +167,18 @@ public class InputWindow extends HorizontalScrollView {
         if (w < minW) {
             w = minW;
         }
-        //mDesiredHeight = h;
-        return new Rect(0, 0, w, h);
+
+        mDesiredHeight = h;
+        mOldGoodSize = new Rect(0, 0, w, h);
+        return mOldGoodSize;
     }
 
     private int getMinWidth() {
         return (int) (mMinHeightPx / MIN_HEIGHT_TO_WIDTH_PROPORTION);
     }
 
-    private void updateMinHeight(int height) {
-
-        mMinHeightPx = height;
+    private int getAbsoluteMinWidth() {
+        return (int) (convertDpToPx(MIN_HEIGHT_DP) / MIN_HEIGHT_TO_WIDTH_PROPORTION);
     }
 
     private int measureWidthFromHeight(int height) {
@@ -169,24 +188,18 @@ public class InputWindow extends HorizontalScrollView {
         return editText.getMeasuredWidth();
     }
 
-//    @Override
-//    public void setLayoutParams(ViewGroup.LayoutParams params) {
-//        int height = params.height;
-//
-//        super.setLayoutParams(params);
-//        Log.i(TAG, "setLayoutParams: " + height);
-//        updateMinHeight(height);
-//
-//    }
-
     public MongolEditText getEditText() {
         return editText;
     }
 
-    public void setMinHeight(int height) {
+    public void setDesiredHeight(int height) {
         int absoluteMin = convertDpToPx(MIN_HEIGHT_DP);
         if (height < absoluteMin) return;
-        mMinHeightPx = height;
+        mDesiredHeight = height;
         requestLayout();
+    }
+
+    public void setIsManualScaling(boolean manualScaling) {
+        mIsManualScaling = manualScaling;
     }
 }

@@ -178,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public boolean onScaleBegin(ScaleGestureDetector detector) {
+            inputWindow.setIsManualScaling(true);
             initialSize = inputWindow.getHeight();
             mScaleFactor = 1.0f;
             return super.onScaleBegin(detector);
@@ -187,28 +188,21 @@ public class MainActivity extends AppCompatActivity {
         public boolean onScale(ScaleGestureDetector detector) {
 
             mScaleFactor *= detector.getScaleFactor();
-            // Don't let the object get too small or too large.
             mScaleFactor = Math.max(0.1f, Math.min(mScaleFactor, 5.0f));
             resizeInputWindow(initialSize);
             return true;
         }
+
+        @Override
+        public void onScaleEnd(ScaleGestureDetector detector) {
+            inputWindow.setIsManualScaling(false);
+            super.onScaleEnd(detector);
+        }
     }
 
-    boolean isTest = true;
     private void resizeInputWindow(int initialSize) {
-        //if (!isTest) return;
-//        isTest = false;
-        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) inputWindow.getLayoutParams();
-//        //params.height = (int) (100);
-//        //params.width = (int) (100);
         int newHeight = (int) (initialSize * mScaleFactor);
-        Log.i("TAG", "onScale: " + mScaleFactor
-                + " " + initialSize + " " + newHeight);
-        //params.height = (int) (initialSize * mScaleFactor);
-        //params.width = (int) (params.width * mScaleFactor);
-        //inputWindow.setLayoutParams(params);
-        inputWindow.setMinHeight(newHeight);
-        //inputWindow.manuallySetHeight(newHeight);
+        inputWindow.setDesiredHeight(newHeight);
     }
 
 }
