@@ -174,12 +174,14 @@ public class MainActivity extends AppCompatActivity {
     private class ScaleListener
             extends ScaleGestureDetector.SimpleOnScaleGestureListener {
 
-        int initialSize;
+        int initialHeight;
+        float initialTextSize;
 
         @Override
         public boolean onScaleBegin(ScaleGestureDetector detector) {
             inputWindow.setIsManualScaling(true);
-            initialSize = inputWindow.getHeight();
+            initialHeight = inputWindow.getHeight();
+            initialTextSize = inputWindow.getTextSize();
             mScaleFactor = 1.0f;
             return super.onScaleBegin(detector);
         }
@@ -189,8 +191,18 @@ public class MainActivity extends AppCompatActivity {
 
             mScaleFactor *= detector.getScaleFactor();
             mScaleFactor = Math.max(0.1f, Math.min(mScaleFactor, 5.0f));
-            resizeInputWindow(initialSize);
+            if (isVerticalScaling(detector)) {
+                resizeInputWindow(initialHeight);
+            } else {
+                resizeText(initialTextSize);
+            }
             return true;
+        }
+
+        private boolean isVerticalScaling(ScaleGestureDetector detector) {
+            float spanX = detector.getCurrentSpanX();
+            float spanY = detector.getCurrentSpanY();
+            return spanY > spanX;
         }
 
         @Override
@@ -200,8 +212,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void resizeInputWindow(int initialSize) {
-        int newHeight = (int) (initialSize * mScaleFactor);
+    private void resizeText(float initialTextSize) {
+        float newSize = initialTextSize * mScaleFactor;
+        float sizeSp = newSize / getResources().getDisplayMetrics().scaledDensity;
+        Log.i("TAG", "resizeText: " + mScaleFactor);
+        inputWindow.setTextSize(sizeSp);
+    }
+
+    private void resizeInputWindow(int initialHeight) {
+        int newHeight = (int) (initialHeight * mScaleFactor);
+        Log.i("TAG", "resizeInputWindow: " + mScaleFactor);
         inputWindow.setDesiredHeight(newHeight);
     }
 

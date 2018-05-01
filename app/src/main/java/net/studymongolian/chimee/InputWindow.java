@@ -202,4 +202,12 @@ public class InputWindow extends HorizontalScrollView {
     public void setIsManualScaling(boolean manualScaling) {
         mIsManualScaling = manualScaling;
     }
+
+    public float getTextSize() {
+        return editText.getTextSize();
+    }
+
+    public void setTextSize(float size) {
+        editText.setTextSize(size);
+    }
 }
