@@ -1,6 +1,8 @@
 package net.studymongolian.chimee;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.widget.HorizontalScrollView;
@@ -209,5 +211,35 @@ public class InputWindow extends HorizontalScrollView {
 
     public void setTextSize(float size) {
         editText.setTextSize(size);
+    }
+
+    public CharSequence getText() {
+        return editText.getText();
+    }
+
+    public void setCursorVisible(boolean visible) {
+        editText.setCursorVisible(visible);
+    }
+
+    public Bitmap getBitmap() {
+        int editTextWidth = editText.getWidth();
+        int inputWidth = getWidth();
+        int height = editText.getHeight();
+        Bitmap bitmap;
+        if (editTextWidth < inputWidth) {
+            bitmap = Bitmap.createBitmap(inputWidth, height, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            this.draw(canvas);
+        } else {
+            bitmap = Bitmap.createBitmap(editTextWidth, height, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            editText.draw(canvas);
+        }
+//        int width = Math.max(editText.getWidth(), inputWindow.getWidth());
+//        int height = editText.getHeight();
+//        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+//        Canvas canvas = new Canvas(bitmap);
+//        editText.draw(canvas);
+        return bitmap;
     }
 }

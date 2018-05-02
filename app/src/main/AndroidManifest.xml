@@ -102,9 +102,6 @@
                 android:value="net.studymongolian.chimee.MainActivity" />
         </activity>
         <activity
-            android:name=".AeChooserDialog"
-            android:theme="@android:style/Theme.Dialog"/>
-        <activity
             android:name=".FontChooserDialog"
             android:theme="@android:style/Theme.Dialog"/>
         <activity
@@ -116,6 +113,16 @@
             android:name=".ChimeeUserDictionaryProvider"
             android:authorities="net.studymongolian.chimee.user_dictionary"
             android:exported="false"/>
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="net.studymongolian.chimee.fileprovider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
+        </provider>
 
     </application>
 
