@@ -4,12 +4,12 @@
     <!-- TODO: use unicode for all strings -->
 
     <string name="app_name">Chimee</string>
-    <string name="word_deleted"> </string>
-    <string name="toast_message_deleted">  !</string>
-    <string name="cant_delete_suffix">    </string>
-    <string name="toast_message_empty">   </string>
-    <string name="toast_no_sdcard_cant_send">SD   </string>
-    <string name="toast_favorite_added"> </string>
+    <string name="word_deleted">ᠦᠰᠦᠭ ᠤᠰᠠᠳᠬᠠᠭᠰᠠᠨ</string>
+    <string name="toast_message_deleted">ᠵᠠᠬᠢᠶ᠎ᠠ ᠤᠰᠠᠳᠬᠠᠭᠰᠠᠨ</string>
+    <string name="cant_delete_suffix">ᠳᠠᠭᠠᠪᠤᠷᠢ ᠶᠢ ᠤᠰᠠᠳᠬᠠᠵᠤ ᠳᠡᠶᠢᠯᠬᠦ ᠦᠭᠡᠢ</string>
+    <string name="toast_message_empty">ᠨᠠᠶᠢᠷᠠᠭᠤᠯᠬᠤ ᠴᠤᠩᠬᠤ ᠬᠤᠭᠤᠰᠤᠨ ᠪᠠᠶᠢᠨ᠎ᠠ</string>
+    <string name="toast_no_sdcard_cant_send">SD ᠺᠠᠷᠲ ᠪᠠᠶᠢᠬᠤ ᠦᠭᠡᠢ</string>
+    <string name="toast_favorite_added">ᠵᠠᠬᠢᠶ᠎ᠠ ᠬᠠᠳᠠᠭᠠᠯᠠᠭᠰᠠᠨ</string>
 
     <!-- Main Menu -->
     <string name="menu_item_wechat">WeChat</string>
@@ -28,28 +28,28 @@
     <string name="fab_item_color">Color</string>
     <string name="fab_item_font">Font</string>
 
-    <string name="menu_item_about">  </string>
-    <string name="menu_item_help"></string>
-    <string name="menu_item_history">  </string>
-    <string name="menu_item_clear_history">   </string>
-    <string name="contextmenu_copy"></string>
-    <string name="contextmenu_paste"></string>
-    <string name="contextmenu_clear"></string>
-    <string name="contextmenu_favorites">  </string>
-    <string name="contextmenu_move_to_front">   </string>
-    <string name="contextmenu_delete"></string>
-    <string name="color_chooser_sample_text"></string>
-    <string name="color_chooser_background_button"> </string>
-    <string name="color_chooser_font_button"></string>
-    <string name="dialog_title_default"></string>
-    <string name="dialog_message_emptyfavorite">   ᠂         ᠃</string>
-    <string name="dialog_one_button_default"></string>
-    <string name="dialog_top_button_default"></string>
-    <string name="dialog_bottom_button_default"></string>
-    <string name="dialog_delete_history_title"></string>
-    <string name="dialog_delete_history_message">      ?</string>
-    <string name="dialog_delete_history_top_button"></string>
-    <string name="dialog_delete_history_bottom_button"></string>
+    <string name="menu_item_about">ᠮᠠᠨ ᠤ ᠲᠤᠬᠠᠢ</string>
+    <string name="menu_item_help">ᠬᠠᠪᠰᠤᠷᠤᠮᠵᠢ</string>
+    <string name="menu_item_history">ᠵᠠᠬᠢᠶ᠎ᠠ ᠶᠢᠨ ᠠᠭᠥᠯᠭ᠎ᠠ</string>
+    <string name="menu_item_clear_history">ᠪᠦᠬᠦ ᠵᠠᠬᠢᠶ᠎ᠠ ᠶᠢ ᠤᠰᠠᠳᠬᠠᠬᠤ</string>
+    <string name="contextmenu_copy">ᠬᠠᠭᠤᠯᠬᠤ</string>
+    <string name="contextmenu_paste">ᠨᠠᠭᠠᠬᠤ</string>
+    <string name="contextmenu_clear">ᠠᠷᠢᠯᠭᠠᠬᠤ</string>
+    <string name="contextmenu_favorites">ᠦᠷᠭᠦᠯᠵᠢ ᠬᠡᠷᠡᠭᠯᠡᠳᠡᠭ ᠵᠠᠬᠢᠶ᠎ᠠ</string>
+    <string name="contextmenu_move_to_front">ᠬᠠᠮᠤᠭ ᠡᠮᠦᠨ᠎ᠡ ᠨᠢ ᠲᠠᠯᠪᠢᠬᠤ</string>
+    <string name="contextmenu_delete">ᠤᠰᠠᠳᠬᠠᠬᠤ</string>
+    <string name="color_chooser_sample_text">ᠥᠩᠭᠡ</string>
+    <string name="color_chooser_background_button">ᠠᠷᠤ ᠦᠵᠡᠭᠳᠡᠯ</string>
+    <string name="color_chooser_font_button">ᠦᠰᠦᠭ</string>
+    <string name="dialog_title_default">ᠰᠠᠨᠠᠭᠤᠯᠬᠤ</string>
+    <string name="dialog_message_emptyfavorite">ᠨᠠᠶᠢᠷᠠᠭᠤᠯᠬᠤ ᠴᠤᠩᠬᠤ ᠬᠤᠭᠤᠰᠤᠨ ᠪᠠᠶᠢᠨ᠎ᠠ᠂ ᠲᠠ ᠦᠰᠦᠭ ᠪᠢᠴᠢᠭᠡᠳ ᠦᠷᠭᠦᠯᠵᠢ ᠬᠡᠷᠡᠭᠯᠡᠳᠡᠭ ᠵᠠᠬᠢᠶᠠᠨ ᠳᠤ ᠪᠠᠨ ᠬᠠᠳᠠᠭᠠᠯᠠᠷᠠᠢ</string>
+    <string name="dialog_one_button_default">ᠲᠡᠭᠡ</string>
+    <string name="dialog_top_button_default">ᠲᠡᠭᠡ</string>
+    <string name="dialog_bottom_button_default">ᠪᠤᠯᠢ</string>
+    <string name="dialog_delete_history_title">ᠰᠠᠷᠠᠮᠵᠢ</string>
+    <string name="dialog_delete_history_message">ᠲᠠ ᠦᠨᠡᠭᠡᠷ ᠪᠦᠬᠦ ᠵᠠᠬᠢᠶ᠎ᠠ ᠶᠢ ᠤᠰᠠᠳᠬᠠᠬᠤ ᠤᠤ︖</string>
+    <string name="dialog_delete_history_top_button">ᠲᠡᠭᠡ</string>
+    <string name="dialog_delete_history_bottom_button">ᠪᠤᠯᠢ</string>
     <string name="dialog_font_white"> ?</string>
     <string name="listview_footer_load_more"> </string>
     <string name="settings_color_item"></string>
@@ -77,47 +77,6 @@
     <string name="favorite_db_message2">ᠵᠠᠬᠢᠶ᠎ᠠ ᠶᠢ ᠳᠣᠪᠴᠢᠳᠠᠪᠠᠯ ᠨᠠᠢᠷᠠᠭᠤᠯᠬᠤ ᠴᠣᠩᠬᠣᠨ ᠳᠤ ᠬᠠᠭᠤᠯᠤᠨ ᠠᠪᠴᠢᠷᠠᠨ᠎ᠠ᠃</string>
     <string name="favorite_db_message3">ᠳᠠᠷᠤᠪᠴᠢ ᠶᠢ ᠳᠠᠷᠤᠭᠠᠳ ᠪᠠᠢᠪᠠᠯ ᠵᠠᠬᠢᠶ᠎ᠠ ᠶᠢ ᠤᠰᠠᠳᠬᠠᠵᠤ ᠬᠠᠶᠠᠨ᠎ᠠ᠃</string>
 
-    <string name="suffix_yin">ᠶᠢᠨ</string>
-    <string name="suffix_on">ᠤᠨ</string>
-    <string name="suffix_un">ᠦᠨ</string>
-    <string name="suffix_o">ᠤ</string>
-    <string name="suffix_u">ᠦ</string>
-    <string name="suffix_i">ᠢ</string>
-    <string name="suffix_yi">ᠶᠢ</string>
-    <string name="suffix_do">ᠳᠤ</string>
-    <string name="suffix_du">ᠳᠦ</string>
-    <string name="suffix_to">ᠲᠤ</string>
-    <string name="suffix_tu">ᠲᠦ</string>
-    <string name="suffix_acha">ᠠᠴᠠ</string>
-    <string name="suffix_eche">ᠡᠴᠡ</string>
-    <string name="suffix_bar">ᠪᠠᠷ</string>
-    <string name="suffix_ber">ᠪᠡᠷ</string>
-    <string name="suffix_iyar">ᠢᠶᠠᠷ</string>
-    <string name="suffix_iyer">ᠢᠶᠡᠷ</string>
-    <string name="suffix_tai">ᠲᠠᠶ</string>
-    <string name="suffix_tei">ᠲᠡᠶ</string>
-    <string name="suffix_iyan">ᠢᠶᠠᠨ</string>
-    <string name="suffix_iyen">ᠢᠶᠡᠨ</string>
-    <string name="suffix_ban">ᠪᠠᠨ</string>
-    <string name="suffix_ben">ᠪᠡᠨ</string>
-    <string name="suffix_oo">ᠤᠤ</string>
-    <string name="suffix_uu">ᠦᠦ</string>
-    <string name="suffix_yogan">ᠶᠤᠭᠠᠨ</string>
-    <string name="suffix_yugen">ᠶᠦᠭᠡᠨ</string>
-    <string name="suffix_dagan">ᠳᠠᠭᠠᠨ</string>
-    <string name="suffix_degen">ᠳᠡᠭᠡᠨ</string>
-    <string name="suffix_tagan">ᠲᠠᠭᠠᠨ</string>
-    <string name="suffix_tegen">ᠲᠡᠭᠡᠨ</string>
-    <string name="suffix_achagan">ᠠᠴᠠᠭᠠᠨ</string>
-    <string name="suffix_echegen">ᠡᠴᠡᠭᠡᠨ</string>
-    <string name="suffix_taigan">ᠲᠠᠶᠢᠭᠠᠨ</string>
-    <string name="suffix_teigen">ᠲᠡᠶᠢᠭᠡᠨ</string>
-    <string name="suffix_od">ᠤᠳ</string>
-    <string name="suffix_ud">ᠦᠳ</string>
-    <string name="suffix_nogod">ᠨᠤᠭᠤᠳ</string>
-    <string name="suffix_nugud">ᠨᠦᠭᠦᠳ</string>
-    <string name="suffix_nar">ᠨᠠᠷ</string>
-    <string name="suffix_ner">ᠨᠡᠷ</string>
     <string name="title_activity_photo_overlay">PhotoOverlayActivity</string>
 
 </resources>

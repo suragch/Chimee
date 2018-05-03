@@ -52,6 +52,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
+        <net.studymongolian.mongollibrary.KeyboardQwerty
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <net.studymongolian.mongollibrary.KeyboardCyrillic
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <net.studymongolian.mongollibrary.KeyboardEnglish
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
 
     </net.studymongolian.mongollibrary.ImeContainer>
 
