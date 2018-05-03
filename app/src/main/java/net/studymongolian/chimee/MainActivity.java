@@ -73,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
     private float mScaleFactor = 1.f;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,7 +106,6 @@ public class MainActivity extends AppCompatActivity {
         // TODO get input window and set listeners
         //hsvScrollView = findViewById(R.id.horizontalScrollView);
         //initInputWindow();
-
 
 
         // Set up density independent pixel constants
@@ -210,7 +208,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-
         if (shareDestination == ShareType.WeChat) {
             // String weChatMessageTool =
             // "com.tencent.mm.ui.tools.shareimgui";
@@ -229,17 +226,24 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-//    private Bitmap getBitmapFromInputWindow() {
-//        MongolEditText editText = inputWindow.getEditText();
-//        int editTextWidth = editText.getWidth();
-//        int inputWi
-//        int width = Math.max(editText.getWidth(), inputWindow.getWidth());
-//        int height = editText.getHeight();
-//        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-//        Canvas canvas = new Canvas(bitmap);
-//        editText.draw(canvas);
-//        return bitmap;
-//    }
+    private Bitmap getBitmapFromInputWindow() {
+        MongolEditText editText = inputWindow.getEditText();
+        FrameLayout wrapper = findViewById(R.id.inputWindowWrapper);
+        int editTextWidth = editText.getWidth();
+        int inputWidth = wrapper.getWidth();
+        int height = editText.getHeight();
+        Bitmap bitmap;
+        if (editTextWidth < inputWidth) {
+            bitmap = Bitmap.createBitmap(inputWidth, height, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            wrapper.draw(canvas);
+        } else {
+            bitmap = Bitmap.createBitmap(editTextWidth, height, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            editText.draw(canvas);
+        }
+        return bitmap;
+    }
 
     private boolean saveBitmapToCacheDir(Bitmap bitmap) {
         Context context = getApplicationContext();
@@ -303,7 +307,6 @@ public class MainActivity extends AppCompatActivity {
             lastSentMessage = messageText;
         }
     }
-
 
 
     private class ScaleListener

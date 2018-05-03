@@ -26,6 +26,7 @@
         <!-- input window -->
 
         <FrameLayout
+            android:id="@+id/inputWindowWrapper"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -35,8 +36,7 @@
             <net.studymongolian.chimee.InputWindow
                 android:id="@+id/resizingScrollView"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/white" />
+                android:layout_height="wrap_content" />
 
         </FrameLayout>
     </FrameLayout>

@@ -3,8 +3,13 @@ package net.studymongolian.chimee;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 
 import net.studymongolian.mongollibrary.MongolEditText;
@@ -14,6 +19,8 @@ public class InputWindow extends HorizontalScrollView {
     private static final int MIN_HEIGHT_DP = 150;
     private static final float MIN_HEIGHT_TO_WIDTH_PROPORTION = 2;
     private static final int HEIGHT_STEP_DP = 50;
+    private static final int DEFAULT_BACKGROUND_COLOR = Color.WHITE;
+
 
     private int mMinHeightPx;
     private int mHeightStepPx;
@@ -21,6 +28,7 @@ public class InputWindow extends HorizontalScrollView {
     private boolean mIsManualScaling = false;
     private Rect mOldGoodSize;
     private MongolEditText editText;
+    private int mBackgroundColor;
 
     public InputWindow(Context context) {
         super(context);
@@ -43,6 +51,7 @@ public class InputWindow extends HorizontalScrollView {
         mHeightStepPx = convertDpToPx(HEIGHT_STEP_DP);
         int width = (int) (mDesiredHeight / MIN_HEIGHT_TO_WIDTH_PROPORTION);
         mOldGoodSize = new Rect(0, 0, width, mDesiredHeight);
+        mBackgroundColor = DEFAULT_BACKGROUND_COLOR;
 
         editText = new MongolEditText(context, attrs, defStyleAttr);
         editText.setPadding(10, 10, 10, 10);
@@ -222,24 +231,36 @@ public class InputWindow extends HorizontalScrollView {
     }
 
     public Bitmap getBitmap() {
-        int editTextWidth = editText.getWidth();
         int inputWidth = getWidth();
+        int editTextWidth = editText.getWidth();
+        int width = Math.max(inputWidth, editTextWidth);
         int height = editText.getHeight();
-        Bitmap bitmap;
-        if (editTextWidth < inputWidth) {
-            bitmap = Bitmap.createBitmap(inputWidth, height, Bitmap.Config.ARGB_8888);
-            Canvas canvas = new Canvas(bitmap);
-            this.draw(canvas);
-        } else {
-            bitmap = Bitmap.createBitmap(editTextWidth, height, Bitmap.Config.ARGB_8888);
-            Canvas canvas = new Canvas(bitmap);
-            editText.draw(canvas);
-        }
-//        int width = Math.max(editText.getWidth(), inputWindow.getWidth());
-//        int height = editText.getHeight();
-//        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-//        Canvas canvas = new Canvas(bitmap);
-//        editText.draw(canvas);
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        colorBackground(canvas);
+        editText.draw(canvas);
+
+//        if (editTextWidth < inputWidth) {
+//            bitmap = Bitmap.createBitmap(inputWidth, height, Bitmap.Config.ARGB_8888);
+//
+//        } else {
+//            bitmap = Bitmap.createBitmap(editTextWidth, height, Bitmap.Config.ARGB_8888);
+//            Canvas canvas = new Canvas(bitmap);
+//            editText.draw(canvas);
+//        }
         return bitmap;
     }
+
+    private void colorBackground(Canvas canvas) {
+        int color = DEFAULT_BACKGROUND_COLOR;
+        Drawable background = getBackground();
+        if (background instanceof ColorDrawable)
+            color = ((ColorDrawable) background).getColor();
+        Paint paint = new Paint();
+        paint.setColor(color);
+        paint.setStyle(Paint.Style.FILL);
+        canvas.drawPaint(paint);
+    }
+
+
 }
