@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- TODO: use unicode for all strings -->
-
     <string name="app_name">Chimee</string>
     <string name="word_deleted">ᠦᠰᠦᠭ ᠤᠰᠠᠳᠬᠠᠭᠰᠠᠨ</string>
     <string name="toast_message_deleted">ᠵᠠᠬᠢᠶ᠎ᠠ ᠤᠰᠠᠳᠬᠠᠭᠰᠠᠨ</string>
@@ -78,5 +76,7 @@
     <string name="favorite_db_message3">ᠳᠠᠷᠤᠪᠴᠢ ᠶᠢ ᠳᠠᠷᠤᠭᠠᠳ ᠪᠠᠢᠪᠠᠯ ᠵᠠᠬᠢᠶ᠎ᠠ ᠶᠢ ᠤᠰᠠᠳᠬᠠᠵᠤ ᠬᠠᠶᠠᠨ᠎ᠠ᠃</string>
 
     <string name="title_activity_photo_overlay">PhotoOverlayActivity</string>
+    <string name="menu_item_share_wechat">WeChat</string>
+    <string name="menu_item_share_bainu">Bainu</string>
 
 </resources>

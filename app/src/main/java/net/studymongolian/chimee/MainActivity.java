@@ -9,6 +9,8 @@ import java.util.List;
 import net.studymongolian.mongollibrary.ImeContainer;
 import net.studymongolian.mongollibrary.MongolEditText;
 import net.studymongolian.mongollibrary.MongolInputMethodManager;
+import net.studymongolian.mongollibrary.MongolMenu;
+import net.studymongolian.mongollibrary.MongolMenuItem;
 import net.studymongolian.mongollibrary.MongolToast;
 
 import android.app.Dialog;
@@ -28,7 +30,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.GestureDetector;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -51,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TEMP_CACHE_SUBDIR = "images";
     private static final String TEMP_CACHE_FILENAME = "image.png";
     private static final String FILE_PROVIDER_AUTHORITY = "net.studymongolian.chimee.fileprovider";
+    private static final int MENU_MARGIN_DP = 4;
 
     private enum ShareType {
         WeChat,
@@ -158,7 +161,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.main_action_wechat:
-                shareTo(ShareType.WeChat);
+                shareMenuItemClick();
+                //shareTo(ShareType.WeChat);
                 return true;
             case R.id.main_action_photo:
                 //photoActionBarClick();
@@ -167,11 +171,34 @@ public class MainActivity extends AppCompatActivity {
                 //favoriteActionBarClick();
                 return true;
             case R.id.main_action_overflow:
-                //overflowActionBarClick();
+                overflowMenuItemClick();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void shareMenuItemClick() {
+        View shareButton = findViewById(R.id.main_action_wechat);
+        MongolMenu menu = new MongolMenu(this);
+        menu.add(new MongolMenuItem(getString(R.string.menu_item_share_wechat), R.drawable.ic_wechat_black_24dp));
+        menu.add(new MongolMenuItem(getString(R.string.menu_item_share_bainu), R.drawable.ic_bainu_black_24dp));
+        menu.add(new MongolMenuItem(getString(R.string.menu_item_share), R.drawable.ic_share_black_24dp));
+        menu.setOnMenuItemClickListener(new MongolMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MongolMenuItem item) {
+                MongolToast.makeText(getApplicationContext(), item.getTitle(), MongolToast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+
+        int[] location = new int[2];
+        shareButton.getLocationInWindow(location);
+        int gravity = Gravity.NO_GRAVITY;
+        int marginPx = convertDpToPx(MENU_MARGIN_DP);
+        int xOffset = location[0];
+        int yOffset = location[1] + marginPx;
+
+        menu.showAtLocation(shareButton, gravity, xOffset, yOffset);
     }
 
     public void shareTo(ShareType shareDestination) {
@@ -224,6 +251,31 @@ public class MainActivity extends AppCompatActivity {
         // Show cursor again
         inputWindow.setCursorVisible(true);
 
+    }
+
+    private void overflowMenuItemClick() {
+        View overflowMenuButton = findViewById(R.id.main_action_overflow);
+        MongolMenu menu = new MongolMenu(this);
+        menu.add(new MongolMenuItem(getString(R.string.menu_item_open), R.drawable.ic_folder_open_black_24dp));
+        menu.add(new MongolMenuItem(getString(R.string.menu_item_settings), R.drawable.ic_settings_black_24dp));
+        menu.setOnMenuItemClickListener(new MongolMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MongolMenuItem item) {
+                MongolToast.makeText(getApplicationContext(), item.getTitle(), MongolToast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+
+        int[] location = new int[2];
+        overflowMenuButton.getLocationInWindow(location);
+        int gravity = Gravity.TOP | Gravity.RIGHT;
+        int marginPx = convertDpToPx(MENU_MARGIN_DP);
+        int yOffset = location[1] + marginPx;
+
+        menu.showAtLocation(overflowMenuButton, gravity, marginPx, yOffset);
+    }
+
+    private int convertDpToPx(int dp) {
+        return (int) (dp * getResources().getDisplayMetrics().density);
     }
 
     private Bitmap getBitmapFromInputWindow() {
