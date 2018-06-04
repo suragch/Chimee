@@ -50,19 +50,27 @@
 
         <net.studymongolian.mongollibrary.KeyboardAeiou
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            app:candidatesLocation="vertical_left"
+            />
 
         <net.studymongolian.mongollibrary.KeyboardQwerty
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            app:candidatesLocation="horizontal_top"
+            />
 
         <net.studymongolian.mongollibrary.KeyboardCyrillic
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            app:candidatesLocation="none"
+            />
 
         <net.studymongolian.mongollibrary.KeyboardEnglish
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            app:candidatesLocation="none"
+            />
 
 
     </net.studymongolian.mongollibrary.ImeContainer>

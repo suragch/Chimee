@@ -3,6 +3,8 @@ package net.studymongolian.chimee;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -20,6 +22,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.ResolveInfo;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.net.Uri;
@@ -38,10 +41,11 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
+import android.view.inputmethod.InputConnection;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ImeContainer.DataSource {
 
     protected static final int SHARE_CHOOSER_REQUEST = 0;
     protected static final int WECHAT_REQUEST = 1;
@@ -62,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     InputWindow inputWindow;
+    ImeContainer imeContainer;
     HorizontalScrollView hsvScrollView;
     FrameLayout rlTop;
     Dialog overflowMenu;
@@ -94,12 +99,13 @@ public class MainActivity extends AppCompatActivity {
         addGestureDetectorToTopLayout();
 
         // set up the keyboard
-        ImeContainer imeContainer = findViewById(R.id.imeContainer);
+        imeContainer = findViewById(R.id.imeContainer);
         inputWindow = findViewById(R.id.resizingScrollView);
         MongolEditText editText = inputWindow.getEditText();
         MongolInputMethodManager mimm = new MongolInputMethodManager();
         mimm.addEditor(editText);
         mimm.setIme(imeContainer);
+        imeContainer.setDataSource(this);
 
         settings = getSharedPreferences(SettingsActivity.PREFS_NAME, MODE_PRIVATE);
         // TODO get the right keyboard
@@ -157,6 +163,36 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // ImeContainer.DataSource methods
+
+    @Override
+    public void onRequestWordsStartingWith(String text) {
+        new GetWordsStartingWith(this).execute(text);
+    }
+
+    @Override
+    public void onWordFinished(String word, String previousWord) {
+        new AddOrUpdateDictionaryWordsTask(this).execute(word, previousWord);
+    }
+
+    @Override
+    public void onCandidateClick(int position, String word, String previousWordInEditor) {
+        addSpace();
+        new RespondToCandidateClick(this).execute(word, previousWordInEditor);
+    }
+
+    private void addSpace() {
+        InputConnection ic = imeContainer.getInputConnection();
+        if (ic == null) return;
+        ic.commitText(" ", 1);
+    }
+
+    @Override
+    public void onCandidateLongClick(int position, String word, String previousWordInEditor) {
+        new DeleteWord(this, position).execute(word, previousWordInEditor);
+    }
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -181,12 +217,22 @@ public class MainActivity extends AppCompatActivity {
     private void shareMenuItemClick() {
         View shareButton = findViewById(R.id.main_action_wechat);
         MongolMenu menu = new MongolMenu(this);
-        menu.add(new MongolMenuItem(getString(R.string.menu_item_share_wechat), R.drawable.ic_wechat_black_24dp));
-        menu.add(new MongolMenuItem(getString(R.string.menu_item_share_bainu), R.drawable.ic_bainu_black_24dp));
-        menu.add(new MongolMenuItem(getString(R.string.menu_item_share), R.drawable.ic_share_black_24dp));
+        final MongolMenuItem weChat = new MongolMenuItem(getString(R.string.menu_item_share_wechat), R.drawable.ic_wechat_black_24dp);
+        final MongolMenuItem bainu = new MongolMenuItem(getString(R.string.menu_item_share_bainu), R.drawable.ic_bainu_black_24dp);
+        final MongolMenuItem other = new MongolMenuItem(getString(R.string.menu_item_share), R.drawable.ic_share_black_24dp);
+        menu.add(weChat);
+        menu.add(bainu);
+        menu.add(other);
         menu.setOnMenuItemClickListener(new MongolMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MongolMenuItem item) {
-                MongolToast.makeText(getApplicationContext(), item.getTitle(), MongolToast.LENGTH_SHORT).show();
+                if (item == weChat) {
+                    shareTo(ShareType.WeChat);
+                } else if (item == bainu) {
+                    shareTo(ShareType.Bainu);
+                } else {
+                    shareTo(ShareType.Other);
+                }
+                //MongolToast.makeText(getApplicationContext(), item.getTitle(), MongolToast.LENGTH_SHORT).show();
                 return true;
             }
         });
@@ -430,6 +476,137 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("app", e.toString());
             }
             return null;
+        }
+    }
+
+
+    private static class GetWordsStartingWith extends AsyncTask<String, Integer, List<String>> {
+
+        private WeakReference<MainActivity> activityReference;
+
+        GetWordsStartingWith(MainActivity context) {
+            activityReference = new WeakReference<>(context);
+        }
+
+        @Override
+        protected List<String> doInBackground(String... params) {
+            String prefix = params[0];
+
+            Context context = activityReference.get();
+
+            List<String> words = new ArrayList<>();
+            Cursor cursor = UserDictionary.Words.queryPrefix(context, prefix);
+            if (cursor == null) return words;
+            int indexWord = cursor.getColumnIndex(UserDictionary.Words.WORD);
+            while (cursor.moveToNext()) {
+                words.add(cursor.getString(indexWord));
+            }
+            cursor.close();
+            return words;
+
+        }
+
+        @Override
+        protected void onPostExecute(List<String> result) {
+            MainActivity activity = activityReference.get();
+            if (activity == null) return;
+
+            if (result.size() > 0)
+                activity.imeContainer.setCandidates(result);
+            else
+                activity.imeContainer.clearCandidates();
+        }
+    }
+
+    private static class AddOrUpdateDictionaryWordsTask extends AsyncTask<String, Integer, Void> {
+
+        private WeakReference<MainActivity> activityReference;
+
+        AddOrUpdateDictionaryWordsTask(MainActivity context) {
+            activityReference = new WeakReference<>(context);
+        }
+
+        @Override
+        protected Void doInBackground(String... params) {
+            String word = params[0];
+            String previousWord = params[1];
+            Context context = activityReference.get();
+            insertUpdateWord(context, word);
+
+            UserDictionary.Words.addFollowing(context, previousWord, word);
+            return null;
+        }
+
+    }
+
+    private static void insertUpdateWord(Context context, String word) {
+        if (context == null) return;
+
+        int id = UserDictionary.Words.incrementFrequency(context, word);
+        if (id < 0) {
+            UserDictionary.Words.addWord(context, word);
+        }
+
+    }
+
+
+    private static class RespondToCandidateClick extends AsyncTask<String, Integer, List<String>> {
+
+        private WeakReference<MainActivity> activityReference;
+
+        RespondToCandidateClick(MainActivity context) {
+            activityReference = new WeakReference<>(context);
+        }
+
+        @Override
+        protected List<String> doInBackground(String... params) {
+            String word = params[0];
+            String previousWord = params[1];
+            MainActivity activity = activityReference.get();
+
+
+            UserDictionary.Words.incrementFrequency(activity, word);
+            UserDictionary.Words.addFollowing(activity, previousWord, word);
+            return UserDictionary.Words.getFollowing(activity, word);
+        }
+
+        @Override
+        protected void onPostExecute(List<String> followingWords) {
+            MainActivity activity = activityReference.get();
+            if (activity == null) return;
+            if (followingWords.size() == 0) {
+                activity.imeContainer.clearCandidates();
+            } else {
+                activity.imeContainer.setCandidates(followingWords);
+            }
+        }
+    }
+
+    private static class DeleteWord extends AsyncTask<String, Integer, Void> {
+
+        private WeakReference<MainActivity> activityReference;
+        private int index;
+
+        DeleteWord(MainActivity context, int index) {
+            activityReference = new WeakReference<>(context);
+            this.index = index;
+        }
+
+        @Override
+        protected Void doInBackground(String... params) {
+            String word = params[0];
+            String previousWord = params[1];
+            Context context = activityReference.get();
+            UserDictionary.Words.deleteWord(context, word);
+            UserDictionary.Words.deleteFollowingWord(context, previousWord, word);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void results) {
+            MainActivity activity = activityReference.get();
+            if (activity == null) return;
+            activity.imeContainer.removeCandidate(index);
         }
     }
 
