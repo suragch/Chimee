@@ -509,7 +509,7 @@ public class MainActivity extends AppCompatActivity implements ImeContainer.Data
         @Override
         protected void onPostExecute(List<String> result) {
             MainActivity activity = activityReference.get();
-            if (activity == null) return;
+            if (activity == null || activity.isFinishing()) return;
 
             if (result.size() > 0)
                 activity.imeContainer.setCandidates(result);
@@ -573,7 +573,7 @@ public class MainActivity extends AppCompatActivity implements ImeContainer.Data
         @Override
         protected void onPostExecute(List<String> followingWords) {
             MainActivity activity = activityReference.get();
-            if (activity == null) return;
+            if (activity == null || activity.isFinishing()) return;
             if (followingWords.size() == 0) {
                 activity.imeContainer.clearCandidates();
             } else {
@@ -605,7 +605,7 @@ public class MainActivity extends AppCompatActivity implements ImeContainer.Data
         @Override
         protected void onPostExecute(Void results) {
             MainActivity activity = activityReference.get();
-            if (activity == null) return;
+            if (activity == null || activity.isFinishing()) return;
             activity.imeContainer.removeCandidate(index);
         }
     }
