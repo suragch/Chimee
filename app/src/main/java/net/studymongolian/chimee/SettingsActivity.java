@@ -106,17 +106,17 @@ public class SettingsActivity extends AppCompatActivity {
 	}
 
 	public void settingsFontClick(View v) {
-		// Bring up a dialog box with font size choices
-		Intent intent = new Intent(v.getContext(), FontChooserDialog.class);
-		startActivityForResult(intent, FONT_REQUEST);
-		setResult(RESULT_OK, returnInfoIntent);
+//		// Bring up a dialog box with font size choices
+//		Intent intent = new Intent(v.getContext(), FontChooserDialog.class);
+//		startActivityForResult(intent, FONT_REQUEST);
+//		setResult(RESULT_OK, returnInfoIntent);
 	}
 
 	public void settingsKeyboardClick(View v) {
-		// Bring up a dialog box with font size choices
-		Intent intent = new Intent(v.getContext(), SettingsKeyboardChooserDialog.class);
-		startActivityForResult(intent, KEYBOARD_REQUEST);
-		setResult(RESULT_OK, returnInfoIntent);
+//		// Bring up a dialog box with font size choices
+//		Intent intent = new Intent(v.getContext(), SettingsKeyboardChooserDialog.class);
+//		startActivityForResult(intent, KEYBOARD_REQUEST);
+//		setResult(RESULT_OK, returnInfoIntent);
 	}
 
 	@Override

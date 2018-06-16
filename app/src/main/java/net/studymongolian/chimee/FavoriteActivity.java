@@ -21,7 +21,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 public class FavoriteActivity extends AppCompatActivity implements OnItemClickListener,
-		OnItemLongClickListener, FavoriteActivityContextMenu.ContextMenuCallback {
+		OnItemLongClickListener {
 
 	private static final String STATE_SCROLL_POSITION = "scrollPosition";
 	public static final String CONTEXT_MENU_TAG = "context_menu";
@@ -33,7 +33,6 @@ public class FavoriteActivity extends AppCompatActivity implements OnItemClickLi
 	int savedPosition = 0;
 	ArrayList<Message> favoriteMessages = new ArrayList<Message>();
 	FragmentManager fragmentManager;
-	FavoriteActivityContextMenu contextMenu;
 	View menuHiderForOutsideClicks;
 	int longClickedItem = -1;
 
@@ -56,15 +55,15 @@ public class FavoriteActivity extends AppCompatActivity implements OnItemClickLi
 
 		// Set up fragments
 		fragmentManager = getSupportFragmentManager();
-		if (savedInstanceState == null) {
-			contextMenu = new FavoriteActivityContextMenu();
-			fragmentManager.beginTransaction()
-					.add(R.id.flContextMenuContainer, contextMenu, CONTEXT_MENU_TAG).commit();
-			contextMenu.setRetainInstance(true);
-		} else {
-			contextMenu = (FavoriteActivityContextMenu) fragmentManager
-					.findFragmentByTag(CONTEXT_MENU_TAG);
-		}
+//		if (savedInstanceState == null) {
+//			contextMenu = new FavoriteActivityContextMenu();
+//			fragmentManager.beginTransaction()
+//					.add(R.id.flContextMenuContainer, contextMenu, CONTEXT_MENU_TAG).commit();
+//			contextMenu.setRetainInstance(true);
+//		} else {
+//			contextMenu = (FavoriteActivityContextMenu) fragmentManager
+//					.findFragmentByTag(CONTEXT_MENU_TAG);
+//		}
 
 		// Show messages
 		new GetFavoriteMessages().execute();
@@ -311,26 +310,26 @@ public class FavoriteActivity extends AppCompatActivity implements OnItemClickLi
 		return true;
 	}
 
-	@Override
-	public void contextMenuItemClicked(int itemCode) {
-
-		if (longClickedItem >= 0) {
-
-			Message chosenMessage = favoriteMessages.get(longClickedItem);
-
-			switch (itemCode) {
-			case FavoriteActivityContextMenu.MOVE_TO_FRONT:
-
-				new UpdateMessageTime().execute(chosenMessage.getId());
-				break;
-			case FavoriteActivityContextMenu.DELETE:
-
-				new DeleteMessageByIdTask().execute(chosenMessage.getId());
-				break;
-			}
-		}
-
-		hideMenu(null);
-	}
+//	@Override
+//	public void contextMenuItemClicked(int itemCode) {
+//
+//		if (longClickedItem >= 0) {
+//
+//			Message chosenMessage = favoriteMessages.get(longClickedItem);
+//
+//			switch (itemCode) {
+//			case FavoriteActivityContextMenu.MOVE_TO_FRONT:
+//
+//				new UpdateMessageTime().execute(chosenMessage.getId());
+//				break;
+//			case FavoriteActivityContextMenu.DELETE:
+//
+//				new DeleteMessageByIdTask().execute(chosenMessage.getId());
+//				break;
+//			}
+//		}
+//
+//		hideMenu(null);
+//	}
 
 }

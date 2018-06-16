@@ -101,12 +101,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="net.studymongolian.chimee.MainActivity" />
         </activity>
-        <activity
-            android:name=".FontChooserDialog"
-            android:theme="@android:style/Theme.Dialog"/>
-        <activity
-            android:name=".SettingsKeyboardChooserDialog"
-            android:theme="@android:style/Theme.Dialog"/>
 
 
         <provider
