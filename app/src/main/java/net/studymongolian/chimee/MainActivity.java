@@ -15,7 +15,6 @@ import net.studymongolian.mongollibrary.MongolMenu;
 import net.studymongolian.mongollibrary.MongolMenuItem;
 import net.studymongolian.mongollibrary.MongolToast;
 
-import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -24,10 +23,10 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -42,10 +41,11 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.inputmethod.InputConnection;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
-import android.widget.HorizontalScrollView;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements ImeContainer.DataSource {
+public class MainActivity extends AppCompatActivity implements ImeContainer.DataSource, ImeContainer.OnNonSystemImeListener {
 
     protected static final int SHARE_CHOOSER_REQUEST = 0;
     protected static final int WECHAT_REQUEST = 1;
@@ -59,26 +59,28 @@ public class MainActivity extends AppCompatActivity implements ImeContainer.Data
     private static final String FILE_PROVIDER_AUTHORITY = "net.studymongolian.chimee.fileprovider";
     private static final int MENU_MARGIN_DP = 4;
 
+
+
     private enum ShareType {
         WeChat,
         Bainu,
         Other
     }
 
+    private enum ImePickerAction {
+        NONE,
+        CHOOSING,
+        CHOSEN
+    }
+
     InputWindow inputWindow;
     ImeContainer imeContainer;
-    HorizontalScrollView hsvScrollView;
-    FrameLayout rlTop;
-    Dialog overflowMenu;
-    Dialog contextMenu;
-    static final int INPUT_WINDOW_SIZE_INCREMENT_DP = 50;
-    int inputWindowSizeIncrementPx = 0;
-    static final int INPUT_WINDOW_MIN_HEIGHT_DP = 150;
-    int inputWindowMinHeightPx = 0;
+    FrameLayout showKeyboardButton;
     SharedPreferences settings;
     String lastSentMessage = "";
     private ScaleGestureDetector mScaleDetector;
     private float mScaleFactor = 1.f;
+    private ImePickerAction mImePickerState = ImePickerAction.NONE;
 
 
     @Override
@@ -95,7 +97,6 @@ public class MainActivity extends AppCompatActivity implements ImeContainer.Data
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
 
-        // add gesture detector to top layout
         addGestureDetectorToTopLayout();
 
         // set up the keyboard
@@ -105,23 +106,18 @@ public class MainActivity extends AppCompatActivity implements ImeContainer.Data
         MongolInputMethodManager mimm = new MongolInputMethodManager();
         mimm.addEditor(editText);
         mimm.setIme(imeContainer);
+        imeContainer.showSystemKeyboardsOption("system");
         imeContainer.setDataSource(this);
+        imeContainer.setOnNonSystemImeListener(this);
+
+        showKeyboardButton = findViewById(R.id.showKeyboardButton);
+        showKeyboardButton.setOnLongClickListener(showKeyboardButtonLongClickListener);
+
+        //inputWindow.setOnLongClickListener(inputWindowLongClickListener);
 
         settings = getSharedPreferences(SettingsActivity.PREFS_NAME, MODE_PRIVATE);
         // TODO get the right keyboard
         // TODO get a saved draft
-
-
-        // TODO get input window and set listeners
-        //hsvScrollView = findViewById(R.id.horizontalScrollView);
-        //initInputWindow();
-
-
-        // Set up density independent pixel constants
-        final float scale = getResources().getDisplayMetrics().density;
-        inputWindowSizeIncrementPx = (int) (INPUT_WINDOW_SIZE_INCREMENT_DP * scale + 0.5f);
-        inputWindowMinHeightPx = (int) (INPUT_WINDOW_MIN_HEIGHT_DP * scale + 0.5f);
-
 
     }
 
@@ -138,6 +134,14 @@ public class MainActivity extends AppCompatActivity implements ImeContainer.Data
             return true;
         }
     };
+
+//    View.OnLongClickListener inputWindowLongClickListener = new View.OnLongClickListener() {
+//        @Override
+//        public boolean onLongClick(View v) {
+//            Toast.makeText(MainActivity.this, "toast", Toast.LENGTH_SHORT).show();
+//            return true;
+//        }
+//    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -160,6 +164,17 @@ public class MainActivity extends AppCompatActivity implements ImeContainer.Data
                     break;
                 }
             }
+        }
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if(mImePickerState == ImePickerAction.CHOOSING) {
+            mImePickerState = ImePickerAction.CHOSEN;
+        } else if(mImePickerState == ImePickerAction.CHOSEN) {
+            showSystemKeyboard();
+            mImePickerState = ImePickerAction.NONE;
         }
     }
 
@@ -192,6 +207,60 @@ public class MainActivity extends AppCompatActivity implements ImeContainer.Data
         new DeleteWord(this, position).execute(word, previousWordInEditor);
     }
 
+    @Override
+    public void onSystemKeyboardRequest() {
+        hideInAppKeyboard();
+        showSystemKeyboard();
+    }
+
+    @Override
+    public void onHideKeyboardRequest() {
+        hideInAppKeyboard();
+    }
+
+    public void onShowKeyboardButtonClick(View view) {
+        showInAppKeyboard();
+        hideSystemKeyboard();
+    }
+
+    private View.OnLongClickListener showKeyboardButtonLongClickListener = new View.OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View v) {
+            showSystemKeyboardChooser();
+            return true;
+        }
+    };
+
+    private void hideInAppKeyboard() {
+        imeContainer.setVisibility(View.GONE);
+        showKeyboardButton.setVisibility(View.VISIBLE);
+    }
+
+    private void showInAppKeyboard() {
+        imeContainer.setVisibility(View.VISIBLE);
+        showKeyboardButton.setVisibility(View.INVISIBLE);
+    }
+
+
+
+    private void showSystemKeyboard() {
+        InputMethodManager im = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        if (im == null) return;
+        im.showSoftInput(inputWindow.getEditText(), 0);
+    }
+
+    private void hideSystemKeyboard() {
+        InputMethodManager im = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        if (im == null) return;
+        im.hideSoftInputFromWindow(inputWindow.getWindowToken(), 0);
+    }
+
+    private void showSystemKeyboardChooser() {
+        InputMethodManager im = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        if (im == null) return;
+        im.showInputMethodPicker();
+        mImePickerState = ImePickerAction.CHOOSING;
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -281,19 +350,6 @@ public class MainActivity extends AppCompatActivity implements ImeContainer.Data
         }
 
 
-        if (shareDestination == ShareType.WeChat) {
-            // String weChatMessageTool =
-            // "com.tencent.mm.ui.tools.shareimgui";
-            ComponentName comp = new ComponentName("com.tencent.mm",
-                    "com.tencent.mm.ui.tools.ShareImgUI");
-            shareIntent.setComponent(comp);
-            startActivityForResult(shareIntent, WECHAT_REQUEST);
-        } else {
-            //startActivity(Intent.createChooser(shareIntent, "Choose an app")); // FIXME: don't use English here
-            startActivity(shareIntent);
-        }
-
-
         // Show cursor again
         inputWindow.setCursorVisible(true);
 
@@ -324,24 +380,24 @@ public class MainActivity extends AppCompatActivity implements ImeContainer.Data
         return (int) (dp * getResources().getDisplayMetrics().density);
     }
 
-    private Bitmap getBitmapFromInputWindow() {
-        MongolEditText editText = inputWindow.getEditText();
-        FrameLayout wrapper = findViewById(R.id.inputWindowWrapper);
-        int editTextWidth = editText.getWidth();
-        int inputWidth = wrapper.getWidth();
-        int height = editText.getHeight();
-        Bitmap bitmap;
-        if (editTextWidth < inputWidth) {
-            bitmap = Bitmap.createBitmap(inputWidth, height, Bitmap.Config.ARGB_8888);
-            Canvas canvas = new Canvas(bitmap);
-            wrapper.draw(canvas);
-        } else {
-            bitmap = Bitmap.createBitmap(editTextWidth, height, Bitmap.Config.ARGB_8888);
-            Canvas canvas = new Canvas(bitmap);
-            editText.draw(canvas);
-        }
-        return bitmap;
-    }
+//    private Bitmap getBitmapFromInputWindow() {
+//        MongolEditText editText = inputWindow.getEditText();
+//        FrameLayout wrapper = findViewById(R.id.inputWindowWrapper);
+//        int editTextWidth = editText.getWidth();
+//        int inputWidth = wrapper.getWidth();
+//        int height = editText.getHeight();
+//        Bitmap bitmap;
+//        if (editTextWidth < inputWidth) {
+//            bitmap = Bitmap.createBitmap(inputWidth, height, Bitmap.Config.ARGB_8888);
+//            Canvas canvas = new Canvas(bitmap);
+//            wrapper.draw(canvas);
+//        } else {
+//            bitmap = Bitmap.createBitmap(editTextWidth, height, Bitmap.Config.ARGB_8888);
+//            Canvas canvas = new Canvas(bitmap);
+//            editText.draw(canvas);
+//        }
+//        return bitmap;
+//    }
 
     private boolean saveBitmapToCacheDir(Bitmap bitmap) {
         Context context = getApplicationContext();

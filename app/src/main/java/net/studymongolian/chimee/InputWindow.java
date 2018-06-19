@@ -9,6 +9,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 
@@ -197,6 +198,20 @@ public class InputWindow extends HorizontalScrollView {
         int specHeight = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
         editText.measure(specWidth, specHeight);
         return editText.getMeasuredWidth();
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        giveTouchEventsToEditTextWhenSmall(event);
+        return super.onTouchEvent(event);
+    }
+
+    private void giveTouchEventsToEditTextWhenSmall(MotionEvent event) {
+        Rect editTextRect = new Rect();
+        editText.getHitRect(editTextRect);
+        if (!editTextRect.contains((int) event.getX(), (int) event.getY())) {
+            editText.onTouchEvent(event);
+        }
     }
 
     public MongolEditText getEditText() {

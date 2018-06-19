@@ -39,6 +39,29 @@
                 android:layout_height="wrap_content" />
 
         </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/showKeyboardButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="16dp"
+            android:layout_gravity="bottom|end"
+            android:background="@drawable/round_button"
+            android:focusable="true"
+            android:clickable="true"
+            android:onClick="onShowKeyboardButtonClick"
+            android:visibility="invisible"
+            android:alpha="0.5"
+            android:elevation="4dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_keyboard_32dp" />
+        </FrameLayout>
+
+
     </FrameLayout>
 
 
@@ -51,26 +74,22 @@
         <net.studymongolian.mongollibrary.KeyboardAeiou
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:candidatesLocation="vertical_left"
-            />
+            app:candidatesLocation="vertical_left" />
 
         <net.studymongolian.mongollibrary.KeyboardQwerty
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:candidatesLocation="horizontal_top"
-            />
+            app:candidatesLocation="horizontal_top" />
 
         <net.studymongolian.mongollibrary.KeyboardCyrillic
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:candidatesLocation="none"
-            />
+            app:candidatesLocation="none" />
 
         <net.studymongolian.mongollibrary.KeyboardEnglish
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:candidatesLocation="none"
-            />
+            app:candidatesLocation="none" />
 
 
     </net.studymongolian.mongollibrary.ImeContainer>
