@@ -48,15 +48,6 @@
                 android:value="net.studymongolian.chimee.MainActivity" />
         </activity>
         <activity
-            android:name=".ColorChooserActivity"
-            android:label="@string/app_name"
-            android:parentActivityName="net.studymongolian.chimee.SettingsActivity">
-            <!-- Parent activity meta-data to support 4.0 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="net.studymongolian.chimee.SettingsActivity" />
-        </activity>
-        <activity
             android:name=".AboutActivity"
             android:label="@string/app_name"
             android:parentActivityName="net.studymongolian.chimee.MainActivity">

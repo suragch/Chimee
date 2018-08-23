@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements ImeContainer.Data
     }
 
     InputWindow inputWindow;
-    ImeContainer imeContainer;
+    CustomImeContainer imeContainer;
     FrameLayout showKeyboardButton;
     SharedPreferences settings;
     String lastSentMessage = "";
@@ -109,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements ImeContainer.Data
         imeContainer.showSystemKeyboardsOption("system");
         imeContainer.setDataSource(this);
         imeContainer.setOnNonSystemImeListener(this);
+        editText.requestFocus();
 
         showKeyboardButton = findViewById(R.id.showKeyboardButton);
         showKeyboardButton.setOnLongClickListener(showKeyboardButtonLongClickListener);

@@ -101,8 +101,8 @@ public class SettingsActivity extends AppCompatActivity {
 
 	public void settingsColorClick(View v) {
 		// Choose the color for the message text and background
-		Intent intent = new Intent(v.getContext(), ColorChooserActivity.class);
-		startActivityForResult(intent, COLOR_REQUEST);
+		//Intent intent = new Intent(v.getContext(), ColorChooserActivity.class);
+		//startActivityForResult(intent, COLOR_REQUEST);
 	}
 
 	public void settingsFontClick(View v) {
