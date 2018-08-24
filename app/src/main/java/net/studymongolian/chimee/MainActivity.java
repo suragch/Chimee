@@ -43,6 +43,7 @@ import android.view.View;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements ImeContainer.DataSource, ImeContainer.OnNonSystemImeListener {
@@ -76,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements ImeContainer.Data
     InputWindow inputWindow;
     CustomImeContainer imeContainer;
     FrameLayout showKeyboardButton;
-    SharedPreferences settings;
     String lastSentMessage = "";
     private ScaleGestureDetector mScaleDetector;
     private float mScaleFactor = 1.f;
@@ -87,39 +87,69 @@ public class MainActivity extends AppCompatActivity implements ImeContainer.Data
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setupToolbar();
+        disableRotationForSmallerDevices();
+        addGestureDetectorToTopLayout();
+        setupKeyboardInput();
+        setupKeyboardButton();
+        setupInputWindow();
+    }
 
-        // setup toolbar
+    private void setupToolbar() {
         Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
+    }
 
-        // disable rotation for smaller devices
+    private void disableRotationForSmallerDevices() {
         if (getResources().getBoolean(R.bool.portrait_only)) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
+    }
 
-        addGestureDetectorToTopLayout();
-
-        // set up the keyboard
+    private void setupKeyboardInput() {
         imeContainer = findViewById(R.id.imeContainer);
         inputWindow = findViewById(R.id.resizingScrollView);
         MongolEditText editText = inputWindow.getEditText();
         MongolInputMethodManager mimm = new MongolInputMethodManager();
         mimm.addEditor(editText);
         mimm.setIme(imeContainer);
-        imeContainer.showSystemKeyboardsOption("system");
+        imeContainer.showSystemKeyboardsOption("ᠰᠢᠰᠲ᠋ᠧᠮ");
         imeContainer.setDataSource(this);
         imeContainer.setOnNonSystemImeListener(this);
-        editText.requestFocus();
+        getSavedKeyboard();
+    }
 
+    private void getSavedKeyboard() {
+        SharedPreferences settings = getSharedPreferences(SettingsActivity.PREFS_NAME, MODE_PRIVATE);
+        String userKeyboard = settings.getString(SettingsActivity.MONGOLIAN_KEYBOARD_KEY,
+                SettingsActivity.MONGOLIAN_KEYBOARD_DEFAULT);
+        if (userKeyboard.equals(SettingsActivity.MONGOLIAN_QWERTY_KEYBOARD)) {
+            imeContainer.requestNewKeyboard(CustomImeContainer.MONGOL_QWERTY_KEYBOARD_INDEX);
+        }
+    }
+
+    private void setupKeyboardButton() {
         showKeyboardButton = findViewById(R.id.showKeyboardButton);
         showKeyboardButton.setOnLongClickListener(showKeyboardButtonLongClickListener);
+    }
 
-        //inputWindow.setOnLongClickListener(inputWindowLongClickListener);
+    private void setupInputWindow() {
+        MongolEditText editText = inputWindow.getEditText();
+        getSavedDraft();
+        editText.requestFocus();
+    }
 
-        settings = getSharedPreferences(SettingsActivity.PREFS_NAME, MODE_PRIVATE);
-        // TODO get the right keyboard
-        // TODO get a saved draft
-
+    private void getSavedDraft() {
+        MongolEditText editText = inputWindow.getEditText();
+        if (editText.getText().length() == 0) {
+            SharedPreferences settings = getSharedPreferences(SettingsActivity.PREFS_NAME, MODE_PRIVATE);
+            String savedText = settings.getString(SettingsActivity.DRAFT_KEY, SettingsActivity.DRAFT_DEFAULT);
+            editText.setText(savedText);
+            int cursorPosition = settings.getInt(SettingsActivity.CURSOR_POSITION_KEY, SettingsActivity.CURSOR_POSITION_DEFAULT);
+            if (cursorPosition == 0)
+                cursorPosition = savedText.length();
+            editText.setSelection(cursorPosition);
+        }
     }
 
     private void addGestureDetectorToTopLayout() {
@@ -136,20 +166,26 @@ public class MainActivity extends AppCompatActivity implements ImeContainer.Data
         }
     };
 
-//    View.OnLongClickListener inputWindowLongClickListener = new View.OnLongClickListener() {
-//        @Override
-//        public boolean onLongClick(View v) {
-//            Toast.makeText(MainActivity.this, "toast", Toast.LENGTH_SHORT).show();
-//            return true;
-//        }
-//    };
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
         showWeChatButtonIfInstalled(menu);
         return true;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // save draft unicode text that is in the input window in case user accidentally closes app
+        SharedPreferences settings = getSharedPreferences(SettingsActivity.PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        String text = inputWindow.getText().toString();
+        int cursorPosition = inputWindow.getEditText().getSelectionStart();
+        editor.putString(SettingsActivity.DRAFT_KEY, text);
+        editor.putInt(SettingsActivity.CURSOR_POSITION_KEY, cursorPosition);
+        editor.apply();
     }
 
     private void showWeChatButtonIfInstalled(Menu menu) {
@@ -239,10 +275,34 @@ public class MainActivity extends AppCompatActivity implements ImeContainer.Data
 
     private void showInAppKeyboard() {
         imeContainer.setVisibility(View.VISIBLE);
+        adjustInputWindowHeightIfNeeded();
         showKeyboardButton.setVisibility(View.INVISIBLE);
     }
 
-
+    private void adjustInputWindowHeightIfNeeded() {
+        int inputWindowHeight = inputWindow.getHeight();
+        FrameLayout topLayout = findViewById(R.id.flTop);
+        int topLayoutHeight = topLayout.getHeight();
+        int imeContainerHeight = imeContainer.getHeight();
+        final int availableHeight = topLayoutHeight - imeContainerHeight;
+        //LinearLayout rootLayout = findViewById(R.id.root_layout);
+        //rootLayout.requestLayout();
+//        if (inputWindowHeight > availableHeight) {
+//            CharSequence text = inputWindow.getText();
+//            inputWindow.getEditText().setText("");
+//            inputWindow.getEditText().setText(text);
+//
+////            inputWindow.setIsManualScaling(true);
+////            inputWindow.setDesiredHeight(availableHeight);
+////            inputWindow.post(new Runnable() {
+////                @Override
+////                public void run() {
+////                    inputWindow.setDesiredHeight(availableHeight);
+////                }
+////            });
+//        }
+            //inputWindow.setDesiredHeight(availableHeight);
+    }
 
     private void showSystemKeyboard() {
         InputMethodManager im = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);

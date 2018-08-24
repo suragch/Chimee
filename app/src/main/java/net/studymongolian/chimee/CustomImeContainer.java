@@ -1,6 +1,7 @@
 package net.studymongolian.chimee;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
@@ -12,6 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CustomImeContainer extends ImeContainer {
+
+    // these are the indexes of the Mongolian keyboards as defined in XML
+    static final int MONGOL_AEIOU_KEYBOARD_INDEX = 0;
+    static final int MONGOL_QWERTY_KEYBOARD_INDEX = 1;
 
     KeyboardEmoji mEmojiKeyboard;
 
@@ -86,5 +91,29 @@ public class CustomImeContainer extends ImeContainer {
         keyboardEmoji.setOnKeyboardListener(this);
         mEmojiKeyboard = keyboardEmoji;
         return keyboardEmoji;
+    }
+
+    @Override
+    public void requestNewKeyboard(int index) {
+        super.requestNewKeyboard(index);
+        saveSelectedKeyboard(index);
+    }
+
+    private void saveSelectedKeyboard(int index) {
+        if (index != MONGOL_AEIOU_KEYBOARD_INDEX &&
+                index != MONGOL_QWERTY_KEYBOARD_INDEX)
+            return;
+
+        SharedPreferences settings = getContext().getSharedPreferences(
+                SettingsActivity.PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        if (index == MONGOL_AEIOU_KEYBOARD_INDEX) {
+            editor.putString(SettingsActivity.MONGOLIAN_KEYBOARD_KEY,
+                    SettingsActivity.MONGOLIAN_AEIOU_KEYBOARD);
+        } else {
+            editor.putString(SettingsActivity.MONGOLIAN_KEYBOARD_KEY,
+                    SettingsActivity.MONGOLIAN_QWERTY_KEYBOARD);
+        }
+        editor.apply();
     }
 }

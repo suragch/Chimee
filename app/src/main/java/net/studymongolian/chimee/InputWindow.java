@@ -1,5 +1,6 @@
 package net.studymongolian.chimee;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -10,7 +11,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 
 import net.studymongolian.mongollibrary.MongolEditText;
@@ -66,13 +66,12 @@ public class InputWindow extends HorizontalScrollView {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
-        final int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+        // assuming that mode is always AT_MOST (ie, xml set to WRAP_CONTENT)
+        // if generalizing this class for other uses then you will need to
+        // handle Unspecified and Exactly
+
         int widthSize = MeasureSpec.getSize(widthMeasureSpec);
-        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);
-        if (widthMode == MeasureSpec.UNSPECIFIED) {
-            return;
-        }
 
         Rect desiredSize;
         if (mIsManualScaling) {
@@ -81,28 +80,22 @@ public class InputWindow extends HorizontalScrollView {
             desiredSize = getBestAutoSizeForInputWindow(heightSize);
         }
 
-        int width;
-        int height;
+        //Measure Height
+        int height = Math.min(desiredSize.height(), heightSize);
+        if (desiredSize.height() != height && !mIsManualScaling) {
+            desiredSize = getUpdatedDesiredSizeBasedOnHeight(height);
+        }
 
         //Measure Width
-        if (widthMode == MeasureSpec.EXACTLY) {
-            width = widthSize;
-        } else if (widthMode == MeasureSpec.AT_MOST) {
-            width = Math.min(desiredSize.width(), widthSize);
-        } else {
-            width = desiredSize.width();
-        }
-
-        //Measure Height
-        if (heightMode == MeasureSpec.EXACTLY) {
-            height = heightSize;
-        } else if (heightMode == MeasureSpec.AT_MOST) {
-            height = Math.min(desiredSize.height(), heightSize);
-        } else {
-            height = desiredSize.height();
-        }
+        int width = Math.min(desiredSize.width(), widthSize);
 
         setMeasuredDimension(width, height);
+    }
+
+    private Rect getUpdatedDesiredSizeBasedOnHeight(int height) {
+        int w = measureWidthFromHeight(height);
+        mOldGoodSize = new Rect(0, 0, w, height);
+        return mOldGoodSize;
     }
 
     private Rect getDesiredManualSizeForInputWindow(int maxHeight) {
@@ -200,6 +193,7 @@ public class InputWindow extends HorizontalScrollView {
         return editText.getMeasuredWidth();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         giveTouchEventsToEditTextWhenSmall(event);

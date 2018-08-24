@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:ignore="UnusedAttribute">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
@@ -58,6 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:contentDescription="@string/content_description_show_keyboard"
                 android:src="@drawable/ic_keyboard_32dp" />
         </FrameLayout>
 
@@ -81,12 +84,12 @@
             android:layout_height="match_parent"
             app:candidatesLocation="horizontal_top" />
 
-        <net.studymongolian.mongollibrary.KeyboardCyrillic
+        <net.studymongolian.mongollibrary.KeyboardEnglish
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:candidatesLocation="none" />
 
-        <net.studymongolian.mongollibrary.KeyboardEnglish
+        <net.studymongolian.mongollibrary.KeyboardCyrillic
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:candidatesLocation="none" />

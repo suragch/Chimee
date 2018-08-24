@@ -78,5 +78,6 @@
     <string name="title_activity_photo_overlay">PhotoOverlayActivity</string>
     <string name="menu_item_share_wechat">WeChat</string>
     <string name="menu_item_share_bainu">Bainu</string>
+    <string name="content_description_show_keyboard">show keyboard</string>
 
 </resources>
