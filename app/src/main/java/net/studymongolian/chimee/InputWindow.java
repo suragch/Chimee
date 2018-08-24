@@ -9,11 +9,15 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.HorizontalScrollView;
 
 import net.studymongolian.mongollibrary.MongolEditText;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class InputWindow extends HorizontalScrollView {
 
@@ -21,6 +25,7 @@ public class InputWindow extends HorizontalScrollView {
     private static final float MIN_HEIGHT_TO_WIDTH_PROPORTION = 2;
     private static final int HEIGHT_STEP_DP = 50;
     private static final int DEFAULT_BACKGROUND_COLOR = Color.WHITE;
+    private static final AtomicInteger sNextGeneratedId = new AtomicInteger(1);
 
 
     private int mMinHeightPx;
@@ -30,6 +35,7 @@ public class InputWindow extends HorizontalScrollView {
     private Rect mOldGoodSize;
     private MongolEditText editText;
     private int mBackgroundColor;
+
 
     public InputWindow(Context context) {
         super(context);
@@ -55,8 +61,32 @@ public class InputWindow extends HorizontalScrollView {
         mBackgroundColor = DEFAULT_BACKGROUND_COLOR;
 
         editText = new MongolEditText(context, attrs, defStyleAttr);
+        editText.setId(getUniqueId());
         editText.setPadding(10, 10, 10, 10);
         this.addView(editText);
+    }
+
+    private int getUniqueId() {
+        if (Build.VERSION.SDK_INT < 17) {
+            return generateViewIdCompat();
+        } else {
+            return View.generateViewId();
+        }
+    }
+
+    /**
+     * taken from View.generateViewId()
+     */
+    public static int generateViewIdCompat() {
+        for (;;) {
+            final int result = sNextGeneratedId.get();
+            // aapt-generated IDs have the high byte nonzero; clamp to the range under that.
+            int newValue = result + 1;
+            if (newValue > 0x00FFFFFF) newValue = 1; // Roll over to 1, not 0.
+            if (sNextGeneratedId.compareAndSet(result, newValue)) {
+                return result;
+            }
+        }
     }
 
     private int convertDpToPx(float dp) {
@@ -248,15 +278,6 @@ public class InputWindow extends HorizontalScrollView {
         Canvas canvas = new Canvas(bitmap);
         colorBackground(canvas);
         editText.draw(canvas);
-
-//        if (editTextWidth < inputWidth) {
-//            bitmap = Bitmap.createBitmap(inputWidth, height, Bitmap.Config.ARGB_8888);
-//
-//        } else {
-//            bitmap = Bitmap.createBitmap(editTextWidth, height, Bitmap.Config.ARGB_8888);
-//            Canvas canvas = new Canvas(bitmap);
-//            editText.draw(canvas);
-//        }
         return bitmap;
     }
 
