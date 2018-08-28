@@ -15,6 +15,8 @@ import net.studymongolian.mongollibrary.MongolMenu;
 import net.studymongolian.mongollibrary.MongolMenuItem;
 import net.studymongolian.mongollibrary.MongolToast;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -23,10 +25,12 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -46,7 +50,12 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements ImeContainer.DataSource, ImeContainer.OnNonSystemImeListener {
+public class MainActivity extends AppCompatActivity
+        implements ImeContainer.DataSource,
+        ImeContainer.OnNonSystemImeListener,
+        MongolEditText.ContextMenuCallback,
+        ColorChooserDialogFragment.ColorDialogListener,
+        FontChooserDialogFragment.FontDialogListener {
 
     protected static final int SHARE_CHOOSER_REQUEST = 0;
     protected static final int WECHAT_REQUEST = 1;
@@ -137,6 +146,7 @@ public class MainActivity extends AppCompatActivity implements ImeContainer.Data
         MongolEditText editText = inputWindow.getEditText();
         getSavedDraft();
         editText.requestFocus();
+        editText.setContextMenuCallbackListener(this);
     }
 
     private void getSavedDraft() {
@@ -150,6 +160,115 @@ public class MainActivity extends AppCompatActivity implements ImeContainer.Data
                 cursorPosition = savedText.length();
             editText.setSelection(cursorPosition);
         }
+    }
+
+    @Override
+    public MongolMenu getMongolEditTextContextMenu(MongolEditText met) {
+        //final Context context = getContext();
+        MongolMenu menu = new MongolMenu(this);
+        CharSequence selected = met.getSelectedText();
+
+        // copy, cut
+        if (selected.length() > 0) {
+            menu.add(new MongolMenuItem(getString(net.studymongolian.mongollibrary.R.string.copy), R.drawable.ic_keyboard_copy_32dp));
+            menu.add(new MongolMenuItem(getString(net.studymongolian.mongollibrary.R.string.cut), R.drawable.ic_keyboard_cut_32dp));
+        }
+
+        // paste
+        menu.add(new MongolMenuItem(getString(net.studymongolian.mongollibrary.R.string.paste), R.drawable.ic_keyboard_paste_32dp));
+
+        // select all
+        if (selected.length() < met.getText().length()) {
+            menu.add(new MongolMenuItem(getString(net.studymongolian.mongollibrary.R.string.select_all), R.drawable.ic_keyboard_select_all_32dp));
+        }
+
+        // color
+        menu.add(new MongolMenuItem(getString(R.string.color), R.drawable.ic_color_black_32dp));
+
+        // font
+        menu.add(new MongolMenuItem(getString(R.string.font), R.drawable.ic_font_black_32dp));
+
+        menu.setOnMenuItemClickListener(contextMenuItemClickListener);
+        return menu;
+    }
+
+    MongolMenu.OnMenuItemClickListener contextMenuItemClickListener = new MongolMenu.OnMenuItemClickListener() {
+        @Override
+        public boolean onMenuItemClick(MongolMenuItem item) {
+            String name = item.getTitle().toString();
+
+            String copy = getString(net.studymongolian.mongollibrary.R.string.copy);
+            String cut = getString(net.studymongolian.mongollibrary.R.string.cut);
+            String paste = getString(net.studymongolian.mongollibrary.R.string.paste);
+            String selectAll = getString(net.studymongolian.mongollibrary.R.string.select_all);
+            String color = getString(R.string.color);
+            String font = getString(R.string.font);
+
+            if (name.equals(copy)) {
+                copySelectedText();
+            } else if (name.equals(cut)) {
+                cutSelectedText();
+            } else if (name.equals(paste)) {
+                pasteText();
+            } else if (name.equals(selectAll)) {
+                inputWindow.getEditText().selectAll();
+            } else if (name.equals(color)) {
+                openColorChooserDialog();
+            } else if (name.equals(font)) {
+                openFontChooserDialog();
+            } else {
+                return false;
+            }
+            return true;
+        }
+
+
+    };
+
+    private boolean copySelectedText() {
+        CharSequence selectedText = inputWindow.getEditText().getSelectedText();
+        if (TextUtils.isEmpty(selectedText))
+            return false;
+        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText(null, selectedText);
+        if (clipboard == null) return false;
+        clipboard.setPrimaryClip(clip);
+        return true;
+    }
+    private void cutSelectedText() {
+        boolean copiedSuccessfully = copySelectedText();
+        if (copiedSuccessfully) {
+            MongolEditText met = inputWindow.getEditText();
+            int start = met.getSelectionStart();
+            int end = met.getSelectionEnd();
+            met.getText().delete(start, end);
+        }
+    }
+
+    private void pasteText() {
+        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        if (clipboard == null) return;
+        ClipData clip = clipboard.getPrimaryClip();
+        if (clip == null) return;
+        ClipData.Item item = clip.getItemAt(0);
+        if (item == null) return;
+        CharSequence text = item.getText();
+        if (text == null) return;
+        MongolEditText met = inputWindow.getEditText();
+        int start = met.getSelectionStart();
+        int end = met.getSelectionEnd();
+        met.getText().replace(start, end, text);
+    }
+
+    private void openColorChooserDialog() {
+        DialogFragment dialog = new ColorChooserDialogFragment();
+        dialog.show(getSupportFragmentManager(), "ColorChooserDialogFragment");
+
+    }
+
+    private void openFontChooserDialog() {
+        DialogFragment dialog = new FontChooserDialogFragment();
+        dialog.show(getSupportFragmentManager(), "FontChooserDialogFragment");
     }
 
     private void addGestureDetectorToTopLayout() {
@@ -275,34 +394,34 @@ public class MainActivity extends AppCompatActivity implements ImeContainer.Data
 
     private void showInAppKeyboard() {
         imeContainer.setVisibility(View.VISIBLE);
-        adjustInputWindowHeightIfNeeded();
+        //adjustInputWindowHeightIfNeeded();
         showKeyboardButton.setVisibility(View.INVISIBLE);
     }
 
-    private void adjustInputWindowHeightIfNeeded() {
-        int inputWindowHeight = inputWindow.getHeight();
-        FrameLayout topLayout = findViewById(R.id.flTop);
-        int topLayoutHeight = topLayout.getHeight();
-        int imeContainerHeight = imeContainer.getHeight();
-        final int availableHeight = topLayoutHeight - imeContainerHeight;
-        //LinearLayout rootLayout = findViewById(R.id.root_layout);
-        //rootLayout.requestLayout();
-//        if (inputWindowHeight > availableHeight) {
-//            CharSequence text = inputWindow.getText();
-//            inputWindow.getEditText().setText("");
-//            inputWindow.getEditText().setText(text);
-//
-////            inputWindow.setIsManualScaling(true);
-////            inputWindow.setDesiredHeight(availableHeight);
-////            inputWindow.post(new Runnable() {
-////                @Override
-////                public void run() {
-////                    inputWindow.setDesiredHeight(availableHeight);
-////                }
-////            });
-//        }
-            //inputWindow.setDesiredHeight(availableHeight);
-    }
+//    private void adjustInputWindowHeightIfNeeded() {
+//        int inputWindowHeight = inputWindow.getHeight();
+//        FrameLayout topLayout = findViewById(R.id.flTop);
+//        int topLayoutHeight = topLayout.getHeight();
+//        int imeContainerHeight = imeContainer.getHeight();
+//        final int availableHeight = topLayoutHeight - imeContainerHeight;
+//        //LinearLayout rootLayout = findViewById(R.id.root_layout);
+//        //rootLayout.requestLayout();
+////        if (inputWindowHeight > availableHeight) {
+////            CharSequence text = inputWindow.getText();
+////            inputWindow.getEditText().setText("");
+////            inputWindow.getEditText().setText(text);
+////
+//////            inputWindow.setIsManualScaling(true);
+//////            inputWindow.setDesiredHeight(availableHeight);
+//////            inputWindow.post(new Runnable() {
+//////                @Override
+//////                public void run() {
+//////                    inputWindow.setDesiredHeight(availableHeight);
+//////                }
+//////            });
+////        }
+//            //inputWindow.setDesiredHeight(availableHeight);
+//    }
 
     private void showSystemKeyboard() {
         InputMethodManager im = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
@@ -362,7 +481,6 @@ public class MainActivity extends AppCompatActivity implements ImeContainer.Data
                 } else {
                     shareTo(ShareType.Other);
                 }
-                //MongolToast.makeText(getApplicationContext(), item.getTitle(), MongolToast.LENGTH_SHORT).show();
                 return true;
             }
         });
@@ -523,6 +641,19 @@ public class MainActivity extends AppCompatActivity implements ImeContainer.Data
         }
     }
 
+
+    @Override
+    public void onColorDialogPositiveClick(int chosenBackgroundColor,
+                                           int chosenForegroundColor) {
+        inputWindow.setBackgroundColor(chosenBackgroundColor);
+        inputWindow.setTextColor(chosenForegroundColor);
+    }
+
+
+    @Override
+    public void onFontDialogPositiveClick(Typeface chosenFont) {
+
+    }
 
     private class ScaleListener
             extends ScaleGestureDetector.SimpleOnScaleGestureListener {

@@ -261,6 +261,10 @@ public class InputWindow extends HorizontalScrollView {
         editText.setTextSize(size);
     }
 
+    public void setTextColor(int color) {
+        editText.setTextColor(color);
+    }
+
     public CharSequence getText() {
         return editText.getText();
     }
@@ -291,6 +295,5 @@ public class InputWindow extends HorizontalScrollView {
         paint.setStyle(Paint.Style.FILL);
         canvas.drawPaint(paint);
     }
-
 
 }

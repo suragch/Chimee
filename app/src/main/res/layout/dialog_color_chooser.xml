@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <net.studymongolian.mongollibrary.MongolLabel
+        android:id="@+id/ml_color_preview"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:padding="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/rb_bg_color"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:text="@string/color_preview_text"
+        app:textSize="100sp" />
+
+    <RadioButton
+        android:id="@+id/rb_bg_color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:checked="true"
+        app:layout_constraintEnd_toStartOf="@+id/rb_fg_color"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/ml_color_preview"
+        app:layout_constraintTop_toTopOf="@+id/ml_color_preview" />
+
+    <RadioButton
+        android:id="@+id/rb_fg_color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/rb_bg_color"
+        app:layout_constraintTop_toTopOf="@+id/rb_bg_color" />
+
+    <net.studymongolian.mongollibrary.MongolLabel
+        android:id="@+id/ml_bg_color"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/rb_bg_color"
+        android:layout_alignRight="@id/rb_bg_color"
+        app:layout_constraintEnd_toEndOf="@+id/rb_bg_color"
+        app:layout_constraintStart_toStartOf="@+id/rb_bg_color"
+        app:layout_constraintTop_toBottomOf="@+id/rb_bg_color"
+        app:text="Background" />
+
+    <net.studymongolian.mongollibrary.MongolLabel
+        android:id="@+id/ml_fg_color"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@+id/rb_fg_color"
+        app:layout_constraintStart_toStartOf="@+id/rb_fg_color"
+        app:layout_constraintTop_toBottomOf="@+id/rb_fg_color"
+        app:text="Foreground" />
+
+
+    <FrameLayout
+        android:id="@+id/dialog_button_positive"
+        android:layout_width="50dp"
+        android:layout_height="100dp"
+        android:background="@drawable/menu_item"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <net.studymongolian.mongollibrary.MongolLabel
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:text="OK" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/dialog_button_negative"
+        android:layout_width="50dp"
+        android:layout_height="100dp"
+        android:background="@drawable/menu_item"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintBottom_toTopOf="@+id/dialog_button_positive"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <net.studymongolian.mongollibrary.MongolLabel
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:text="Cancel" />
+
+    </FrameLayout>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/color_choices_recycler_view"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/dialog_button_positive"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ml_bg_color"
+
+        />
+
+
+</android.support.constraint.ConstraintLayout>

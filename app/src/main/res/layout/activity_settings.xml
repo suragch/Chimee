@@ -113,7 +113,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="@string/settings_color_u"
+                        android:text="@string/color_preview_text"
                         android:textSize="20sp" />
                 </FrameLayout>
             </RelativeLayout>

@@ -19,13 +19,6 @@
     <string name="menu_item_save">save</string>
     <string name="menu_item_settings">ᠳᠤᠬᠢᠷᠠᠭᠤᠯᠠᠭ᠎ᠠ</string>
 
-    <!-- Fab Menu -->
-    <string name="fab_item_copy">Copy</string>
-    <string name="fab_item_paste">Paste</string>
-    <string name="fab_item_clear">Clear</string>
-    <string name="fab_item_color">Color</string>
-    <string name="fab_item_font">Font</string>
-
     <string name="menu_item_about">ᠮᠠᠨ ᠤ ᠲᠤᠬᠠᠢ</string>
     <string name="menu_item_help">ᠬᠠᠪᠰᠤᠷᠤᠮᠵᠢ</string>
     <string name="menu_item_history">ᠵᠠᠬᠢᠶ᠎ᠠ ᠶᠢᠨ ᠠᠭᠥᠯᠭ᠎ᠠ</string>
@@ -51,7 +44,7 @@
     <string name="dialog_font_white">ᠰᠠᠶᠢᠨ ᠤᠤ︖</string>
     <string name="listview_footer_load_more">ᠨᠡᠩ ᠤᠯᠠᠨ</string>
     <string name="settings_color_item">ᠥᠩᠭᠡ</string>
-    <string name="settings_color_u">ᠥ</string>
+    <string name="color_preview_text">ᠥ</string>
     <string name="settings_font_item">ᠦᠰᠦᠭ ᠤᠨ ᠲᠢᠭ</string>
     <string name="settings_font_detail">ᠦᠰᠦᠭ</string>
     <string name="settings_clear_item">ᠢᠯᠡᠭᠡᠭᠰᠡᠨ ᠦ ᠳᠠᠷᠠᠭ᠎ᠠ ᠢᠯᠡᠷᠡᠬᠦ ᠦᠭᠡᠢ</string>
@@ -79,5 +72,7 @@
     <string name="menu_item_share_wechat">WeChat</string>
     <string name="menu_item_share_bainu">Bainu</string>
     <string name="content_description_show_keyboard">show keyboard</string>
+    <string name="color">ᠥᠩᠭᠡ</string>
+    <string name="font">ᠦᠰᠦᠭ ᠤᠨ ᠲᠢᠭ</string>
 
 </resources>
