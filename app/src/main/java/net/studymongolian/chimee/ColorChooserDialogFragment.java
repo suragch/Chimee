@@ -23,6 +23,12 @@ import net.studymongolian.mongollibrary.MongolLabel;
 public class ColorChooserDialogFragment extends DialogFragment
         implements ColorRecyclerViewAdapter.ItemClickListener {
 
+    static final String BG_COLOR_KEY = "bg_color";
+    static final String FG_COLOR_KEY = "fg_color";
+
+    private int mBgColor = Color.WHITE;
+    private int mFgColor = Color.BLACK;
+
     ColorRecyclerViewAdapter adapter;
     ColorDialogListener mListener;
     MongolLabel mColorPreview;
@@ -33,6 +39,30 @@ public class ColorChooserDialogFragment extends DialogFragment
         void onColorDialogPositiveClick(int chosenBackgroundColor, int chosenForegroundColor);
     }
 
+    public static ColorChooserDialogFragment newInstance(int oldBgColor, int oldFgColor) {
+        ColorChooserDialogFragment dialog = new ColorChooserDialogFragment();
+
+        Bundle args = new Bundle();
+        args.putInt(BG_COLOR_KEY, oldBgColor);
+        args.putInt(FG_COLOR_KEY, oldFgColor);
+        dialog.setArguments(args);
+
+        return dialog;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (getArguments() == null) return;
+        int backgroundColor = getArguments().getInt(BG_COLOR_KEY);
+        int foregroundColor = getArguments().getInt(FG_COLOR_KEY);
+        if (backgroundColor != 0)
+            mBgColor = backgroundColor;
+        if (foregroundColor != 0)
+            mFgColor = foregroundColor;
+    }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -40,6 +70,8 @@ public class ColorChooserDialogFragment extends DialogFragment
         View customView = inflater.inflate(R.layout.dialog_color_chooser, null);
 
         mColorPreview = customView.findViewById(R.id.ml_color_preview);
+        mColorPreview.setTextColor(mFgColor);
+        mColorPreview.setBackgroundColor(mBgColor);
 
         // TODO: this functionality should be in mongol-library
         rbBackground = customView.findViewById(R.id.rb_bg_color);
@@ -62,12 +94,12 @@ public class ColorChooserDialogFragment extends DialogFragment
         positiveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int bgColor = Color.WHITE;
-                Drawable background = mColorPreview.getBackground();
-                if (background instanceof ColorDrawable)
-                    bgColor = ((ColorDrawable) background).getColor();
-                int fgColor = mColorPreview.getTextColor();
-                mListener.onColorDialogPositiveClick(bgColor, fgColor);
+//                int bgColor = Color.WHITE;
+//                Drawable background = mColorPreview.getBackground();
+//                if (background instanceof ColorDrawable)
+//                    bgColor = ((ColorDrawable) background).getColor();
+//                int fgColor = mColorPreview.getTextColor();
+                mListener.onColorDialogPositiveClick(mBgColor, mFgColor);
                 dismiss();
             }
         });
@@ -116,8 +148,10 @@ public class ColorChooserDialogFragment extends DialogFragment
         int color = getResources().getColor(mColorResIds[position]);
         if (rbBackground.isChecked()) {
             mColorPreview.setBackgroundColor(color);
+            mBgColor = color;
         } else {
             mColorPreview.setTextColor(color);
+            mFgColor = color;
         }
     }
 

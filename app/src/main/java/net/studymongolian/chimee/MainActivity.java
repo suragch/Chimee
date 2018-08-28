@@ -25,7 +25,10 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -34,7 +37,11 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.Spannable;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -261,9 +268,32 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void openColorChooserDialog() {
-        DialogFragment dialog = new ColorChooserDialogFragment();
+        int bgColor = getInputWindowBackgroundColor();
+        int fgColor = getSelectedTextColor();
+        DialogFragment dialog = ColorChooserDialogFragment.newInstance(bgColor, fgColor);
         dialog.show(getSupportFragmentManager(), "ColorChooserDialogFragment");
 
+    }
+
+    private int getInputWindowBackgroundColor() {
+        int bgColor = Color.WHITE;
+        Drawable background = inputWindow.getBackground();
+        if (background instanceof ColorDrawable)
+            bgColor = ((ColorDrawable) background).getColor();
+        return bgColor;
+    }
+
+    private int getSelectedTextColor() {
+        MongolEditText editText = inputWindow.getEditText();
+
+        if (editText.hasSelection()) {
+            Editable text = editText.getText();
+            ForegroundColorSpan[] spans = text.getSpans(0, text.length(), ForegroundColorSpan.class);
+            if (spans.length > 0)
+                return spans[0].getForegroundColor();
+        }
+
+        return editText.getTextColor();
     }
 
     private void openFontChooserDialog() {
@@ -646,9 +676,23 @@ public class MainActivity extends AppCompatActivity
     public void onColorDialogPositiveClick(int chosenBackgroundColor,
                                            int chosenForegroundColor) {
         inputWindow.setBackgroundColor(chosenBackgroundColor);
-        inputWindow.setTextColor(chosenForegroundColor);
+        MongolEditText editText = inputWindow.getEditText();
+        Editable text = editText.getText();
+        if (editText.hasSelection()) {
+            ForegroundColorSpan fgSpan = new ForegroundColorSpan(chosenForegroundColor);
+            int start = editText.getSelectionStart();
+            int end = editText.getSelectionEnd();
+            text.setSpan(fgSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        } else {
+            // remove fg color spans
+            ForegroundColorSpan[] spans = text.getSpans(0, text.length(), ForegroundColorSpan.class);
+            for (ForegroundColorSpan span : spans) {
+                text.removeSpan(span);
+            }
+            // set text all one color
+            inputWindow.setTextColor(chosenForegroundColor);
+        }
     }
-
 
     @Override
     public void onFontDialogPositiveClick(Typeface chosenFont) {
