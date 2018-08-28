@@ -34,6 +34,9 @@
     <color name="keyboard_longtouch_letters">@color/secondary_text_white</color>
 
 
+
+    <color name="custom_ripple">@color/accent</color>
+
     <!-- TODO The following colors need to be redone according to theme -->
 
 

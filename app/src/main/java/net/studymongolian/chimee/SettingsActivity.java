@@ -13,15 +13,32 @@ import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import net.studymongolian.mongollibrary.MongolFont;
+
 public class SettingsActivity extends AppCompatActivity {
 
 	protected static final String PREFS_NAME = "MyPrefsFile";
 	protected static final String FONT_KEY = "font";
-	protected static final String FONT_WHITE = "fontWhite";
-	protected static final String FONT_WRITING = "fontWriting";
-	protected static final String FONT_ART = "fontArt";
-	protected static final String FONT_TITLE = "fontTitle";
-	protected static final String FONT_DEFAULT = FONT_WHITE;
+//	protected static final String FONT_WHITE = "fontWhite";
+//	protected static final String FONT_WRITING = "fontWriting";
+//	protected static final String FONT_ART = "fontArt";
+//	protected static final String FONT_TITLE = "fontTitle";
+	public static final String FONT_QAGAN = MongolFont.QAGAN;                    // Normal
+	public static final String FONT_GARQAG = "fonts/MenksoftGarqag.ttf";         // Title
+	public static final String FONT_HARA = "fonts/MenksoftHara.ttf";             // Bold
+	public static final String FONT_SCNIN = "fonts/MenksoftScnin.ttf";           // News
+	public static final String FONT_HAWANG = "fonts/MenksoftHawang.ttf";         // Handwriting
+	public static final String FONT_QIMED = "fonts/MenksoftQimed.ttf";           // Handwriting pen
+	public static final String FONT_NARIN = "fonts/MenksoftNarin.ttf";           // Thin
+	public static final String FONT_MCDVNBAR = "fonts/MenksoftMcdvnbar.ttf";     // Wood carving
+	public static final String FONT_AMGLANG = "fonts/MAM8102.ttf";               // Brush
+	public static final String FONT_SIDAM = "fonts/MBN8102.ttf";                 // Fat round
+	public static final String FONT_QINGMING = "fonts/MQI8102.ttf";              // Qing Ming style
+	public static final String FONT_ONQA_HARA = "fonts/MTH8102.ttf";             // Thick stem
+	public static final String FONT_SVGVNAG = "fonts/MSO8102.ttf";               // Thick stem thin lines
+	public static final String FONT_SVLBIYA = "fonts/MBJ8102.ttf";               // Double stem
+	public static final String FONT_JCLGQ = "fonts/MenksoftJclgq.ttf";           // Computer
+	protected static final String FONT_DEFAULT = FONT_QAGAN;
 
 	protected static final String MONGOLIAN_KEYBOARD_KEY = "mongolKeyboard";
 	protected static final String MONGOLIAN_AEIOU_KEYBOARD = "aeiouKeyboard";

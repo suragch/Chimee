@@ -75,4 +75,20 @@
     <string name="color">ᠥᠩᠭᠡ</string>
     <string name="font">ᠦᠰᠦᠭ ᠤᠨ ᠲᠢᠭ</string>
 
+    <string name="font_name_qagan">ᠴᠠᠭᠠᠨ ᠲᠢᠭ</string>
+    <string name="font_name_garqag">ᠭᠠᠷᠴᠠᠭ ᠲᠢᠭ</string>
+    <string name="font_name_hara">ᠬᠠᠷ᠎ᠠ ᠲᠢᠭ</string>
+    <string name="font_name_scnin">ᠰᠣᠨᠢᠨ ᠲᠢᠭ</string>
+    <string name="font_name_hawang">ᠬᠠᠸᠠᠩ ᠲᠢᠭ</string>
+    <string name="font_name_qimed">ᠴᠢᠮᠡᠳ ᠲᠢᠭ</string>
+    <string name="font_name_narin">ᠨᠠᠷᠢᠨ ᠲᠢᠭ</string>
+    <string name="font_name_mcdcnbar">ᠮᠣᠳᠣᠨ ᠪᠠᠷ ᠲᠢᠭ</string>
+    <string name="font_name_amglang">ᠠᠮᠤᠭᠤᠯᠠᠩ ᠲᠢᠭ</string>
+    <string name="font_name_sidam">ᠰᠢᠳᠠᠮ ᠲᠢᠭ</string>
+    <string name="font_name_qingming">ᠴᠢᠩ ᠮᠢᠩ ᠲᠢᠭ</string>
+    <string name="font_name_onqa_hara">ᠤᠨᠴᠠ ᠬᠠᠷ᠎ᠠ ᠲᠢᠭ</string>
+    <string name="font_name_svgvnag">ᠰᠤᠭᠤᠨᠠᠭ ᠲᠢᠭ</string>
+    <string name="font_name_svlbiya">ᠰᠤᠯᠪᠢᠶ᠎ᠠ ᠲᠢᠭ</string>
+    <string name="font_name_jclgq">ᠵᠣᠯᠭᠠᠴᠠ ᠲᠢᠭ</string>
+
 </resources>

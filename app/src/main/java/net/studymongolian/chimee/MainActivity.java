@@ -10,10 +10,12 @@ import java.util.List;
 
 import net.studymongolian.mongollibrary.ImeContainer;
 import net.studymongolian.mongollibrary.MongolEditText;
+import net.studymongolian.mongollibrary.MongolFont;
 import net.studymongolian.mongollibrary.MongolInputMethodManager;
 import net.studymongolian.mongollibrary.MongolMenu;
 import net.studymongolian.mongollibrary.MongolMenuItem;
 import net.studymongolian.mongollibrary.MongolToast;
+import net.studymongolian.mongollibrary.MongolTypefaceSpan;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -32,13 +34,11 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
-import android.text.Spannable;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
@@ -54,8 +54,6 @@ import android.view.View;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
         implements ImeContainer.DataSource,
@@ -151,12 +149,14 @@ public class MainActivity extends AppCompatActivity
 
     private void setupInputWindow() {
         MongolEditText editText = inputWindow.getEditText();
-        getSavedDraft();
+        setSavedDraft();
+        setSavedColors();
+        setSavedFont();
         editText.requestFocus();
         editText.setContextMenuCallbackListener(this);
     }
 
-    private void getSavedDraft() {
+    private void setSavedDraft() {
         MongolEditText editText = inputWindow.getEditText();
         if (editText.getText().length() == 0) {
             SharedPreferences settings = getSharedPreferences(SettingsActivity.PREFS_NAME, MODE_PRIVATE);
@@ -167,6 +167,23 @@ public class MainActivity extends AppCompatActivity
                 cursorPosition = savedText.length();
             editText.setSelection(cursorPosition);
         }
+    }
+
+    private void setSavedColors() {
+        SharedPreferences settings = getSharedPreferences(SettingsActivity.PREFS_NAME, MODE_PRIVATE);
+        int bgColor = settings.getInt(SettingsActivity.BGCOLOR_KEY,
+                SettingsActivity.BGCOLOR_DEFAULT);
+        int textColor = settings.getInt(SettingsActivity.TEXTCOLOR_KEY,
+                SettingsActivity.TEXTCOLOR_DEFAULT);
+        inputWindow.setBackgroundColor(bgColor);
+        inputWindow.setTextColor(textColor);
+    }
+
+    private void setSavedFont() {
+        SharedPreferences settings = getSharedPreferences(SettingsActivity.PREFS_NAME, MODE_PRIVATE);
+        String font = settings.getString(SettingsActivity.FONT_KEY, SettingsActivity.FONT_DEFAULT);
+        Typeface typeface = MongolFont.get(font, getApplicationContext());
+        inputWindow.setTypeface(typeface);
     }
 
     @Override
@@ -691,12 +708,45 @@ public class MainActivity extends AppCompatActivity
             }
             // set text all one color
             inputWindow.setTextColor(chosenForegroundColor);
+            saveColors(chosenBackgroundColor, chosenForegroundColor);
         }
     }
 
-    @Override
-    public void onFontDialogPositiveClick(Typeface chosenFont) {
+    private void saveColors(int background, int foreground) {
+        SharedPreferences settings = getSharedPreferences(SettingsActivity.PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putInt(SettingsActivity.BGCOLOR_KEY, background);
+        editor.putInt(SettingsActivity.TEXTCOLOR_KEY, foreground);
+        editor.apply();
+    }
 
+    @Override
+    public void onFontDialogPositiveClick(Font chosenFont) {
+        MongolEditText editText = inputWindow.getEditText();
+        Editable text = editText.getText();
+        Typeface typeface = MongolFont.get(chosenFont.getFileLocation(), getApplicationContext());
+        if (editText.hasSelection()) {
+            MongolTypefaceSpan fontSpan = new MongolTypefaceSpan(typeface);
+            int start = editText.getSelectionStart();
+            int end = editText.getSelectionEnd();
+            text.setSpan(fontSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        } else {
+            // remove font spans
+            MongolTypefaceSpan[] spans = text.getSpans(0, text.length(), MongolTypefaceSpan.class);
+            for (MongolTypefaceSpan span : spans) {
+                text.removeSpan(span);
+            }
+            // set font for whole textview
+            inputWindow.setTypeface(typeface);
+            saveFont(chosenFont.getFileLocation());
+        }
+    }
+
+    private void saveFont(String font) {
+        SharedPreferences settings = getSharedPreferences(SettingsActivity.PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(SettingsActivity.FONT_KEY, font);
+        editor.apply();
     }
 
     private class ScaleListener
@@ -749,7 +799,7 @@ public class MainActivity extends AppCompatActivity
 
     private void resizeInputWindow(int initialHeight) {
         int newHeight = (int) (initialHeight * mScaleFactor);
-        Log.i("TAG", "resizeInputWindow: " + mScaleFactor);
+        //Log.i("TAG", "resizeInputWindow: " + mScaleFactor);
         inputWindow.setDesiredHeight(newHeight);
     }
 

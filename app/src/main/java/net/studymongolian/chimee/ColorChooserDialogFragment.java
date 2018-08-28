@@ -2,19 +2,14 @@ package net.studymongolian.chimee;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
 
@@ -23,28 +18,25 @@ import net.studymongolian.mongollibrary.MongolLabel;
 public class ColorChooserDialogFragment extends DialogFragment
         implements ColorRecyclerViewAdapter.ItemClickListener {
 
-    static final String BG_COLOR_KEY = "bg_color";
-    static final String FG_COLOR_KEY = "fg_color";
-
-    private int mBgColor = Color.WHITE;
-    private int mFgColor = Color.BLACK;
+    private int mBgColor = SettingsActivity.BGCOLOR_DEFAULT;
+    private int mTextColor = SettingsActivity.TEXTCOLOR_DEFAULT;
 
     ColorRecyclerViewAdapter adapter;
     ColorDialogListener mListener;
     MongolLabel mColorPreview;
     RadioButton rbBackground;
-    RadioButton rbForeground;
+    RadioButton rbTextColor;
 
     public interface ColorDialogListener {
         void onColorDialogPositiveClick(int chosenBackgroundColor, int chosenForegroundColor);
     }
 
-    public static ColorChooserDialogFragment newInstance(int oldBgColor, int oldFgColor) {
+    public static ColorChooserDialogFragment newInstance(int oldBgColor, int oldTextColor) {
         ColorChooserDialogFragment dialog = new ColorChooserDialogFragment();
 
         Bundle args = new Bundle();
-        args.putInt(BG_COLOR_KEY, oldBgColor);
-        args.putInt(FG_COLOR_KEY, oldFgColor);
+        args.putInt(SettingsActivity.BGCOLOR_KEY, oldBgColor);
+        args.putInt(SettingsActivity.TEXTCOLOR_KEY, oldTextColor);
         dialog.setArguments(args);
 
         return dialog;
@@ -53,36 +45,52 @@ public class ColorChooserDialogFragment extends DialogFragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getCurrentColors();
+    }
 
+    private void getCurrentColors() {
         if (getArguments() == null) return;
-        int backgroundColor = getArguments().getInt(BG_COLOR_KEY);
-        int foregroundColor = getArguments().getInt(FG_COLOR_KEY);
+        int backgroundColor = getArguments().getInt(SettingsActivity.BGCOLOR_KEY);
+        int foregroundColor = getArguments().getInt(SettingsActivity.TEXTCOLOR_KEY);
         if (backgroundColor != 0)
             mBgColor = backgroundColor;
         if (foregroundColor != 0)
-            mFgColor = foregroundColor;
+            mTextColor = foregroundColor;
     }
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View customView = inflater.inflate(R.layout.dialog_color_chooser, null);
+        setupColorPreview(customView);
+        setupRadioButtons(customView);
+        setupDialogButtons(customView);
+        setupRecyclerView(customView);
+        builder.setView(customView);
+        return builder.create();
+    }
 
+    private void setupColorPreview(View customView) {
         mColorPreview = customView.findViewById(R.id.ml_color_preview);
-        mColorPreview.setTextColor(mFgColor);
+        mColorPreview.setTextColor(mTextColor);
         mColorPreview.setBackgroundColor(mBgColor);
+    }
 
+    private void setupRadioButtons(View customView) {
         // TODO: this functionality should be in mongol-library
         rbBackground = customView.findViewById(R.id.rb_bg_color);
-        rbForeground = customView.findViewById(R.id.rb_fg_color);
+        rbTextColor = customView.findViewById(R.id.rb_fg_color);
         MongolLabel mlBackground = customView.findViewById(R.id.ml_bg_color);
         MongolLabel mlForeground = customView.findViewById(R.id.ml_fg_color);
         rbBackground.setOnClickListener(onBackgroundClick);
-        rbForeground.setOnClickListener(onForegroundClick);
+        rbTextColor.setOnClickListener(onForegroundClick);
         mlBackground.setOnClickListener(onBackgroundClick);
         mlForeground.setOnClickListener(onForegroundClick);
+    }
 
+    private void setupDialogButtons(View customView) {
         FrameLayout negativeButton = customView.findViewById(R.id.dialog_button_negative);
         FrameLayout positiveButton = customView.findViewById(R.id.dialog_button_positive);
         negativeButton.setOnClickListener(new View.OnClickListener() {
@@ -94,33 +102,26 @@ public class ColorChooserDialogFragment extends DialogFragment
         positiveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                int bgColor = Color.WHITE;
-//                Drawable background = mColorPreview.getBackground();
-//                if (background instanceof ColorDrawable)
-//                    bgColor = ((ColorDrawable) background).getColor();
-//                int fgColor = mColorPreview.getTextColor();
-                mListener.onColorDialogPositiveClick(mBgColor, mFgColor);
+                mListener.onColorDialogPositiveClick(mBgColor, mTextColor);
                 dismiss();
             }
         });
+    }
 
-        // set up the RecyclerView
+    private void setupRecyclerView(View customView) {
         RecyclerView recyclerView = customView.findViewById(R.id.color_choices_recycler_view);
         int numberOfColumns = 4;
         recyclerView.setLayoutManager(new GridLayoutManager(customView.getContext(), numberOfColumns));
         adapter = new ColorRecyclerViewAdapter(getContext(), mColorResIds);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
-
-        builder.setView(customView);
-        return builder.create();
     }
 
     private View.OnClickListener onBackgroundClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             rbBackground.setChecked(true);
-            rbForeground.setChecked(false);
+            rbTextColor.setChecked(false);
         }
     };
 
@@ -128,7 +129,7 @@ public class ColorChooserDialogFragment extends DialogFragment
         @Override
         public void onClick(View v) {
             rbBackground.setChecked(false);
-            rbForeground.setChecked(true);
+            rbTextColor.setChecked(true);
         }
     };
 
@@ -151,7 +152,7 @@ public class ColorChooserDialogFragment extends DialogFragment
             mBgColor = color;
         } else {
             mColorPreview.setTextColor(color);
-            mFgColor = color;
+            mTextColor = color;
         }
     }
 
