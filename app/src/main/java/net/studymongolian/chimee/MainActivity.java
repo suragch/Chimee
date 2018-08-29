@@ -699,6 +699,11 @@ public class MainActivity extends AppCompatActivity
             ForegroundColorSpan fgSpan = new ForegroundColorSpan(chosenForegroundColor);
             int start = editText.getSelectionStart();
             int end = editText.getSelectionEnd();
+            if (start > end) {
+                int swap = start;
+                start = end;
+                end = swap;
+            }
             text.setSpan(fgSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         } else {
             // remove fg color spans
@@ -729,6 +734,11 @@ public class MainActivity extends AppCompatActivity
             MongolTypefaceSpan fontSpan = new MongolTypefaceSpan(typeface);
             int start = editText.getSelectionStart();
             int end = editText.getSelectionEnd();
+            if (start > end) {
+                int swap = start;
+                start = end;
+                end = swap;
+            }
             text.setSpan(fontSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         } else {
             // remove font spans
