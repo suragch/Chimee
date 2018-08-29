@@ -60,13 +60,13 @@ public class UserDictionary {
         /**
          * The MIME type of {@link #CONTENT_URI} providing a directory of words.
          */
-        public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.net.todochimee.chimee.userword";
+        public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.net.studymongolian.chimee.userword";
 
         /**
          * The MIME type of a {@link #CONTENT_URI} sub-directory of a single
          * word.
          */
-        public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.net.studymongolian.todochimee.userword";
+        public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.net.studymongolian.chimee.userword";
 
         public static final String _ID = BaseColumns._ID;
 

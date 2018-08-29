@@ -9,6 +9,7 @@ import java.util.List;
 
 
 import net.studymongolian.mongollibrary.ImeContainer;
+import net.studymongolian.mongollibrary.MongolCode;
 import net.studymongolian.mongollibrary.MongolEditText;
 import net.studymongolian.mongollibrary.MongolFont;
 import net.studymongolian.mongollibrary.MongolInputMethodManager;
@@ -385,7 +386,11 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onRequestWordsStartingWith(String text) {
-        new GetWordsStartingWith(this).execute(text);
+        if (text.startsWith(String.valueOf(MongolCode.Uni.NNBS))) {
+            new GetSuffixesStartingWith(this).execute(text);
+        } else {
+            new GetWordsStartingWith(this).execute(text);
+        }
     }
 
     @Override
@@ -856,6 +861,108 @@ public class MainActivity extends AppCompatActivity
             cursor.close();
             return words;
 
+        }
+
+        @Override
+        protected void onPostExecute(List<String> result) {
+            MainActivity activity = activityReference.get();
+            if (activity == null || activity.isFinishing()) return;
+
+            if (result.size() > 0)
+                activity.imeContainer.setCandidates(result);
+            else
+                activity.imeContainer.clearCandidates();
+        }
+    }
+
+    private static class GetSuffixesStartingWith extends AsyncTask<String, Integer, List<String>> {
+
+        private WeakReference<MainActivity> activityReference;
+
+        GetSuffixesStartingWith(MainActivity context) {
+            activityReference = new WeakReference<>(context);
+        }
+
+        @Override
+        protected List<String> doInBackground(String... params) {
+            String suffixPrefix = params[0];
+
+            List<String> words = new ArrayList<>();
+
+            MainActivity activity = activityReference.get();
+            if (activity == null || activity.isFinishing()) return words;
+
+            List<String> previousWords = activity.imeContainer.getPreviousMongolWords(2, false);
+            String previousWord = previousWords.get(0);
+            String wordBeforeThat = previousWords.get(1);
+
+            Suffix.WordEnding ending = getEndingOf(wordBeforeThat);
+            Suffix.WordGender gender;
+            if (ending == Suffix.WordEnding.Nil) {
+                gender = getWordGender(suffixPrefix);
+            } else {
+                gender = getWordGender(wordBeforeThat);
+            }
+
+            SuffixDatabaseAdapter adapter = new SuffixDatabaseAdapter(activity);
+            List<String> suffixes = adapter.findSuffixesBeginningWith(suffixPrefix, gender, ending);
+            return suffixes;
+        }
+
+        private Suffix.WordEnding getEndingOf(String word) {
+
+            Suffix.WordEnding ending = Suffix.WordEnding.Nil;
+
+            if (TextUtils.isEmpty(word)) {
+                return ending;
+            }
+
+            // determine ending character
+            char endingChar = word.charAt(word.length() - 1);
+            if (MongolCode.isFVS(endingChar)) {
+                if (word.length() > 1) {
+                    endingChar = word.charAt(word.length() - 2);
+                } else {
+                    return ending;
+                }
+            }
+
+            // determine type
+            if (MongolCode.isVowel(endingChar)) {
+                ending = Suffix.WordEnding.Vowel;
+            } else if (MongolCode.isConsonant(endingChar)) {
+                if (endingChar == MongolCode.Uni.NA) {
+                    ending = Suffix.WordEnding.N;
+                } else if (isBGDRS(endingChar)) {
+                    ending = Suffix.WordEnding.BigDress;
+                } else {
+                    ending = Suffix.WordEnding.OtherConsonant;
+                }
+            }
+
+            return ending;
+        }
+
+        private Suffix.WordGender getWordGender(String word) {
+            MongolCode.Gender gender = MongolCode.getWordGender(word);
+            if (gender == null)
+                return Suffix.WordGender.Neutral;
+            switch (gender) {
+                case MASCULINE:
+                    return Suffix.WordGender.Masculine;
+                case FEMININE:
+                    return Suffix.WordGender.Feminine;
+                default:
+                    return Suffix.WordGender.Neutral;
+            }
+        }
+
+        private boolean isBGDRS(char character) {
+            return (character == MongolCode.Uni.BA ||
+                    character == MongolCode.Uni.GA ||
+                    character == MongolCode.Uni.DA ||
+                    character == MongolCode.Uni.RA ||
+                    character == MongolCode.Uni.SA);
         }
 
         @Override

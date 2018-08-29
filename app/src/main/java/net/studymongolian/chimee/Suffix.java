@@ -1,9 +1,5 @@
 package net.studymongolian.chimee;
 
-/**
- * Created by yonghu on 16-10-22.
- */
-
 public class Suffix {
 
     private String suffix;
@@ -11,7 +7,7 @@ public class Suffix {
     private SuffixType type;
 
     // constructor
-    public Suffix(String suffix, WordGender gender, SuffixType type) {
+    Suffix(String suffix, WordGender gender, SuffixType type) {
         this.suffix = suffix;
         this.gender = gender;
         this.type = type;
