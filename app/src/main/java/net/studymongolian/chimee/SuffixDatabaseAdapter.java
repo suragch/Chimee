@@ -19,7 +19,7 @@ public class SuffixDatabaseAdapter {
     private final int feminine = Suffix.WordGender.Feminine.getValue();
 
     // Constructor
-    public SuffixDatabaseAdapter(Context context) {
+    SuffixDatabaseAdapter(Context context) {
 
         helper = new MyDatabaseHelper(context);
         this.context = context;
@@ -188,12 +188,8 @@ public class SuffixDatabaseAdapter {
         private static final String DROP_SUFFIX_TABLE = "DROP TABLE IF EXISTS "
                 + SUFFIX_TABLE_NAME;
 
-
-        private Context context;
-
-        public MyDatabaseHelper(Context context) {
+        MyDatabaseHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
-            this.context = context;
         }
 
         @Override
@@ -269,8 +265,7 @@ public class SuffixDatabaseAdapter {
 
             ContentValues contentValues = new ContentValues();
 
-            try
-            {
+            try {
                 db.beginTransaction();
 
                 for (Suffix item: list) {
@@ -284,10 +279,9 @@ public class SuffixDatabaseAdapter {
                 }
 
                 db.setTransactionSuccessful();
-            }
-            catch (SQLException e) {}
-            finally
-            {
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
                 db.endTransaction();
             }
         }

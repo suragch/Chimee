@@ -1023,10 +1023,24 @@ public class MainActivity extends AppCompatActivity
             String previousWord = params[1];
             MainActivity activity = activityReference.get();
 
+            int id = UserDictionary.Words.incrementFrequency(activity, word);
+            if (word.charAt(0) == MongolCode.Uni.NNBS) {
+                if (id < 0) {
+                    // it should already be in the suffix database, but adding it
+                    // to the user dictionary will make it so that there is no error
+                    // when incrementing the frequency in the user dictionary later
+                    UserDictionary.Words.addWord(activity, word);
+                }
+                incrementSuffixFrequency(activity, word);
 
-            UserDictionary.Words.incrementFrequency(activity, word);
+            }
             UserDictionary.Words.addFollowing(activity, previousWord, word);
             return UserDictionary.Words.getFollowing(activity, word);
+        }
+
+        private void incrementSuffixFrequency(Context context, String suffix) {
+            SuffixDatabaseAdapter adapter = new SuffixDatabaseAdapter(context);
+            adapter.updateFrequencyForSuffix(suffix);
         }
 
         @Override
