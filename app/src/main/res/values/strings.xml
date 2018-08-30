@@ -91,4 +91,9 @@
     <string name="font_name_svlbiya">ᠰᠤᠯᠪᠢᠶ᠎ᠠ ᠲᠢᠭ</string>
     <string name="font_name_jclgq">ᠵᠣᠯᠭᠠᠴᠠ ᠲᠢᠭ</string>
 
+    <string name="dialog_cancel">ᠦᠭᠡᠢ</string>
+    <string name="dialog_ok">ᠪᠣᠯᠣᠨ᠎ᠠ</string>
+    <string name="dialog_background">ᠰᠠᠭᠤᠷᠢ</string>
+    <string name="dialog_text_color">ᠦᠭᠡ</string>
+
 </resources>

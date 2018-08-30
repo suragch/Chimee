@@ -51,7 +51,8 @@
         app:layout_constraintEnd_toEndOf="@+id/rb_bg_color"
         app:layout_constraintStart_toStartOf="@+id/rb_bg_color"
         app:layout_constraintTop_toBottomOf="@+id/rb_bg_color"
-        app:text="Background" />
+        app:text="@string/dialog_background"
+        app:textSize="20sp"/>
 
     <net.studymongolian.mongollibrary.MongolLabel
         android:id="@+id/ml_fg_color"
@@ -60,7 +61,8 @@
         app:layout_constraintEnd_toEndOf="@+id/rb_fg_color"
         app:layout_constraintStart_toStartOf="@+id/rb_fg_color"
         app:layout_constraintTop_toBottomOf="@+id/rb_fg_color"
-        app:text="Foreground" />
+        app:text="@string/dialog_text_color"
+        app:textSize="20sp"/>
 
 
     <FrameLayout
@@ -76,7 +78,8 @@
         <net.studymongolian.mongollibrary.MongolLabel
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:text="OK" />
+            app:text="@string/dialog_ok"
+            app:textSize="20sp"/>
 
     </FrameLayout>
 
@@ -93,7 +96,8 @@
         <net.studymongolian.mongollibrary.MongolLabel
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:text="Cancel" />
+            app:text="@string/dialog_cancel"
+            app:textSize="20sp"/>
 
     </FrameLayout>
 
@@ -110,10 +114,9 @@
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/dialog_button_positive"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ml_bg_color"
 
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ml_color_preview" />
 
 
 </android.support.constraint.ConstraintLayout>
