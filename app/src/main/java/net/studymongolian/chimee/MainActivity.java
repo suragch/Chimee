@@ -9,6 +9,7 @@ import java.util.List;
 
 
 import net.studymongolian.mongollibrary.ImeContainer;
+import net.studymongolian.mongollibrary.MongolAlertDialog;
 import net.studymongolian.mongollibrary.MongolCode;
 import net.studymongolian.mongollibrary.MongolEditText;
 import net.studymongolian.mongollibrary.MongolFont;
@@ -18,14 +19,13 @@ import net.studymongolian.mongollibrary.MongolMenuItem;
 import net.studymongolian.mongollibrary.MongolToast;
 import net.studymongolian.mongollibrary.MongolTypefaceSpan;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.content.pm.ResolveInfo;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -65,16 +65,19 @@ public class MainActivity extends AppCompatActivity
 
     protected static final int SHARE_CHOOSER_REQUEST = 0;
     protected static final int WECHAT_REQUEST = 1;
-    protected static final int SETTINGS_REQUEST = 2;
-    protected static final int FAVORITE_MESSAGE_REQUEST = 3;
-    protected static final int HISTORY_REQUEST = 4;
-    protected static final int PHOTO_OVERLAY_REQUEST = 6;
+    protected static final int BAINU_REQUEST = 2;
+    //protected static final int SETTINGS_REQUEST = 3;
+    protected static final int FAVORITE_MESSAGE_REQUEST = 4;
+    //protected static final int HISTORY_REQUEST = 5;
+    //protected static final int PHOTO_OVERLAY_REQUEST = 6;
 
     private static final String TEMP_CACHE_SUBDIR = "images";
     private static final String TEMP_CACHE_FILENAME = "image.png";
     private static final String FILE_PROVIDER_AUTHORITY = "net.studymongolian.chimee.fileprovider";
     private static final int MENU_MARGIN_DP = 4;
-
+    private static final String WECHAT_PACKAGE_NAME = "com.tencent.mm";
+    private static final String BAINU_PACKAGE_NAME = "com.zuga.im";
+    private static final String BAINU_DOWNLOAD_SITE = "http://www.zuga-tech.net";
 
 
     private enum ShareType {
@@ -228,15 +231,16 @@ public class MainActivity extends AppCompatActivity
             String selectAll = getString(net.studymongolian.mongollibrary.R.string.select_all);
             String color = getString(R.string.color);
             String font = getString(R.string.font);
+            MongolEditText editText = inputWindow.getEditText();
 
             if (name.equals(copy)) {
-                copySelectedText();
+                editText.copySelectedText();
             } else if (name.equals(cut)) {
-                cutSelectedText();
+                editText.cutSelectedText();
             } else if (name.equals(paste)) {
-                pasteText();
+                editText.pasteText();
             } else if (name.equals(selectAll)) {
-                inputWindow.getEditText().selectAll();
+                editText.selectAll();
             } else if (name.equals(color)) {
                 openColorChooserDialog();
             } else if (name.equals(font)) {
@@ -250,40 +254,40 @@ public class MainActivity extends AppCompatActivity
 
     };
 
-    private boolean copySelectedText() {
-        CharSequence selectedText = inputWindow.getEditText().getSelectedText();
-        if (TextUtils.isEmpty(selectedText))
-            return false;
-        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-        ClipData clip = ClipData.newPlainText(null, selectedText);
-        if (clipboard == null) return false;
-        clipboard.setPrimaryClip(clip);
-        return true;
-    }
-    private void cutSelectedText() {
-        boolean copiedSuccessfully = copySelectedText();
-        if (copiedSuccessfully) {
-            MongolEditText met = inputWindow.getEditText();
-            int start = met.getSelectionStart();
-            int end = met.getSelectionEnd();
-            met.getText().delete(start, end);
-        }
-    }
-
-    private void pasteText() {
-        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-        if (clipboard == null) return;
-        ClipData clip = clipboard.getPrimaryClip();
-        if (clip == null) return;
-        ClipData.Item item = clip.getItemAt(0);
-        if (item == null) return;
-        CharSequence text = item.getText();
-        if (text == null) return;
-        MongolEditText met = inputWindow.getEditText();
-        int start = met.getSelectionStart();
-        int end = met.getSelectionEnd();
-        met.getText().replace(start, end, text);
-    }
+//    private boolean copySelectedText() {
+//        CharSequence selectedText = inputWindow.getEditText().getSelectedText();
+//        if (TextUtils.isEmpty(selectedText))
+//            return false;
+//        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+//        ClipData clip = ClipData.newPlainText(null, selectedText);
+//        if (clipboard == null) return false;
+//        clipboard.setPrimaryClip(clip);
+//        return true;
+//    }
+//    private void cutSelectedText() {
+//        boolean copiedSuccessfully = copySelectedText();
+//        if (copiedSuccessfully) {
+//            MongolEditText met = inputWindow.getEditText();
+//            int start = met.getSelectionStart();
+//            int end = met.getSelectionEnd();
+//            met.getText().delete(start, end);
+//        }
+//    }
+//
+//    private void pasteText() {
+//        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+//        if (clipboard == null) return;
+//        ClipData clip = clipboard.getPrimaryClip();
+//        if (clip == null) return;
+//        ClipData.Item item = clip.getItemAt(0);
+//        if (item == null) return;
+//        CharSequence text = item.getText();
+//        if (text == null) return;
+//        MongolEditText met = inputWindow.getEditText();
+//        int start = met.getSelectionStart();
+//        int end = met.getSelectionEnd();
+//        met.getText().replace(start, end, text);
+//    }
 
     private void openColorChooserDialog() {
         int bgColor = getInputWindowBackgroundColor();
@@ -337,7 +341,6 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
-        showWeChatButtonIfInstalled(menu);
         return true;
     }
 
@@ -355,28 +358,28 @@ public class MainActivity extends AppCompatActivity
         editor.apply();
     }
 
-    private void showWeChatButtonIfInstalled(Menu menu) {
-        String weChatMessageTool = "com.tencent.mm.ui.tools.ShareImgUI";
-        Intent shareIntent = new Intent();
-        shareIntent.setType("image/png");
-        List<ResolveInfo> resInfo = getPackageManager().queryIntentActivities(shareIntent, 0);
-        if (!resInfo.isEmpty()) {
-            for (ResolveInfo info : resInfo) {
-                if (info.activityInfo.name.equals(weChatMessageTool)) {
-                    MenuItem item = menu.findItem(R.id.main_action_wechat);
-                    item.setVisible(true);
-                    break;
-                }
-            }
-        }
-    }
+//    private void showWeChatButtonIfInstalled(Menu menu) {
+//        String weChatMessageTool = "com.tencent.mm.ui.tools.ShareImgUI";
+//        Intent shareIntent = new Intent();
+//        shareIntent.setType("image/png");
+//        List<ResolveInfo> resInfo = getPackageManager().queryIntentActivities(shareIntent, 0);
+//        if (!resInfo.isEmpty()) {
+//            for (ResolveInfo info : resInfo) {
+//                if (info.activityInfo.name.equals(weChatMessageTool)) {
+//                    MenuItem item = menu.findItem(R.id.main_action_wechat);
+//                    item.setVisible(true);
+//                    break;
+//                }
+//            }
+//        }
+//    }
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        if(mImePickerState == ImePickerAction.CHOOSING) {
+        if (mImePickerState == ImePickerAction.CHOOSING) {
             mImePickerState = ImePickerAction.CHOSEN;
-        } else if(mImePickerState == ImePickerAction.CHOSEN) {
+        } else if (mImePickerState == ImePickerAction.CHOSEN) {
             showSystemKeyboard();
             mImePickerState = ImePickerAction.NONE;
         }
@@ -497,15 +500,14 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.main_action_wechat:
-                shareMenuItemClick();
-                //shareTo(ShareType.WeChat);
+            case R.id.main_action_share:
+                shareActionBarItemClick();
                 return true;
             case R.id.main_action_photo:
-                //photoActionBarClick();
+                //photoActionBarItemClick();
                 return true;
             case R.id.main_action_favorite:
-                //favoriteActionBarClick();
+                favoriteActionBarItemClick();
                 return true;
             case R.id.main_action_overflow:
                 overflowMenuItemClick();
@@ -515,14 +517,27 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void shareMenuItemClick() {
-        View shareButton = findViewById(R.id.main_action_wechat);
+    private void shareActionBarItemClick() {
+
+        // check WeChat and Bainu
+        PackageManager pm = getApplicationContext().getPackageManager();
+        boolean shouldShowWeChat = isPackageInstalled(WECHAT_PACKAGE_NAME);
+        boolean shouldShowBainu = isPackageInstalled(BAINU_PACKAGE_NAME)
+                || shouldShowBainuIcon();
+        if (!shouldShowWeChat && !shouldShowBainu) {
+            shareTo(ShareType.Other);
+            return;
+        }
+
+        // create menu
         MongolMenu menu = new MongolMenu(this);
         final MongolMenuItem weChat = new MongolMenuItem(getString(R.string.menu_item_share_wechat), R.drawable.ic_wechat_black_24dp);
         final MongolMenuItem bainu = new MongolMenuItem(getString(R.string.menu_item_share_bainu), R.drawable.ic_bainu_black_24dp);
-        final MongolMenuItem other = new MongolMenuItem(getString(R.string.menu_item_share), R.drawable.ic_share_black_24dp);
-        menu.add(weChat);
-        menu.add(bainu);
+        final MongolMenuItem other = new MongolMenuItem(getString(R.string.menu_item_share_other), R.drawable.ic_share_black_24dp);
+        if (shouldShowWeChat)
+            menu.add(weChat);
+        if (shouldShowBainu)
+            menu.add(bainu);
         menu.add(other);
         menu.setOnMenuItemClickListener(new MongolMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MongolMenuItem item) {
@@ -537,14 +552,29 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        // show menu
         int[] location = new int[2];
+        View shareButton = findViewById(R.id.main_action_share);
         shareButton.getLocationInWindow(location);
         int gravity = Gravity.NO_GRAVITY;
         int marginPx = convertDpToPx(MENU_MARGIN_DP);
         int xOffset = location[0];
         int yOffset = location[1] + marginPx;
-
         menu.showAtLocation(shareButton, gravity, xOffset, yOffset);
+    }
+
+    private boolean shouldShowBainuIcon() {
+        SharedPreferences settings = getSharedPreferences(SettingsActivity.PREFS_NAME, MODE_PRIVATE);
+        return settings.getBoolean(SettingsActivity.SHOW_BAINU_BUTTON_KEY, true);
+    }
+
+    private boolean isPackageInstalled(String packageName) {
+        PackageManager pm = getApplicationContext().getPackageManager();
+        try {
+            return pm.getApplicationInfo(packageName, 0).enabled;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
     }
 
     public void shareTo(ShareType shareDestination) {
@@ -558,32 +588,45 @@ public class MainActivity extends AppCompatActivity
 
         saveMessageToHistory(message);
 
-        inputWindow.setCursorVisible(false);
-        Bitmap bitmap = inputWindow.getBitmap(); // getBitmapFromInputWindow();
-        inputWindow.setCursorVisible(true);
-
-
-        boolean successfullySaved = saveBitmapToCacheDir(bitmap);
-        if (!successfullySaved) return;
-        Uri imageUri = getUriForSavedImage();
-        if (imageUri == null) return;
-        Intent shareIntent = getShareIntent(imageUri);
         switch (shareDestination) {
             case WeChat:
-                shareToWeChat(shareIntent);
+                shareToWeChat();
                 break;
             case Bainu:
-                shareToBainu(imageUri);
+                shareToBainu();
                 break;
             case Other:
-                shareToSystemApp(shareIntent);
+                shareToSystemApp();
                 break;
         }
+    }
 
 
-        // Show cursor again
-        inputWindow.setCursorVisible(true);
+    private void favoriteActionBarItemClick() {
 
+        // Start About activity
+        Intent intent = new Intent(this, FavoriteActivity.class);
+        String text = inputWindow.getText().toString();
+        intent.putExtra(FavoriteActivity.CURRENT_MESSAGE_KEY, text);
+        startActivityForResult(intent, FAVORITE_MESSAGE_REQUEST);
+
+
+        // catch empty string
+//        String text = inputWindow.getText().toString().trim();
+//        if (TextUtils.isEmpty(text)) {
+//            String message = getString(R.string.dialog_message_emptyfavorite);
+//            showAlertWithNoButtons(message);
+//            return;
+//        }
+//
+//        new AddMessageToFavoriteDb(this).execute(text);
+    }
+
+    private void showAlertWithNoButtons(String message) {
+        MongolAlertDialog.Builder builder = new MongolAlertDialog.Builder(this);
+        builder.setMessage(message);
+        MongolAlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void overflowMenuItemClick() {
@@ -611,24 +654,6 @@ public class MainActivity extends AppCompatActivity
         return (int) (dp * getResources().getDisplayMetrics().density);
     }
 
-//    private Bitmap getBitmapFromInputWindow() {
-//        MongolEditText editText = inputWindow.getEditText();
-//        FrameLayout wrapper = findViewById(R.id.inputWindowWrapper);
-//        int editTextWidth = editText.getWidth();
-//        int inputWidth = wrapper.getWidth();
-//        int height = editText.getHeight();
-//        Bitmap bitmap;
-//        if (editTextWidth < inputWidth) {
-//            bitmap = Bitmap.createBitmap(inputWidth, height, Bitmap.Config.ARGB_8888);
-//            Canvas canvas = new Canvas(bitmap);
-//            wrapper.draw(canvas);
-//        } else {
-//            bitmap = Bitmap.createBitmap(editTextWidth, height, Bitmap.Config.ARGB_8888);
-//            Canvas canvas = new Canvas(bitmap);
-//            editText.draw(canvas);
-//        }
-//        return bitmap;
-//    }
 
     private boolean saveBitmapToCacheDir(Bitmap bitmap) {
         Context context = getApplicationContext();
@@ -654,7 +679,12 @@ public class MainActivity extends AppCompatActivity
         return FileProvider.getUriForFile(context, FILE_PROVIDER_AUTHORITY, newFile);
     }
 
-    private Intent getShareIntent(Uri imageUri) {
+    private Intent getShareImageIntent() {
+        Bitmap bitmap = getInputWindowBitmap();
+        boolean successfullySaved = saveBitmapToCacheDir(bitmap);
+        if (!successfullySaved) return null;
+        Uri imageUri = getUriForSavedImage();
+        if (imageUri == null) return null;
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -663,18 +693,76 @@ public class MainActivity extends AppCompatActivity
         return shareIntent;
     }
 
-    private void shareToWeChat(Intent shareIntent) {
+    private Bitmap getInputWindowBitmap() {
+        inputWindow.setCursorVisible(false);
+        Bitmap bitmap = inputWindow.getBitmap();
+        inputWindow.setCursorVisible(true);
+        return bitmap;
+    }
+
+    private void shareToWeChat() {
+        Intent shareIntent = getShareImageIntent();
         ComponentName comp = new ComponentName("com.tencent.mm",
                 "com.tencent.mm.ui.tools.ShareImgUI");
         shareIntent.setComponent(comp);
         startActivityForResult(shareIntent, WECHAT_REQUEST);
     }
 
-    private void shareToBainu(Uri imageUri) {
+    private void shareToBainu() {
 
+        boolean isBainuInstalled = isPackageInstalled(BAINU_PACKAGE_NAME);
+        if (!isBainuInstalled) {
+            askIfUserWantsToDownloadBainu();
+            return;
+        }
+
+        String text = inputWindow.getText().toString();
+        String menksoftCode = MongolCode.INSTANCE.unicodeToMenksoft(text);
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, menksoftCode);
+        shareIntent.setType("text/plain");
+        ComponentName comp = new ComponentName("com.zuga.im",
+                "com.zuga.im.bainuSdk.BNEntryActivity");
+        shareIntent.setComponent(comp);
+        startActivityForResult(shareIntent, BAINU_REQUEST);
     }
 
-    private void shareToSystemApp(Intent shareIntent) {
+    private void askIfUserWantsToDownloadBainu() {
+        MongolAlertDialog.Builder builder = new MongolAlertDialog.Builder(this);
+        builder.setMessage(getString(R.string.download_bainu_alert_message));
+
+        builder.setPositiveButton(getString(R.string.download_bainu_alert_positive), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                openBainuDownloadPage();
+            }
+        });
+        builder.setNegativeButton(getString(R.string.download_bainu_alert_negative), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                saveBainuChoiceToPreferences(false);
+            }
+        });
+
+        MongolAlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void openBainuDownloadPage() {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(BAINU_DOWNLOAD_SITE));
+        startActivity(browserIntent);
+    }
+
+    private void saveBainuChoiceToPreferences(boolean showBainuButton) {
+        SharedPreferences settings = getSharedPreferences(SettingsActivity.PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putBoolean(SettingsActivity.SHOW_BAINU_BUTTON_KEY, showBainuButton);
+        editor.apply();
+    }
+
+    private void shareToSystemApp() {
+        Intent shareIntent = getShareImageIntent();
         startActivity(Intent.createChooser(shareIntent, null));
     }
 
@@ -1081,6 +1169,41 @@ public class MainActivity extends AppCompatActivity
             if (activity == null || activity.isFinishing()) return;
             activity.imeContainer.removeCandidate(index);
         }
+    }
+
+    private static class AddMessageToFavoriteDb extends AsyncTask<String, Void, Boolean> {
+
+        private WeakReference<MainActivity> activityReference;
+
+        AddMessageToFavoriteDb(MainActivity context) {
+            activityReference = new WeakReference<>(context);
+        }
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+
+            String message = params[0];
+            MainActivity activity = activityReference.get();
+            long rowId;
+            try {
+                MessageDatabaseAdapter dbAdapter = new MessageDatabaseAdapter(activity);
+                rowId = dbAdapter.addFavoriteMessage(message);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+            return rowId >= 0;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean messageAdded) {
+            if (!messageAdded) return;
+            MainActivity activity = activityReference.get();
+            if (activity == null || activity.isFinishing()) return;
+            MongolToast.makeText(activity, R.string.toast_favorite_added,
+                    MongolToast.LENGTH_SHORT).show();
+        }
+
     }
 
 }

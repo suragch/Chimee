@@ -104,7 +104,7 @@ public class MessageDatabaseAdapter {
 		return allMessages;
 	}
 
-	public long addFavorateMessage(String message) {
+	public long addFavoriteMessage(String message) {
 
 		// get current Unix epoc time in milliseconds
 		long date = System.currentTimeMillis();

@@ -120,8 +120,8 @@
     <orderEntry type="library" name="Gradle: com.android.support:print-28.0.0-rc02" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:support-annotations:28.0.0-rc02@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:interpolator-28.0.0-rc02" level="project" />
-    <orderEntry type="library" name="Gradle: net.studymongolian:mongol-library-1.12.4" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:versionedparcelable-28.0.0-rc02" level="project" />
+    <orderEntry type="library" name="Gradle: net.studymongolian:mongol-library-1.13.0" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:drawerlayout-28.0.0-rc02" level="project" />
     <orderEntry type="library" name="Gradle: android.arch.lifecycle:viewmodel-1.1.1" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:loader-28.0.0-rc02" level="project" />

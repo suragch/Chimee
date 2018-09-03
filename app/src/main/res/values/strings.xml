@@ -33,7 +33,7 @@
     <string name="color_chooser_background_button">ᠠᠷᠤ ᠦᠵᠡᠭᠳᠡᠯ</string>
     <string name="color_chooser_font_button">ᠦᠰᠦᠭ</string>
     <string name="dialog_title_default">ᠰᠠᠨᠠᠭᠤᠯᠬᠤ</string>
-    <string name="dialog_message_emptyfavorite">ᠨᠠᠶᠢᠷᠠᠭᠤᠯᠬᠤ ᠴᠤᠩᠬᠤ ᠬᠤᠭᠤᠰᠤᠨ ᠪᠠᠶᠢᠨ᠎ᠠ᠂ ᠲᠠ ᠦᠰᠦᠭ ᠪᠢᠴᠢᠭᠡᠳ ᠦᠷᠭᠦᠯᠵᠢ ᠬᠡᠷᠡᠭᠯᠡᠳᠡᠭ ᠵᠠᠬᠢᠶᠠᠨ ᠳᠤ ᠪᠠᠨ ᠬᠠᠳᠠᠭᠠᠯᠠᠷᠠᠢ</string>
+    <string name="dialog_message_emptyfavorite">ᠨᠠᠶᠢᠷᠠᠭᠤᠯᠬᠤ ᠴᠤᠩᠬᠤ ᠬᠤᠭᠤᠰᠤᠨ ᠪᠠᠶᠢᠨ᠎ᠠ ᠂ ᠲᠠ ᠦᠰᠦᠭ ᠪᠢᠴᠢᠭᠡᠳ ᠦᠷᠭᠦᠯᠵᠢ ᠬᠡᠷᠡᠭᠯᠡᠳᠡᠭ ᠵᠠᠬᠢᠶᠠᠨ ᠳᠤ ᠪᠠᠨ ᠬᠠᠳᠠᠭᠠᠯᠠᠷᠠᠢ</string>
     <string name="dialog_one_button_default">ᠲᠡᠭᠡ</string>
     <string name="dialog_top_button_default">ᠲᠡᠭᠡ</string>
     <string name="dialog_bottom_button_default">ᠪᠤᠯᠢ</string>
@@ -69,8 +69,9 @@
     <string name="favorite_db_message3">ᠳᠠᠷᠤᠪᠴᠢ ᠶᠢ ᠳᠠᠷᠤᠭᠠᠳ ᠪᠠᠢᠪᠠᠯ ᠵᠠᠬᠢᠶ᠎ᠠ ᠶᠢ ᠤᠰᠠᠳᠬᠠᠵᠤ ᠬᠠᠶᠠᠨ᠎ᠠ᠃</string>
 
     <string name="title_activity_photo_overlay">PhotoOverlayActivity</string>
-    <string name="menu_item_share_wechat">WeChat</string>
-    <string name="menu_item_share_bainu">Bainu</string>
+    <string name="menu_item_share_wechat">ᠸᠢᠴᠠᠲ</string>
+    <string name="menu_item_share_bainu">ᠪᠠᠢᠨᠠᠤ</string>
+    <string name="menu_item_share_other">ᠨᠡᠩ ᠣᠯᠠᠨ</string>
     <string name="content_description_show_keyboard">show keyboard</string>
     <string name="color">ᠥᠩᠭᠡ</string>
     <string name="font">ᠦᠰᠦᠭ ᠤᠨ ᠲᠢᠭ</string>
@@ -95,5 +96,9 @@
     <string name="dialog_ok">ᠪᠣᠯᠣᠨ᠎ᠠ</string>
     <string name="dialog_background">ᠰᠠᠭᠤᠷᠢ</string>
     <string name="dialog_text_color">ᠦᠭᠡ</string>
+
+    <string name="download_bainu_alert_message">ᠲᠠᠨ ᠤ ᠮᠠᠰᠢᠨ ᠲᠡᠭᠡᠷ᠎ᠡ ᠴᠢᠨᠢ 《 ᠪᠠᠢᠨᠠᠤ 》 ᠵᠢ ᠤᠭᠰᠠᠷᠠᠭᠰᠠᠨ ᠦᠭᠡᠢ ᠂ 《 ᠪᠠᠢᠨᠠᠤ 》 ᠵᠢ ᠤᠭᠰᠠᠷᠠᠪᠠᠯ ᠴᠤᠯᠤ ᠮᠤᠨᠭ᠍ᠭᠤᠯ ᠢᠶᠠᠷ ᠶᠠᠷᠢᠯᠴᠠᠵᠤ ᠪᠤᠯᠤᠨ᠎ᠠ ᠂ ᠤᠳᠤ ᠪᠡᠷ ᠶᠢᠡᠨ ᠪᠠᠭᠤᠯᠭᠠᠬᠤ ᠦᠦ ︖</string>
+    <string name="download_bainu_alert_positive">ᠲᠡᠭᠡᠶ᠎ᠡ</string>
+    <string name="download_bainu_alert_negative">ᠦᠭᠡᠢ</string>
 
 </resources>

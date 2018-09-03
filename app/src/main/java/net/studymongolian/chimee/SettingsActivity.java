@@ -49,17 +49,18 @@ public class SettingsActivity extends AppCompatActivity {
 	protected static final String TEXTCOLOR_KEY = "textColor";
 	protected static final int TEXTCOLOR_DEFAULT = Color.BLACK;
 
-    protected static final String DRAFT_KEY = "draft"; // Unicode text in input window when closed
-    protected static final String DRAFT_DEFAULT = "";
-    protected static final String CURSOR_POSITION_KEY = "cursorPosition";
-    protected static final int CURSOR_POSITION_DEFAULT = 0;
+	protected static final String DRAFT_KEY = "draft"; // Unicode text in input window when closed
+	protected static final String DRAFT_DEFAULT = "";
+	protected static final String CURSOR_POSITION_KEY = "cursorPosition";
+	protected static final int CURSOR_POSITION_DEFAULT = 0;
+	public static final String SHOW_BAINU_BUTTON_KEY = "show_bainu";
 
 
 	private static final int KEYBOARD_REQUEST = 1;
 	private static final int COLOR_REQUEST = 2;
 	private static final int FONT_REQUEST = 3;
 
-	TextView tvColorText;
+    TextView tvColorText;
 	TextView tvFontSetting;
 	FrameLayout flColorBox;
 	TextView tvKeyboard;
