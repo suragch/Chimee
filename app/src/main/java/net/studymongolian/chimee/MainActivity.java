@@ -66,10 +66,10 @@ public class MainActivity extends AppCompatActivity
     protected static final int SHARE_CHOOSER_REQUEST = 0;
     protected static final int WECHAT_REQUEST = 1;
     protected static final int BAINU_REQUEST = 2;
-    //protected static final int SETTINGS_REQUEST = 3;
+    protected static final int SETTINGS_REQUEST = 3;
     protected static final int FAVORITE_MESSAGE_REQUEST = 4;
-    //protected static final int HISTORY_REQUEST = 5;
-    //protected static final int PHOTO_OVERLAY_REQUEST = 6;
+    protected static final int HISTORY_REQUEST = 5;
+    protected static final int PHOTO_OVERLAY_REQUEST = 6;
 
     private static final String TEMP_CACHE_SUBDIR = "images";
     private static final String TEMP_CACHE_FILENAME = "image.png";
@@ -358,22 +358,6 @@ public class MainActivity extends AppCompatActivity
         editor.apply();
     }
 
-//    private void showWeChatButtonIfInstalled(Menu menu) {
-//        String weChatMessageTool = "com.tencent.mm.ui.tools.ShareImgUI";
-//        Intent shareIntent = new Intent();
-//        shareIntent.setType("image/png");
-//        List<ResolveInfo> resInfo = getPackageManager().queryIntentActivities(shareIntent, 0);
-//        if (!resInfo.isEmpty()) {
-//            for (ResolveInfo info : resInfo) {
-//                if (info.activityInfo.name.equals(weChatMessageTool)) {
-//                    MenuItem item = menu.findItem(R.id.main_action_wechat);
-//                    item.setVisible(true);
-//                    break;
-//                }
-//            }
-//        }
-//    }
-
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
@@ -533,7 +517,7 @@ public class MainActivity extends AppCompatActivity
         MongolMenu menu = new MongolMenu(this);
         final MongolMenuItem weChat = new MongolMenuItem(getString(R.string.menu_item_share_wechat), R.drawable.ic_wechat_black_24dp);
         final MongolMenuItem bainu = new MongolMenuItem(getString(R.string.menu_item_share_bainu), R.drawable.ic_bainu_black_24dp);
-        final MongolMenuItem other = new MongolMenuItem(getString(R.string.menu_item_share_other), R.drawable.ic_share_black_24dp);
+        final MongolMenuItem other = new MongolMenuItem(getString(R.string.menu_item_share_other), R.drawable.ic_more_vert_black_24dp);
         if (shouldShowWeChat)
             menu.add(weChat);
         if (shouldShowBainu)
@@ -906,6 +890,61 @@ public class MainActivity extends AppCompatActivity
         inputWindow.setDesiredHeight(newHeight);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == SHARE_CHOOSER_REQUEST) {
+
+            if (resultCode == RESULT_OK) {
+                // TODO this never gets called. Make a custom chooser
+            }
+
+            inputWindow.getEditText().setText("");
+
+        } else if (requestCode == WECHAT_REQUEST) {
+
+            inputWindow.getEditText().setText("");
+
+        } else if (requestCode == HISTORY_REQUEST) {
+            if (resultCode == RESULT_OK) {
+
+                if (data.hasExtra("resultString")) {
+                    String result = data.getExtras().getString("resultString");
+//					unicodeText.insert(cursorPosition, result);
+//					cursorPosition += result.length();
+                    //updateDisplay();
+                }
+            }
+
+        } else if (requestCode == SETTINGS_REQUEST) {
+            if (resultCode == RESULT_OK) {
+
+                // Get preferences and update settings display
+                //settings = getSharedPreferences(SettingsActivity.PREFS_NAME, MODE_PRIVATE);
+
+
+            }
+        } else if (requestCode == FAVORITE_MESSAGE_REQUEST) {
+            onFavoriteActivityResult(resultCode, data);
+
+        } else {
+
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    private void onFavoriteActivityResult(int resultCode, Intent data) {
+        if (resultCode != RESULT_OK) return;
+        Bundle extras = data.getExtras();
+        if (extras == null) return;
+        String message = extras.getString(FavoriteActivity.RESULT_STRING_KEY);
+        if (TextUtils.isEmpty(message)) return;
+        MongolEditText editText = inputWindow.getEditText();
+        int start = editText.getSelectionStart();
+        int end = editText.getSelectionEnd();
+        editText.getText().replace(start, end, message);
+    }
+
+
     private class SaveMessageToHistory extends AsyncTask<String, Void, Void> {
 
         @Override
@@ -1171,39 +1210,5 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private static class AddMessageToFavoriteDb extends AsyncTask<String, Void, Boolean> {
-
-        private WeakReference<MainActivity> activityReference;
-
-        AddMessageToFavoriteDb(MainActivity context) {
-            activityReference = new WeakReference<>(context);
-        }
-
-        @Override
-        protected Boolean doInBackground(String... params) {
-
-            String message = params[0];
-            MainActivity activity = activityReference.get();
-            long rowId;
-            try {
-                MessageDatabaseAdapter dbAdapter = new MessageDatabaseAdapter(activity);
-                rowId = dbAdapter.addFavoriteMessage(message);
-            } catch (Exception e) {
-                e.printStackTrace();
-                return false;
-            }
-            return rowId >= 0;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean messageAdded) {
-            if (!messageAdded) return;
-            MainActivity activity = activityReference.get();
-            if (activity == null || activity.isFinishing()) return;
-            MongolToast.makeText(activity, R.string.toast_favorite_added,
-                    MongolToast.LENGTH_SHORT).show();
-        }
-
-    }
 
 }

@@ -12,12 +12,13 @@
         android:layout_height="wrap_content"
         app:titleTextColor="@android:color/primary_text_dark"
         android:background="?attr/colorPrimary"
+        android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
     </android.support.v7.widget.Toolbar>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_all_words"
+        android:id="@+id/rv_all_favorites"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

@@ -13,12 +13,12 @@ import java.util.List;
 
 public class FavoritesRvAdapter extends RecyclerView.Adapter<FavoritesRvAdapter.ViewHolder> {
 
-    private List<String> mFavorites;
+    private List<Message> mFavorites;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
 
     // data is passed into the constructor
-    FavoritesRvAdapter(Context context, List<String> messages) {
+    FavoritesRvAdapter(Context context, List<Message> messages) {
         this.mInflater = LayoutInflater.from(context);
         this.mFavorites = messages;
     }
@@ -34,8 +34,8 @@ public class FavoritesRvAdapter extends RecyclerView.Adapter<FavoritesRvAdapter.
     // binds the data to the view and textview in each row
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String message = mFavorites.get(position);
-        holder.mtvMessage.setText(message);
+        Message message = mFavorites.get(position);
+        holder.mtvMessage.setText(message.getMessage());
     }
 
     // total number of rows
@@ -70,7 +70,7 @@ public class FavoritesRvAdapter extends RecyclerView.Adapter<FavoritesRvAdapter.
     }
 
     // convenience method for getting data at click position
-    String getItem(int id) {
+    Message getItem(int id) {
         return mFavorites.get(id);
     }
 

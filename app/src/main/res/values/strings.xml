@@ -64,9 +64,9 @@
 
 
     <!-- Initial default values (in Unicode) for Favorite Table in Message db-->
-    <string name="favorite_db_message1">ᠰᠠᠢᠨ ᠪᠠᠢᠨ᠎ᠠ ᠤᠤ?</string>
-    <string name="favorite_db_message2">ᠵᠠᠬᠢᠶ᠎ᠠ ᠶᠢ ᠳᠣᠪᠴᠢᠳᠠᠪᠠᠯ ᠨᠠᠢᠷᠠᠭᠤᠯᠬᠤ ᠴᠣᠩᠬᠣᠨ ᠳᠤ ᠬᠠᠭᠤᠯᠤᠨ ᠠᠪᠴᠢᠷᠠᠨ᠎ᠠ᠃</string>
-    <string name="favorite_db_message3">ᠳᠠᠷᠤᠪᠴᠢ ᠶᠢ ᠳᠠᠷᠤᠭᠠᠳ ᠪᠠᠢᠪᠠᠯ ᠵᠠᠬᠢᠶ᠎ᠠ ᠶᠢ ᠤᠰᠠᠳᠬᠠᠵᠤ ᠬᠠᠶᠠᠨ᠎ᠠ᠃</string>
+    <string name="favorite_db_message1">ᠰᠠᠢᠨ ᠪᠠᠢᠨ᠎ᠠ ᠤᠤ ︖</string>
+    <string name="favorite_db_message2">ᠵᠠᠬᠢᠶ᠎ᠠ ᠶᠢ ᠳᠣᠪᠴᠢᠳᠠᠪᠠᠯ ᠨᠠᠢᠷᠠᠭᠤᠯᠬᠤ ᠴᠣᠩᠬᠣᠨ ᠳᠤ ᠬᠠᠭᠤᠯᠤᠨ ᠠᠪᠴᠢᠷᠠᠨ᠎ᠠ ᠃</string>
+    <string name="favorite_db_message3">ᠳᠠᠷᠤᠪᠴᠢ ᠶᠢ ᠳᠠᠷᠤᠭᠠᠳ ᠪᠠᠢᠪᠠᠯ ᠵᠠᠬᠢᠶ᠎ᠠ ᠶᠢ ᠤᠰᠠᠳᠬᠠᠵᠤ ᠬᠠᠶᠠᠨ᠎ᠠ ᠃</string>
 
     <string name="title_activity_photo_overlay">PhotoOverlayActivity</string>
     <string name="menu_item_share_wechat">ᠸᠢᠴᠠᠲ</string>
