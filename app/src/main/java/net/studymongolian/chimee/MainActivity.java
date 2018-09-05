@@ -57,8 +57,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 
 public class MainActivity extends AppCompatActivity
-        implements ImeContainer.DataSource,
-        ImeContainer.OnNonSystemImeListener,
+        implements ImeContainer.OnNonSystemImeListener,
+        ImeDataSourceHelper.DataSourceHelperListener,
         MongolEditText.ContextMenuCallback,
         ColorChooserDialogFragment.ColorDialogListener,
         FontChooserDialogFragment.FontDialogListener {
@@ -78,6 +78,8 @@ public class MainActivity extends AppCompatActivity
     private static final String WECHAT_PACKAGE_NAME = "com.tencent.mm";
     private static final String BAINU_PACKAGE_NAME = "com.zuga.im";
     private static final String BAINU_DOWNLOAD_SITE = "http://www.zuga-tech.net";
+
+
 
 
     private enum ShareType {
@@ -131,8 +133,9 @@ public class MainActivity extends AppCompatActivity
         MongolInputMethodManager mimm = new MongolInputMethodManager();
         mimm.addEditor(editText);
         mimm.setIme(imeContainer);
-        imeContainer.showSystemKeyboardsOption("ᠰᠢᠰᠲ᠋ᠧᠮ");
-        imeContainer.setDataSource(this);
+        imeContainer.showSystemKeyboardsOption(getString(R.string.keyboard_show_system_keyboards));
+
+        imeContainer.setDataSource(new ImeDataSourceHelper(this));
         imeContainer.setOnNonSystemImeListener(this);
         getSavedKeyboard();
     }
@@ -369,38 +372,52 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    // ImeContainer.DataSource methods
+    // ImeDataSourceHelper.DataSourceHelperListener methods
 
     @Override
-    public void onRequestWordsStartingWith(String text) {
-        if (text.startsWith(String.valueOf(MongolCode.Uni.NNBS))) {
-            new GetSuffixesStartingWith(this).execute(text);
-        } else {
-            new GetWordsStartingWith(this).execute(text);
-        }
+    public CustomImeContainer getImeContainer() {
+        return imeContainer;
     }
 
     @Override
-    public void onWordFinished(String word, String previousWord) {
-        new AddOrUpdateDictionaryWordsTask(this).execute(word, previousWord);
+    public Context getContext() {
+        return this;
     }
 
-    @Override
-    public void onCandidateClick(int position, String word, String previousWordInEditor) {
-        addSpace();
-        new RespondToCandidateClick(this).execute(word, previousWordInEditor);
-    }
+//    // ImeContainer.DataSource methods
+//
+//    @Override
+//    public void onRequestWordsStartingWith(String text) {
+//        if (text.startsWith(String.valueOf(MongolCode.Uni.NNBS))) {
+//            new GetSuffixesStartingWith(this).execute(text);
+//        } else {
+//            new GetWordsStartingWith(this).execute(text);
+//        }
+//    }
+//
+//    @Override
+//    public void onWordFinished(String word, String previousWord) {
+//        new AddOrUpdateDictionaryWordsTask(this).execute(word, previousWord);
+//    }
+//
+//    @Override
+//    public void onCandidateClick(int position, String word, String previousWordInEditor) {
+//        addSpace();
+//        new RespondToCandidateClick(this).execute(word, previousWordInEditor);
+//    }
+//
+//    private void addSpace() {
+//        InputConnection ic = imeContainer.getInputConnection();
+//        if (ic == null) return;
+//        ic.commitText(" ", 1);
+//    }
+//
+//    @Override
+//    public void onCandidateLongClick(int position, String word, String previousWordInEditor) {
+//        new DeleteWord(this, position).execute(word, previousWordInEditor);
+//    }
 
-    private void addSpace() {
-        InputConnection ic = imeContainer.getInputConnection();
-        if (ic == null) return;
-        ic.commitText(" ", 1);
-    }
-
-    @Override
-    public void onCandidateLongClick(int position, String word, String previousWordInEditor) {
-        new DeleteWord(this, position).execute(word, previousWordInEditor);
-    }
+    // ImeContainer.OnNonSystemImeListener methods
 
     @Override
     public void onSystemKeyboardRequest() {
@@ -964,251 +981,251 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    private static class GetWordsStartingWith extends AsyncTask<String, Integer, List<String>> {
-
-        private WeakReference<MainActivity> activityReference;
-
-        GetWordsStartingWith(MainActivity context) {
-            activityReference = new WeakReference<>(context);
-        }
-
-        @Override
-        protected List<String> doInBackground(String... params) {
-            String prefix = params[0];
-
-            Context context = activityReference.get();
-
-            List<String> words = new ArrayList<>();
-            Cursor cursor = UserDictionary.Words.queryPrefix(context, prefix);
-            if (cursor == null) return words;
-            int indexWord = cursor.getColumnIndex(UserDictionary.Words.WORD);
-            while (cursor.moveToNext()) {
-                words.add(cursor.getString(indexWord));
-            }
-            cursor.close();
-            return words;
-
-        }
-
-        @Override
-        protected void onPostExecute(List<String> result) {
-            MainActivity activity = activityReference.get();
-            if (activity == null || activity.isFinishing()) return;
-
-            if (result.size() > 0)
-                activity.imeContainer.setCandidates(result);
-            else
-                activity.imeContainer.clearCandidates();
-        }
-    }
-
-    private static class GetSuffixesStartingWith extends AsyncTask<String, Integer, List<String>> {
-
-        private WeakReference<MainActivity> activityReference;
-
-        GetSuffixesStartingWith(MainActivity context) {
-            activityReference = new WeakReference<>(context);
-        }
-
-        @Override
-        protected List<String> doInBackground(String... params) {
-            String suffixPrefix = params[0];
-
-            List<String> words = new ArrayList<>();
-
-            MainActivity activity = activityReference.get();
-            if (activity == null || activity.isFinishing()) return words;
-
-            List<String> previousWords = activity.imeContainer.getPreviousMongolWords(2, false);
-            String previousWord = previousWords.get(0);
-            String wordBeforeThat = previousWords.get(1);
-
-            Suffix.WordEnding ending = getEndingOf(wordBeforeThat);
-            Suffix.WordGender gender;
-            if (ending == Suffix.WordEnding.Nil) {
-                gender = getWordGender(suffixPrefix);
-            } else {
-                gender = getWordGender(wordBeforeThat);
-            }
-
-            SuffixDatabaseAdapter adapter = new SuffixDatabaseAdapter(activity);
-            List<String> suffixes = adapter.findSuffixesBeginningWith(suffixPrefix, gender, ending);
-            return suffixes;
-        }
-
-        private Suffix.WordEnding getEndingOf(String word) {
-
-            Suffix.WordEnding ending = Suffix.WordEnding.Nil;
-
-            if (TextUtils.isEmpty(word)) {
-                return ending;
-            }
-
-            // determine ending character
-            char endingChar = word.charAt(word.length() - 1);
-            if (MongolCode.isFVS(endingChar)) {
-                if (word.length() > 1) {
-                    endingChar = word.charAt(word.length() - 2);
-                } else {
-                    return ending;
-                }
-            }
-
-            // determine type
-            if (MongolCode.isVowel(endingChar)) {
-                ending = Suffix.WordEnding.Vowel;
-            } else if (MongolCode.isConsonant(endingChar)) {
-                if (endingChar == MongolCode.Uni.NA) {
-                    ending = Suffix.WordEnding.N;
-                } else if (isBGDRS(endingChar)) {
-                    ending = Suffix.WordEnding.BigDress;
-                } else {
-                    ending = Suffix.WordEnding.OtherConsonant;
-                }
-            }
-
-            return ending;
-        }
-
-        private Suffix.WordGender getWordGender(String word) {
-            MongolCode.Gender gender = MongolCode.getWordGender(word);
-            if (gender == null)
-                return Suffix.WordGender.Neutral;
-            switch (gender) {
-                case MASCULINE:
-                    return Suffix.WordGender.Masculine;
-                case FEMININE:
-                    return Suffix.WordGender.Feminine;
-                default:
-                    return Suffix.WordGender.Neutral;
-            }
-        }
-
-        private boolean isBGDRS(char character) {
-            return (character == MongolCode.Uni.BA ||
-                    character == MongolCode.Uni.GA ||
-                    character == MongolCode.Uni.DA ||
-                    character == MongolCode.Uni.RA ||
-                    character == MongolCode.Uni.SA);
-        }
-
-        @Override
-        protected void onPostExecute(List<String> result) {
-            MainActivity activity = activityReference.get();
-            if (activity == null || activity.isFinishing()) return;
-
-            if (result.size() > 0)
-                activity.imeContainer.setCandidates(result);
-            else
-                activity.imeContainer.clearCandidates();
-        }
-    }
-
-    private static class AddOrUpdateDictionaryWordsTask extends AsyncTask<String, Integer, Void> {
-
-        private WeakReference<MainActivity> activityReference;
-
-        AddOrUpdateDictionaryWordsTask(MainActivity context) {
-            activityReference = new WeakReference<>(context);
-        }
-
-        @Override
-        protected Void doInBackground(String... params) {
-            String word = params[0];
-            String previousWord = params[1];
-            Context context = activityReference.get();
-            insertUpdateWord(context, word);
-
-            UserDictionary.Words.addFollowing(context, previousWord, word);
-            return null;
-        }
-
-    }
-
-    private static void insertUpdateWord(Context context, String word) {
-        if (context == null) return;
-
-        int id = UserDictionary.Words.incrementFrequency(context, word);
-        if (id < 0) {
-            UserDictionary.Words.addWord(context, word);
-        }
-
-    }
-
-
-    private static class RespondToCandidateClick extends AsyncTask<String, Integer, List<String>> {
-
-        private WeakReference<MainActivity> activityReference;
-
-        RespondToCandidateClick(MainActivity context) {
-            activityReference = new WeakReference<>(context);
-        }
-
-        @Override
-        protected List<String> doInBackground(String... params) {
-            String word = params[0];
-            String previousWord = params[1];
-            MainActivity activity = activityReference.get();
-
-            int id = UserDictionary.Words.incrementFrequency(activity, word);
-            if (word.charAt(0) == MongolCode.Uni.NNBS) {
-                if (id < 0) {
-                    // it should already be in the suffix database, but adding it
-                    // to the user dictionary will make it so that there is no error
-                    // when incrementing the frequency in the user dictionary later
-                    UserDictionary.Words.addWord(activity, word);
-                }
-                incrementSuffixFrequency(activity, word);
-
-            }
-            UserDictionary.Words.addFollowing(activity, previousWord, word);
-            return UserDictionary.Words.getFollowing(activity, word);
-        }
-
-        private void incrementSuffixFrequency(Context context, String suffix) {
-            SuffixDatabaseAdapter adapter = new SuffixDatabaseAdapter(context);
-            adapter.updateFrequencyForSuffix(suffix);
-        }
-
-        @Override
-        protected void onPostExecute(List<String> followingWords) {
-            MainActivity activity = activityReference.get();
-            if (activity == null || activity.isFinishing()) return;
-            if (followingWords.size() == 0) {
-                activity.imeContainer.clearCandidates();
-            } else {
-                activity.imeContainer.setCandidates(followingWords);
-            }
-        }
-    }
-
-    private static class DeleteWord extends AsyncTask<String, Integer, Void> {
-
-        private WeakReference<MainActivity> activityReference;
-        private int index;
-
-        DeleteWord(MainActivity context, int index) {
-            activityReference = new WeakReference<>(context);
-            this.index = index;
-        }
-
-        @Override
-        protected Void doInBackground(String... params) {
-            String word = params[0];
-            String previousWord = params[1];
-            Context context = activityReference.get();
-            UserDictionary.Words.deleteWord(context, word);
-            UserDictionary.Words.deleteFollowingWord(context, previousWord, word);
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void results) {
-            MainActivity activity = activityReference.get();
-            if (activity == null || activity.isFinishing()) return;
-            activity.imeContainer.removeCandidate(index);
-        }
-    }
+//    private static class GetWordsStartingWith extends AsyncTask<String, Integer, List<String>> {
+//
+//        private WeakReference<MainActivity> activityReference;
+//
+//        GetWordsStartingWith(MainActivity context) {
+//            activityReference = new WeakReference<>(context);
+//        }
+//
+//        @Override
+//        protected List<String> doInBackground(String... params) {
+//            String prefix = params[0];
+//
+//            Context context = activityReference.get();
+//
+//            List<String> words = new ArrayList<>();
+//            Cursor cursor = UserDictionary.Words.queryPrefix(context, prefix);
+//            if (cursor == null) return words;
+//            int indexWord = cursor.getColumnIndex(UserDictionary.Words.WORD);
+//            while (cursor.moveToNext()) {
+//                words.add(cursor.getString(indexWord));
+//            }
+//            cursor.close();
+//            return words;
+//
+//        }
+//
+//        @Override
+//        protected void onPostExecute(List<String> result) {
+//            MainActivity activity = activityReference.get();
+//            if (activity == null || activity.isFinishing()) return;
+//
+//            if (result.size() > 0)
+//                activity.imeContainer.setCandidates(result);
+//            else
+//                activity.imeContainer.clearCandidates();
+//        }
+//    }
+//
+//    private static class GetSuffixesStartingWith extends AsyncTask<String, Integer, List<String>> {
+//
+//        private WeakReference<MainActivity> activityReference;
+//
+//        GetSuffixesStartingWith(MainActivity context) {
+//            activityReference = new WeakReference<>(context);
+//        }
+//
+//        @Override
+//        protected List<String> doInBackground(String... params) {
+//            String suffixPrefix = params[0];
+//
+//            List<String> words = new ArrayList<>();
+//
+//            MainActivity activity = activityReference.get();
+//            if (activity == null || activity.isFinishing()) return words;
+//
+//            List<String> previousWords = activity.imeContainer.getPreviousMongolWords(2, false);
+//            String previousWord = previousWords.get(0);
+//            String wordBeforeThat = previousWords.get(1);
+//
+//            Suffix.WordEnding ending = getEndingOf(wordBeforeThat);
+//            Suffix.WordGender gender;
+//            if (ending == Suffix.WordEnding.Nil) {
+//                gender = getWordGender(suffixPrefix);
+//            } else {
+//                gender = getWordGender(wordBeforeThat);
+//            }
+//
+//            SuffixDatabaseAdapter adapter = new SuffixDatabaseAdapter(activity);
+//            List<String> suffixes = adapter.findSuffixesBeginningWith(suffixPrefix, gender, ending);
+//            return suffixes;
+//        }
+//
+//        private Suffix.WordEnding getEndingOf(String word) {
+//
+//            Suffix.WordEnding ending = Suffix.WordEnding.Nil;
+//
+//            if (TextUtils.isEmpty(word)) {
+//                return ending;
+//            }
+//
+//            // determine ending character
+//            char endingChar = word.charAt(word.length() - 1);
+//            if (MongolCode.isFVS(endingChar)) {
+//                if (word.length() > 1) {
+//                    endingChar = word.charAt(word.length() - 2);
+//                } else {
+//                    return ending;
+//                }
+//            }
+//
+//            // determine type
+//            if (MongolCode.isVowel(endingChar)) {
+//                ending = Suffix.WordEnding.Vowel;
+//            } else if (MongolCode.isConsonant(endingChar)) {
+//                if (endingChar == MongolCode.Uni.NA) {
+//                    ending = Suffix.WordEnding.N;
+//                } else if (isBGDRS(endingChar)) {
+//                    ending = Suffix.WordEnding.BigDress;
+//                } else {
+//                    ending = Suffix.WordEnding.OtherConsonant;
+//                }
+//            }
+//
+//            return ending;
+//        }
+//
+//        private Suffix.WordGender getWordGender(String word) {
+//            MongolCode.Gender gender = MongolCode.getWordGender(word);
+//            if (gender == null)
+//                return Suffix.WordGender.Neutral;
+//            switch (gender) {
+//                case MASCULINE:
+//                    return Suffix.WordGender.Masculine;
+//                case FEMININE:
+//                    return Suffix.WordGender.Feminine;
+//                default:
+//                    return Suffix.WordGender.Neutral;
+//            }
+//        }
+//
+//        private boolean isBGDRS(char character) {
+//            return (character == MongolCode.Uni.BA ||
+//                    character == MongolCode.Uni.GA ||
+//                    character == MongolCode.Uni.DA ||
+//                    character == MongolCode.Uni.RA ||
+//                    character == MongolCode.Uni.SA);
+//        }
+//
+//        @Override
+//        protected void onPostExecute(List<String> result) {
+//            MainActivity activity = activityReference.get();
+//            if (activity == null || activity.isFinishing()) return;
+//
+//            if (result.size() > 0)
+//                activity.imeContainer.setCandidates(result);
+//            else
+//                activity.imeContainer.clearCandidates();
+//        }
+//    }
+//
+//    private static class AddOrUpdateDictionaryWordsTask extends AsyncTask<String, Integer, Void> {
+//
+//        private WeakReference<MainActivity> activityReference;
+//
+//        AddOrUpdateDictionaryWordsTask(MainActivity context) {
+//            activityReference = new WeakReference<>(context);
+//        }
+//
+//        @Override
+//        protected Void doInBackground(String... params) {
+//            String word = params[0];
+//            String previousWord = params[1];
+//            Context context = activityReference.get();
+//            insertUpdateWord(context, word);
+//
+//            UserDictionary.Words.addFollowing(context, previousWord, word);
+//            return null;
+//        }
+//
+//    }
+//
+//    private static void insertUpdateWord(Context context, String word) {
+//        if (context == null) return;
+//
+//        int id = UserDictionary.Words.incrementFrequency(context, word);
+//        if (id < 0) {
+//            UserDictionary.Words.addWord(context, word);
+//        }
+//
+//    }
+//
+//
+//    private static class RespondToCandidateClick extends AsyncTask<String, Integer, List<String>> {
+//
+//        private WeakReference<MainActivity> activityReference;
+//
+//        RespondToCandidateClick(MainActivity context) {
+//            activityReference = new WeakReference<>(context);
+//        }
+//
+//        @Override
+//        protected List<String> doInBackground(String... params) {
+//            String word = params[0];
+//            String previousWord = params[1];
+//            MainActivity activity = activityReference.get();
+//
+//            int id = UserDictionary.Words.incrementFrequency(activity, word);
+//            if (word.charAt(0) == MongolCode.Uni.NNBS) {
+//                if (id < 0) {
+//                    // it should already be in the suffix database, but adding it
+//                    // to the user dictionary will make it so that there is no error
+//                    // when incrementing the frequency in the user dictionary later
+//                    UserDictionary.Words.addWord(activity, word);
+//                }
+//                incrementSuffixFrequency(activity, word);
+//
+//            }
+//            UserDictionary.Words.addFollowing(activity, previousWord, word);
+//            return UserDictionary.Words.getFollowing(activity, word);
+//        }
+//
+//        private void incrementSuffixFrequency(Context context, String suffix) {
+//            SuffixDatabaseAdapter adapter = new SuffixDatabaseAdapter(context);
+//            adapter.updateFrequencyForSuffix(suffix);
+//        }
+//
+//        @Override
+//        protected void onPostExecute(List<String> followingWords) {
+//            MainActivity activity = activityReference.get();
+//            if (activity == null || activity.isFinishing()) return;
+//            if (followingWords.size() == 0) {
+//                activity.imeContainer.clearCandidates();
+//            } else {
+//                activity.imeContainer.setCandidates(followingWords);
+//            }
+//        }
+//    }
+//
+//    private static class DeleteWord extends AsyncTask<String, Integer, Void> {
+//
+//        private WeakReference<MainActivity> activityReference;
+//        private int index;
+//
+//        DeleteWord(MainActivity context, int index) {
+//            activityReference = new WeakReference<>(context);
+//            this.index = index;
+//        }
+//
+//        @Override
+//        protected Void doInBackground(String... params) {
+//            String word = params[0];
+//            String previousWord = params[1];
+//            Context context = activityReference.get();
+//            UserDictionary.Words.deleteWord(context, word);
+//            UserDictionary.Words.deleteFollowingWord(context, previousWord, word);
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void results) {
+//            MainActivity activity = activityReference.get();
+//            if (activity == null || activity.isFinishing()) return;
+//            activity.imeContainer.removeCandidate(index);
+//        }
+//    }
 
 
 }

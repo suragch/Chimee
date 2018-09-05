@@ -6,12 +6,20 @@ public class Message {
 	private long date;
 	private String message;
 
-	// constructor
-	public Message() {
-		id=0;
-		date=0;
-		message="";
-	}
+    public Message(long id, long date, String message) {
+        this.id = id;
+        this.date = date;
+        this.message = message;
+    }
+
+    // constructor
+//	public Message() {
+//		id=0;
+//		date=0;
+//		message="";
+//	}
+
+
 
 	// getters
 	public long getId() {
@@ -27,17 +35,17 @@ public class Message {
 	}
 
 
-	// setters
-	public void setId(long id) {
-		this.id = id;
-	}
-	
-	public void setDate(long date) {
-		this.date = date;
-	}
-	
-	public void setMessage(String message) {
-		this.message = message;
-	}
+//	// setters
+//	public void setId(long id) {
+//		this.id = id;
+//	}
+//
+//	public void setDate(long date) {
+//		this.date = date;
+//	}
+//
+//	public void setMessage(String message) {
+//		this.message = message;
+//	}
 
 }

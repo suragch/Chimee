@@ -100,5 +100,8 @@
     <string name="download_bainu_alert_message">ᠲᠠᠨ ᠤ ᠮᠠᠰᠢᠨ ᠲᠡᠭᠡᠷ᠎ᠡ ᠴᠢᠨᠢ 《 ᠪᠠᠢᠨᠠᠤ 》 ᠵᠢ ᠤᠭᠰᠠᠷᠠᠭᠰᠠᠨ ᠦᠭᠡᠢ ᠂ 《 ᠪᠠᠢᠨᠠᠤ 》 ᠵᠢ ᠤᠭᠰᠠᠷᠠᠪᠠᠯ ᠴᠤᠯᠤ ᠮᠤᠨᠭ᠍ᠭᠤᠯ ᠢᠶᠠᠷ ᠶᠠᠷᠢᠯᠴᠠᠵᠤ ᠪᠤᠯᠤᠨ᠎ᠠ ᠂ ᠤᠳᠤ ᠪᠡᠷ ᠶᠢᠡᠨ ᠪᠠᠭᠤᠯᠭᠠᠬᠤ ᠦᠦ ︖</string>
     <string name="download_bainu_alert_positive">ᠲᠡᠭᠡᠶ᠎ᠡ</string>
     <string name="download_bainu_alert_negative">ᠦᠭᠡᠢ</string>
+    <string name="favorites_menu_edit">edit</string>
+    <string name="favorites_menu_delete">delete</string>
+    <string name="keyboard_show_system_keyboards">ᠰᠢᠰᠲ᠋ᠧᠮ</string>
 
 </resources>

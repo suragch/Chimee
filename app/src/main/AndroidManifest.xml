@@ -92,6 +92,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="net.studymongolian.chimee.MainActivity" />
         </activity>
+        <activity
+            android:name=".AddEditFavoritesActivity"
+            android:windowSoftInputMode="stateHidden"
+            android:parentActivityName="net.studymongolian.chimee.FavoriteActivity">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="net.studymongolian.chimee.FavoriteActivity" />
+        </activity>
 
 
         <provider

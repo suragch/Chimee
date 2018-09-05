@@ -11,14 +11,41 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class MessageDatabaseAdapter {
 
-	MyDatabaseHelper helper;
+	private MyDatabaseHelper helper;
 	Context context;
 
 	// Constructor
-	public MessageDatabaseAdapter(Context context) {
+	MessageDatabaseAdapter(Context context) {
 
 		helper = new MyDatabaseHelper(context);
 		this.context = context;
+	}
+
+	public Message getFavoriteMessage(long messageId) {
+
+		SQLiteDatabase db = helper.getWritableDatabase();
+		String[] columns = { MyDatabaseHelper.ID, MyDatabaseHelper.DATE_TIME,
+				MyDatabaseHelper.MESSAGE };
+        String selection = MyDatabaseHelper.ID + " = ?";
+        String[] selectionArgs = {String.valueOf(messageId)};
+		Cursor cursor = db.query(MyDatabaseHelper.FAVORITE_TABLE_NAME, columns,
+                selection, selectionArgs, null,null, null, null);
+		int indexId = cursor.getColumnIndex(MyDatabaseHelper.ID);
+		int indexDate = cursor.getColumnIndex(MyDatabaseHelper.DATE_TIME);
+		int indexMessage = cursor.getColumnIndex(MyDatabaseHelper.MESSAGE);
+
+        Message message = null;
+		if (cursor.moveToNext()) {
+            message = new Message(
+                    cursor.getLong(indexId),
+                    cursor.getLong(indexDate),
+                    cursor.getString(indexMessage));
+		}
+
+		cursor.close();
+		db.close();
+
+		return message;
 	}
 
 	public ArrayList<Message> getAllFavoriteMessages() {
@@ -32,12 +59,14 @@ public class MessageDatabaseAdapter {
 		Cursor cursor = db.query(MyDatabaseHelper.FAVORITE_TABLE_NAME, columns, null, null, null,
 				null, orderBy, null);
 		int indexId = cursor.getColumnIndex(MyDatabaseHelper.ID);
+		int indexDate = cursor.getColumnIndex(MyDatabaseHelper.DATE_TIME);
 		int indexMessage = cursor.getColumnIndex(MyDatabaseHelper.MESSAGE);
 
 		while (cursor.moveToNext()) {
-			Message message = new Message();
-			message.setId(cursor.getLong(indexId));
-			message.setMessage(cursor.getString(indexMessage));
+			Message message = new Message(
+			        cursor.getLong(indexId),
+                    cursor.getLong(indexDate),
+                    cursor.getString(indexMessage));
 			allMessages.add(message);
 		}
 
@@ -62,10 +91,10 @@ public class MessageDatabaseAdapter {
 		int indexMessage = cursor.getColumnIndex(MyDatabaseHelper.MESSAGE);
 
 		while (cursor.moveToNext()) {
-			Message message = new Message();
-			message.setId(cursor.getLong(indexId));
-			message.setDate(cursor.getLong(indexDate));
-			message.setMessage(cursor.getString(indexMessage));
+			Message message = new Message(
+                    cursor.getLong(indexId),
+                    cursor.getLong(indexDate),
+                    cursor.getString(indexMessage));
 			allMessages.add(message);
 		}
 
@@ -74,7 +103,7 @@ public class MessageDatabaseAdapter {
 
 		return allMessages;
 	}
-	
+
 	public ArrayList<Message> getRecentHistoryMessages(int numberOfMessages) {
 
 		ArrayList<Message> allMessages = new ArrayList<Message>();
@@ -91,10 +120,10 @@ public class MessageDatabaseAdapter {
 		int indexMessage = cursor.getColumnIndex(MyDatabaseHelper.MESSAGE);
 
 		while (cursor.moveToNext()) {
-			Message message = new Message();
-			message.setId(cursor.getLong(indexId));
-			message.setDate(cursor.getLong(indexDate));
-			message.setMessage(cursor.getString(indexMessage));
+            Message message = new Message(
+                    cursor.getLong(indexId),
+                    cursor.getLong(indexDate),
+                    cursor.getString(indexMessage));
 			allMessages.add(message);
 		}
 
@@ -132,7 +161,22 @@ public class MessageDatabaseAdapter {
 		return id;
 	}
 
-	public int updateFavorateMessageTime(long rowId) {
+    public int updateFavoriteMessage(Message item) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MyDatabaseHelper.MESSAGE, item.getMessage());
+        contentValues.put(MyDatabaseHelper.DATE_TIME, System.currentTimeMillis());
+
+        String selection = MyDatabaseHelper.ID + " = ?";
+        String[] selectionArgs = {String.valueOf(item.getId())};
+
+        SQLiteDatabase db = helper.getWritableDatabase();
+        int id = db.update(MyDatabaseHelper.FAVORITE_TABLE_NAME, contentValues, selection,
+                selectionArgs);
+        db.close();
+        return id;
+    }
+
+	public int updateFavoriteMessageTime(long rowId) {
 
 		// get current Unix epoc time in milliseconds
 		long date = System.currentTimeMillis();
@@ -140,7 +184,7 @@ public class MessageDatabaseAdapter {
 		SQLiteDatabase db = helper.getWritableDatabase();
 		ContentValues contentValues = new ContentValues();
 		contentValues.put(MyDatabaseHelper.DATE_TIME, date);
-		String selection = MyDatabaseHelper.ID + " LIKE ?";
+		String selection = MyDatabaseHelper.ID + " = ?";
 		String[] selectionArgs = { String.valueOf(rowId) };
 
 		int id = db.update(MyDatabaseHelper.FAVORITE_TABLE_NAME, contentValues, selection,
@@ -168,7 +212,7 @@ public class MessageDatabaseAdapter {
 		db.close();
 		return count;
 	}
-	
+
 	public int deleteHistoryAllMessages() {
 
 		SQLiteDatabase db = helper.getWritableDatabase();
@@ -178,7 +222,7 @@ public class MessageDatabaseAdapter {
 		return count;
 	}
 
-	// Making this an inner class rather than a separate class so that outer
+    // Making this an inner class rather than a separate class so that outer
 	// class can securely refer to private variables in this class
 	static class MyDatabaseHelper extends SQLiteOpenHelper {
 

@@ -2,24 +2,25 @@ package net.studymongolian.chimee;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import net.studymongolian.mongollibrary.MongolMenu;
 import net.studymongolian.mongollibrary.MongolMenuItem;
@@ -34,15 +35,12 @@ public class FavoriteActivity extends AppCompatActivity
 	public static final String CURRENT_MESSAGE_KEY = "message";
     public static final String RESULT_STRING_KEY = "result";
 
+    private static final int EDIT_REQUEST_CODE = 0;
+    private static final int ADD_REQUEST_CODE = 1;
+
+    List<Message> mMessages = new ArrayList<>();
     String currentMessage;
 	FavoritesRvAdapter adapter;
-	//ListView lvFavorite;
-	//FrameLayout flContextMenuContainer;
-	//MessageFavoriteListAdapter adapter;
-	int savedPosition = 0;
-	//ArrayList<Message> favoriteMessages = new ArrayList<>();
-	FragmentManager fragmentManager;
-	View menuHiderForOutsideClicks;
 	int longClickedItem = -1;
 
 	@Override
@@ -51,11 +49,12 @@ public class FavoriteActivity extends AppCompatActivity
 		setContentView(R.layout.activity_favorite);
 
 		setupToolbar();
+		setupRecyclerView();
 		currentMessage = getIntent().getStringExtra(CURRENT_MESSAGE_KEY);
 		new GetFavoriteMessages(this).execute();
 	}
 
-	private void setupToolbar() {
+    private void setupToolbar() {
 		Toolbar toolbar = findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 		ActionBar actionBar = getSupportActionBar();
@@ -65,6 +64,20 @@ public class FavoriteActivity extends AppCompatActivity
             actionBar.setTitle("");
 		}
 	}
+
+    private void setupRecyclerView() {
+        RecyclerView recyclerView = findViewById(R.id.rv_all_favorites);
+        LinearLayoutManager horizontalLayoutManager
+                = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(horizontalLayoutManager);
+        DividerItemDecoration dividerItemDecoration =
+                new DividerItemDecoration(recyclerView.getContext(),
+                        horizontalLayoutManager.getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
+        adapter = new FavoritesRvAdapter(this, mMessages);
+        adapter.setClickListener(this);
+        recyclerView.setAdapter(adapter);
+    }
 
 	@Override
 	public void onItemClick(View view, int position) {
@@ -87,6 +100,7 @@ public class FavoriteActivity extends AppCompatActivity
         int yOffset = location[1] + marginPx;
         MongolMenu menu = getMenu();
         menu.showAtLocation(menuButton, gravity, xOffset, yOffset);
+        longClickedItem = position;
 		return true;
 	}
 
@@ -96,15 +110,36 @@ public class FavoriteActivity extends AppCompatActivity
 
     private MongolMenu getMenu() {
         MongolMenu menu = new MongolMenu(this);
-        menu.add(new MongolMenuItem("edit", R.drawable.ic_mode_edit_black_24dp));
-        menu.add(new MongolMenuItem("delete", R.drawable.ic_clear_black_24dp));
+        final MongolMenuItem edit = new MongolMenuItem(
+                getString(R.string.favorites_menu_edit), R.drawable.ic_mode_edit_black_24dp);
+        final MongolMenuItem delete = new MongolMenuItem(
+                getString(R.string.favorites_menu_delete), R.drawable.ic_clear_black_24dp);
+        menu.add(edit);
+        menu.add(delete);
         menu.setOnMenuItemClickListener(new MongolMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MongolMenuItem item) {
-                MongolToast.makeText(FavoriteActivity.this, item.getTitle(), MongolToast.LENGTH_SHORT).show();
+                if (item == edit) {
+                    editItem();
+                } else if (item == delete) {
+                    deleteItem();
+                }
                 return true;
             }
         });
         return menu;
+    }
+
+    private void editItem() {
+        Intent intent = new Intent(this, AddEditFavoritesActivity.class);
+        Message message = adapter.getItem(longClickedItem);
+        intent.putExtra(AddEditFavoritesActivity.MESSAGE_ID_KEY, message.getId());
+        intent.putExtra(AddEditFavoritesActivity.MESSAGE_TEXT_KEY, message.getMessage());
+        startActivityForResult(intent, EDIT_REQUEST_CODE);
+    }
+
+    private void deleteItem() {
+        Message message = adapter.getItem(longClickedItem);
+        new DeleteMessageByIdTask().execute(message.getId());
     }
 
     @Override
@@ -118,7 +153,7 @@ public class FavoriteActivity extends AppCompatActivity
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
             case R.id.action_add:
-                addFavorite();
+                addNewFavorite();
                 return true;
 			case android.R.id.home:
 				Intent intent = new Intent();
@@ -130,27 +165,68 @@ public class FavoriteActivity extends AppCompatActivity
 		}
 	}
 
-    private void addFavorite() {
-        // catch empty string
-        if (currentMessage.trim().length() == 0) {
-            showNoContentDialog();
-            return;
-        }
-
-        // add string to db
-        new AddMessageToDb().execute();
+    private void addNewFavorite() {
+        Intent intent = new Intent(this, AddEditFavoritesActivity.class);
+        //Message message = adapter.getItem(longClickedItem);
+        intent.putExtra(AddEditFavoritesActivity.MESSAGE_TEXT_KEY, currentMessage);
+        startActivityForResult(intent, ADD_REQUEST_CODE);
     }
 
 
-	private void showNoContentDialog() {
 
-//		Intent intent = new Intent(this, MongolDialogOneButton.class);
-//		intent.putExtra(MongolDialogOneButton.MESSAGE, getResources().getString(R.string.dialog_message_emptyfavorite));
-//		startActivity(intent);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != RESULT_OK) return;
 
-	}
+        switch (requestCode) {
 
-	// call: new AddMessageToDb().execute();
+            case EDIT_REQUEST_CODE:
+
+                //boolean wordEdited = data.getBooleanExtra(AddEditFavoritesActivity.EDIT_MODE_KEY, false);
+                //if (wordEdited) {
+                    Message message = adapter.getItem(longClickedItem);
+                    if (message == null) break;
+                    new RefreshMessageItem().execute(message.getId());
+                //}
+                break;
+
+            case ADD_REQUEST_CODE:
+                new GetFavoriteMessages(this).execute();
+                break;
+        }
+    }
+
+    private class RefreshMessageItem extends AsyncTask<Long, Void, Message> {
+
+        @Override
+        protected Message doInBackground(Long... params) {
+
+            long messageId = params[0];
+
+            Message messageItem = null;
+
+            try {
+
+                MessageDatabaseAdapter dbAdapter = new MessageDatabaseAdapter(getApplicationContext());
+                messageItem = dbAdapter.getFavoriteMessage(messageId);
+            } catch (Exception e) {
+                Log.i("app", e.toString());
+            }
+
+            return messageItem;
+        }
+
+        @Override
+        protected void onPostExecute(Message messageItem) {
+            mMessages.set(longClickedItem, messageItem);
+            adapter.notifyItemChanged(longClickedItem);
+            longClickedItem = -1;
+        }
+
+    }
+
+    // call: new AddMessageToDb().execute();
 	private class AddMessageToDb extends AsyncTask<Void, Void, Void> {
 
 		@Override
@@ -209,18 +285,9 @@ public class FavoriteActivity extends AppCompatActivity
 		protected void onPostExecute(ArrayList<Message> results) {
             FavoriteActivity activity = activityReference.get();
             if (activity == null || activity.isFinishing()) return;
-
-            RecyclerView recyclerView = activity.findViewById(R.id.rv_all_favorites);
-            LinearLayoutManager horizontalLayoutManager
-                    = new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false);
-            recyclerView.setLayoutManager(horizontalLayoutManager);
-            DividerItemDecoration dividerItemDecoration =
-                    new DividerItemDecoration(recyclerView.getContext(),
-                    horizontalLayoutManager.getOrientation());
-            recyclerView.addItemDecoration(dividerItemDecoration);
-            activity.adapter = new FavoritesRvAdapter(activity, results);
-            activity.adapter.setClickListener(activity);
-            recyclerView.setAdapter(activity.adapter);
+            activity.mMessages.clear();
+            activity.mMessages.addAll(results);
+            activity.adapter.notifyDataSetChanged();
 		}
 	}
 
@@ -241,7 +308,7 @@ public class FavoriteActivity extends AppCompatActivity
 
 			try {
 				MessageDatabaseAdapter dbAdapter = new MessageDatabaseAdapter(context);
-				count = dbAdapter.updateFavorateMessageTime(messageId);
+				count = dbAdapter.updateFavoriteMessageTime(messageId);
 			} catch (Exception e) {
 				// Log.e("app", e.toString());
 			}
@@ -292,17 +359,9 @@ public class FavoriteActivity extends AppCompatActivity
 
 		@Override
 		protected void onPostExecute(Integer count) {
-
-			// This is the result from doInBackground
-
-			if (count > 0) {
-				// Notify the user that the message was deleted
-//				showToast(context, getResources().getString(R.string.toast_message_deleted),
-//						Toast.LENGTH_SHORT);
-				// update display
-				//savedPosition = lvFavorite.getFirstVisiblePosition();
-				new GetFavoriteMessages(FavoriteActivity.this).execute();
-			}
+		    if (count <= 0) return;
+		    mMessages.remove(longClickedItem);
+		    adapter.notifyItemRemoved(longClickedItem);
 		}
 	}
 

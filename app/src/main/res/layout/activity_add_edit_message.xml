@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:elevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleTextColor="@android:color/primary_text_dark"/>
+
+    <net.studymongolian.mongollibrary.MongolEditText
+        android:id="@+id/metFavoriteMessage"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:padding="10dp"
+        app:layout_constraintBottom_toTopOf="@id/keyboard_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:textSize="24sp" />
+
+    <net.studymongolian.chimee.CustomImeContainer
+        android:id="@+id/keyboard_container"
+        android:layout_width="0dp"
+        android:layout_height="240dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <net.studymongolian.chimee.KeyboardChagaanTolgoi
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:candidatesLocation="vertical_left" />
+
+        <net.studymongolian.chimee.KeyboardComputer
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:candidatesLocation="horizontal_top" />
+
+        <net.studymongolian.mongollibrary.KeyboardEnglish
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:candidatesLocation="none" />
+
+        <net.studymongolian.mongollibrary.KeyboardCyrillic
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:candidatesLocation="none" />
+
+    </net.studymongolian.chimee.CustomImeContainer>
+
+</android.support.constraint.ConstraintLayout>
