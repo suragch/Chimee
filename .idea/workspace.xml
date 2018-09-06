@@ -10,17 +10,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e373569e-ee9b-4412-b2d3-a86c151abae2" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/AddEditFavoritesActivity.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/ImeDataSourceHelper.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_add_edit_message.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/menu/add_edit_favorites_menu.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/AddEditFavoritesActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/AddEditFavoritesActivity.java" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/FavoriteActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/FavoriteActivity.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MainActivity.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/Message.java" afterPath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/Message.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MessageDatabaseAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MessageDatabaseAdapter.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -46,49 +39,13 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="578">
+            <state relative-caret-position="36146">
               <caret line="1228" column="0" lean-forward="false" selection-start-line="1228" selection-start-column="0" selection-end-line="1228" selection-end-column="0" />
               <folding>
-                <element signature="e#4832#4882#0" expanded="true" />
-                <element signature="e#7868#7925#0" expanded="true" />
-                <element signature="e#8003#8059#0" expanded="true" />
-                <element signature="e#8160#8218#0" expanded="true" />
-                <element signature="e#8378#8441#0" expanded="true" />
-                <element signature="e#8549#8574#0" expanded="true" />
-                <element signature="e#8663#8687#0" expanded="true" />
-                <element signature="e#8892#10211#0" expanded="true" />
-                <element signature="e#9096#9153#0" expanded="true" />
-                <element signature="e#9180#9236#0" expanded="true" />
-                <element signature="e#9265#9323#0" expanded="true" />
-                <element signature="e#9356#9419#0" expanded="true" />
-                <element signature="e#9448#9473#0" expanded="true" />
-                <element signature="e#9501#9525#0" expanded="true" />
-                <element signature="e#10210#10211#0" expanded="true" />
-                <element signature="e#13245#13440#0" expanded="true" />
-                <element signature="e#13439#13440#0" expanded="true" />
                 <element signature="e#14785#14786#0" expanded="true" />
                 <element signature="e#14820#14821#0" expanded="true" />
                 <element signature="e#14869#14870#0" expanded="true" />
                 <element signature="e#14896#14897#0" expanded="true" />
-                <element signature="e#16493#16670#0" expanded="true" />
-                <element signature="e#16669#16670#0" expanded="true" />
-                <element signature="e#20175#20217#0" expanded="true" />
-                <element signature="e#20309#20350#0" expanded="true" />
-                <element signature="e#20441#20482#0" expanded="true" />
-                <element signature="e#20704#21129#0" expanded="true" />
-                <element signature="e#21128#21129#0" expanded="true" />
-                <element signature="e#23838#23872#0" expanded="true" />
-                <element signature="e#23950#23988#0" expanded="true" />
-                <element signature="e#24067#24341#0" expanded="true" />
-                <element signature="e#24340#24341#0" expanded="true" />
-                <element signature="e#27867#27915#0" expanded="true" />
-                <element signature="e#27953#28002#0" expanded="true" />
-                <element signature="e#28004#28199#0" expanded="true" />
-                <element signature="e#28198#28199#0" expanded="true" />
-                <element signature="e#28236#28285#0" expanded="true" />
-                <element signature="e#28287#28494#0" expanded="true" />
-                <element signature="e#28493#28494#0" expanded="true" />
-                <element signature="e#29371#29410#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -97,7 +54,7 @@
       <file leaf-file-name="ImeDataSourceHelper.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/ImeDataSourceHelper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="372">
+            <state relative-caret-position="124">
               <caret line="15" column="16" lean-forward="false" selection-start-line="15" selection-start-column="16" selection-end-line="15" selection-end-column="16" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -111,7 +68,7 @@
       <file leaf-file-name="MessageDatabaseAdapter.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MessageDatabaseAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="248">
+            <state relative-caret-position="3565">
               <caret line="122" column="0" lean-forward="false" selection-start-line="122" selection-start-column="0" selection-end-line="122" selection-end-column="0" />
               <folding />
             </state>
@@ -121,24 +78,22 @@
       <file leaf-file-name="SQLiteDatabase.java" pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/Android/Sdk/sources/android-28/android/database/sqlite/SQLiteDatabase.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="299">
+            <state relative-caret-position="48050">
               <caret line="1613" column="15" lean-forward="false" selection-start-line="1613" selection-start-column="15" selection-end-line="1613" selection-end-column="15" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FavoriteActivity.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="FavoriteActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/FavoriteActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2213">
-              <caret line="263" column="8" lean-forward="false" selection-start-line="263" selection-start-column="8" selection-end-line="263" selection-end-column="8" />
+            <state relative-caret-position="341">
+              <caret line="221" column="67" lean-forward="true" selection-start-line="220" selection-start-column="12" selection-end-line="221" selection-end-column="67" />
               <folding>
-                <element signature="e#4071#4110#0" expanded="true" />
-                <element signature="e#4223#4264#0" expanded="true" />
-                <element signature="e#4389#4715#0" expanded="true" />
-                <element signature="e#4714#4715#0" expanded="true" />
-                <element signature="e#12476#12505#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#4302#4628#0" expanded="true" />
+                <element signature="e#4627#4628#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -146,30 +101,41 @@
       </file>
       <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="155">
+              <caret line="11" column="40" lean-forward="true" selection-start-line="11" selection-start-column="40" selection-end-line="11" selection-end-column="40" />
+              <folding>
+                <element signature="e#429#447#0" expanded="true" />
+                <element signature="e#641#659#0" expanded="true" />
+                <element signature="e#974#992#0" expanded="true" />
+                <element signature="e#1414#1432#0" expanded="true" />
+                <element signature="e#1855#1873#0" expanded="true" />
+                <element signature="e#2293#2311#0" expanded="true" />
+                <element signature="e#2730#2748#0" expanded="true" />
+                <element signature="e#3175#3213#0" expanded="true" />
+                <element signature="e#3632#3650#0" expanded="true" />
+                <element signature="e#4069#4087#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
           <provider editor-type-id="android-manifest">
             <state />
           </provider>
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="682">
-              <caret line="102" column="19" lean-forward="false" selection-start-line="102" selection-start-column="19" selection-end-line="102" selection-end-column="19" />
-              <folding />
-            </state>
-          </provider>
         </entry>
       </file>
-      <file leaf-file-name="AddEditFavoritesActivity.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="AddEditFavoritesActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/AddEditFavoritesActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1126">
-              <caret line="79" column="0" lean-forward="false" selection-start-line="79" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
+            <state relative-caret-position="775">
+              <caret line="25" column="58" lean-forward="false" selection-start-line="25" selection-start-column="58" selection-end-line="25" selection-end-column="58" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#4492#4493#0" expanded="true" />
-                <element signature="e#4540#4541#0" expanded="true" />
-                <element signature="e#4605#4606#0" expanded="true" />
-                <element signature="e#4640#4641#0" expanded="true" />
-                <element signature="e#4689#4690#0" expanded="true" />
-                <element signature="e#4716#4717#0" expanded="true" />
+                <element signature="e#4322#4323#0" expanded="true" />
+                <element signature="e#4370#4371#0" expanded="true" />
+                <element signature="e#4435#4436#0" expanded="true" />
+                <element signature="e#4470#4471#0" expanded="true" />
+                <element signature="e#4519#4520#0" expanded="true" />
+                <element signature="e#4546#4547#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -188,7 +154,7 @@
       <file leaf-file-name="ImeContainer.java" pinned="false" current-in-tab="false">
         <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.studymongolian/mongol-library/1.13.0/5a5b256dfce0c1c2a3c2f2ef313b7ed88d01af8e/mongol-library-1.13.0-sources.jar!/net/studymongolian/mongollibrary/ImeContainer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="290">
+            <state relative-caret-position="3968">
               <caret line="148" column="21" lean-forward="false" selection-start-line="148" selection-start-column="21" selection-end-line="148" selection-end-column="21" />
               <folding>
                 <element signature="e#4818#4819#0" expanded="true" />
@@ -2328,11 +2294,11 @@
         <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/DataSourceHelper.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/ImeDataSourceHelper.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MainActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/Message.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/AddEditFavoritesActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MessageDatabaseAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/FavoriteActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/AddEditFavoritesActivity.java" />
       </list>
     </option>
   </component>
@@ -2340,6 +2306,34 @@
     <option name="y" value="-4" />
     <option name="width" value="1920" />
     <option name="height" value="1084" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+          <State>
+            <id>Android</id>
+          </State>
+          <State>
+            <id>Bidirectional TextInternationalizationLintAndroid</id>
+          </State>
+          <State>
+            <id>InternationalizationLintAndroid</id>
+          </State>
+          <State>
+            <id>LintAndroid</id>
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>AndroidLintRtlHardcoded</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
   </component>
   <component name="ProjectView">
     <navigator currentView="AndroidView" proportions="" version="1">
@@ -2356,9 +2350,10 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="PackagesPane" />
       <pane id="Scope" />
+      <pane id="PackagesPane" />
+      <pane id="ProjectPane" />
+      <pane id="Scratches" />
       <pane id="AndroidView">
         <subPane>
           <expand>
@@ -2373,48 +2368,19 @@
             </path>
             <path>
               <item name="Chimee" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-            </path>
-            <path>
-              <item name="Chimee" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="chimee" type="cbb59c9e:AndroidPsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Chimee" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="res" type="d4f16f75:AndroidResFolderNode" />
-            </path>
-            <path>
-              <item name="Chimee" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="res" type="d4f16f75:AndroidResFolderNode" />
-              <item name="layout" type="ddeffd01:AndroidResFolderTypeNode" />
-            </path>
-            <path>
-              <item name="Chimee" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="res" type="d4f16f75:AndroidResFolderNode" />
-              <item name="menu" type="ddeffd01:AndroidResFolderTypeNode" />
-            </path>
-            <path>
-              <item name="Chimee" type="1abcf292:AndroidViewProjectNode" />
               <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="ProjectPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="android.sdk.path" value="$USER_HOME$/Android/Sdk" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="Errors" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="device.picker.selection" value="205d5024" />
+    <property name="device.picker.selection" value="Pixel_2_API_28" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -2756,11 +2722,18 @@
       <option name="project" value="LOCAL" />
       <updated>1536034567785</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="favorites basically finished">
+      <created>1536143159580</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1536143159580</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="25" width="1920" height="1055" extended-state="6" />
+    <frame x="0" y="-4" width="1920" height="1055" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -2770,7 +2743,6 @@
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32984293" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -2779,12 +2751,12 @@
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16755603" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33874458" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33874458" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2497332" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Device File Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32977587" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.39935064" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39935064" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -2793,6 +2765,7 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32984293" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32900432" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -2822,7 +2795,8 @@
     <MESSAGE value="fixed suffix frequency update" />
     <MESSAGE value="share and favorites work" />
     <MESSAGE value="more favorites work" />
-    <option name="LAST_COMMIT_MESSAGE" value="more favorites work" />
+    <MESSAGE value="favorites basically finished" />
+    <option name="LAST_COMMIT_MESSAGE" value="favorites basically finished" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2865,13 +2839,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/FavoriteActivity.java</url>
-          <line>179</line>
-          <properties />
-          <option name="timeStamp" value="40" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/FavoriteActivity.java</url>
-          <line>271</line>
+          <line>242</line>
           <properties />
           <option name="timeStamp" value="41" />
         </line-breakpoint>
@@ -2935,11 +2903,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="280">
           <caret line="139" column="21" lean-forward="false" selection-start-line="139" selection-start-column="12" selection-end-line="139" selection-end-column="21" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#3963#4182#0" expanded="false" />
-            <element signature="e#4181#4182#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3066,7 +3029,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="9486">
           <caret line="318" column="19" lean-forward="false" selection-start-line="318" selection-start-column="19" selection-end-line="318" selection-end-column="19" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3074,10 +3036,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4061">
           <caret line="139" column="22" lean-forward="false" selection-start-line="139" selection-start-column="22" selection-end-line="139" selection-end-column="22" />
-          <folding>
-            <element signature="e#9302#9303#0" expanded="false" />
-            <element signature="e#9379#9380#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3093,7 +3051,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="7378">
           <caret line="269" column="39" lean-forward="false" selection-start-line="269" selection-start-column="39" selection-end-line="269" selection-end-column="39" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3133,7 +3090,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="341">
           <caret line="11" column="35" lean-forward="false" selection-start-line="11" selection-start-column="35" selection-end-line="11" selection-end-column="35" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3161,7 +3117,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="155">
           <caret line="5" column="48" lean-forward="false" selection-start-line="5" selection-start-column="48" selection-end-line="5" selection-end-column="48" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3169,7 +3124,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34224">
           <caret line="1153" column="18" lean-forward="false" selection-start-line="1153" selection-start-column="18" selection-end-line="1153" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3184,7 +3138,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="31">
           <caret line="649" column="16" lean-forward="false" selection-start-line="649" selection-start-column="16" selection-end-line="649" selection-end-column="16" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3195,7 +3148,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="217">
           <caret line="7" column="28" lean-forward="false" selection-start-line="7" selection-start-column="28" selection-end-line="7" selection-end-column="28" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3217,7 +3169,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="128">
           <caret line="70" column="49" lean-forward="true" selection-start-line="70" selection-start-column="4" selection-end-line="70" selection-end-column="49" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3247,13 +3198,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="279">
           <caret line="9" column="11" lean-forward="false" selection-start-line="9" selection-start-column="11" selection-end-line="9" selection-end-column="11" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/Android/Sdk/sources/android-28/android/database/sqlite/SQLiteDatabase.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="299">
+        <state relative-caret-position="48050">
           <caret line="1613" column="15" lean-forward="false" selection-start-line="1613" selection-start-column="15" selection-end-line="1613" selection-end-column="15" />
           <folding />
         </state>
@@ -3261,7 +3211,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/ImeDataSourceHelper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="372">
+        <state relative-caret-position="124">
           <caret line="15" column="16" lean-forward="false" selection-start-line="15" selection-start-column="16" selection-end-line="15" selection-end-column="16" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -3273,7 +3223,7 @@
     </entry>
     <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.studymongolian/mongol-library/1.13.0/5a5b256dfce0c1c2a3c2f2ef313b7ed88d01af8e/mongol-library-1.13.0-sources.jar!/net/studymongolian/mongollibrary/ImeContainer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="290">
+        <state relative-caret-position="3968">
           <caret line="148" column="21" lean-forward="false" selection-start-line="148" selection-start-column="21" selection-end-line="148" selection-end-column="21" />
           <folding>
             <element signature="e#4818#4819#0" expanded="true" />
@@ -3284,49 +3234,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="578">
+        <state relative-caret-position="36146">
           <caret line="1228" column="0" lean-forward="false" selection-start-line="1228" selection-start-column="0" selection-end-line="1228" selection-end-column="0" />
           <folding>
-            <element signature="e#4832#4882#0" expanded="true" />
-            <element signature="e#7868#7925#0" expanded="true" />
-            <element signature="e#8003#8059#0" expanded="true" />
-            <element signature="e#8160#8218#0" expanded="true" />
-            <element signature="e#8378#8441#0" expanded="true" />
-            <element signature="e#8549#8574#0" expanded="true" />
-            <element signature="e#8663#8687#0" expanded="true" />
-            <element signature="e#8892#10211#0" expanded="true" />
-            <element signature="e#9096#9153#0" expanded="true" />
-            <element signature="e#9180#9236#0" expanded="true" />
-            <element signature="e#9265#9323#0" expanded="true" />
-            <element signature="e#9356#9419#0" expanded="true" />
-            <element signature="e#9448#9473#0" expanded="true" />
-            <element signature="e#9501#9525#0" expanded="true" />
-            <element signature="e#10210#10211#0" expanded="true" />
-            <element signature="e#13245#13440#0" expanded="true" />
-            <element signature="e#13439#13440#0" expanded="true" />
             <element signature="e#14785#14786#0" expanded="true" />
             <element signature="e#14820#14821#0" expanded="true" />
             <element signature="e#14869#14870#0" expanded="true" />
             <element signature="e#14896#14897#0" expanded="true" />
-            <element signature="e#16493#16670#0" expanded="true" />
-            <element signature="e#16669#16670#0" expanded="true" />
-            <element signature="e#20175#20217#0" expanded="true" />
-            <element signature="e#20309#20350#0" expanded="true" />
-            <element signature="e#20441#20482#0" expanded="true" />
-            <element signature="e#20704#21129#0" expanded="true" />
-            <element signature="e#21128#21129#0" expanded="true" />
-            <element signature="e#23838#23872#0" expanded="true" />
-            <element signature="e#23950#23988#0" expanded="true" />
-            <element signature="e#24067#24341#0" expanded="true" />
-            <element signature="e#24340#24341#0" expanded="true" />
-            <element signature="e#27867#27915#0" expanded="true" />
-            <element signature="e#27953#28002#0" expanded="true" />
-            <element signature="e#28004#28199#0" expanded="true" />
-            <element signature="e#28198#28199#0" expanded="true" />
-            <element signature="e#28236#28285#0" expanded="true" />
-            <element signature="e#28287#28494#0" expanded="true" />
-            <element signature="e#28493#28494#0" expanded="true" />
-            <element signature="e#29371#29410#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -3335,17 +3249,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="186">
           <caret line="15" column="37" lean-forward="false" selection-start-line="15" selection-start-column="4" selection-end-line="15" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider editor-type-id="android-manifest">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="682">
-          <caret line="102" column="19" lean-forward="false" selection-start-line="102" selection-start-column="19" selection-end-line="102" selection-end-column="19" />
           <folding />
         </state>
       </provider>
@@ -3360,38 +3263,58 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MessageDatabaseAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="248">
+        <state relative-caret-position="3565">
           <caret line="122" column="0" lean-forward="false" selection-start-line="122" selection-start-column="0" selection-end-line="122" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/AddEditFavoritesActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1126">
-          <caret line="79" column="0" lean-forward="false" selection-start-line="79" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
+        <state relative-caret-position="155">
+          <caret line="11" column="40" lean-forward="true" selection-start-line="11" selection-start-column="40" selection-end-line="11" selection-end-column="40" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#4492#4493#0" expanded="true" />
-            <element signature="e#4540#4541#0" expanded="true" />
-            <element signature="e#4605#4606#0" expanded="true" />
-            <element signature="e#4640#4641#0" expanded="true" />
-            <element signature="e#4689#4690#0" expanded="true" />
-            <element signature="e#4716#4717#0" expanded="true" />
+            <element signature="e#429#447#0" expanded="true" />
+            <element signature="e#641#659#0" expanded="true" />
+            <element signature="e#974#992#0" expanded="true" />
+            <element signature="e#1414#1432#0" expanded="true" />
+            <element signature="e#1855#1873#0" expanded="true" />
+            <element signature="e#2293#2311#0" expanded="true" />
+            <element signature="e#2730#2748#0" expanded="true" />
+            <element signature="e#3175#3213#0" expanded="true" />
+            <element signature="e#3632#3650#0" expanded="true" />
+            <element signature="e#4069#4087#0" expanded="true" />
           </folding>
         </state>
+      </provider>
+      <provider editor-type-id="android-manifest">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/FavoriteActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2213">
-          <caret line="263" column="8" lean-forward="false" selection-start-line="263" selection-start-column="8" selection-end-line="263" selection-end-column="8" />
+        <state relative-caret-position="341">
+          <caret line="221" column="67" lean-forward="true" selection-start-line="220" selection-start-column="12" selection-end-line="221" selection-end-column="67" />
           <folding>
-            <element signature="e#4071#4110#0" expanded="true" />
-            <element signature="e#4223#4264#0" expanded="true" />
-            <element signature="e#4389#4715#0" expanded="true" />
-            <element signature="e#4714#4715#0" expanded="true" />
-            <element signature="e#12476#12505#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#4302#4628#0" expanded="true" />
+            <element signature="e#4627#4628#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/AddEditFavoritesActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="775">
+          <caret line="25" column="58" lean-forward="false" selection-start-line="25" selection-start-column="58" selection-end-line="25" selection-end-column="58" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#4322#4323#0" expanded="true" />
+            <element signature="e#4370#4371#0" expanded="true" />
+            <element signature="e#4435#4436#0" expanded="true" />
+            <element signature="e#4470#4471#0" expanded="true" />
+            <element signature="e#4519#4520#0" expanded="true" />
+            <element signature="e#4546#4547#0" expanded="true" />
           </folding>
         </state>
       </provider>

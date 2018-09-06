@@ -16,13 +16,14 @@ import android.widget.Toast;
 import net.studymongolian.mongollibrary.MongolEditText;
 import net.studymongolian.mongollibrary.MongolInputMethodManager;
 
+import java.lang.ref.WeakReference;
+
 
 public class AddEditFavoritesActivity extends AppCompatActivity
         implements ImeDataSourceHelper.DataSourceHelperListener {
 
     static final String MESSAGE_ID_KEY = "message_id";
     static final String MESSAGE_TEXT_KEY = "message_text";
-    //static final String EDIT_MODE_KEY = "edit_mode";
     static final String MESSAGE_ADDED_KEY = "message_added";
     private boolean messageWasAdded = false;
 
@@ -59,8 +60,6 @@ public class AddEditFavoritesActivity extends AppCompatActivity
         mimm.addEditor(metMessage);
         mimm.setIme(imeContainer);
         imeContainer.setDataSource(new ImeDataSourceHelper(this));
-        //imeContainer.showSystemKeyboardsOption(getString(R.string.keyboard_show_system_keyboards));
-        //imeContainer.setOnNonSystemImeListener(this);
         getSavedKeyboard(imeContainer);
     }
 
@@ -122,13 +121,11 @@ public class AddEditFavoritesActivity extends AppCompatActivity
             return;
         }
 
-
-
         if (isNewVocab()) {
-            new AddMessage().execute(messageText);
+            new AddMessage(this).execute(messageText);
         } else {
             Message message = new Message(mMessageId, System.currentTimeMillis(), messageText);
-            new UpdateMessage().execute(message);
+            new UpdateMessage(this).execute(message);
         }
     }
 
@@ -146,16 +143,22 @@ public class AddEditFavoritesActivity extends AppCompatActivity
         return this;
     }
 
-    private class AddMessage extends AsyncTask<String, Void, Void> {
+    private static class AddMessage extends AsyncTask<String, Void, Void> {
+
+        private WeakReference<AddEditFavoritesActivity> activityReference;
+
+        AddMessage(AddEditFavoritesActivity context) {
+            activityReference = new WeakReference<>(context);
+        }
 
         @Override
         protected Void doInBackground(String... params) {
 
             String item = params[0];
 
-
+            AddEditFavoritesActivity activity = activityReference.get();
             try {
-                MessageDatabaseAdapter dbAdapter = new MessageDatabaseAdapter(getApplicationContext());
+                MessageDatabaseAdapter dbAdapter = new MessageDatabaseAdapter(activity);
                 dbAdapter.addFavoriteMessage(item);
             } catch (Exception e) {
                 Log.i("app", e.toString());
@@ -165,24 +168,30 @@ public class AddEditFavoritesActivity extends AppCompatActivity
 
         @Override
         protected void onPostExecute(Void results) {
-            messageWasAdded = true;
+            AddEditFavoritesActivity activity = activityReference.get();
+            if (activity == null || activity.isFinishing()) return;
+            activity.messageWasAdded = true;
             Intent intent = new Intent();
-            //intent.putExtra(EDIT_MODE_KEY, true);
-            setResult(RESULT_OK, intent);
-            finish();
+            activity.setResult(RESULT_OK, intent);
+            activity.finish();
         }
-
     }
 
-    private class UpdateMessage extends AsyncTask<Message, Void, Void> {
+    private static class UpdateMessage extends AsyncTask<Message, Void, Void> {
+
+        private WeakReference<AddEditFavoritesActivity> activityReference;
+
+        UpdateMessage(AddEditFavoritesActivity context) {
+            activityReference = new WeakReference<>(context);
+        }
 
         @Override
         protected Void doInBackground(Message... params) {
 
             Message item = params[0];
+            AddEditFavoritesActivity activity = activityReference.get();
             try {
-
-                MessageDatabaseAdapter dbAdapter = new MessageDatabaseAdapter(getApplicationContext());
+                MessageDatabaseAdapter dbAdapter = new MessageDatabaseAdapter(activity);
                 dbAdapter.updateFavoriteMessage(item);
             } catch (Exception e) {
                 Log.i("app", e.toString());
@@ -193,39 +202,11 @@ public class AddEditFavoritesActivity extends AppCompatActivity
 
         @Override
         protected void onPostExecute(Void results) {
+            AddEditFavoritesActivity activity = activityReference.get();
+            if (activity == null || activity.isFinishing()) return;
             Intent intent = new Intent();
-            //intent.putExtra(EDIT_MODE_KEY, true);
-            setResult(RESULT_OK, intent);
-            finish();
+            activity.setResult(RESULT_OK, intent);
+            activity.finish();
         }
-
     }
-
-//    private class LoadEditingMessage extends AsyncTask<Long, Void, Message> {
-//
-//        @Override
-//        protected Message doInBackground(Long... params) {
-//
-//            long messageId = params[0];
-//
-//            Message messageItem = null;
-//
-//            try {
-//
-//                MessageDatabaseAdapter dbAdapter = new MessageDatabaseAdapter(getApplicationContext());
-//                messageItem = dbAdapter.getFavoriteMessage(messageId);
-//            } catch (Exception e) {
-//                Log.i("app", e.toString());
-//            }
-//
-//            return messageItem;
-//
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Message messageItem) {
-//            metMessage.setText(messageItem.getMessage());
-//        }
-//
-//    }
 }
