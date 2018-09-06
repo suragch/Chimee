@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -18,10 +19,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:titleTextColor="@android:color/primary_text_dark"/>
+        app:titleTextColor="@android:color/primary_text_dark"
+        tools:ignore="UnusedAttribute" />
 
-    <net.studymongolian.mongollibrary.MongolEditText
-        android:id="@+id/metFavoriteMessage"
+    <HorizontalScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
@@ -30,12 +31,22 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:padding="10dp"
         app:layout_constraintBottom_toTopOf="@id/keyboard_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:textSize="24sp" />
+        >
+
+        <net.studymongolian.mongollibrary.MongolEditText
+            android:id="@+id/metFavoriteMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            app:textSize="24sp" />
+
+    </HorizontalScrollView>
+
+
 
     <net.studymongolian.chimee.CustomImeContainer
         android:id="@+id/keyboard_container"
