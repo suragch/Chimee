@@ -103,5 +103,10 @@
     <string name="favorites_menu_edit">edit</string>
     <string name="favorites_menu_delete">delete</string>
     <string name="keyboard_show_system_keyboards">ᠰᠢᠰᠲ᠋ᠧᠮ</string>
+    <string name="settings_message_history">message history</string>
+    <string name="settings_keyboard_words">keyboard words</string>
+    <string name="settings_code_converter">unicode converter</string>
+    <string name="settings_help">help</string>
+    <string name="settings_about">about</string>
 
 </resources>

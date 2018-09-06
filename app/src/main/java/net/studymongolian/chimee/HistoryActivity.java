@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -44,74 +45,23 @@ public class HistoryActivity extends AppCompatActivity implements OnItemClickLis
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_history);
 
-		// setup toolbar
-		Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-		setSupportActionBar(myToolbar);
-
-		// create objects
-		lvHistory = (ListView) findViewById(R.id.lvHistory);
-//		footerView = ((LayoutInflater) getApplicationContext().getSystemService(
-//				Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.listview_footer, null, false);
-//		progressSpinner = (ProgressBar) footerView.findViewById(R.id.pbListviewFooter);
-//		tvListviewFooter = (TextView) footerView.findViewById(R.id.tvListviewFooter);
-//		lvHistory.addFooterView(footerView);
-		menuLayout = (LinearLayout) findViewById(R.id.menuLayout);
-		menuHiderForOutsideClicks =  findViewById(R.id.transparent_view);
-
-		// Show messages
-		new GetRecentHistoryMessages().execute();
-		lvHistory.setOnItemClickListener(this);
-		lvHistory.setOnItemLongClickListener(this);
-		
+		setupToolbar();
 
 	}
 
-	@Override
-	public void onSaveInstanceState(Bundle savedInstanceState) {
-
-		// Save the user's current game state
-		int currentPosition = lvHistory.getFirstVisiblePosition();
-		savedInstanceState.putInt(STATE_SCROLL_POSITION, currentPosition);
-
-		// Always call the superclass so it can save the view hierarchy state
-		super.onSaveInstanceState(savedInstanceState);
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-
-		// hide the menu if showing
-		if (menuLayout.getVisibility() == View.VISIBLE) {
-			menuLayout.setVisibility(View.GONE);
-			menuHiderForOutsideClicks.setVisibility(View.GONE);
+	private void setupToolbar() {
+		Toolbar toolbar = findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+		ActionBar actionBar = getSupportActionBar();
+		if (actionBar != null) {
+			actionBar.setDisplayHomeAsUpEnabled(true);
+			actionBar.setDisplayShowHomeEnabled(true);
+			actionBar.setTitle("");
 		}
 	}
 
-	public void onRestoreInstanceState(Bundle savedInstanceState) {
-		// Always call the superclass so it can restore the view hierarchy
-		super.onRestoreInstanceState(savedInstanceState);
+	// TODO save scroll state on rotation
 
-		savedPosition = savedInstanceState.getInt(STATE_SCROLL_POSITION);
-		lvHistory.setSelection(savedPosition);
-
-	}
-
-	public void finishedClick(View v) {
-		finish();
-	}
-
-	public void menuClick(View v) {
-
-		if (menuLayout.getVisibility() == View.GONE) {
-			menuLayout.setVisibility(View.VISIBLE);
-			menuHiderForOutsideClicks.setVisibility(View.VISIBLE);
-		} else {
-			menuLayout.setVisibility(View.GONE);
-			menuHiderForOutsideClicks.setVisibility(View.GONE);
-		}
-
-	}
 
 	private class GetRecentHistoryMessages extends AsyncTask<Void, Void, ArrayList<Message>> {
 
@@ -288,30 +238,6 @@ public class HistoryActivity extends AppCompatActivity implements OnItemClickLis
 			}
 		}
 	}
-
-	public void hideMenu(View view) {
-
-		menuLayout.setVisibility(View.GONE);
-		menuHiderForOutsideClicks.setVisibility(View.GONE);
-		// longClickedItem = -1;
-	}
-
-	public void menuDeleteAllClick(View view) {
-
-		// confirm with two button dialog
-//		Intent intent = new Intent(getApplicationContext(), MongolDialogTwoButton.class);
-//		intent.putExtra(MongolDialogTwoButton.TITLE,
-//				getResources().getString(R.string.dialog_delete_history_title));
-//		intent.putExtra(MongolDialogTwoButton.MESSAGE,
-//				getResources().getString(R.string.dialog_delete_history_message));
-//		intent.putExtra(MongolDialogTwoButton.BUTTON_TOP_TEXT,
-//				getResources().getString(R.string.dialog_delete_history_top_button));
-//		intent.putExtra(MongolDialogTwoButton.BUTTON_BOTTOM_TEXT,
-//				getResources().getString(R.string.dialog_delete_history_bottom_button));
-//		this.startActivityForResult(intent, DELETE_REQUEST);
-		// if yes then delete
-	}
-
 
 
 	@Override

@@ -6,122 +6,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/my_toolbar"
+        android:id="@+id/toolbar"
+        android:minHeight="?attr/actionBarSize"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="wrap_content"
+        app:titleTextColor="@android:color/primary_text_dark"
         android:background="?attr/colorPrimary"
         android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        tools:ignore="UnusedAttribute"/>
 
-    <!-- This is the custom top action bar -->
-
-    <RelativeLayout
-        android:id="@+id/topActionBarLayout"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_below="@id/my_toolbar"
-        android:background="@color/actionbar_bg" >
-
-        <!-- press the left caret and app icon to go up -->
-
-        <RelativeLayout
-            android:id="@+id/goUpLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:background="@drawable/bar_icon"
-            android:clickable="true"
-            android:onClick="finishedClick"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" >
-
-            <ImageView
-                android:id="@+id/leftCaretIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_chevron_left_white_24dp" />
-
-            <ImageView
-                android:id="@+id/appIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/leftCaretIcon"
-                android:paddingLeft="5dp"
-                android:src="@drawable/ic_access_time_white_24dp" />
-        </RelativeLayout>
-
-        <FrameLayout
-            android:id="@+id/menuIconFrame"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/bar_icon"
-            android:clickable="true"
-            android:onClick="menuClick"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" >
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_more_vert_white_24dp" />
-        </FrameLayout>
-    </RelativeLayout>
-
-    <!-- Message list -->
-
-    <net.studymongolian.chimee.MongolViewGroup
-        android:id="@+id/form2"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_message_history"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/topActionBarLayout" >
-
-        <ListView
-            android:id="@+id/lvHistory"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </net.studymongolian.chimee.MongolViewGroup>
-
-    <!-- Menu -->
-
-    <View
-        android:id="@+id/transparent_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clickable="true"
-        android:onClick="hideMenu"
-        android:visibility="gone" />
-
-    <LinearLayout
-        android:id="@+id/menuLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@id/topActionBarLayout"
-        android:layout_below="@id/topActionBarLayout"
-        android:orientation="horizontal"
-        android:visibility="gone" >
-
-        <FrameLayout
-            android:id="@+id/menuItemDeleteAllFrame"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/menu_item"
-            android:clickable="true"
-            android:onClick="menuDeleteAllClick"
-            android:padding="10dp" >
-
-            <net.studymongolian.chimee.MongolTextView
-                style="@style/AppTheme.MongolKeyTextStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/menu_item_clear_history" />
-        </FrameLayout>
-
-    </LinearLayout>
+        android:layout_below="@id/toolbar"
+        />
 
 </RelativeLayout>

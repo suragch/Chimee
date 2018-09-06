@@ -605,7 +605,6 @@ public class MainActivity extends AppCompatActivity
 
     private void favoriteActionBarItemClick() {
 
-        // Start About activity
         Intent intent = new Intent(this, FavoriteActivity.class);
         String text = inputWindow.getText().toString();
         intent.putExtra(FavoriteActivity.CURRENT_MESSAGE_KEY, text);
@@ -633,11 +632,18 @@ public class MainActivity extends AppCompatActivity
     private void overflowMenuItemClick() {
         View overflowMenuButton = findViewById(R.id.main_action_overflow);
         MongolMenu menu = new MongolMenu(this);
-        menu.add(new MongolMenuItem(getString(R.string.menu_item_open), R.drawable.ic_folder_open_black_24dp));
-        menu.add(new MongolMenuItem(getString(R.string.menu_item_settings), R.drawable.ic_settings_black_24dp));
+        final MongolMenuItem openSave = new MongolMenuItem(getString(R.string.menu_item_open), R.drawable.ic_folder_open_black_24dp);
+        final MongolMenuItem settings = new MongolMenuItem(getString(R.string.menu_item_settings), R.drawable.ic_settings_black_24dp);
+        menu.add(openSave);
+        menu.add(settings);
         menu.setOnMenuItemClickListener(new MongolMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MongolMenuItem item) {
                 MongolToast.makeText(getApplicationContext(), item.getTitle(), MongolToast.LENGTH_SHORT).show();
+                if (item == openSave) {
+                    onOpenSaveMenuItemClick();
+                } else if (item == settings) {
+                    onSettingsMenuItemClick();
+                }
                 return true;
             }
         });
@@ -649,6 +655,15 @@ public class MainActivity extends AppCompatActivity
         int yOffset = location[1] + marginPx;
 
         menu.showAtLocation(overflowMenuButton, gravity, marginPx, yOffset);
+    }
+
+    private void onOpenSaveMenuItemClick() {
+
+    }
+
+    private void onSettingsMenuItemClick() {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivityForResult(intent, SETTINGS_REQUEST);
     }
 
     private int convertDpToPx(int dp) {

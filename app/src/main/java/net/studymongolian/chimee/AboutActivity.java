@@ -1,6 +1,5 @@
 package net.studymongolian.chimee;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
@@ -21,19 +20,9 @@ public class AboutActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_about);
 
-        // setup toolbar
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
+		setupToolbar();
 
-        // Get a support ActionBar corresponding to this toolbar
-        ActionBar ab = getSupportActionBar();
-
-        // Enable the Up button
-        ab.setDisplayHomeAsUpEnabled(true);
-
-
-
-        TextView nameAndVersion = (TextView) findViewById(R.id.aboutAppTitle);
+        TextView nameAndVersion = findViewById(R.id.aboutAppTitle);
 		String appName = getResources().getString(R.string.app_name);
 		String appVersion = "";
 		try {
@@ -45,8 +34,15 @@ public class AboutActivity extends AppCompatActivity {
 		nameAndVersion.setText(appName + " " + appVersion);
 	}
 
-	public void finishedClick(View v) {
-		finish();
+	private void setupToolbar() {
+		Toolbar toolbar = findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+		ActionBar actionBar = getSupportActionBar();
+		if (actionBar != null) {
+			actionBar.setDisplayHomeAsUpEnabled(true);
+			actionBar.setDisplayShowHomeEnabled(true);
+			actionBar.setTitle("");
+		}
 	}
 
 	public void siteClick(View v) {

@@ -1,81 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/my_toolbar"
+        android:id="@+id/toolbar"
+        android:minHeight="?attr/actionBarSize"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="wrap_content"
+        app:titleTextColor="@android:color/primary_text_dark"
         android:background="?attr/colorPrimary"
         android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
-
-    <!-- This is the custom top action bar -->
-
-    <RelativeLayout
-        android:id="@+id/topActionBarLayout"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_below="@id/my_toolbar"
-        android:background="@color/actionbar_bg" >
-
-        <!-- press the left caret and app icon to go up -->
-
-        <RelativeLayout
-            android:id="@+id/goUpLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:background="@drawable/bar_icon"
-            android:clickable="true"
-            android:onClick="finishedClick"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" >
-
-            <ImageView
-                android:id="@+id/leftCaretIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_chevron_left_white_24dp" />
-
-            <ImageView
-                android:id="@+id/appIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/leftCaretIcon"
-                android:paddingLeft="5dp"
-                android:src="@drawable/ic_help_white_24dp" />
-        </RelativeLayout>
-    </RelativeLayout>
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        tools:ignore="UnusedAttribute"/>
 
     <!-- This is the main settings area -->
 
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/topActionBarLayout"
+        android:layout_below="@+id/toolbar"
         android:fillViewport="true"
         android:scrollbars="none" >
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:background="@color/about_bg"
             android:orientation="horizontal"
             android:padding="20dp" >
 
-            <net.studymongolian.chimee.MongolTextView
+            <net.studymongolian.mongollibrary.MongolTextView
                 android:id="@+id/tvHelpContent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/about_text"
-                android:textSize="20sp" />
+                app:textSize="20sp" />
 
             <FrameLayout
                 android:layout_width="wrap_content"
@@ -83,16 +44,16 @@
                 android:layout_marginRight="20dp"
                 android:background="@drawable/border_thin" >
 
-                <net.studymongolian.chimee.MongolTextView
+                <net.studymongolian.mongollibrary.MongolTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bar_icon"
                     android:clickable="true"
+                    android:focusable="true"
                     android:onClick="onlineHelpClick"
                     android:padding="10dp"
-                    android:text="@string/help_address"
-                    android:textColor="@color/about_text"
-                    android:textSize="16sp" />
+                    app:text="@string/help_address"
+                    app:textSize="16sp" />
             </FrameLayout>
         </LinearLayout>
     </HorizontalScrollView>
