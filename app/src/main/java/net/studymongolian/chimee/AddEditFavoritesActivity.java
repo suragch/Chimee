@@ -41,6 +41,7 @@ public class AddEditFavoritesActivity extends AppCompatActivity
         initToolbar();
         initKeyboard();
         loadInfoFromIntent();
+        setFocusOnInputWindow();
     }
 
     private void initToolbar() {
@@ -81,6 +82,10 @@ public class AddEditFavoritesActivity extends AppCompatActivity
             metMessage.setText(messageText);
     }
 
+    private void setFocusOnInputWindow() {
+        MongolEditText editText = findViewById(R.id.metFavoriteMessage);
+        editText.requestFocus();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
