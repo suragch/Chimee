@@ -4,16 +4,49 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                tools:context="net.studymongolian.chimee.PhotoOverlayActivity">
+                xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/my_toolbar"
+        android:id="@+id/toolbar"
+        android:minHeight="?attr/actionBarSize"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="wrap_content"
+        app:titleTextColor="@android:color/primary_text_dark"
         android:background="?attr/colorPrimary"
         android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        tools:ignore="UnusedAttribute"/>
+
+    <TextView
+        android:id="@+id/tv_documents_directory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/toolbar"
+        android:layout_margin="8dp"
+        android:textSize="16sp"
+        android:text="/sdcard/Chimee/document"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_document_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/tv_documents_directory"
+        />
+
+    <net.studymongolian.mongollibrary.MongolTextView
+        android:id="@+id/mtv_doc_dir_empty_notice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="invisible"
+        app:text="The documents directory is empty"
+        app:textSize="30sp"
+        app:textColor="@color/grey_800"
+        />
+
 
 </RelativeLayout>

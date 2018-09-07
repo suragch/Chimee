@@ -3,9 +3,6 @@ package net.studymongolian.chimee;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.List;
 
 
 import net.studymongolian.mongollibrary.ImeContainer;
@@ -26,7 +23,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -52,7 +48,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
-import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 
@@ -69,7 +64,7 @@ public class MainActivity extends AppCompatActivity
     protected static final int SETTINGS_REQUEST = 3;
     protected static final int FAVORITE_MESSAGE_REQUEST = 4;
     protected static final int HISTORY_REQUEST = 5;
-    protected static final int PHOTO_OVERLAY_REQUEST = 6;
+    protected static final int OPEN_REQUEST = 6;
 
     private static final String TEMP_CACHE_SUBDIR = "images";
     private static final String TEMP_CACHE_FILENAME = "image.png";
@@ -78,8 +73,6 @@ public class MainActivity extends AppCompatActivity
     private static final String WECHAT_PACKAGE_NAME = "com.tencent.mm";
     private static final String BAINU_PACKAGE_NAME = "com.zuga.im";
     private static final String BAINU_DOWNLOAD_SITE = "http://www.zuga-tech.net";
-
-
 
 
     private enum ShareType {
@@ -632,15 +625,21 @@ public class MainActivity extends AppCompatActivity
     private void overflowMenuItemClick() {
         View overflowMenuButton = findViewById(R.id.main_action_overflow);
         MongolMenu menu = new MongolMenu(this);
-        final MongolMenuItem openSave = new MongolMenuItem(getString(R.string.menu_item_open), R.drawable.ic_folder_open_black_24dp);
+        final MongolMenuItem open = new MongolMenuItem(getString(R.string.menu_item_open), R.drawable.ic_folder_open_black_24dp);
+        final MongolMenuItem save = new MongolMenuItem(getString(R.string.menu_item_save), R.drawable.ic_save_black_24dp);
         final MongolMenuItem settings = new MongolMenuItem(getString(R.string.menu_item_settings), R.drawable.ic_settings_black_24dp);
-        menu.add(openSave);
+        if (inputWindow.hasUnsavedContent()) {
+            menu.add(save);
+        } else {
+            menu.add(open);
+        }
         menu.add(settings);
         menu.setOnMenuItemClickListener(new MongolMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MongolMenuItem item) {
-                MongolToast.makeText(getApplicationContext(), item.getTitle(), MongolToast.LENGTH_SHORT).show();
-                if (item == openSave) {
-                    onOpenSaveMenuItemClick();
+                if (item == open) {
+                    onOpenMenuItemClick();
+                } else if (item == save) {
+                    onSaveMenuItemClick();
                 } else if (item == settings) {
                     onSettingsMenuItemClick();
                 }
@@ -657,8 +656,14 @@ public class MainActivity extends AppCompatActivity
         menu.showAtLocation(overflowMenuButton, gravity, marginPx, yOffset);
     }
 
-    private void onOpenSaveMenuItemClick() {
+    private void onOpenMenuItemClick() {
+        Intent intent = new Intent(this, OpenActivity.class);
+        startActivityForResult(intent, OPEN_REQUEST);
+    }
 
+    private void onSaveMenuItemClick() {
+        Intent intent = new Intent(this, SaveActivity.class);
+        startActivity(intent);
     }
 
     private void onSettingsMenuItemClick() {
@@ -924,43 +929,52 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == SHARE_CHOOSER_REQUEST) {
+        switch (requestCode) {
+            case SHARE_CHOOSER_REQUEST:
+                onShareChooserResult(resultCode, data);
+                break;
+            case WECHAT_REQUEST:
+                onWeChatResult(resultCode, data);
+                break;
+            case BAINU_REQUEST:
+                onBainuResult(resultCode, data);
+                break;
+            case SETTINGS_REQUEST:
+                onSettingsResult(resultCode, data);
+                break;
+            case FAVORITE_MESSAGE_REQUEST:
+                onFavoriteActivityResult(resultCode, data);
+                break;
+            case HISTORY_REQUEST:
+                onHistoryResult(resultCode, data);
+                break;
+            case OPEN_REQUEST:
+                onOpenFileResult(resultCode, data);
+                break;
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
 
-            if (resultCode == RESULT_OK) {
-                // TODO this never gets called. Make a custom chooser
-            }
+    private void onShareChooserResult(int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            // TODO this never gets called. Make a custom chooser
+        }
+        inputWindow.getEditText().setText("");
+    }
 
-            inputWindow.getEditText().setText("");
+    private void onWeChatResult(int resultCode, Intent data) {
+        inputWindow.getEditText().setText("");
+    }
 
-        } else if (requestCode == WECHAT_REQUEST) {
+    private void onBainuResult(int resultCode, Intent data) {
 
-            inputWindow.getEditText().setText("");
+    }
 
-        } else if (requestCode == HISTORY_REQUEST) {
-            if (resultCode == RESULT_OK) {
-
-                if (data.hasExtra("resultString")) {
-                    String result = data.getExtras().getString("resultString");
-//					unicodeText.insert(cursorPosition, result);
-//					cursorPosition += result.length();
-                    //updateDisplay();
-                }
-            }
-
-        } else if (requestCode == SETTINGS_REQUEST) {
-            if (resultCode == RESULT_OK) {
-
-                // Get preferences and update settings display
-                //settings = getSharedPreferences(SettingsActivity.PREFS_NAME, MODE_PRIVATE);
-
-
-            }
-        } else if (requestCode == FAVORITE_MESSAGE_REQUEST) {
-            onFavoriteActivityResult(resultCode, data);
-
-        } else {
-
-            super.onActivityResult(requestCode, resultCode, data);
+    private void onSettingsResult(int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            // Get preferences and update settings display
+            //settings = getSharedPreferences(SettingsActivity.PREFS_NAME, MODE_PRIVATE);
         }
     }
 
@@ -974,6 +988,31 @@ public class MainActivity extends AppCompatActivity
         int start = editText.getSelectionStart();
         int end = editText.getSelectionEnd();
         editText.getText().replace(start, end, message);
+    }
+
+    private void onHistoryResult(int resultCode, Intent data) {
+
+        if (resultCode == RESULT_OK) {
+
+            if (data.hasExtra("resultString")) {
+                String result = data.getExtras().getString("resultString");
+//					unicodeText.insert(cursorPosition, result);
+//					cursorPosition += result.length();
+                //updateDisplay();
+            }
+        }
+    }
+
+    private void onOpenFileResult(int resultCode, Intent data) {
+        if (resultCode != RESULT_OK) return;
+        Bundle extras = data.getExtras();
+        if (extras == null) return;
+        String fileName = extras.getString(OpenActivity.FILE_NAME_KEY);
+        String fileText = extras.getString(OpenActivity.FILE_TEXT_KEY);
+        if (TextUtils.isEmpty(fileName) || fileText == null) return;
+        MongolEditText editText = inputWindow.getEditText();
+        editText.setText(fileText);
+        editText.setSelection(0);
     }
 
 

@@ -15,8 +15,8 @@
     <string name="menu_item_favorite">Important</string>
     <string name="menu_item_overflow">More</string>
     <string name="menu_item_share">share</string>
-    <string name="menu_item_open">open</string>
-    <string name="menu_item_save">save</string>
+    <string name="menu_item_open">ᠨᠡᠭᠡᠭᠡᠬᠦ</string>
+    <string name="menu_item_save">ᠬᠠᠳᠠᠭᠠᠯᠬᠤ</string>
     <string name="menu_item_settings">ᠳᠤᠬᠢᠷᠠᠭᠤᠯᠠᠭ᠎ᠠ</string>
 
     <string name="menu_item_about">ᠮᠠᠨ ᠤ ᠲᠤᠬᠠᠢ</string>
@@ -108,5 +108,7 @@
     <string name="settings_code_converter">unicode converter</string>
     <string name="settings_help">help</string>
     <string name="settings_about">about</string>
+    <string name="save_file_name">file name</string>
+    <string name="filename_cant_be_empty">the filename can\'t be empty</string>
 
 </resources>

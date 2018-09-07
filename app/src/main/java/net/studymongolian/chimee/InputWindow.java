@@ -11,6 +11,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -36,6 +37,7 @@ public class InputWindow extends HorizontalScrollView {
     private Rect mOldGoodSize;
     private MongolEditText editText;
     private int mBackgroundColor;
+    private String mLastSavedContent;
 
 
     public InputWindow(Context context) {
@@ -299,5 +301,14 @@ public class InputWindow extends HorizontalScrollView {
         paint.setColor(color);
         paint.setStyle(Paint.Style.FILL);
         canvas.drawPaint(paint);
+    }
+
+    public void recordSavedContent() {
+        mLastSavedContent = editText.getText().toString();
+    }
+
+    public boolean hasUnsavedContent() {
+        String currentContent = editText.getText().toString();
+        return !TextUtils.isEmpty(currentContent) && !currentContent.equals(mLastSavedContent);
     }
 }
