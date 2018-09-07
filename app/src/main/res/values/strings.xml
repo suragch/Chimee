@@ -110,5 +110,11 @@
     <string name="settings_about">about</string>
     <string name="save_file_name">file name</string>
     <string name="filename_cant_be_empty">the filename can\'t be empty</string>
+    <string name="file_saved">File saved</string>
+    <string name="file_not_saved">file couldn\'t be saved</string>
+    <string name="no_write_file_permission">Chimee can\'t save a file to your SD card without write permission.</string>
+    <string name="dialog_got_it">ᠮᠡᠳᠡᠯ᠎ᠡ</string>
+    <string name="dialog_confirm_overwrite_file">This file name already exists. Are you sure you want to overwrite it?</string>
+    <string name="dialog_button_overwrite">overwrite</string>
 
 </resources>

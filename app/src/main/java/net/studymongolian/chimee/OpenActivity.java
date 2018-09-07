@@ -43,7 +43,7 @@ public class OpenActivity extends AppCompatActivity
     }
 
     private void showContent() {
-        List<String> files = FileUtils.getFileNames();
+        List<String> files = FileUtils.getTextFileNames();
         if (files.size() > 0) {
             setupRecyclerView(files);
         } else {

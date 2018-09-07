@@ -58,13 +58,14 @@ public class MainActivity extends AppCompatActivity
         ColorChooserDialogFragment.ColorDialogListener,
         FontChooserDialogFragment.FontDialogListener {
 
-    protected static final int SHARE_CHOOSER_REQUEST = 0;
-    protected static final int WECHAT_REQUEST = 1;
-    protected static final int BAINU_REQUEST = 2;
-    protected static final int SETTINGS_REQUEST = 3;
-    protected static final int FAVORITE_MESSAGE_REQUEST = 4;
-    protected static final int HISTORY_REQUEST = 5;
-    protected static final int OPEN_REQUEST = 6;
+    private static final int SHARE_CHOOSER_REQUEST = 0;
+    private static final int WECHAT_REQUEST = 1;
+    private static final int BAINU_REQUEST = 2;
+    private static final int SETTINGS_REQUEST = 3;
+    private static final int FAVORITE_MESSAGE_REQUEST = 4;
+    private static final int HISTORY_REQUEST = 5;
+    private static final int OPEN_REQUEST = 6;
+    private static final int SAVE_REQUEST = 7;
 
     private static final String TEMP_CACHE_SUBDIR = "images";
     private static final String TEMP_CACHE_FILENAME = "image.png";
@@ -663,6 +664,7 @@ public class MainActivity extends AppCompatActivity
 
     private void onSaveMenuItemClick() {
         Intent intent = new Intent(this, SaveActivity.class);
+        intent.putExtra(SaveActivity.TEXT_KEY, inputWindow.getText().toString());
         startActivity(intent);
     }
 
@@ -951,6 +953,9 @@ public class MainActivity extends AppCompatActivity
             case OPEN_REQUEST:
                 onOpenFileResult(resultCode, data);
                 break;
+            case SAVE_REQUEST:
+                onSaveFileResult(resultCode, data);
+                break;
             default:
                 super.onActivityResult(requestCode, resultCode, data);
         }
@@ -996,9 +1001,7 @@ public class MainActivity extends AppCompatActivity
 
             if (data.hasExtra("resultString")) {
                 String result = data.getExtras().getString("resultString");
-//					unicodeText.insert(cursorPosition, result);
-//					cursorPosition += result.length();
-                //updateDisplay();
+
             }
         }
     }
@@ -1013,6 +1016,16 @@ public class MainActivity extends AppCompatActivity
         MongolEditText editText = inputWindow.getEditText();
         editText.setText(fileText);
         editText.setSelection(0);
+    }
+
+    private void onSaveFileResult(int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            MongolToast.makeText(this,
+                    getString(R.string.file_saved), MongolToast.LENGTH_SHORT).show();
+        } else {
+            MongolToast.makeText(this,
+                    getString(R.string.file_not_saved), MongolToast.LENGTH_SHORT).show();
+        }
     }
 
 

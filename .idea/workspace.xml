@@ -10,21 +10,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e373569e-ee9b-4412-b2d3-a86c151abae2" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/FileUtils.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/SimpleListRvAdapter.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/layout/simple_list_rv_item.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/menu/save_file_menu.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/yonghu.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/yonghu.xml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/InputWindow.java" afterPath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/InputWindow.java" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/FileUtils.java" afterPath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/FileUtils.java" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MainActivity.java" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/OpenActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/OpenActivity.java" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/SaveActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/SaveActivity.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_add_edit_message.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_add_edit_message.xml" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_open.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_open.xml" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_save.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_save.xml" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -48,16 +38,156 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="SaveActivity.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="SaveActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/SaveActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="217">
-              <caret line="134" column="19" lean-forward="false" selection-start-line="134" selection-start-column="19" selection-end-line="138" selection-end-column="11" />
+            <state relative-caret-position="64">
+              <caret line="162" column="32" lean-forward="false" selection-start-line="162" selection-start-column="32" selection-end-line="162" selection-end-column="32" />
               <folding>
-                <element signature="e#4982#4983#0" expanded="true" />
-                <element signature="e#5017#5018#0" expanded="true" />
-                <element signature="e#5066#5067#0" expanded="true" />
-                <element signature="e#5093#5094#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#5476#5477#0" expanded="true" />
+                <element signature="e#5533#5534#0" expanded="true" />
+                <element signature="e#5712#5761#0" expanded="true" />
+                <element signature="e#5798#5841#0" expanded="true" />
+                <element signature="e#5843#6071#0" expanded="true" />
+                <element signature="e#6070#6071#0" expanded="true" />
+                <element signature="e#6930#6974#0" expanded="true" />
+                <element signature="e#7011#7044#0" expanded="true" />
+                <element signature="e#7046#7226#0" expanded="true" />
+                <element signature="e#7225#7226#0" expanded="true" />
+                <element signature="e#7374#7375#0" expanded="true" />
+                <element signature="e#7409#7410#0" expanded="true" />
+                <element signature="e#7458#7459#0" expanded="true" />
+                <element signature="e#7485#7486#0" expanded="true" />
+                <element signature="e#7670#7671#0" expanded="true" />
+                <element signature="e#7743#7744#0" expanded="true" />
+                <element signature="e#8711#8754#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MainActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="157">
+              <caret line="1020" column="17" lean-forward="false" selection-start-line="1020" selection-start-column="17" selection-end-line="1020" selection-end-column="17" />
+              <folding>
+                <element signature="e#38869#38899#0" expanded="true" />
+                <element signature="e#39011#39045#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="strings.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="299">
+              <caret line="95" column="18" lean-forward="false" selection-start-line="95" selection-start-column="18" selection-end-line="95" selection-end-column="18" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FragmentActivity.class" pinned="false" current-in-tab="false">
+        <entry file="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/support-fragment-28.0.0-rc02.aar/6dfe0cbdd4e9399da4b2a22e6a080375/jars/classes.jar!/android/support/v4/app/FragmentActivity.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="299">
+              <caret line="476" column="68" lean-forward="false" selection-start-line="476" selection-start-column="59" selection-end-line="476" selection-end-column="68" />
+              <folding>
+                <marker date="1535512192399" expanded="false" signature="0:104" ph="/.../" />
+                <marker date="1535512192399" expanded="false" signature="146:1502" ph="..." />
+                <marker date="1535512192399" expanded="false" signature="2221:2285" ph="handleMessage(msg) → {" />
+                <marker date="1535512192399" expanded="false" signature="2572:2583" ph="}" />
+                <marker date="1535512192399" expanded="true" signature="3084:3091" ph="{}" />
+                <marker date="1535512192399" expanded="true" signature="3185:4341" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="4375:4725" ph="{...}" />
+                <marker date="1535512192399" expanded="false" signature="4773:4784" ph=" { " />
+                <marker date="1535512192399" expanded="false" signature="4827:4833" ph=" }" />
+                <marker date="1535512192399" expanded="true" signature="4913:4990" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="5069:5145" ph="{...}" />
+                <marker date="1535512192399" expanded="false" signature="5195:5206" ph=" { " />
+                <marker date="1535512192399" expanded="false" signature="5251:5257" ph=" }" />
+                <marker date="1535512192399" expanded="true" signature="5314:5381" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="5468:5552" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="5649:5743" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="5809:5975" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="6036:6778" ph="{...}" />
+                <marker date="1535512192399" expanded="false" signature="6815:6826" ph=" { " />
+                <marker date="1535512192399" expanded="false" signature="6854:6860" ph=" }" />
+                <marker date="1535512192399" expanded="true" signature="6927:8773" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="8838:9150" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="9244:9415" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="9496:9663" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="9773:9855" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="9888:10098" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="10130:10211" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="10281:10682" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="10740:10929" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="10960:11202" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="11250:11337" ph="{...}" />
+                <marker date="1535512192399" expanded="false" signature="11372:11383" ph=" { " />
+                <marker date="1535512192399" expanded="false" signature="11419:11425" ph=" }" />
+                <marker date="1535512192399" expanded="true" signature="11457:11609" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="11645:11803" ph="{...}" />
+                <marker date="1535512192399" expanded="false" signature="11843:11854" ph=" { " />
+                <marker date="1535512192399" expanded="false" signature="11887:11893" ph=" }" />
+                <marker date="1535512192399" expanded="true" signature="11966:12281" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="12388:12447" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="12508:13069" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="13127:14175" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="14206:14531" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="14561:14699" ph="{...}" />
+                <marker date="1535512192399" expanded="false" signature="14759:14770" ph=" { " />
+                <marker date="1535512192399" expanded="false" signature="14782:14788" ph=" }" />
+                <marker date="1535512192399" expanded="true" signature="14848:15041" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="15047:15065" ph="/**...*/" />
+                <marker date="1535512192399" expanded="false" signature="15128:15139" ph=" { " />
+                <marker date="1535512192399" expanded="false" signature="15168:15174" ph=" }" />
+                <marker date="1535512192399" expanded="true" signature="15266:16025" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="16079:16086" ph="{}" />
+                <marker date="1535512192399" expanded="true" signature="16143:16210" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="16216:16234" ph="/**...*/" />
+                <marker date="1535512192399" expanded="false" signature="16301:16312" ph=" { " />
+                <marker date="1535512192399" expanded="false" signature="16351:16357" ph=" }" />
+                <marker date="1535512192399" expanded="true" signature="16430:16629" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="16728:16936" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="17125:17382" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="17587:17853" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="17913:18067" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="18146:18291" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="18413:19215" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="19310:19402" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="19523:20085" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="20312:21007" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="21065:21757" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="21857:22434" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="22476:22636" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="22713:23501" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="23574:26407" ph="{...}" />
+                <marker date="1535512192399" expanded="false" signature="23606:23621" ph=" { " />
+                <marker date="1535512192399" expanded="false" signature="23650:23660" ph=" }" />
+                <marker date="1535512192399" expanded="true" signature="23758:23835" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="23905:23973" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="24027:24138" ph="{...}" />
+                <marker date="1535512192399" expanded="false" signature="24183:24198" ph=" { " />
+                <marker date="1535512192399" expanded="false" signature="24227:24237" ph=" }" />
+                <marker date="1535512192399" expanded="true" signature="24292:24369" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="24470:24573" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="24700:24812" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="25045:25211" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="25342:25455" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="25547:25665" ph="{...}" />
+                <marker date="1535512192399" expanded="false" signature="25713:25728" ph=" { " />
+                <marker date="1535512192399" expanded="false" signature="25777:25787" ph=" }" />
+                <marker date="1535512192399" expanded="true" signature="25832:25972" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="26030:26103" ph="{...}" />
+                <marker date="1535512192399" expanded="false" signature="26165:26180" ph=" { " />
+                <marker date="1535512192399" expanded="false" signature="26226:26236" ph=" }" />
+                <marker date="1535512192399" expanded="true" signature="26273:26401" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="26458:26620" ph="{...}" />
+                <marker date="1535512192399" expanded="true" signature="26603:26614" ph="{}" />
               </folding>
             </state>
           </provider>
@@ -91,53 +221,33 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="border_thin.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/border_thin.xml">
+      <file leaf-file-name="FileUtils.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/FileUtils.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="353">
+              <caret line="113" column="21" lean-forward="false" selection-start-line="113" selection-start-column="21" selection-end-line="113" selection-end-column="21" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <file leaf-file-name="OpenActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/OpenActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2325">
-              <caret line="87" column="26" lean-forward="false" selection-start-line="87" selection-start-column="26" selection-end-line="87" selection-end-column="26" />
-              <folding>
-                <element signature="e#4069#4087#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-          <provider editor-type-id="android-manifest">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AddEditFavoritesActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/AddEditFavoritesActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="620">
-              <caret line="119" column="5" lean-forward="false" selection-start-line="89" selection-start-column="4" selection-end-line="119" selection-end-column="5" />
+            <state relative-caret-position="194">
+              <caret line="45" column="55" lean-forward="false" selection-start-line="45" selection-start-column="55" selection-end-line="45" selection-end-column="55" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="activity_settings.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_settings.xml">
+      <file leaf-file-name="File.java" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Android/Sdk/sources/android-28/java/io/File.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="558">
-              <caret line="36" column="35" lean-forward="false" selection-start-line="35" selection-start-column="53" selection-end-line="36" selection-end-column="35" />
-              <folding>
-                <element signature="e#1427#1455#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="353">
+              <caret line="1214" column="18" lean-forward="false" selection-start-line="1214" selection-start-column="18" selection-end-line="1214" selection-end-column="18" />
+              <folding />
             </state>
-          </provider>
-          <provider editor-type-id="android-designer2">
-            <state />
           </provider>
         </entry>
       </file>
@@ -155,15 +265,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>getShareIntent</find>
-      <find>BAINU</find>
-      <find>instal</find>
-      <find>tencent</find>
-      <find>should</find>
-      <find>prefer</find>
-      <find>download_bainu_alert_message</find>
-      <find>favor</find>
-      <find>favo</find>
       <find>favoriteActionBarItemClick</find>
       <find>addFavorateMessage</find>
       <find>AddMessageToFavoriteDb</find>
@@ -185,6 +286,15 @@
       <find>open</find>
       <find>result</find>
       <find>MongolMenuItem</find>
+      <find>resul</find>
+      <find>MongolAler</find>
+      <find>MongolAlertDialog</find>
+      <find>SaveFile</find>
+      <find>saveTextFile</find>
+      <find>SaveAc</find>
+      <find>onSaveMenuItemClick</find>
+      <find>activityre</find>
+      <find>mText</find>
     </findStrings>
     <replaceStrings>
       <replace>activityReference</replace>
@@ -2256,16 +2366,16 @@
         <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/FavoritesRvAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/simple_list_rv_item.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/SimpleListRvAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/FileUtils.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/OpenActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/InputWindow.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_add_edit_message.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_save.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/menu/save_file_menu.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/OpenActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/SaveActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MainActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/FileUtils.java" />
       </list>
     </option>
   </component>
@@ -2755,43 +2865,51 @@
       <option name="project" value="LOCAL" />
       <updated>1536234902200</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="work on open/save">
+      <created>1536302865192</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1536302865192</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="-4" width="1920" height="1055" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32984293" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Logcat" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32900432" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32984293" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Logcat" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900432" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16755603" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33874458" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33874458" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900432" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2497332" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Device File Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32977587" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39935064" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.39935064" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2497332" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32984293" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32984293" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32900432" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -2848,7 +2966,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MainActivity.java</url>
-          <line>463</line>
+          <line>464</line>
           <properties />
           <option name="timeStamp" value="20" />
         </line-breakpoint>
@@ -2870,17 +2988,47 @@
           <properties />
           <option name="timeStamp" value="41" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/FileUtils.java</url>
+          <line>25</line>
+          <properties />
+          <option name="timeStamp" value="42" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/FileUtils.java</url>
+          <line>43</line>
+          <properties />
+          <option name="timeStamp" value="43" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MainActivity.java</url>
+          <line>1021</line>
+          <properties />
+          <option name="timeStamp" value="44" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="42" />
+      <option name="time" value="45" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="app">
         <watch expression="mData[position]" language="JAVA" />
+        <watch expression="directory.listFiles()" language="JAVA" />
+        <watch expression="file.getName()" language="JAVA" />
       </configuration>
     </watches-manager>
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="watch">
+      <expression>
+        <expression-string>file.getName()</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>directory.listFiles()</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
       <expression>
         <expression-string>mData[position]</expression-string>
         <language-id>JAVA</language-id>
@@ -2909,24 +3057,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/dimens.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/dialog_color_chooser.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="31">
-          <caret line="99" column="33" lean-forward="false" selection-start-line="99" selection-start-column="33" selection-end-line="99" selection-end-column="33" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/UserDictionary.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="9486">
@@ -3191,18 +3321,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/FileUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="17" column="53" lean-forward="false" selection-start-line="17" selection-start-column="53" selection-end-line="17" selection-end-column="53" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#393#394#0" expanded="false" />
-            <element signature="e#453#454#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/InputWindow.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="624">
@@ -3210,24 +3328,6 @@
           <folding>
             <element signature="e#9533#9534#0" expanded="false" />
             <element signature="e#9598#9599#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="558">
-          <caret line="18" column="43" lean-forward="false" selection-start-line="18" selection-start-column="43" selection-end-line="18" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/OpenActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="640">
-          <caret line="27" column="38" lean-forward="false" selection-start-line="27" selection-start-column="38" selection-end-line="27" selection-end-column="38" />
-          <folding>
-            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -3241,19 +3341,6 @@
       </provider>
       <provider editor-type-id="android-designer2">
         <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="217">
-          <caret line="101" column="37" lean-forward="false" selection-start-line="101" selection-start-column="37" selection-end-line="101" selection-end-column="37" />
-          <folding>
-            <element signature="e#14606#14607#0" expanded="false" />
-            <element signature="e#14641#14642#0" expanded="false" />
-            <element signature="e#14690#14691#0" expanded="false" />
-            <element signature="e#14717#14718#0" expanded="false" />
-          </folding>
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
@@ -3283,7 +3370,7 @@
         <state relative-caret-position="558">
           <caret line="36" column="35" lean-forward="false" selection-start-line="35" selection-start-column="53" selection-end-line="36" selection-end-column="35" />
           <folding>
-            <element signature="e#1427#1455#0" expanded="true" />
+            <element signature="e#1427#1455#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -3339,7 +3426,7 @@
         <state relative-caret-position="2325">
           <caret line="87" column="26" lean-forward="false" selection-start-line="87" selection-start-column="26" selection-end-line="87" selection-end-column="26" />
           <folding>
-            <element signature="e#4069#4087#0" expanded="true" />
+            <element signature="e#4069#4087#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -3371,16 +3458,174 @@
         <state />
       </provider>
     </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/support-fragment-28.0.0-rc02.aar/6dfe0cbdd4e9399da4b2a22e6a080375/jars/classes.jar!/android/support/v4/app/FragmentActivity.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="299">
+          <caret line="476" column="68" lean-forward="false" selection-start-line="476" selection-start-column="59" selection-end-line="476" selection-end-column="68" />
+          <folding>
+            <marker date="1535512192399" expanded="false" signature="0:104" ph="/.../" />
+            <marker date="1535512192399" expanded="false" signature="146:1502" ph="..." />
+            <marker date="1535512192399" expanded="false" signature="2221:2285" ph="handleMessage(msg) → {" />
+            <marker date="1535512192399" expanded="false" signature="2572:2583" ph="}" />
+            <marker date="1535512192399" expanded="true" signature="3084:3091" ph="{}" />
+            <marker date="1535512192399" expanded="true" signature="3185:4341" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="4375:4725" ph="{...}" />
+            <marker date="1535512192399" expanded="false" signature="4773:4784" ph=" { " />
+            <marker date="1535512192399" expanded="false" signature="4827:4833" ph=" }" />
+            <marker date="1535512192399" expanded="true" signature="4913:4990" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="5069:5145" ph="{...}" />
+            <marker date="1535512192399" expanded="false" signature="5195:5206" ph=" { " />
+            <marker date="1535512192399" expanded="false" signature="5251:5257" ph=" }" />
+            <marker date="1535512192399" expanded="true" signature="5314:5381" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="5468:5552" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="5649:5743" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="5809:5975" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="6036:6778" ph="{...}" />
+            <marker date="1535512192399" expanded="false" signature="6815:6826" ph=" { " />
+            <marker date="1535512192399" expanded="false" signature="6854:6860" ph=" }" />
+            <marker date="1535512192399" expanded="true" signature="6927:8773" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="8838:9150" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="9244:9415" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="9496:9663" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="9773:9855" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="9888:10098" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="10130:10211" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="10281:10682" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="10740:10929" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="10960:11202" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="11250:11337" ph="{...}" />
+            <marker date="1535512192399" expanded="false" signature="11372:11383" ph=" { " />
+            <marker date="1535512192399" expanded="false" signature="11419:11425" ph=" }" />
+            <marker date="1535512192399" expanded="true" signature="11457:11609" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="11645:11803" ph="{...}" />
+            <marker date="1535512192399" expanded="false" signature="11843:11854" ph=" { " />
+            <marker date="1535512192399" expanded="false" signature="11887:11893" ph=" }" />
+            <marker date="1535512192399" expanded="true" signature="11966:12281" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="12388:12447" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="12508:13069" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="13127:14175" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="14206:14531" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="14561:14699" ph="{...}" />
+            <marker date="1535512192399" expanded="false" signature="14759:14770" ph=" { " />
+            <marker date="1535512192399" expanded="false" signature="14782:14788" ph=" }" />
+            <marker date="1535512192399" expanded="true" signature="14848:15041" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="15047:15065" ph="/**...*/" />
+            <marker date="1535512192399" expanded="false" signature="15128:15139" ph=" { " />
+            <marker date="1535512192399" expanded="false" signature="15168:15174" ph=" }" />
+            <marker date="1535512192399" expanded="true" signature="15266:16025" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="16079:16086" ph="{}" />
+            <marker date="1535512192399" expanded="true" signature="16143:16210" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="16216:16234" ph="/**...*/" />
+            <marker date="1535512192399" expanded="false" signature="16301:16312" ph=" { " />
+            <marker date="1535512192399" expanded="false" signature="16351:16357" ph=" }" />
+            <marker date="1535512192399" expanded="true" signature="16430:16629" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="16728:16936" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="17125:17382" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="17587:17853" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="17913:18067" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="18146:18291" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="18413:19215" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="19310:19402" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="19523:20085" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="20312:21007" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="21065:21757" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="21857:22434" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="22476:22636" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="22713:23501" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="23574:26407" ph="{...}" />
+            <marker date="1535512192399" expanded="false" signature="23606:23621" ph=" { " />
+            <marker date="1535512192399" expanded="false" signature="23650:23660" ph=" }" />
+            <marker date="1535512192399" expanded="true" signature="23758:23835" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="23905:23973" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="24027:24138" ph="{...}" />
+            <marker date="1535512192399" expanded="false" signature="24183:24198" ph=" { " />
+            <marker date="1535512192399" expanded="false" signature="24227:24237" ph=" }" />
+            <marker date="1535512192399" expanded="true" signature="24292:24369" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="24470:24573" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="24700:24812" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="25045:25211" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="25342:25455" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="25547:25665" ph="{...}" />
+            <marker date="1535512192399" expanded="false" signature="25713:25728" ph=" { " />
+            <marker date="1535512192399" expanded="false" signature="25777:25787" ph=" }" />
+            <marker date="1535512192399" expanded="true" signature="25832:25972" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="26030:26103" ph="{...}" />
+            <marker date="1535512192399" expanded="false" signature="26165:26180" ph=" { " />
+            <marker date="1535512192399" expanded="false" signature="26226:26236" ph=" }" />
+            <marker date="1535512192399" expanded="true" signature="26273:26401" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="26458:26620" ph="{...}" />
+            <marker date="1535512192399" expanded="true" signature="26603:26614" ph="{}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="299">
+          <caret line="95" column="18" lean-forward="false" selection-start-line="95" selection-start-column="18" selection-end-line="95" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/OpenActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="194">
+          <caret line="45" column="55" lean-forward="false" selection-start-line="45" selection-start-column="55" selection-end-line="45" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Android/Sdk/sources/android-28/java/io/File.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="353">
+          <caret line="1214" column="18" lean-forward="false" selection-start-line="1214" selection-start-column="18" selection-end-line="1214" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="157">
+          <caret line="1020" column="17" lean-forward="false" selection-start-line="1020" selection-start-column="17" selection-end-line="1020" selection-end-column="17" />
+          <folding>
+            <element signature="e#38869#38899#0" expanded="true" />
+            <element signature="e#39011#39045#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/SaveActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="217">
-          <caret line="134" column="19" lean-forward="false" selection-start-line="134" selection-start-column="19" selection-end-line="138" selection-end-column="11" />
+        <state relative-caret-position="64">
+          <caret line="162" column="32" lean-forward="false" selection-start-line="162" selection-start-column="32" selection-end-line="162" selection-end-column="32" />
           <folding>
-            <element signature="e#4982#4983#0" expanded="true" />
-            <element signature="e#5017#5018#0" expanded="true" />
-            <element signature="e#5066#5067#0" expanded="true" />
-            <element signature="e#5093#5094#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#5476#5477#0" expanded="true" />
+            <element signature="e#5533#5534#0" expanded="true" />
+            <element signature="e#5712#5761#0" expanded="true" />
+            <element signature="e#5798#5841#0" expanded="true" />
+            <element signature="e#5843#6071#0" expanded="true" />
+            <element signature="e#6070#6071#0" expanded="true" />
+            <element signature="e#6930#6974#0" expanded="true" />
+            <element signature="e#7011#7044#0" expanded="true" />
+            <element signature="e#7046#7226#0" expanded="true" />
+            <element signature="e#7225#7226#0" expanded="true" />
+            <element signature="e#7374#7375#0" expanded="true" />
+            <element signature="e#7409#7410#0" expanded="true" />
+            <element signature="e#7458#7459#0" expanded="true" />
+            <element signature="e#7485#7486#0" expanded="true" />
+            <element signature="e#7670#7671#0" expanded="true" />
+            <element signature="e#7743#7744#0" expanded="true" />
+            <element signature="e#8711#8754#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/FileUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="353">
+          <caret line="113" column="21" lean-forward="false" selection-start-line="113" selection-start-column="21" selection-end-line="113" selection-end-column="21" />
+          <folding />
         </state>
       </provider>
     </entry>
