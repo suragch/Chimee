@@ -118,5 +118,9 @@
     <string name="dialog_button_overwrite">overwrite</string>
     <string name="could_not_open_file">Could not open file</string>
     <string name="text_copied">text copied</string>
+    <string name="history_menu_export">save to file</string>
+    <string name="history_menu_delete_all">delete all</string>
+    <string name="history_menu_delete_item">delete</string>
+    <string name="history_menu_edit_item">edit</string>
 
 </resources>

@@ -104,6 +104,35 @@ public class MessageDatabaseAdapter {
 		return allMessages;
 	}
 
+	public ArrayList<Message> getHistoryMessages(int limit, int offset) {
+		ArrayList<Message> messages = new ArrayList<>();
+
+		SQLiteDatabase db = helper.getWritableDatabase();
+		String[] columns = { MyDatabaseHelper.ID, MyDatabaseHelper.DATE_TIME,
+				MyDatabaseHelper.MESSAGE };
+		String orderBy = MyDatabaseHelper.DATE_TIME + " DESC";
+		String limitStr = "" + offset + "," + limit; // same as LIMIT limit OFFSET offset
+		Cursor cursor = db.query(MyDatabaseHelper.HISTORY_TABLE_NAME, columns,
+                null, null, null,
+				null, orderBy, limitStr);
+		int indexId = cursor.getColumnIndex(MyDatabaseHelper.ID);
+		int indexDate = cursor.getColumnIndex(MyDatabaseHelper.DATE_TIME);
+		int indexMessage = cursor.getColumnIndex(MyDatabaseHelper.MESSAGE);
+
+		while (cursor.moveToNext()) {
+			Message message = new Message(
+					cursor.getLong(indexId),
+					cursor.getLong(indexDate),
+					cursor.getString(indexMessage));
+			messages.add(message);
+		}
+
+		cursor.close();
+		db.close();
+
+		return messages;
+	}
+
 	public ArrayList<Message> getRecentHistoryMessages(int numberOfMessages) {
 
 		ArrayList<Message> allMessages = new ArrayList<Message>();
