@@ -31,7 +31,8 @@
         <net.studymongolian.mongollibrary.MongolTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:text="@string/save_file_name"
+            android:layout_marginRight="8dp"
+            app:text="@string/menu_item_save"
             app:textSize="24sp"
             />
 
@@ -40,10 +41,14 @@
             android:layout_height="match_parent">
 
             <net.studymongolian.mongollibrary.MongolTextView
+                android:id="@+id/mtv_file_name_hint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:text="/sdcard/Chimee/document"
-                android:visibility="invisible"
+                app:textColor="@color/light_grey"
+                app:text="@string/save_file_name"
+                android:visibility="visible"
+                android:padding="10dp"
+                app:textSize="24sp"
                 />
 
             <net.studymongolian.mongollibrary.MongolEditText
@@ -56,6 +61,7 @@
         </FrameLayout>
 
         <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_document_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="8dp"

@@ -107,6 +107,7 @@ public class MainActivity extends AppCompatActivity
         setupKeyboardInput();
         setupKeyboardButton();
         setupInputWindow();
+        setInputWindowContent();
     }
 
     private void setupToolbar() {
@@ -150,24 +151,10 @@ public class MainActivity extends AppCompatActivity
 
     private void setupInputWindow() {
         MongolEditText editText = inputWindow.getEditText();
-        setSavedDraft();
         setSavedColors();
         setSavedFont();
         editText.requestFocus();
         editText.setContextMenuCallbackListener(this);
-    }
-
-    private void setSavedDraft() {
-        MongolEditText editText = inputWindow.getEditText();
-        if (editText.getText().length() == 0) {
-            SharedPreferences settings = getSharedPreferences(SettingsActivity.PREFS_NAME, MODE_PRIVATE);
-            String savedText = settings.getString(SettingsActivity.DRAFT_KEY, SettingsActivity.DRAFT_DEFAULT);
-            editText.setText(savedText);
-            int cursorPosition = settings.getInt(SettingsActivity.CURSOR_POSITION_KEY, SettingsActivity.CURSOR_POSITION_DEFAULT);
-            if (cursorPosition == 0)
-                cursorPosition = savedText.length();
-            editText.setSelection(cursorPosition);
-        }
     }
 
     private void setSavedColors() {
@@ -185,6 +172,35 @@ public class MainActivity extends AppCompatActivity
         String font = settings.getString(SettingsActivity.FONT_KEY, SettingsActivity.FONT_DEFAULT);
         Typeface typeface = MongolFont.get(font, getApplicationContext());
         inputWindow.setTypeface(typeface);
+    }
+
+    private void setInputWindowContent() {
+        setSavedDraft();
+//        String textFromReader = getPossibleReaderActivityIntentText();
+//        if (textFromReader == null) {
+//        }else {
+//            MongolEditText editText = inputWindow.getEditText();
+//            editText.setText(textFromReader);
+//        }
+    }
+
+//    private String getPossibleReaderActivityIntentText() {
+//        Bundle extras = getIntent().getExtras();
+//        if (extras == null) return null;
+//        return extras.getString(ReaderActivity.READER_TEXT_KEY);
+//    }
+
+    private void setSavedDraft() {
+        MongolEditText editText = inputWindow.getEditText();
+        if (editText.getText().length() == 0) {
+            SharedPreferences settings = getSharedPreferences(SettingsActivity.PREFS_NAME, MODE_PRIVATE);
+            String savedText = settings.getString(SettingsActivity.DRAFT_KEY, SettingsActivity.DRAFT_DEFAULT);
+            editText.setText(savedText);
+            int cursorPosition = settings.getInt(SettingsActivity.CURSOR_POSITION_KEY, SettingsActivity.CURSOR_POSITION_DEFAULT);
+            if (cursorPosition == 0)
+                cursorPosition = savedText.length();
+            editText.setSelection(cursorPosition);
+        }
     }
 
     @Override
@@ -665,7 +681,7 @@ public class MainActivity extends AppCompatActivity
     private void onSaveMenuItemClick() {
         Intent intent = new Intent(this, SaveActivity.class);
         intent.putExtra(SaveActivity.TEXT_KEY, inputWindow.getText().toString());
-        startActivity(intent);
+        startActivityForResult(intent, SAVE_REQUEST);
     }
 
     private void onSettingsMenuItemClick() {
@@ -1016,15 +1032,12 @@ public class MainActivity extends AppCompatActivity
         MongolEditText editText = inputWindow.getEditText();
         editText.setText(fileText);
         editText.setSelection(0);
+        inputWindow.recordSavedContent();
     }
 
     private void onSaveFileResult(int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            MongolToast.makeText(this,
-                    getString(R.string.file_saved), MongolToast.LENGTH_SHORT).show();
-        } else {
-            MongolToast.makeText(this,
-                    getString(R.string.file_not_saved), MongolToast.LENGTH_SHORT).show();
+            inputWindow.recordSavedContent();
         }
     }
 

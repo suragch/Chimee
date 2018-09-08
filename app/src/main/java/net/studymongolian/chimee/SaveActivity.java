@@ -12,31 +12,40 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import net.studymongolian.mongollibrary.MongolAlertDialog;
 import net.studymongolian.mongollibrary.MongolEditText;
 import net.studymongolian.mongollibrary.MongolInputMethodManager;
+import net.studymongolian.mongollibrary.MongolTextView;
 import net.studymongolian.mongollibrary.MongolToast;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 
 public class SaveActivity extends AppCompatActivity
-        implements ImeDataSourceHelper.DataSourceHelperListener {
+        implements ImeDataSourceHelper.DataSourceHelperListener,
+        SimpleListRvAdapter.ItemClickListener {
 
-    private MenuItem saveButton;
     static final String TEXT_KEY = "text";
     public static final int REQUEST_WRITE_STORAGE = 112;
     private final String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
+    private MenuItem saveButton;
+    private MongolTextView hintText;
     CustomImeContainer imeContainer;
     MongolEditText metFileName;
     String mText;
+    SimpleListRvAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +57,7 @@ public class SaveActivity extends AppCompatActivity
         setupMongolEditText();
         loadInfoFromIntent();
         requestWritePermission();
+        showExistingFilenameList();
     }
 
     private void setupToolbar() {
@@ -63,6 +73,7 @@ public class SaveActivity extends AppCompatActivity
 
     private void setupMongolEditText() {
         MongolEditText editText = findViewById(R.id.met_file_name);
+        hintText = findViewById(R.id.mtv_file_name_hint);
         editText.requestFocus();
         editText.addTextChangedListener(new TextWatcher() {
 
@@ -70,10 +81,14 @@ public class SaveActivity extends AppCompatActivity
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 boolean buttonIsVisible = saveButton.isVisible();
                 boolean fileNameIsEmpty = TextUtils.isEmpty(s);
-                if (buttonIsVisible && fileNameIsEmpty)
+                if (buttonIsVisible && fileNameIsEmpty) {
                     saveButton.setVisible(false);
-                else if (!buttonIsVisible && !fileNameIsEmpty)
+                    hintText.setVisibility(View.VISIBLE);
+                }
+                else if (!buttonIsVisible && !fileNameIsEmpty) {
                     saveButton.setVisible(true);
+                    hintText.setVisibility(View.INVISIBLE);
+                }
             }
 
             @Override
@@ -115,6 +130,35 @@ public class SaveActivity extends AppCompatActivity
 
     private void requestWritePermission() {
         ActivityCompat.requestPermissions(this, permissions, REQUEST_WRITE_STORAGE);
+    }
+
+    private void showExistingFilenameList() {
+        List<String> files = FileUtils.getTextFileNamesWithoutExtension();
+        if (files.size() > 0) {
+            setupRecyclerView(files);
+        } else {
+            hideRecyclerView();
+        }
+    }
+
+    private void setupRecyclerView(List<String> files) {
+        RecyclerView recyclerView = findViewById(R.id.rv_document_list);
+        LinearLayoutManager horizontalLayoutManager
+                = new LinearLayoutManager(this,
+                LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(horizontalLayoutManager);
+        DividerItemDecoration dividerItemDecoration =
+                new DividerItemDecoration(recyclerView.getContext(),
+                        horizontalLayoutManager.getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
+        adapter = new SimpleListRvAdapter(this, files);
+        adapter.setClickListener(this);
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void hideRecyclerView() {
+        RecyclerView recyclerView = findViewById(R.id.rv_document_list);
+        recyclerView.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -215,6 +259,17 @@ public class SaveActivity extends AppCompatActivity
         return this;
     }
 
+    @Override
+    public void onItemClick(View view, int position) {
+        String filename = adapter.getItem(position);
+        metFileName.setText(filename);
+    }
+
+    @Override
+    public boolean onItemLongClick(View view, int position) {
+        return false;
+    }
+
     private static class SaveFile extends AsyncTask<String, Void, Boolean> {
 
         private WeakReference<SaveActivity> activityReference;
@@ -251,8 +306,8 @@ public class SaveActivity extends AppCompatActivity
 
             Intent intent = new Intent();
             if (exportSuccessful) {
+                MongolToast.makeText(activity, activity.getString(R.string.file_saved), MongolToast.LENGTH_SHORT).show();
                 activity.setResult(RESULT_OK, intent);
-
             } else {
                 MongolToast.makeText(activity, activity.getString(R.string.file_not_saved), MongolToast.LENGTH_SHORT).show();
             }

@@ -116,5 +116,7 @@
     <string name="dialog_got_it">ᠮᠡᠳᠡᠯ᠎ᠡ</string>
     <string name="dialog_confirm_overwrite_file">This file name already exists. Are you sure you want to overwrite it?</string>
     <string name="dialog_button_overwrite">overwrite</string>
+    <string name="could_not_open_file">Could not open file</string>
+    <string name="text_copied">text copied</string>
 
 </resources>

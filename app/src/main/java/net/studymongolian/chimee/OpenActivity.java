@@ -9,8 +9,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.TextView;
 
 import net.studymongolian.mongollibrary.MongolTextView;
+import net.studymongolian.mongollibrary.MongolToast;
 
 import java.util.List;
 
@@ -28,6 +30,7 @@ public class OpenActivity extends AppCompatActivity
         setContentView(R.layout.activity_open);
 
         setupToolbar();
+        showDocDirectoryName();
         showContent();
     }
 
@@ -42,8 +45,14 @@ public class OpenActivity extends AppCompatActivity
         }
     }
 
+    private void showDocDirectoryName() {
+        TextView textView = findViewById(R.id.tv_documents_directory);
+        String path = FileUtils.getAppDocumentDirectory();
+        textView.setText(path);
+    }
+
     private void showContent() {
-        List<String> files = FileUtils.getTextFileNames();
+        List<String> files = FileUtils.getTextFileNamesWithoutExtension();
         if (files.size() > 0) {
             setupRecyclerView(files);
         } else {
@@ -74,12 +83,22 @@ public class OpenActivity extends AppCompatActivity
     @Override
     public void onItemClick(View view, int position) {
         String fileName = adapter.getItem(position);
-        String fileText = FileUtils.openFile(fileName);
-        Intent returnIntent = new Intent();
-        returnIntent.putExtra(FILE_NAME_KEY, fileName);
-        returnIntent.putExtra(FILE_TEXT_KEY, fileText);
-        setResult(RESULT_OK, returnIntent);
-        finish();
+        String fileText = null;
+        try {
+            fileText = FileUtils.openFile(fileName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (fileText != null) {
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra(FILE_NAME_KEY, fileName);
+            returnIntent.putExtra(FILE_TEXT_KEY, fileText);
+            setResult(RESULT_OK, returnIntent);
+            finish();
+        } else {
+            MongolToast.makeText(this,
+                    getString(R.string.could_not_open_file), MongolToast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
