@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity
     private static final int BAINU_REQUEST = 2;
     private static final int SETTINGS_REQUEST = 3;
     private static final int FAVORITE_MESSAGE_REQUEST = 4;
-    private static final int HISTORY_REQUEST = 5;
     private static final int OPEN_REQUEST = 6;
     private static final int SAVE_REQUEST = 7;
 
@@ -963,9 +962,6 @@ public class MainActivity extends AppCompatActivity
             case FAVORITE_MESSAGE_REQUEST:
                 onFavoriteActivityResult(resultCode, data);
                 break;
-            case HISTORY_REQUEST:
-                onHistoryResult(resultCode, data);
-                break;
             case OPEN_REQUEST:
                 onOpenFileResult(resultCode, data);
                 break;
@@ -993,10 +989,17 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void onSettingsResult(int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            // Get preferences and update settings display
-            //settings = getSharedPreferences(SettingsActivity.PREFS_NAME, MODE_PRIVATE);
-        }
+        if (resultCode != RESULT_OK) return;
+        String message = data.getStringExtra(HistoryActivity.RESULT_STRING_KEY);
+        insertMessageIntoInputWindow(message);
+    }
+
+    private void insertMessageIntoInputWindow(String message) {
+        if (TextUtils.isEmpty(message)) return;
+        MongolEditText editText = inputWindow.getEditText();
+        int start = editText.getSelectionStart();
+        int end = editText.getSelectionEnd();
+        editText.getText().replace(start, end, message);
     }
 
     private void onFavoriteActivityResult(int resultCode, Intent data) {
@@ -1004,11 +1007,7 @@ public class MainActivity extends AppCompatActivity
         Bundle extras = data.getExtras();
         if (extras == null) return;
         String message = extras.getString(FavoriteActivity.RESULT_STRING_KEY);
-        if (TextUtils.isEmpty(message)) return;
-        MongolEditText editText = inputWindow.getEditText();
-        int start = editText.getSelectionStart();
-        int end = editText.getSelectionEnd();
-        editText.getText().replace(start, end, message);
+        insertMessageIntoInputWindow(message);
     }
 
     private void onHistoryResult(int resultCode, Intent data) {

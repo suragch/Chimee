@@ -41,7 +41,7 @@ public class HistoryActivity extends AppCompatActivity
 	public static final int NUMBER_OF_MESSAGES_TO_LOAD = 100;
 	private static final String STATE_SCROLL_POSITION = "scrollPosition";
 	public static final int DELETE_REQUEST = 0;
-    public static final String RESULT_STRING_KEY = "result";
+    public static final String RESULT_STRING_KEY = "history_result";
     int longClickedItem = -1;
     int mDataPageCounter = 0;
 

@@ -10,15 +10,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e373569e-ee9b-4412-b2d3-a86c151abae2" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/HistoryRvAdapter.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/layout/message_history_rv_item.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/menu/history_menu.xml" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/HistoryActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/HistoryActivity.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MessageDatabaseAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MessageDatabaseAdapter.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MessageHistoryListAdapter.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/message_history_listview_item.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MainActivity.java" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/SettingsActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/SettingsActivity.java" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -41,16 +37,31 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="HistoryRvAdapter.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/HistoryRvAdapter.java">
+      <file leaf-file-name="HistoryActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/HistoryActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="224">
-              <caret line="96" column="24" lean-forward="false" selection-start-line="96" selection-start-column="24" selection-end-line="96" selection-end-column="24" />
+            <state relative-caret-position="558">
+              <caret line="89" column="8" lean-forward="false" selection-start-line="89" selection-start-column="8" selection-end-line="93" selection-end-column="17" />
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#2849#2850#0" expanded="true" />
-                <element signature="e#2899#2900#0" expanded="true" />
+                <element signature="e#4607#4649#0" expanded="true" />
+                <element signature="e#4762#4806#0" expanded="true" />
+                <element signature="e#4931#5257#0" expanded="true" />
+                <element signature="e#5256#5257#0" expanded="true" />
+                <element signature="e#6225#6264#0" expanded="true" />
+                <element signature="e#6372#6415#0" expanded="true" />
+                <element signature="e#6542#6874#0" expanded="true" />
+                <element signature="e#6873#6874#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SettingsActivity.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/SettingsActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="686">
+              <caret line="119" column="17" lean-forward="false" selection-start-line="119" selection-start-column="17" selection-end-line="119" selection-end-column="17" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -58,106 +69,8 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="466">
-              <caret line="673" column="5" lean-forward="false" selection-start-line="641" selection-start-column="4" selection-end-line="673" selection-end-column="5" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="message_history_rv_item.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/message_history_rv_item.xml">
-          <provider editor-type-id="android-designer2">
-            <state />
-          </provider>
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="186">
-              <caret line="6" column="48" lean-forward="false" selection-start-line="6" selection-start-column="48" selection-end-line="6" selection-end-column="48" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="message_favorite_rv_item.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/message_favorite_rv_item.xml">
-          <provider editor-type-id="android-designer2">
-            <state />
-          </provider>
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="155">
-              <caret line="5" column="48" lean-forward="false" selection-start-line="4" selection-start-column="40" selection-end-line="5" selection-end-column="48" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HistoryActivity.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/HistoryActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="248">
-              <caret line="40" column="60" lean-forward="false" selection-start-line="40" selection-start-column="60" selection-end-line="40" selection-end-column="60" />
-              <folding>
-                <element signature="e#4599#4641#0" expanded="true" />
-                <element signature="e#4754#4798#0" expanded="true" />
-                <element signature="e#4923#5249#0" expanded="true" />
-                <element signature="e#5248#5249#0" expanded="true" />
-                <element signature="e#6217#6256#0" expanded="true" />
-                <element signature="e#6364#6407#0" expanded="true" />
-                <element signature="e#6534#6866#0" expanded="true" />
-                <element signature="e#6865#6866#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MessageDatabaseAdapter.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MessageDatabaseAdapter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="806">
-              <caret line="128" column="0" lean-forward="false" selection-start-line="128" selection-start-column="0" selection-end-line="128" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SQLiteDatabase.java" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Android/Sdk/sources/android-28/android/database/sqlite/SQLiteDatabase.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-6974">
-              <caret line="1134" column="31" lean-forward="false" selection-start-line="1134" selection-start-column="31" selection-end-line="1134" selection-end-column="31" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FavoriteActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/FavoriteActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="624">
-              <caret line="295" column="5" lean-forward="false" selection-start-line="264" selection-start-column="4" selection-end-line="295" selection-end-column="5" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="history_menu.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/history_menu.xml">
-          <provider editor-type-id="android-designer2">
-            <state />
-          </provider>
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="217">
-              <caret line="7" column="29" lean-forward="false" selection-start-line="7" selection-start-column="29" selection-end-line="7" selection-end-column="29" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FavoritesRvAdapter.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/FavoritesRvAdapter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1275">
-              <caret line="76" column="40" lean-forward="false" selection-start-line="76" selection-start-column="40" selection-end-line="76" selection-end-column="40" />
+            <state relative-caret-position="373">
+              <caret line="993" column="46" lean-forward="false" selection-start-line="993" selection-start-column="46" selection-end-line="993" selection-end-column="46" />
               <folding />
             </state>
           </provider>
@@ -177,8 +90,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>ADDING_MESSAGE</find>
-      <find>favoriteAc</find>
       <find>MongolTextView</find>
       <find>net.studymongolian.chimee.MongolTextView</find>
       <find>startActivityForResult</find>
@@ -207,6 +118,8 @@
       <find>saveButton</find>
       <find>message_history_list</find>
       <find>overfl</find>
+      <find>SETTINGS_REQUEST</find>
+      <find>onAC</find>
     </findStrings>
     <replaceStrings>
       <replace>activityReference</replace>
@@ -2262,7 +2175,6 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_history.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/HelpActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_help.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/SettingsActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/AboutActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_about.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/FavoritesRvAdapter.java" />
@@ -2280,7 +2192,6 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_open.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/OpenActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/FileUtils.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/SaveActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_save.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/menu/history_menu.xml" />
@@ -2288,6 +2199,8 @@
         <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MessageDatabaseAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/HistoryRvAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/HistoryActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MainActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/SettingsActivity.java" />
       </list>
     </option>
   </component>
@@ -2339,19 +2252,16 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
+      <pane id="ProjectPane" />
+      <pane id="Scope" />
       <pane id="Scratches" />
+      <pane id="PackagesPane" />
       <pane id="AndroidView">
         <subPane>
           <expand>
             <path>
               <item name="Chimee" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
-            </path>
-            <path>
-              <item name="Chimee" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="manifests" type="f94875db:AndroidManifestsGroupNode" />
             </path>
             <path>
               <item name="Chimee" type="1abcf292:AndroidViewProjectNode" />
@@ -2366,31 +2276,12 @@
             </path>
             <path>
               <item name="Chimee" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="res" type="d4f16f75:AndroidResFolderNode" />
-            </path>
-            <path>
-              <item name="Chimee" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="res" type="d4f16f75:AndroidResFolderNode" />
-              <item name="layout" type="ddeffd01:AndroidResFolderTypeNode" />
-            </path>
-            <path>
-              <item name="Chimee" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="res" type="d4f16f75:AndroidResFolderNode" />
-              <item name="menu" type="ddeffd01:AndroidResFolderTypeNode" />
-            </path>
-            <path>
-              <item name="Chimee" type="1abcf292:AndroidViewProjectNode" />
               <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="ProjectPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -2798,11 +2689,18 @@
       <option name="project" value="LOCAL" />
       <updated>1536393005415</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="history activity work">
+      <created>1536416986359</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1536416986359</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="25" width="1920" height="1055" extended-state="6" />
+    <frame x="0" y="-4" width="1920" height="1055" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -2812,7 +2710,6 @@
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32984293" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
@@ -2822,12 +2719,11 @@
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16755603" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33874458" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900432" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2497332" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Device File Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32977587" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.39935064" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39935064" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -2836,13 +2732,14 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32984293" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900432" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="finished converting messages to unicode" />
     <MESSAGE value="menu and icon work" />
     <MESSAGE value="connected keyboard to dictionary" />
     <MESSAGE value="update to mongol-library 1.9.0" />
@@ -2867,7 +2764,8 @@
     <MESSAGE value="work on open/save" />
     <MESSAGE value="more work on saving" />
     <MESSAGE value="save/open basically completed" />
-    <option name="LAST_COMMIT_MESSAGE" value="save/open basically completed" />
+    <MESSAGE value="history activity work" />
+    <option name="LAST_COMMIT_MESSAGE" value="history activity work" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2892,7 +2790,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MainActivity.java</url>
-          <line>480</line>
+          <line>479</line>
           <properties />
           <option name="timeStamp" value="20" />
         </line-breakpoint>
@@ -2916,7 +2814,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MainActivity.java</url>
-          <line>1038</line>
+          <line>1037</line>
           <properties />
           <option name="timeStamp" value="44" />
         </line-breakpoint>
@@ -2994,11 +2892,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="124">
           <caret line="15" column="16" lean-forward="false" selection-start-line="15" selection-start-column="16" selection-end-line="15" selection-end-column="16" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#716#717#0" expanded="false" />
-            <element signature="e#757#758#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3013,7 +2906,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="310">
           <caret line="10" column="25" lean-forward="false" selection-start-line="10" selection-start-column="25" selection-end-line="10" selection-end-column="25" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3024,7 +2916,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="124">
           <caret line="4" column="39" lean-forward="false" selection-start-line="4" selection-start-column="39" selection-end-line="4" selection-end-column="39" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3032,7 +2923,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="279">
           <caret line="9" column="25" lean-forward="false" selection-start-line="9" selection-start-column="25" selection-end-line="9" selection-end-column="25" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3043,7 +2933,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="31">
           <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3054,7 +2943,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="434">
           <caret line="14" column="34" lean-forward="false" selection-start-line="14" selection-start-column="34" selection-end-line="14" selection-end-column="34" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3062,9 +2950,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2542">
           <caret line="86" column="1" lean-forward="false" selection-start-line="86" selection-start-column="1" selection-end-line="86" selection-end-column="1" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3075,7 +2960,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1519">
           <caret line="49" column="36" lean-forward="false" selection-start-line="49" selection-start-column="36" selection-end-line="49" selection-end-column="36" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3086,9 +2970,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="558">
           <caret line="36" column="35" lean-forward="false" selection-start-line="35" selection-start-column="53" selection-end-line="36" selection-end-column="35" />
-          <folding>
-            <element signature="e#1427#1455#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3096,7 +2977,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3104,7 +2984,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="620">
           <caret line="119" column="5" lean-forward="false" selection-start-line="89" selection-start-column="4" selection-end-line="119" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3115,7 +2994,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="10" selection-end-column="7" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3123,15 +3001,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="62">
           <caret line="22" column="17" lean-forward="false" selection-start-line="22" selection-start-column="17" selection-end-line="22" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/SettingsActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="215">
-          <caret line="52" column="43" lean-forward="false" selection-start-line="52" selection-start-column="43" selection-end-line="52" selection-end-column="43" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3139,100 +3008,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="13144">
           <caret line="476" column="68" lean-forward="false" selection-start-line="476" selection-start-column="59" selection-end-line="476" selection-end-column="68" />
-          <folding>
-            <marker date="1535512192399" expanded="false" signature="0:104" ph="/.../" />
-            <marker date="1535512192399" expanded="false" signature="146:1502" ph="..." />
-            <marker date="1535512192399" expanded="true" signature="2235:2583" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="2284:2577" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="3084:3091" ph="{}" />
-            <marker date="1535512192399" expanded="true" signature="3185:4341" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="4375:4725" ph="{...}" />
-            <marker date="1535512192399" expanded="false" signature="4773:4784" ph=" { " />
-            <marker date="1535512192399" expanded="false" signature="4827:4833" ph=" }" />
-            <marker date="1535512192399" expanded="true" signature="4913:4990" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="5069:5145" ph="{...}" />
-            <marker date="1535512192399" expanded="false" signature="5195:5206" ph=" { " />
-            <marker date="1535512192399" expanded="false" signature="5251:5257" ph=" }" />
-            <marker date="1535512192399" expanded="true" signature="5314:5381" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="5468:5552" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="5649:5743" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="5809:5975" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="6036:6778" ph="{...}" />
-            <marker date="1535512192399" expanded="false" signature="6815:6826" ph=" { " />
-            <marker date="1535512192399" expanded="false" signature="6854:6860" ph=" }" />
-            <marker date="1535512192399" expanded="true" signature="6927:8773" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="8838:9150" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="9244:9415" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="9496:9663" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="9773:9855" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="9888:10098" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="10130:10211" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="10281:10682" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="10740:10929" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="10960:11202" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="11250:11337" ph="{...}" />
-            <marker date="1535512192399" expanded="false" signature="11372:11383" ph=" { " />
-            <marker date="1535512192399" expanded="false" signature="11419:11425" ph=" }" />
-            <marker date="1535512192399" expanded="true" signature="11457:11609" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="11645:11803" ph="{...}" />
-            <marker date="1535512192399" expanded="false" signature="11843:11854" ph=" { " />
-            <marker date="1535512192399" expanded="false" signature="11887:11893" ph=" }" />
-            <marker date="1535512192399" expanded="true" signature="11966:12281" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="12388:12447" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="12508:13069" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="13127:14175" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="14206:14531" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="14561:14699" ph="{...}" />
-            <marker date="1535512192399" expanded="false" signature="14759:14770" ph=" { " />
-            <marker date="1535512192399" expanded="false" signature="14782:14788" ph=" }" />
-            <marker date="1535512192399" expanded="true" signature="14848:15041" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="15047:15065" ph="/**...*/" />
-            <marker date="1535512192399" expanded="false" signature="15128:15139" ph=" { " />
-            <marker date="1535512192399" expanded="false" signature="15168:15174" ph=" }" />
-            <marker date="1535512192399" expanded="true" signature="15266:16025" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="16079:16086" ph="{}" />
-            <marker date="1535512192399" expanded="true" signature="16143:16210" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="16216:16234" ph="/**...*/" />
-            <marker date="1535512192399" expanded="false" signature="16301:16312" ph=" { " />
-            <marker date="1535512192399" expanded="false" signature="16351:16357" ph=" }" />
-            <marker date="1535512192399" expanded="true" signature="16430:16629" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="16728:16936" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="17125:17382" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="17587:17853" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="17913:18067" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="18146:18291" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="18413:19215" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="19310:19402" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="19523:20085" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="20312:21007" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="21065:21757" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="21857:22434" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="22476:22636" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="22713:23501" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="23574:26407" ph="{...}" />
-            <marker date="1535512192399" expanded="false" signature="23606:23621" ph=" { " />
-            <marker date="1535512192399" expanded="false" signature="23650:23660" ph=" }" />
-            <marker date="1535512192399" expanded="true" signature="23758:23835" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="23905:23973" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="24027:24138" ph="{...}" />
-            <marker date="1535512192399" expanded="false" signature="24183:24198" ph=" { " />
-            <marker date="1535512192399" expanded="false" signature="24227:24237" ph=" }" />
-            <marker date="1535512192399" expanded="true" signature="24292:24369" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="24470:24573" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="24700:24812" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="25045:25211" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="25342:25455" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="25547:25665" ph="{...}" />
-            <marker date="1535512192399" expanded="false" signature="25713:25728" ph=" { " />
-            <marker date="1535512192399" expanded="false" signature="25777:25787" ph=" }" />
-            <marker date="1535512192399" expanded="true" signature="25832:25972" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="26030:26103" ph="{...}" />
-            <marker date="1535512192399" expanded="false" signature="26165:26180" ph=" { " />
-            <marker date="1535512192399" expanded="false" signature="26226:26236" ph=" }" />
-            <marker date="1535512192399" expanded="true" signature="26273:26401" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="26458:26620" ph="{...}" />
-            <marker date="1535512192399" expanded="true" signature="26603:26614" ph="{}" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3240,7 +3015,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="36363">
           <caret line="1214" column="18" lean-forward="false" selection-start-line="1214" selection-start-column="18" selection-end-line="1214" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3248,9 +3022,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="207">
           <caret line="23" column="38" lean-forward="false" selection-start-line="23" selection-start-column="38" selection-end-line="23" selection-end-column="38" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3261,7 +3032,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="60" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3272,26 +3042,24 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="10" selection-end-column="7" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider editor-type-id="android-manifest">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="131">
           <caret line="105" column="12" lean-forward="false" selection-start-line="105" selection-start-column="12" selection-end-line="105" selection-end-column="12" />
           <folding />
         </state>
       </provider>
+      <provider editor-type-id="android-manifest">
+        <state />
+      </provider>
     </entry>
     <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.studymongolian/mongol-library/1.13.0/5a5b256dfce0c1c2a3c2f2ef313b7ed88d01af8e/mongol-library-1.13.0-sources.jar!/net/studymongolian/mongollibrary/MongolEditText.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="70">
           <caret line="622" column="8" lean-forward="false" selection-start-line="622" selection-start-column="8" selection-end-line="628" selection-end-column="39" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3302,7 +3070,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="398">
           <caret line="25" column="32" lean-forward="false" selection-start-line="25" selection-start-column="32" selection-end-line="25" selection-end-column="32" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3310,7 +3077,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="194">
           <caret line="111" column="61" lean-forward="false" selection-start-line="111" selection-start-column="39" selection-end-line="111" selection-end-column="61" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3321,7 +3087,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="248">
           <caret line="8" column="27" lean-forward="false" selection-start-line="8" selection-start-column="27" selection-end-line="8" selection-end-column="27" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3332,7 +3097,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="155">
           <caret line="5" column="47" lean-forward="false" selection-start-line="5" selection-start-column="47" selection-end-line="5" selection-end-column="47" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3340,7 +3104,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="156">
           <caret line="305" column="34" lean-forward="false" selection-start-line="305" selection-start-column="16" selection-end-line="305" selection-end-column="34" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3348,7 +3111,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-93">
           <caret line="124" column="20" lean-forward="false" selection-start-line="124" selection-start-column="20" selection-end-line="124" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3356,7 +3118,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="744">
           <caret line="256" column="44" lean-forward="true" selection-start-line="256" selection-start-column="4" selection-end-line="256" selection-end-column="44" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3364,7 +3125,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="528">
           <caret line="54" column="64" lean-forward="false" selection-start-line="54" selection-start-column="64" selection-end-line="54" selection-end-column="64" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3372,7 +3132,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="291">
           <caret line="118" column="18" lean-forward="false" selection-start-line="118" selection-start-column="18" selection-end-line="118" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3380,7 +3139,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="158">
           <caret line="54" column="50" lean-forward="false" selection-start-line="54" selection-start-column="50" selection-end-line="54" selection-end-column="50" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3388,21 +3146,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="528">
           <caret line="87" column="16" lean-forward="false" selection-start-line="87" selection-start-column="16" selection-end-line="87" selection-end-column="16" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#6765#6766#0" expanded="false" />
-            <element signature="e#6802#6803#0" expanded="false" />
-            <element signature="e#7282#7283#0" expanded="false" />
-            <element signature="e#7339#7340#0" expanded="false" />
-            <element signature="e#9180#9181#0" expanded="false" />
-            <element signature="e#9215#9216#0" expanded="false" />
-            <element signature="e#9264#9265#0" expanded="false" />
-            <element signature="e#9291#9292#0" expanded="false" />
-            <element signature="e#9536#9537#0" expanded="false" />
-            <element signature="e#9564#9565#0" expanded="false" />
-            <element signature="e#9749#9750#0" expanded="false" />
-            <element signature="e#9822#9823#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3413,7 +3156,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="522">
           <caret line="33" column="44" lean-forward="false" selection-start-line="33" selection-start-column="44" selection-end-line="33" selection-end-column="44" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3437,7 +3179,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="744">
           <caret line="24" column="43" lean-forward="true" selection-start-line="24" selection-start-column="43" selection-end-line="24" selection-end-column="43" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3448,29 +3189,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-89">
           <caret line="2" column="50" lean-forward="false" selection-start-line="1" selection-start-column="74" selection-end-line="2" selection-end-column="50" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/message_history_listview_item.xml">
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="27" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MessageHistoryListAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="651">
-          <caret line="66" column="21" lean-forward="false" selection-start-line="66" selection-start-column="21" selection-end-line="66" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/message_history_listview_item.xml" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MessageHistoryListAdapter.java" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/favorites_menu.xml">
       <provider editor-type-id="android-designer2">
         <state />
@@ -3478,7 +3201,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="9" selection-end-column="7" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3493,17 +3215,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="466">
-          <caret line="673" column="5" lean-forward="false" selection-start-line="641" selection-start-column="4" selection-end-line="673" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/FavoritesRvAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1275">
+        <state relative-caret-position="1953">
           <caret line="76" column="40" lean-forward="false" selection-start-line="76" selection-start-column="40" selection-end-line="76" selection-end-column="40" />
           <folding />
         </state>
@@ -3511,7 +3225,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/FavoriteActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="624">
+        <state relative-caret-position="8463">
           <caret line="295" column="5" lean-forward="false" selection-start-line="264" selection-start-column="4" selection-end-line="295" selection-end-column="5" />
           <folding />
         </state>
@@ -3541,7 +3255,7 @@
     </entry>
     <entry file="file://$USER_HOME$/Android/Sdk/sources/android-28/android/database/sqlite/SQLiteDatabase.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-6974">
+        <state relative-caret-position="33201">
           <caret line="1134" column="31" lean-forward="false" selection-start-line="1134" selection-start-column="31" selection-end-line="1134" selection-end-column="31" />
           <folding />
         </state>
@@ -3549,7 +3263,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MessageDatabaseAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="806">
+        <state relative-caret-position="3751">
           <caret line="128" column="0" lean-forward="false" selection-start-line="128" selection-start-column="0" selection-end-line="128" selection-end-column="0" />
           <folding />
         </state>
@@ -3557,30 +3271,46 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/HistoryRvAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
+        <state relative-caret-position="2418">
           <caret line="96" column="24" lean-forward="false" selection-start-line="96" selection-start-column="24" selection-end-line="96" selection-end-column="24" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2849#2850#0" expanded="true" />
-            <element signature="e#2899#2900#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#2849#2850#0" expanded="false" />
+            <element signature="e#2899#2900#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/HistoryActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="248">
-          <caret line="40" column="60" lean-forward="false" selection-start-line="40" selection-start-column="60" selection-end-line="40" selection-end-column="60" />
+        <state relative-caret-position="558">
+          <caret line="89" column="8" lean-forward="false" selection-start-line="89" selection-start-column="8" selection-end-line="93" selection-end-column="17" />
           <folding>
-            <element signature="e#4599#4641#0" expanded="true" />
-            <element signature="e#4754#4798#0" expanded="true" />
-            <element signature="e#4923#5249#0" expanded="true" />
-            <element signature="e#5248#5249#0" expanded="true" />
-            <element signature="e#6217#6256#0" expanded="true" />
-            <element signature="e#6364#6407#0" expanded="true" />
-            <element signature="e#6534#6866#0" expanded="true" />
-            <element signature="e#6865#6866#0" expanded="true" />
+            <element signature="e#4607#4649#0" expanded="true" />
+            <element signature="e#4762#4806#0" expanded="true" />
+            <element signature="e#4931#5257#0" expanded="true" />
+            <element signature="e#5256#5257#0" expanded="true" />
+            <element signature="e#6225#6264#0" expanded="true" />
+            <element signature="e#6372#6415#0" expanded="true" />
+            <element signature="e#6542#6874#0" expanded="true" />
+            <element signature="e#6873#6874#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="373">
+          <caret line="993" column="46" lean-forward="false" selection-start-line="993" selection-start-column="46" selection-end-line="993" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/SettingsActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="686">
+          <caret line="119" column="17" lean-forward="false" selection-start-line="119" selection-start-column="17" selection-end-line="119" selection-end-column="17" />
+          <folding />
         </state>
       </provider>
     </entry>

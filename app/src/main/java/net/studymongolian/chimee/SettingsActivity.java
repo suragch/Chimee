@@ -3,9 +3,11 @@ package net.studymongolian.chimee;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 
 import net.studymongolian.mongollibrary.MongolFont;
@@ -47,6 +49,12 @@ public class SettingsActivity extends AppCompatActivity {
 	protected static final int CURSOR_POSITION_DEFAULT = 0;
 	public static final String SHOW_BAINU_BUTTON_KEY = "show_bainu";
 
+
+    private static final int HISTORY_REQUEST = 0;
+
+	static final String SETTINGS_RETURN_ACTION_KEY = "return_key";
+	//static final String SETTINGS_ACTION_EDIT_HISTORY_MESSAGE_KEY = "edit_history";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -68,7 +76,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     public void onHistoryClick(View view) {
 	    Intent intent = new Intent(this, HistoryActivity.class);
-	    startActivity(intent);
+	    startActivityForResult(intent, HISTORY_REQUEST);
     }
 
     public void onKeyboardWordsClick(View view) {
@@ -89,5 +97,26 @@ public class SettingsActivity extends AppCompatActivity {
     public void onAboutClick(View view) {
         Intent intent = new Intent(this, AboutActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        switch (requestCode) {
+            case HISTORY_REQUEST:
+                onHistoryResult(resultCode, data);
+                break;
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    private void onHistoryResult(int resultCode, Intent data) {
+	    if (resultCode != RESULT_OK) return;
+	    String message = data.getStringExtra(HistoryActivity.RESULT_STRING_KEY);
+	    if (TextUtils.isEmpty(message)) return;
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra(HistoryActivity.RESULT_STRING_KEY, message);
+        setResult(RESULT_OK, returnIntent);
+        finish();
     }
 }
