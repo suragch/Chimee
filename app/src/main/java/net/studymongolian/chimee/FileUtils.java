@@ -1,7 +1,9 @@
 package net.studymongolian.chimee;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.MediaScannerConnection;
+import android.net.Uri;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -21,14 +23,18 @@ import java.util.List;
 
 class FileUtils {
 
+    // TODO change these to mongolian names
     private static final String APP_PUBLIC_FOLDER_NAME = "Chimee";
-    private static final String TEXT_FILE_FOLDER_NAME = "doc";
+    private static final String IMAGE_FOLDER_NAME = "photo";
+    private static final String EXPORT_FOLDER_NAME = "export";
+    private static final String TEXT_FOLDER_NAME = "doc";
     private static final String TEXT_FILE_EXTENSION = ".txt";
+    private static final String HISTORY_EXPORT_FILE_NAME = "sent_messages.txt";
     private static final String RESERVED_CHARS= "|\\?*<\":>/";
     private static final String TAG = "Chimee FileUtils";
 
     private static List<String> getTextFileNames() {
-        String path = getAppDocumentDirectory();
+        String path = getAppDocumentFolder();
         File directory = new File(path);
         File[] files = getFilesInDirectorySortedByLastModified(directory);
         List<String> list = new ArrayList<>();
@@ -57,10 +63,29 @@ class FileUtils {
         return files;
     }
 
+    public static boolean saveHistoryMessageFile(Context context, String text) {
+        // make sure the directory exists
+        File destFolder = new File(getAppExportFolder());
+        if (!destFolder.exists()) {
+            boolean created = destFolder.mkdirs();
+            if (created)
+                scanFile(context, destFolder);
+        }
+
+        try {
+            copyTextFileOver(context, destFolder, HISTORY_EXPORT_FILE_NAME, text);
+        } catch (IOException e) {
+            Log.e(TAG, "saveHistoryMessageFile: copyTextFileOver failed");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
     private static class Pair implements Comparable {
+
         public long time;
         public File file;
-
         Pair(File file) {
             this.file = file;
             time = file.lastModified();
@@ -71,8 +96,8 @@ class FileUtils {
             //noinspection UseCompareMethod // Requires API 19
             return time < u ? -1 : time == u ? 0 : 1;
         }
-    }
 
+    }
     static List<String> getTextFileNamesWithoutExtension() {
         List<String> list = new ArrayList<>();
         List<String> listWithExtensions = getTextFileNames();
@@ -89,7 +114,7 @@ class FileUtils {
     }
 
     public static String openFile(String shortFilenameWithoutExtension) throws Exception {
-        String fullFilePath = getAppDocumentDirectory() + File.separator
+        String fullFilePath = getAppDocumentFolder() + File.separator
                 + shortFilenameWithoutExtension + TEXT_FILE_EXTENSION;
 
         return getStringFromFile(fullFilePath);
@@ -101,6 +126,17 @@ class FileUtils {
         String text = convertStreamToString(inputStream);
         inputStream.close();
         return text;
+    }
+
+    public static List<String> convertStreamToStringArray(InputStream inputStream) throws Exception  {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        List<String> lines = new ArrayList<>();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            lines.add(line);
+        }
+        reader.close();
+        return lines;
     }
 
     static String convertStreamToString(InputStream is) throws Exception {
@@ -117,7 +153,7 @@ class FileUtils {
     public static boolean saveTextFile(Context appContext, String filename, String text) {
 
         // make sure the directory exists
-        File destFolder = new File(getAppDocumentDirectory());
+        File destFolder = new File(getAppDocumentFolder());
         if (!destFolder.exists()) {
             boolean created = destFolder.mkdirs();
             if (created)
@@ -148,21 +184,28 @@ class FileUtils {
         return sanitized.toString().trim();
     }
 
-    private static String getAppPublicStorageDirectory() {
-        return Environment.getExternalStorageDirectory() + File.separator
-                + APP_PUBLIC_FOLDER_NAME;
+    private static String getAppPublicFolder() {
+        return Environment.getExternalStorageDirectory() + File.separator + APP_PUBLIC_FOLDER_NAME;
     }
 
-    static String getAppDocumentDirectory() {
-        return getAppPublicStorageDirectory() + File.separator
-                + TEXT_FILE_FOLDER_NAME;
+    static String getAppDocumentFolder() {
+        return getAppPublicFolder() + File.separator + TEXT_FOLDER_NAME;
+    }
+
+    private static String getAppExportFolder() {
+        return getAppPublicFolder() + File.separator + EXPORT_FOLDER_NAME;
     }
 
     private static void scanFile(Context context, File file) {
         // this registers the file so that file explorers can find it more quickly
-        MediaScannerConnection
-                .scanFile(context, new String[]{file.getAbsolutePath()},
-                        null, null);
+        new MediaScanner(context, file);
+//        MediaScannerConnection
+//                .scanFile(context, new String[]{file.getAbsolutePath()},
+//                        null, null);
+//        Uri contentUri = Uri.fromFile(file);
+//        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+//        mediaScanIntent.setData(contentUri);
+//        context.sendBroadcast(mediaScanIntent);
     }
 
     private static void copyTextFileOver

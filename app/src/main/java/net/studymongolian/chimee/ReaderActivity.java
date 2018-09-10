@@ -6,23 +6,23 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import net.studymongolian.mongollibrary.MongolTextView;
 import net.studymongolian.mongollibrary.MongolToast;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ReaderActivity extends AppCompatActivity {
 
-    MongolTextView textView;
+    private ReaderRvAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +30,8 @@ public class ReaderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_reader);
 
         setupToolbar();
-        initTextView();
-        handleIntent();
+        List<String> paragraphLines = getTextFromIntent();
+        setupRecyclerView(paragraphLines);
     }
 
     private void setupToolbar() {
@@ -39,32 +39,21 @@ public class ReaderActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
     }
 
-    private void initTextView() {
-        textView = findViewById(R.id.mtv_content);
-    }
-
-    private void handleIntent() {
+    private List<String> getTextFromIntent() {
         Uri uri = getIntent().getData();
-        if (uri == null) {
+        List<String> text = new ArrayList<>();
+        if (uri != null) {
+            try {
+                InputStream inputStream = getContentResolver().openInputStream(uri);
+                text = FileUtils.convertStreamToStringArray(inputStream);
+            } catch (Exception e) {
+                e.printStackTrace();
+                tellUserThatCouldntOpenFile();
+            }
+        } else {
             tellUserThatCouldntOpenFile();
-            return;
         }
-        String text = null;
-        try {
-            InputStream inputStream = getContentResolver().openInputStream(uri);
-            text = FileUtils.convertStreamToString(inputStream);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        if (text == null) {
-            tellUserThatCouldntOpenFile();
-            return;
-        }
-
-        textView.setText(text);
+        return text;
     }
 
     private void tellUserThatCouldntOpenFile() {
@@ -74,14 +63,14 @@ public class ReaderActivity extends AppCompatActivity {
                 .show();
     }
 
-//    public static String getStringFromInputStream(InputStream stream) throws IOException {
-//        int n;
-//        char[] buffer = new char[1024 * 4];
-//        InputStreamReader reader = new InputStreamReader(stream, "UTF8");
-//        StringWriter writer = new StringWriter();
-//        while (-1 != (n = reader.read(buffer))) writer.write(buffer, 0, n);
-//        return writer.toString();
-//    }
+    private void setupRecyclerView(List<String> paragraphLines) {
+        RecyclerView recyclerView = findViewById(R.id.rv_reader);
+        LinearLayoutManager horizontalLayoutManager
+                = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(horizontalLayoutManager);
+        adapter = new ReaderRvAdapter(this, paragraphLines);
+        recyclerView.setAdapter(adapter);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -101,7 +90,7 @@ public class ReaderActivity extends AppCompatActivity {
     }
 
     private void onCopyClick() {
-        String text = textView.getText().toString();
+        String text = adapter.extractFullText();
         if (TextUtils.isEmpty(text)) return;
         ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText(null, text);

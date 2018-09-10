@@ -4,10 +4,16 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.RecoverySystem;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBar;
@@ -31,8 +37,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import net.studymongolian.mongollibrary.MongolAlertDialog;
 import net.studymongolian.mongollibrary.MongolMenu;
 import net.studymongolian.mongollibrary.MongolMenuItem;
+import net.studymongolian.mongollibrary.MongolToast;
 
 public class HistoryActivity extends AppCompatActivity
         implements HistoryRvAdapter.HistoryListener {
@@ -44,6 +52,7 @@ public class HistoryActivity extends AppCompatActivity
     public static final String RESULT_STRING_KEY = "history_result";
     int longClickedItem = -1;
     int mDataPageCounter = 0;
+    private MenuItem overflowMenuItem;
 
 	HistoryRvAdapter adapter;
     List<Message> mMessages = new ArrayList<>();
@@ -87,9 +96,13 @@ public class HistoryActivity extends AppCompatActivity
 
     @Override
     public void onItemClick(View view, int position) {
-        Message chosenMessage = adapter.getItem(position);
+        insertHistoryMessageIntoInputWindow(position);
+    }
+
+    private void insertHistoryMessageIntoInputWindow(int adapterPosition) {
+        Message message = adapter.getItem(adapterPosition);
         Intent returnIntent = new Intent();
-        returnIntent.putExtra(RESULT_STRING_KEY, chosenMessage.getMessage());
+        returnIntent.putExtra(RESULT_STRING_KEY, message.getMessage());
         setResult(RESULT_OK, returnIntent);
         finish();
     }
@@ -142,17 +155,18 @@ public class HistoryActivity extends AppCompatActivity
     }
 
     private void editItem() {
-
+        insertHistoryMessageIntoInputWindow(longClickedItem);
     }
 
     private void deleteItem() {
-
+        Message message = adapter.getItem(longClickedItem);
+        new DeleteMessageByIdTask(this).execute(message.getId());
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.history_menu, menu);
+        getMenuInflater().inflate(R.menu.history_menu, menu);
+        overflowMenuItem = menu.findItem(R.id.action_overflow);
         return true;
     }
 
@@ -183,7 +197,7 @@ public class HistoryActivity extends AppCompatActivity
         menu.setOnMenuItemClickListener(new MongolMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MongolMenuItem item) {
                 if (item == export) {
-                    exportHistory();
+                    new ExportHistory(HistoryActivity.this).execute();
                 } else if (item == delete) {
                     deleteAll();
                 }
@@ -199,12 +213,6 @@ public class HistoryActivity extends AppCompatActivity
         int yOffset = location[1] + marginPx;
 
         menu.showAtLocation(overflowMenuButton, gravity, marginPx, yOffset);
-    }
-
-
-
-    private void exportHistory() {
-
     }
 
     private void deleteAll() {
@@ -254,38 +262,93 @@ public class HistoryActivity extends AppCompatActivity
 		}
 	}
 
-	private static class GetAllHistoryMessages extends AsyncTask<Void, Void, ArrayList<Message>> {
+	private static class ExportHistory extends AsyncTask<Void, Void, Boolean> {
 
         private WeakReference<HistoryActivity> activityReference;
 
-        GetAllHistoryMessages(HistoryActivity context) {
+        ExportHistory(HistoryActivity context) {
             activityReference = new WeakReference<>(context);
         }
 
-		@Override
-		protected ArrayList<Message> doInBackground(Void... params) {
-			ArrayList<Message> result = new ArrayList<>();
+        @Override
+        protected void onPreExecute() {
+            turnOnSpinner();
+        }
+
+        @Override
+		protected Boolean doInBackground(Void... params) {
             HistoryActivity activity = activityReference.get();
+            boolean result = false;
 			try {
 				MessageDatabaseAdapter dbAdapter = new MessageDatabaseAdapter(activity);
-				result = dbAdapter.getAllHistoryMessages();
+                ArrayList<Message> messages = dbAdapter.getAllHistoryMessages();
+                String text = createFileTextFromMessages(messages);
+                result = FileUtils.saveHistoryMessageFile(activity, text);
 			} catch (Exception e) {
                 e.printStackTrace();
 			}
 			return result;
 		}
 
-		@Override
-		protected void onPostExecute(ArrayList<Message> results) {
+        private String createFileTextFromMessages(ArrayList<Message> messages) {
+            StringBuilder text = new StringBuilder();
+            for (Message message : messages) {
+                String messageText = message.getMessage();
+                String date = HistoryRvAdapter.convertDate(message.getDate());
+                text.append(date).append('\n');
+                text.append(messageText).append('\n');
+                text.append("---").append('\n');
+            }
+            return text.toString();
+        }
+
+        @Override
+		protected void onPostExecute(Boolean wasSuccessfullyExported) {
 
             HistoryActivity activity = activityReference.get();
             if (activity == null || activity.isFinishing()) return;
 
-            activity.mMessages.clear();
-            activity.mMessages.addAll(results);
-            activity.adapter.notifyDataSetChanged();
+            turnOffSpinner();
+
+            if (wasSuccessfullyExported) {
+                tellUserWhereToFindFile(activity);
+            } else {
+                MongolToast.makeText(activity,
+                        activity.getString(R.string.couldnt_save_file),
+                        MongolToast.LENGTH_SHORT).show();
+            }
+
+
+
 		}
-	}
+
+        private void turnOnSpinner() {
+            HistoryActivity activity = activityReference.get();
+            if (activity == null || activity.isFinishing()) return;
+            ProgressBar spinner = new ProgressBar(activity);
+            spinner.getIndeterminateDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+            activity.overflowMenuItem.setActionView(spinner);
+        }
+
+        private void turnOffSpinner() {
+            HistoryActivity activity = activityReference.get();
+            if (activity == null || activity.isFinishing()) return;
+            activity.overflowMenuItem.setActionView(null);
+        }
+
+        private void tellUserWhereToFindFile(final Activity activity) {
+            MongolAlertDialog.Builder builder = new MongolAlertDialog.Builder(activity);
+            builder.setMessage(activity.getString(R.string.alert_where_to_find_history_export));
+            builder.setPositiveButton(activity.getString(R.string.dialog_got_it), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    activity.finish();
+                }
+            });
+            MongolAlertDialog dialog = builder.create();
+            dialog.show();
+        }
+    }
 
     private static class DeleteMessageByIdTask extends AsyncTask<Long, Void, Integer> {
 

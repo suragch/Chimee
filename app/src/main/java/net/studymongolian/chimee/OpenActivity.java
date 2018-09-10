@@ -47,7 +47,7 @@ public class OpenActivity extends AppCompatActivity
 
     private void showDocDirectoryName() {
         TextView textView = findViewById(R.id.tv_documents_directory);
-        String path = FileUtils.getAppDocumentDirectory();
+        String path = FileUtils.getAppDocumentFolder();
         textView.setText(path);
     }
 

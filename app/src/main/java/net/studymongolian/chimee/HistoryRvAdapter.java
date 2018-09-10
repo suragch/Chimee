@@ -45,7 +45,7 @@ public class HistoryRvAdapter extends RecyclerView.Adapter<HistoryRvAdapter.View
             mListener.loadMore();
     }
 
-    private String convertDate(long unixMilliseconds) {
+    static String convertDate(long unixMilliseconds) {
         Date date = new Date(unixMilliseconds);
         @SuppressLint("SimpleDateFormat")
         SimpleDateFormat sdf = new SimpleDateFormat("yy.M.d H:mm:ss");

@@ -18,18 +18,32 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         tools:ignore="UnusedAttribute"/>
 
-    <HorizontalScrollView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_reader"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar"
-        android:fillViewport="true"
-        android:scrollbars="none" >
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"/>
 
-        <net.studymongolian.mongollibrary.MongolTextView
-            android:id="@+id/mtv_content"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_margin="16dp"/>
-    </HorizontalScrollView>
+    <!--<TextView-->
+        <!--android:id="@+id/mtv_content"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_below="@+id/toolbar"/>-->
+
+    <!--<HorizontalScrollView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_below="@+id/toolbar"-->
+        <!--android:fillViewport="true"-->
+        <!--android:scrollbars="none" >-->
+
+        <!--<net.studymongolian.mongollibrary.MongolTextView-->
+            <!--android:id="@+id/mtv_content"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_margin="16dp"/>-->
+    <!--</HorizontalScrollView>-->
 
 </RelativeLayout>

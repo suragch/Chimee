@@ -122,5 +122,7 @@
     <string name="history_menu_delete_all">delete all</string>
     <string name="history_menu_delete_item">delete</string>
     <string name="history_menu_edit_item">edit</string>
+    <string name="couldnt_save_file">couldn\'t save file</string>
+    <string name="alert_where_to_find_history_export">Your messages were saved to xxx.</string>
 
 </resources>
