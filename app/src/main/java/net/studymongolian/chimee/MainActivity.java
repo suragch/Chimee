@@ -3,6 +3,7 @@ package net.studymongolian.chimee;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 
 
 import net.studymongolian.mongollibrary.ImeContainer;
@@ -360,7 +361,11 @@ public class MainActivity extends AppCompatActivity
     public void onStop() {
         super.onStop();
 
-        // save draft unicode text that is in the input window in case user accidentally closes app
+        // in case user accidentally closes app
+        saveInputWindowDraftToSharedPreferences();
+    }
+
+    private void saveInputWindowDraftToSharedPreferences() {
         SharedPreferences settings = getSharedPreferences(SettingsActivity.PREFS_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
         String text = inputWindow.getText().toString();
@@ -393,38 +398,6 @@ public class MainActivity extends AppCompatActivity
         return this;
     }
 
-//    // ImeContainer.DataSource methods
-//
-//    @Override
-//    public void onRequestWordsStartingWith(String text) {
-//        if (text.startsWith(String.valueOf(MongolCode.Uni.NNBS))) {
-//            new GetSuffixesStartingWith(this).execute(text);
-//        } else {
-//            new GetWordsStartingWith(this).execute(text);
-//        }
-//    }
-//
-//    @Override
-//    public void onWordFinished(String word, String previousWord) {
-//        new AddOrUpdateDictionaryWordsTask(this).execute(word, previousWord);
-//    }
-//
-//    @Override
-//    public void onCandidateClick(int position, String word, String previousWordInEditor) {
-//        addSpace();
-//        new RespondToCandidateClick(this).execute(word, previousWordInEditor);
-//    }
-//
-//    private void addSpace() {
-//        InputConnection ic = imeContainer.getInputConnection();
-//        if (ic == null) return;
-//        ic.commitText(" ", 1);
-//    }
-//
-//    @Override
-//    public void onCandidateLongClick(int position, String word, String previousWordInEditor) {
-//        new DeleteWord(this, position).execute(word, previousWordInEditor);
-//    }
 
     // ImeContainer.OnNonSystemImeListener methods
 
@@ -462,31 +435,6 @@ public class MainActivity extends AppCompatActivity
         //adjustInputWindowHeightIfNeeded();
         showKeyboardButton.setVisibility(View.INVISIBLE);
     }
-
-//    private void adjustInputWindowHeightIfNeeded() {
-//        int inputWindowHeight = inputWindow.getHeight();
-//        FrameLayout topLayout = findViewById(R.id.flTop);
-//        int topLayoutHeight = topLayout.getHeight();
-//        int imeContainerHeight = imeContainer.getHeight();
-//        final int availableHeight = topLayoutHeight - imeContainerHeight;
-//        //LinearLayout rootLayout = findViewById(R.id.root_layout);
-//        //rootLayout.requestLayout();
-////        if (inputWindowHeight > availableHeight) {
-////            CharSequence text = inputWindow.getText();
-////            inputWindow.getEditText().setText("");
-////            inputWindow.getEditText().setText(text);
-////
-//////            inputWindow.setIsManualScaling(true);
-//////            inputWindow.setDesiredHeight(availableHeight);
-//////            inputWindow.post(new Runnable() {
-//////                @Override
-//////                public void run() {
-//////                    inputWindow.setDesiredHeight(availableHeight);
-//////                }
-//////            });
-////        }
-//            //inputWindow.setDesiredHeight(availableHeight);
-//    }
 
     private void showSystemKeyboard() {
         InputMethodManager im = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
@@ -597,6 +545,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         saveMessageToHistory(message);
+        clearInputWindow();
 
         switch (shareDestination) {
             case WeChat:
@@ -609,6 +558,11 @@ public class MainActivity extends AppCompatActivity
                 shareToSystemApp();
                 break;
         }
+    }
+
+    private void clearInputWindow() {
+        inputWindow.getEditText().setText("");
+        saveInputWindowDraftToSharedPreferences();
     }
 
 
@@ -814,7 +768,7 @@ public class MainActivity extends AppCompatActivity
     private void saveMessageToHistory(CharSequence message) {
         String messageText = message.toString();
         if (!lastSentMessage.equals(messageText)) {
-            new SaveMessageToHistory().execute(messageText);
+            new SaveMessageToHistory(this).execute(messageText);
             lastSentMessage = messageText;
         }
     }
@@ -948,13 +902,13 @@ public class MainActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case SHARE_CHOOSER_REQUEST:
-                onShareChooserResult(resultCode, data);
+                //onShareChooserResult(resultCode, data);
                 break;
             case WECHAT_REQUEST:
-                onWeChatResult(resultCode, data);
+                //onWeChatResult(resultCode, data);
                 break;
             case BAINU_REQUEST:
-                onBainuResult(resultCode, data);
+                //onBainuResult(resultCode, data);
                 break;
             case SETTINGS_REQUEST:
                 onSettingsResult(resultCode, data);
@@ -973,20 +927,20 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void onShareChooserResult(int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            // TODO this never gets called. Make a custom chooser
-        }
-        inputWindow.getEditText().setText("");
-    }
+//    private void onShareChooserResult(int resultCode, Intent data) {
+//        if (resultCode == RESULT_OK) {
+//            // TODO this never gets called. Make a custom chooser
+//        }
+//        inputWindow.getEditText().setText("");
+//    }
 
-    private void onWeChatResult(int resultCode, Intent data) {
-        inputWindow.getEditText().setText("");
-    }
-
-    private void onBainuResult(int resultCode, Intent data) {
-
-    }
+//    private void onWeChatResult(int resultCode, Intent data) {
+//        inputWindow.getEditText().setText("");
+//    }
+//
+//    private void onBainuResult(int resultCode, Intent data) {
+//        inputWindow.getEditText().setText("");
+//    }
 
     private void onSettingsResult(int resultCode, Intent data) {
         if (resultCode != RESULT_OK) return;
@@ -1041,16 +995,22 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    private class SaveMessageToHistory extends AsyncTask<String, Void, Void> {
+    private static class SaveMessageToHistory extends AsyncTask<String, Void, Void> {
+
+        WeakReference<MainActivity> activityReference;
+
+        SaveMessageToHistory(MainActivity context) {
+            activityReference = new WeakReference<>(context);
+        }
 
         @Override
         protected Void doInBackground(String... params) {
 
             String messageText = params[0];
+            MainActivity activity = activityReference.get();
 
             try {
-                MessageDatabaseAdapter dbAdapter = new MessageDatabaseAdapter(
-                        getApplicationContext());
+                MessageDatabaseAdapter dbAdapter = new MessageDatabaseAdapter(activity);
                 dbAdapter.addHistoryMessage(messageText);
             } catch (Exception e) {
                 Log.e("app", e.toString());

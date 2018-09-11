@@ -132,13 +132,18 @@ public class SettingsActivity extends AppCompatActivity {
         startActivityForResult(inputSettings, INSTALL_KEYBOARD_REQUEST);
     }
 
-    public void onKeyboardWordsClick(View view) {
-        MongolToast.makeText(this, R.string.settings_keyboard_words, MongolToast.LENGTH_SHORT).show();
+    public void onImportKeyboardWordsClick(View view) {
+        MongolToast.makeText(this, R.string.settings_import_keyboard_words, MongolToast.LENGTH_SHORT).show();
+
+    }
+
+    public void onExportKeyboardWordsClick(View view) {
 
     }
 
     public void onKeyboardEmojiClick(View view) {
-
+        Intent intent = new Intent(this, EmojiActivity.class);
+        startActivity(intent);
     }
 
     public void onCodeConverterClick(View view) {
@@ -163,7 +168,7 @@ public class SettingsActivity extends AppCompatActivity {
                 onHistoryResult(resultCode, data);
                 break;
             case INSTALL_KEYBOARD_REQUEST:
-                onInstallKeyboardResult(requestCode, data);
+                setupSystemKeyboardItem();
                 break;
             default:
                 super.onActivityResult(requestCode, resultCode, data);
@@ -178,9 +183,5 @@ public class SettingsActivity extends AppCompatActivity {
         returnIntent.putExtra(HistoryActivity.RESULT_STRING_KEY, message);
         setResult(RESULT_OK, returnIntent);
         finish();
-    }
-
-    private void onInstallKeyboardResult(int requestCode, Intent data) {
-	    setupSystemKeyboardItem();
     }
 }
