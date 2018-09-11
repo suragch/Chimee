@@ -5,17 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.RecoverySystem;
-import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
@@ -23,19 +18,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import net.studymongolian.mongollibrary.MongolAlertDialog;
 import net.studymongolian.mongollibrary.MongolMenu;
@@ -45,13 +31,11 @@ import net.studymongolian.mongollibrary.MongolToast;
 public class HistoryActivity extends AppCompatActivity
         implements HistoryRvAdapter.HistoryListener {
 
-    private static final int MENU_MARGIN_DP = 8;
-	public static final int NUMBER_OF_MESSAGES_TO_LOAD = 100;
-	private static final String STATE_SCROLL_POSITION = "scrollPosition";
-	public static final int DELETE_REQUEST = 0;
     public static final String RESULT_STRING_KEY = "history_result";
-    int longClickedItem = -1;
-    int mDataPageCounter = 0;
+    private static final int MENU_MARGIN_DP = 8;
+    private static final int NUMBER_OF_MESSAGES_TO_LOAD = 100;
+    private int longClickedItem = -1;
+    private int mDataPageCounter = 0;
     private MenuItem overflowMenuItem;
 
 	HistoryRvAdapter adapter;
@@ -65,10 +49,10 @@ public class HistoryActivity extends AppCompatActivity
 
 		setupToolbar();
 		setupRecyclerView();
-		new AppendHistoryMessageRange(this, NUMBER_OF_MESSAGES_TO_LOAD, mDataPageCounter).execute();
-	}
+		getHistoryMessages();
+    }
 
-	private void setupToolbar() {
+    private void setupToolbar() {
 		Toolbar toolbar = findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 		ActionBar actionBar = getSupportActionBar();
@@ -92,6 +76,11 @@ public class HistoryActivity extends AppCompatActivity
         adapter = new HistoryRvAdapter(this, mMessages);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
+    }
+
+    private void getHistoryMessages() {
+        new AppendHistoryMessageRange(this,
+                NUMBER_OF_MESSAGES_TO_LOAD, mDataPageCounter).execute();
     }
 
     @Override
@@ -177,8 +166,6 @@ public class HistoryActivity extends AppCompatActivity
                 overflowMenuItemClick();
                 return true;
             case android.R.id.home:
-                Intent intent = new Intent();
-                setResult(RESULT_OK, intent);
                 finish();
                 return true;
             default:
@@ -216,7 +203,17 @@ public class HistoryActivity extends AppCompatActivity
     }
 
     private void deleteAll() {
-
+        MongolAlertDialog.Builder builder = new MongolAlertDialog.Builder(this);
+        builder.setMessage(getString(R.string.alert_delete_all_history_messages));
+        builder.setPositiveButton(getString(R.string.dialog_delete), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                new DeleteAllMessages(HistoryActivity.this).execute();
+            }
+        });
+        builder.setNegativeButton(getString(R.string.dialog_cancel), null);
+        MongolAlertDialog dialog = builder.create();
+        dialog.show();
     }
 
 	private static class AppendHistoryMessageRange extends AsyncTask<Void, Void, ArrayList<Message>> {
@@ -251,13 +248,15 @@ public class HistoryActivity extends AppCompatActivity
             HistoryActivity activity = activityReference.get();
             if (activity == null || activity.isFinishing()) return;
 
-            //activity.mMessages.clear();
             activity.mMessages.addAll(range);
             int lastIndex = activity.adapter.getItemCount();
             activity.adapter.notifyItemRangeInserted(lastIndex, range.size());
             activity.mDataPageCounter++;
-            if (range.size() < activity.NUMBER_OF_MESSAGES_TO_LOAD) {
+            if (range.size() < HistoryActivity.NUMBER_OF_MESSAGES_TO_LOAD) {
                 activity.isFinishedLoadingData = true;
+            }
+            if (activity.adapter.getItemCount() == 0 && activity.overflowMenuItem != null) {
+                activity.overflowMenuItem.setVisible(false);
             }
 		}
 	}
@@ -317,9 +316,6 @@ public class HistoryActivity extends AppCompatActivity
                         activity.getString(R.string.couldnt_save_file),
                         MongolToast.LENGTH_SHORT).show();
             }
-
-
-
 		}
 
         private void turnOnSpinner() {
@@ -338,16 +334,13 @@ public class HistoryActivity extends AppCompatActivity
 
         private void tellUserWhereToFindFile(final Activity activity) {
             MongolAlertDialog.Builder builder = new MongolAlertDialog.Builder(activity);
-            builder.setMessage(activity.getString(R.string.alert_where_to_find_history_export));
-            builder.setPositiveButton(activity.getString(R.string.dialog_got_it), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    activity.finish();
-                }
-            });
+            String location = FileUtils.getHistoryFileDisplayPath();
+            builder.setMessage(activity.getString(R.string.alert_where_to_find_history_export, location));
+            builder.setPositiveButton(activity.getString(R.string.dialog_got_it), null);
             MongolAlertDialog dialog = builder.create();
             dialog.show();
         }
+
     }
 
     private static class DeleteMessageByIdTask extends AsyncTask<Long, Void, Integer> {
@@ -380,6 +373,9 @@ public class HistoryActivity extends AppCompatActivity
             if (count <= 0) return;
             activity.mMessages.remove(activity.longClickedItem);
             activity.adapter.notifyItemRemoved(activity.longClickedItem);
+            if (activity.adapter.getItemCount() == 0 && activity.overflowMenuItem != null) {
+                activity.overflowMenuItem.setVisible(false);
+            }
         }
     }
 

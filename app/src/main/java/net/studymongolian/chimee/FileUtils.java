@@ -85,17 +85,18 @@ class FileUtils {
     private static class Pair implements Comparable {
 
         public long time;
+
         public File file;
         Pair(File file) {
             this.file = file;
             time = file.lastModified();
         }
-
         public int compareTo(@NonNull Object o) {
             long u = ((Pair) o).time;
             //noinspection UseCompareMethod // Requires API 19
             return time < u ? -1 : time == u ? 0 : 1;
         }
+
 
     }
     static List<String> getTextFileNamesWithoutExtension() {
@@ -194,6 +195,12 @@ class FileUtils {
 
     private static String getAppExportFolder() {
         return getAppPublicFolder() + File.separator + EXPORT_FOLDER_NAME;
+    }
+
+    public static String getHistoryFileDisplayPath() {
+        return APP_PUBLIC_FOLDER_NAME +
+                 File.separator + EXPORT_FOLDER_NAME +
+                File.separator + HISTORY_EXPORT_FILE_NAME;
     }
 
     private static void scanFile(Context context, File file) {
