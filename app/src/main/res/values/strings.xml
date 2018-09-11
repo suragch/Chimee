@@ -126,7 +126,8 @@
     <string name="alert_where_to_find_history_export">Your messages were saved to %1$s.</string>
     <string name="alert_delete_all_history_messages">Are you sure that you want to delete all of your sent messages?</string>
     <string name="dialog_delete">delete</string>
-
-
-    <string name="my_xml_string">My sister %1$s is %2$d years old.</string>
+    <string name="settings_install_keyboard">install system keyboard</string>
+    <string name="settings_keyboard_emoji">emoji set</string>
+    <string name="keyboard_name">Chimee</string>
+    <string name="settings_choose_keyboard">switch current system keyboard</string>
 </resources>

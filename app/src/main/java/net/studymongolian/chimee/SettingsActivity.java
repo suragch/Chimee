@@ -3,15 +3,21 @@ package net.studymongolian.chimee;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.inputmethod.InputMethodInfo;
+import android.view.inputmethod.InputMethodManager;
 
 import net.studymongolian.mongollibrary.MongolFont;
+import net.studymongolian.mongollibrary.MongolTextView;
 import net.studymongolian.mongollibrary.MongolToast;
+
+import java.util.List;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -51,9 +57,11 @@ public class SettingsActivity extends AppCompatActivity {
 
 
     private static final int HISTORY_REQUEST = 0;
+    private static final int INSTALL_KEYBOARD_REQUEST = 1;
 
 	static final String SETTINGS_RETURN_ACTION_KEY = "return_key";
-	//static final String SETTINGS_ACTION_EDIT_HISTORY_MESSAGE_KEY = "edit_history";
+    private boolean isChimeeSystemKeyboardAvailable;
+    //static final String SETTINGS_ACTION_EDIT_HISTORY_MESSAGE_KEY = "edit_history";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +69,10 @@ public class SettingsActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_settings);
 
 		setupToolbar();
+		setupSystemKeyboardItem();
 	}
 
-	private void setupToolbar() {
+    private void setupToolbar() {
 		Toolbar toolbar = findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 		ActionBar actionBar = getSupportActionBar();
@@ -74,13 +83,61 @@ public class SettingsActivity extends AppCompatActivity {
 		}
 	}
 
+    private void setupSystemKeyboardItem() {
+        isChimeeSystemKeyboardAvailable = isKeyboardActivated();
+        if (isChimeeSystemKeyboardAvailable) {
+            MongolTextView mtv = findViewById(R.id.mtv_install_keyboard);
+            mtv.setText(getString(R.string.settings_choose_keyboard));
+        }
+    }
+
+    private boolean isKeyboardActivated() {
+        String packageLocal = getPackageName();
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        if (inputMethodManager == null) return false;
+        List<InputMethodInfo> list = inputMethodManager.getEnabledInputMethodList();
+
+        // check if our keyboard is enabled as input method
+        for (InputMethodInfo inputMethod : list) {
+            String packageName = inputMethod.getPackageName();
+            if (packageName.equals(packageLocal)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public void onHistoryClick(View view) {
 	    Intent intent = new Intent(this, HistoryActivity.class);
 	    startActivityForResult(intent, HISTORY_REQUEST);
     }
 
+    public void onInstallKeyboardClick(View view) {
+	    if (isChimeeSystemKeyboardAvailable) {
+	        showChooseKeyboardDialog();
+        } else {
+	        showInstallKeyboardDialog();
+        }
+    }
+
+    private void showChooseKeyboardDialog() {
+        InputMethodManager im = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        if (im == null) return;
+        im.showInputMethodPicker();
+    }
+
+    private void showInstallKeyboardDialog() {
+        Intent inputSettings = new Intent(Settings.ACTION_INPUT_METHOD_SETTINGS);
+        startActivityForResult(inputSettings, INSTALL_KEYBOARD_REQUEST);
+    }
+
     public void onKeyboardWordsClick(View view) {
         MongolToast.makeText(this, R.string.settings_keyboard_words, MongolToast.LENGTH_SHORT).show();
+
+    }
+
+    public void onKeyboardEmojiClick(View view) {
 
     }
 
@@ -105,6 +162,9 @@ public class SettingsActivity extends AppCompatActivity {
             case HISTORY_REQUEST:
                 onHistoryResult(resultCode, data);
                 break;
+            case INSTALL_KEYBOARD_REQUEST:
+                onInstallKeyboardResult(requestCode, data);
+                break;
             default:
                 super.onActivityResult(requestCode, resultCode, data);
         }
@@ -118,5 +178,9 @@ public class SettingsActivity extends AppCompatActivity {
         returnIntent.putExtra(HistoryActivity.RESULT_STRING_KEY, message);
         setResult(RESULT_OK, returnIntent);
         finish();
+    }
+
+    private void onInstallKeyboardResult(int requestCode, Intent data) {
+	    setupSystemKeyboardItem();
     }
 }

@@ -198,7 +198,7 @@ class FileUtils {
     }
 
     public static String getHistoryFileDisplayPath() {
-        return APP_PUBLIC_FOLDER_NAME +
+        return                APP_PUBLIC_FOLDER_NAME +
                  File.separator + EXPORT_FOLDER_NAME +
                 File.separator + HISTORY_EXPORT_FILE_NAME;
     }
