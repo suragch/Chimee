@@ -10,6 +10,8 @@ import android.provider.BaseColumns;
 import android.text.TextUtils;
 import android.util.Log;
 
+import net.studymongolian.mongollibrary.MongolCode;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -107,6 +109,7 @@ public class UserDictionary {
         public static final String DEFAULT_SORT_ORDER = FREQUENCY + " DESC";
 
         private static final String FOLLOWING_STRING_DELIMITER = ",";
+        static final String FIELD_DELIMITER = ";";
 
         /**
          * Queries the dictionary and returns all the words and values words.
@@ -243,6 +246,46 @@ public class UserDictionary {
             values.put(FOLLOWING, "");
 
             resolver.insert(CONTENT_URI, values);
+        }
+
+        /**
+         * Imports words (and their following words) into the user dictionary,
+         * but does not import frequency
+         *
+         * @param context context
+         * @param textLines in the format of [word][FIELD_DELIMITER][following]
+         * @return number of words imported
+         */
+        public static int importWordAndFollowingList(Context context, List<String> textLines) {
+            if (textLines == null ||
+                    textLines.size() == 0) return 0;
+
+
+            List<ContentValues> valueList = new ArrayList<>();
+            for (String line : textLines) {
+
+                String[] fields = TextUtils.split(line, FIELD_DELIMITER);
+                if (fields.length != 2 ||
+                        TextUtils.isEmpty(fields[0])) {
+                    continue;
+                }
+
+                if (!MongolCode.isMongolian(fields[0].charAt(0)))
+                    continue;
+
+                final int COLUMN_COUNT = 3;
+                ContentValues values = new ContentValues(COLUMN_COUNT);
+                values.put(WORD, fields[0]);
+                values.put(FREQUENCY, DEFAULT_FREQUENCY);
+                values.put(FOLLOWING, fields[1]);
+                valueList.add(values);
+            }
+
+            ContentValues[] array = new ContentValues[valueList.size()];
+            valueList.toArray(array);
+
+            final ContentResolver resolver = context.getContentResolver();
+            return resolver.bulkInsert(CONTENT_URI, array);
         }
 
         /**

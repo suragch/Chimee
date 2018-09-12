@@ -243,10 +243,30 @@ public class ImeDataSourceHelper implements ImeContainer.DataSource {
             if (helper == null) return null;
             Context context = helper.getContext();
             if (context == null) return null;
+            if (isTooShort(word)) return null;
             insertUpdateWord(context, word);
 
             UserDictionary.Words.addFollowing(context, previousWord, word);
             return null;
+        }
+
+        private boolean isTooShort(String word) {
+            if (TextUtils.isEmpty(word)) return true;
+            if (word.length() > 3) return false;
+            int count = 0;
+            for (char c : word.toCharArray()) {
+                if (!isMongolianControlChar(c)){
+                    count++;
+                }
+            }
+            return count < 2;
+        }
+
+        private boolean isMongolianControlChar(char character) {
+            return character == MongolCode.Uni.MVS ||
+                    character == MongolCode.Uni.ZWJ ||
+                    character == MongolCode.Uni.ZWNJ ||
+                    MongolCode.isFVS(character);
         }
 
     }

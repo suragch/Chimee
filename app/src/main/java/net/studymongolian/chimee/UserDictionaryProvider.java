@@ -60,54 +60,7 @@ public class UserDictionaryProvider extends ContentProvider {
 					+ UserDictionary.Words.FREQUENCY + " INTEGER DEFAULT 1,"
 					+ UserDictionary.Words.FOLLOWING + " TEXT NOT NULL DEFAULT ''"
 					+ ");");
-			//initWithData(db);
 		}
-
-//		private void initWithData(SQLiteDatabase db) {
-//			try {
-//				List<String> allWords = importFile(context);
-//				bulkInsert(db, allWords);
-//			} catch (Exception e) {
-//				Log.e("app", e.toString());
-//			}
-//		}
-//
-//		private List<String> importFile(Context context) throws IOException {
-//			BufferedReader reader = new BufferedReader(
-//					new InputStreamReader(context.getAssets().open(DEFAULT_WORD_LIST_FILE)));
-//
-//			List<String> words = new ArrayList<>();
-//			String line = reader.readLine();
-//			while (line != null) {
-//				words.add(line);
-//				line = reader.readLine();
-//			}
-//			reader.close();
-//			return words;
-//		}
-//
-//		private void bulkInsert(SQLiteDatabase db, List<String> words) {
-//			try {
-//
-//				db.beginTransaction();
-//				String sql = "INSERT OR IGNORE INTO " + USERDICT_TABLE_NAME +
-//						" (" + UserDictionary.Words.WORD + ") VALUES (?)";
-//				SQLiteStatement statement = db.compileStatement(sql);
-//
-//				for (String word : words) {
-//					statement.clearBindings();
-//					statement.bindString(1, word);
-//					statement.executeInsert();
-//				}
-//
-//				db.setTransactionSuccessful();
-//
-//			} catch (SQLException e) {
-//				Log.e("DatabaseManager", "bulkInsert: ", e);
-//			} finally {
-//				db.endTransaction();
-//			}
-//		}
 
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

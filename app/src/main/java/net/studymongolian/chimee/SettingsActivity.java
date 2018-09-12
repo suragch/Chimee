@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -24,13 +25,15 @@ import net.studymongolian.mongollibrary.MongolFont;
 import net.studymongolian.mongollibrary.MongolTextView;
 import net.studymongolian.mongollibrary.MongolToast;
 
+import java.io.File;
+import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    private static final String WORD_EXPORT_FIELD_DELIMITER = ";";
+
 	static final String PREFS_NAME = "MyPrefsFile";
 	static final String FONT_KEY = "font";
 	public static final String FONT_QAGAN = MongolFont.QAGAN;                    // Normal
@@ -68,6 +71,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private static final int HISTORY_REQUEST = 0;
     private static final int INSTALL_KEYBOARD_REQUEST = 1;
+    private static final int IMPORT_KEYBOARD_WORDS_REQUEST = 2;
 
 	static final String SETTINGS_RETURN_ACTION_KEY = "return_key";
     private boolean isChimeeSystemKeyboardAvailable;
@@ -142,13 +146,17 @@ public class SettingsActivity extends AppCompatActivity {
         startActivityForResult(inputSettings, INSTALL_KEYBOARD_REQUEST);
     }
 
-    public void onImportKeyboardWordsClick(View view) {
-        MongolToast.makeText(this, R.string.settings_import_keyboard_words, MongolToast.LENGTH_SHORT).show();
-
-    }
-
     public void onExportKeyboardWordsClick(View view) {
 	    new ExportKeyboardWords(this).execute();
+    }
+
+    public void onImportKeyboardWordsClick(View view) {
+        Intent chooseFile;
+        Intent intent;
+        chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
+        chooseFile.setType("files/*");
+        intent = Intent.createChooser(chooseFile, "Choose a .kbd file");
+        startActivityForResult(intent, IMPORT_KEYBOARD_WORDS_REQUEST);
     }
 
     public void onKeyboardEmojiClick(View view) {
@@ -180,6 +188,9 @@ public class SettingsActivity extends AppCompatActivity {
             case INSTALL_KEYBOARD_REQUEST:
                 setupSystemKeyboardItem();
                 break;
+            case IMPORT_KEYBOARD_WORDS_REQUEST:
+                onImportKeyboardWordsResult(resultCode, data);
+                break;
             default:
                 super.onActivityResult(requestCode, resultCode, data);
         }
@@ -195,7 +206,14 @@ public class SettingsActivity extends AppCompatActivity {
         finish();
     }
 
+    private void onImportKeyboardWordsResult(int resultCode, Intent data) {
+        if (resultCode != RESULT_OK) return;
+        Uri uri = data.getData();
+        new ImportWordList(this).execute(uri);
+    }
+
     private static class ExportKeyboardWords extends AsyncTask<Void, Void, Boolean> {
+
 
 
         WeakReference<SettingsActivity> activityReference;
@@ -219,13 +237,13 @@ public class SettingsActivity extends AppCompatActivity {
             if (cursor == null) return "";
 
             int indexWord = cursor.getColumnIndex(UserDictionary.Words.WORD);
-            int indexFrequency = cursor.getColumnIndex(UserDictionary.Words.FREQUENCY);
+            //int indexFrequency = cursor.getColumnIndex(UserDictionary.Words.FREQUENCY);
             int indexFollowing = cursor.getColumnIndex(UserDictionary.Words.FOLLOWING);
 
             StringBuilder builder = new StringBuilder();
             while (cursor.moveToNext()) {
-                builder.append(cursor.getString(indexWord)).append(WORD_EXPORT_FIELD_DELIMITER);
-                builder.append(cursor.getInt(indexFrequency)).append(WORD_EXPORT_FIELD_DELIMITER);
+                builder.append(cursor.getString(indexWord)).append(UserDictionary.Words.FIELD_DELIMITER);
+                //builder.append(cursor.getInt(indexFrequency)).append(UserDictionary.Words.FIELD_DELIMITER);
                 builder.append(cursor.getString(indexFollowing)).append('\n');
             }
             cursor.close();
@@ -257,5 +275,47 @@ public class SettingsActivity extends AppCompatActivity {
             MongolAlertDialog dialog = builder.create();
             dialog.show();
         }
+    }
+
+    private static class ImportWordList extends AsyncTask<Uri, Void, Integer> {
+
+        private WeakReference<SettingsActivity> activityReference;
+
+        ImportWordList(SettingsActivity activityContext) {
+            activityReference = new WeakReference<>(activityContext);
+        }
+
+        @Override
+        protected Integer doInBackground(Uri... params) {
+
+
+            SettingsActivity activity = activityReference.get();
+            if (activity == null) return 0;
+            Uri importFile = params[0];
+            if (importFile == null) return 0;
+
+            int numberImported = 0;
+            try {
+                InputStream inputStream = activity.getContentResolver().openInputStream(importFile);
+                List<String> textLines = FileUtils.convertStreamToStringArray(inputStream);
+
+                numberImported = UserDictionary.Words.importWordAndFollowingList(activity, textLines);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return numberImported;
+            }
+
+            return numberImported;
+        }
+
+        @Override
+        protected void onPostExecute(Integer numberImported) {
+            SettingsActivity activity = activityReference.get();
+            if (activity == null || activity.isFinishing()) return;
+            String message = activity.getString(R.string.number_words_imported, numberImported);
+            MongolToast.makeText(activity, message, MongolToast.LENGTH_LONG).show();
+        }
+
     }
 }
