@@ -2,22 +2,21 @@ package net.studymongolian.chimee;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.UriMatcher;
+import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
-import android.database.sqlite.SQLiteStatement;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -31,13 +30,13 @@ public class UserDictionaryProvider extends ContentProvider {
 
 	private static final String AUTHORITY = UserDictionary.AUTHORITY;
 	private static final String DATABASE_NAME = "chimee_user_dict.db";
-	//private static final String DEFAULT_WORD_LIST_FILE = "default_candidates.txt";
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 	private static final String USERDICT_TABLE_NAME = "words";
 	private static HashMap<String, String> sDictProjectionMap;
 	private static final UriMatcher sUriMatcher;
 	private static final int WORDS = 1;
 	private static final int WORD_ID = 2;
+    private static final String TAG = DatabaseHelper.class.getName();
 
 
 	/**
@@ -64,9 +63,61 @@ public class UserDictionaryProvider extends ContentProvider {
 
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-			db.execSQL("DROP TABLE IF EXISTS " + USERDICT_TABLE_NAME);
-			onCreate(db);
+			// method from https://riggaroo.co.za/android-sqlite-database-use-onupgrade-correctly/
+			Log.w(TAG, "Updating database from " + oldVersion + " to " + newVersion);
+			// For database upgrade add file like from_1_to_2.sql to the assets folder
+			String relativePathInAssetsFolder;
+			switch (oldVersion) {
+				case 1:
+					relativePathInAssetsFolder = "databases/user_dictionary/from_1_to_2.sql";
+					Log.i(TAG, "relativePathInAssetsFolder: " + relativePathInAssetsFolder);
+					readAndExecuteSQLScript(db, context, relativePathInAssetsFolder);
+
+					// don't include break statement between version numbers
+					// so that the updates are run cumulatively (https://stackoverflow.com/a/8133640)
+				default:
+					break;
+
+			}
 		}
+
+        private void readAndExecuteSQLScript(SQLiteDatabase db, Context ctx, String fileName) {
+            AssetManager assetManager = ctx.getAssets();
+            BufferedReader reader = null;
+
+            try {
+                InputStream is = assetManager.open(fileName);
+                InputStreamReader isr = new InputStreamReader(is);
+                reader = new BufferedReader(isr);
+                executeSQLScript(db, reader);
+            } catch (IOException e) {
+                Log.e(TAG, "IOException:", e);
+            } finally {
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (IOException e) {
+                        Log.e(TAG, "IOException:", e);
+                    }
+                }
+            }
+
+        }
+
+        private void executeSQLScript(SQLiteDatabase db, BufferedReader reader) throws IOException {
+            String line;
+            StringBuilder statement = new StringBuilder();
+            while ((line = reader.readLine()) != null) {
+                statement.append(line);
+                statement.append("\n");
+                if (line.endsWith(";")) {
+                    Log.i(TAG, "executeSQLScript: " + statement.toString());
+                    db.execSQL(statement.toString());
+                    Log.i(TAG, "executeSQLScript: executed");
+                    statement = new StringBuilder();
+                }
+            }
+        }
 	}
 
 	private DatabaseHelper mOpenHelper;
@@ -183,7 +234,8 @@ public class UserDictionaryProvider extends ContentProvider {
 			try {
 				db.beginTransaction();
 				for (ContentValues value : values) {
-					long id = db.insert(USERDICT_TABLE_NAME, null, value);
+					long id = db.insertWithOnConflict(USERDICT_TABLE_NAME, null,
+                            value, SQLiteDatabase.CONFLICT_IGNORE);
 					if (id > 0)
 						insertCount++;
 				}
