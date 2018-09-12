@@ -51,6 +51,7 @@ import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
         implements ImeContainer.OnNonSystemImeListener,
@@ -59,9 +60,9 @@ public class MainActivity extends AppCompatActivity
         ColorChooserDialogFragment.ColorDialogListener,
         FontChooserDialogFragment.FontDialogListener {
 
-    private static final int SHARE_CHOOSER_REQUEST = 0;
-    private static final int WECHAT_REQUEST = 1;
-    private static final int BAINU_REQUEST = 2;
+    private static final int SHARE_REQUEST = 0;
+    //private static final int WECHAT_REQUEST = 1;
+    //private static final int BAINU_REQUEST = 2;
     private static final int SETTINGS_REQUEST = 3;
     private static final int FAVORITE_MESSAGE_REQUEST = 4;
     private static final int OPEN_REQUEST = 6;
@@ -545,7 +546,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         saveMessageToHistory(message);
-        clearInputWindow();
+        //clearInputWindow();
 
         switch (shareDestination) {
             case WeChat:
@@ -697,7 +698,7 @@ public class MainActivity extends AppCompatActivity
         ComponentName comp = new ComponentName("com.tencent.mm",
                 "com.tencent.mm.ui.tools.ShareImgUI");
         shareIntent.setComponent(comp);
-        startActivityForResult(shareIntent, WECHAT_REQUEST);
+        startActivityForResult(shareIntent, SHARE_REQUEST);
     }
 
     private void shareToBainu() {
@@ -717,7 +718,7 @@ public class MainActivity extends AppCompatActivity
         ComponentName comp = new ComponentName("com.zuga.im",
                 "com.zuga.im.bainuSdk.BNEntryActivity");
         shareIntent.setComponent(comp);
-        startActivityForResult(shareIntent, BAINU_REQUEST);
+        startActivityForResult(shareIntent, SHARE_REQUEST);
     }
 
     private void askIfUserWantsToDownloadBainu() {
@@ -894,21 +895,16 @@ public class MainActivity extends AppCompatActivity
 
     private void resizeInputWindow(int initialHeight) {
         int newHeight = (int) (initialHeight * mScaleFactor);
-        //Log.i("TAG", "resizeInputWindow: " + mScaleFactor);
         inputWindow.setDesiredHeight(newHeight);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
-            case SHARE_CHOOSER_REQUEST:
-                //onShareChooserResult(resultCode, data);
-                break;
-            case WECHAT_REQUEST:
-                //onWeChatResult(resultCode, data);
-                break;
-            case BAINU_REQUEST:
-                //onBainuResult(resultCode, data);
+            case SHARE_REQUEST:
+            //case WECHAT_REQUEST:
+            //case BAINU_REQUEST:
+                onShareResult();
                 break;
             case SETTINGS_REQUEST:
                 onSettingsResult(resultCode, data);
@@ -920,27 +916,16 @@ public class MainActivity extends AppCompatActivity
                 onOpenFileResult(resultCode, data);
                 break;
             case SAVE_REQUEST:
-                onSaveFileResult(resultCode, data);
+                onSaveFileResult(resultCode);
                 break;
             default:
                 super.onActivityResult(requestCode, resultCode, data);
         }
     }
 
-//    private void onShareChooserResult(int resultCode, Intent data) {
-//        if (resultCode == RESULT_OK) {
-//            // TODO this never gets called. Make a custom chooser
-//        }
-//        inputWindow.getEditText().setText("");
-//    }
-
-//    private void onWeChatResult(int resultCode, Intent data) {
-//        inputWindow.getEditText().setText("");
-//    }
-//
-//    private void onBainuResult(int resultCode, Intent data) {
-//        inputWindow.getEditText().setText("");
-//    }
+    private void onShareResult() {
+        clearInputWindow();
+    }
 
     private void onSettingsResult(int resultCode, Intent data) {
         if (resultCode != RESULT_OK) return;
@@ -964,17 +949,6 @@ public class MainActivity extends AppCompatActivity
         insertMessageIntoInputWindow(message);
     }
 
-    private void onHistoryResult(int resultCode, Intent data) {
-
-        if (resultCode == RESULT_OK) {
-
-            if (data.hasExtra("resultString")) {
-                String result = data.getExtras().getString("resultString");
-
-            }
-        }
-    }
-
     private void onOpenFileResult(int resultCode, Intent data) {
         if (resultCode != RESULT_OK) return;
         Bundle extras = data.getExtras();
@@ -988,10 +962,9 @@ public class MainActivity extends AppCompatActivity
         inputWindow.recordSavedContent();
     }
 
-    private void onSaveFileResult(int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            inputWindow.recordSavedContent();
-        }
+    private void onSaveFileResult(int resultCode) {
+        if (resultCode != RESULT_OK) return;
+        inputWindow.recordSavedContent();
     }
 
 
