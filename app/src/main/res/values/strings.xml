@@ -124,6 +124,7 @@
     <string name="history_menu_edit_item">edit</string>
     <string name="couldnt_save_file">couldn\'t save file</string>
     <string name="alert_where_to_find_history_export">Your messages were saved to %1$s.</string>
+    <string name="alert_where_to_find_words_export">Your exported word file is %1$s.</string>
     <string name="alert_delete_all_history_messages">Are you sure that you want to delete all of your sent messages?</string>
     <string name="dialog_delete">delete</string>
     <string name="settings_install_keyboard">install system keyboard</string>
@@ -131,4 +132,5 @@
     <string name="keyboard_name">Chimee</string>
     <string name="settings_choose_keyboard">switch current system keyboard</string>
     <string name="settings_export_keyboard_words">export keyboard words</string>
+    <string name="export_keyboard_words_failed">Words could no be saved.</string>
 </resources>

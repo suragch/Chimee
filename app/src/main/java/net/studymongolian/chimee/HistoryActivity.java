@@ -334,7 +334,7 @@ public class HistoryActivity extends AppCompatActivity
 
         private void tellUserWhereToFindFile(final Activity activity) {
             MongolAlertDialog.Builder builder = new MongolAlertDialog.Builder(activity);
-            String location = FileUtils.getHistoryFileDisplayPath();
+            String location = FileUtils.getExportedHistoryFileDisplayPath();
             builder.setMessage(activity.getString(R.string.alert_where_to_find_history_export, location));
             builder.setPositiveButton(activity.getString(R.string.dialog_got_it), null);
             MongolAlertDialog dialog = builder.create();

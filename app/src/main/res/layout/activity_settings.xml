@@ -104,34 +104,6 @@
                     android:layout_height="match_parent"
                     android:background="@color/settings_layout_border" />
 
-                <!-- import keyboard words -->
-
-                <RelativeLayout
-                    android:id="@+id/settings_import_keyboard_words"
-                    android:layout_width="60dp"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/bar_icon"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:onClick="onImportKeyboardWordsClick"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp" >
-
-                    <net.studymongolian.mongollibrary.MongolTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_centerHorizontal="true"
-                        app:text="@string/settings_import_keyboard_words"
-                        app:textSize="20sp" />
-
-                </RelativeLayout>
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/settings_layout_border" />
-
                 <!-- export keyboard words -->
 
                 <RelativeLayout
@@ -151,6 +123,34 @@
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
                         app:text="@string/settings_export_keyboard_words"
+                        app:textSize="20sp" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/settings_layout_border" />
+
+                <!-- import keyboard words -->
+
+                <RelativeLayout
+                    android:id="@+id/settings_import_keyboard_words"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bar_icon"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="onImportKeyboardWordsClick"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp" >
+
+                    <net.studymongolian.mongollibrary.MongolTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        app:text="@string/settings_import_keyboard_words"
                         app:textSize="20sp" />
 
                 </RelativeLayout>

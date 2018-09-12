@@ -114,29 +114,25 @@ public class UserDictionary {
          *
          * @param context the current application context
          */
-        @SuppressWarnings("unused") // used for debugging
-        static String getAllWords(Context context) {
+        static Cursor getAllWords(Context context) {
 
             // General purpose
             final ContentResolver resolver = context.getContentResolver();
-            Cursor cursor = resolver.query(CONTENT_URI, null, null, null, null);
-
-            // If for non-testing purposes then do this:
-            // return cursor;
+            return resolver.query(CONTENT_URI, null, null, null, null);
 
             // For Testing:
-            StringBuilder builder = new StringBuilder();
-            if (cursor == null) return "";
-            while (cursor.moveToNext()) {
-                String line = cursor.getLong(cursor.getColumnIndex(_ID)) + " " +
-                        cursor.getString(cursor.getColumnIndex(WORD)) + " " +
-                        cursor.getInt(cursor.getColumnIndex(FREQUENCY)) + " " +
-                        cursor.getString(cursor.getColumnIndex(FOLLOWING)) + " " +
-                        '\n';
-                builder.append(line);
-            }
-            cursor.close();
-            return builder.toString();
+            //StringBuilder builder = new StringBuilder();
+            //if (cursor == null) return "";
+            //while (cursor.moveToNext()) {
+            //    String line = cursor.getLong(cursor.getColumnIndex(_ID)) + " " +
+            //            cursor.getString(cursor.getColumnIndex(WORD)) + " " +
+            //            cursor.getInt(cursor.getColumnIndex(FREQUENCY)) + " " +
+            //            cursor.getString(cursor.getColumnIndex(FOLLOWING)) + " " +
+            //            '\n';
+            //    builder.append(line);
+            //}
+            //cursor.close();
+            //return builder.toString();
         }
 
         /**

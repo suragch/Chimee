@@ -1,7 +1,11 @@
 package net.studymongolian.chimee;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
@@ -9,18 +13,24 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
+import net.studymongolian.mongollibrary.MongolAlertDialog;
 import net.studymongolian.mongollibrary.MongolFont;
 import net.studymongolian.mongollibrary.MongolTextView;
 import net.studymongolian.mongollibrary.MongolToast;
 
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    private static final String WORD_EXPORT_FIELD_DELIMITER = ";";
 	static final String PREFS_NAME = "MyPrefsFile";
 	static final String FONT_KEY = "font";
 	public static final String FONT_QAGAN = MongolFont.QAGAN;                    // Normal
@@ -138,7 +148,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public void onExportKeyboardWordsClick(View view) {
-
+	    new ExportKeyboardWords(this).execute();
     }
 
     public void onKeyboardEmojiClick(View view) {
@@ -183,5 +193,69 @@ public class SettingsActivity extends AppCompatActivity {
         returnIntent.putExtra(HistoryActivity.RESULT_STRING_KEY, message);
         setResult(RESULT_OK, returnIntent);
         finish();
+    }
+
+    private static class ExportKeyboardWords extends AsyncTask<Void, Void, Boolean> {
+
+
+        WeakReference<SettingsActivity> activityReference;
+
+        ExportKeyboardWords(SettingsActivity context) {
+            activityReference = new WeakReference<>(context);
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+
+            SettingsActivity activity = activityReference.get();
+
+            String text = extractTextFromDatabase(activity);
+            return !TextUtils.isEmpty(text) &&
+                    FileUtils.saveExportedWordsFile(activity, text);
+        }
+
+        private String extractTextFromDatabase(SettingsActivity activity) {
+            Cursor cursor = UserDictionary.Words.getAllWords(activity);
+            if (cursor == null) return "";
+
+            int indexWord = cursor.getColumnIndex(UserDictionary.Words.WORD);
+            int indexFrequency = cursor.getColumnIndex(UserDictionary.Words.FREQUENCY);
+            int indexFollowing = cursor.getColumnIndex(UserDictionary.Words.FOLLOWING);
+
+            StringBuilder builder = new StringBuilder();
+            while (cursor.moveToNext()) {
+                builder.append(cursor.getString(indexWord)).append(WORD_EXPORT_FIELD_DELIMITER);
+                builder.append(cursor.getInt(indexFrequency)).append(WORD_EXPORT_FIELD_DELIMITER);
+                builder.append(cursor.getString(indexFollowing)).append('\n');
+            }
+            cursor.close();
+
+            return builder.toString();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean exportSuccessful) {
+            SettingsActivity activity = activityReference.get();
+            if (activity == null || activity.isFinishing()) return;
+
+            if (exportSuccessful) {
+                notifyUserOfExportLocation(activity);
+            } else {
+                MongolToast.makeText(activity,
+                        activity.getString(R.string.export_keyboard_words_failed),
+                        MongolToast.LENGTH_LONG)
+                        .show();
+            }
+
+        }
+
+        private void notifyUserOfExportLocation(Context context) {
+            MongolAlertDialog.Builder builder = new MongolAlertDialog.Builder(context);
+            String file = FileUtils.getExportedWordsFileDisplayPath();
+            builder.setMessage(context.getString(R.string.alert_where_to_find_words_export, file));
+            builder.setPositiveButton(context.getString(R.string.dialog_got_it), null);
+            MongolAlertDialog dialog = builder.create();
+            dialog.show();
+        }
     }
 }

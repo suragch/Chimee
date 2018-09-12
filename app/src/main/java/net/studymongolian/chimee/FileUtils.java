@@ -29,7 +29,8 @@ class FileUtils {
     private static final String EXPORT_FOLDER_NAME = "export";
     private static final String TEXT_FOLDER_NAME = "doc";
     private static final String TEXT_FILE_EXTENSION = ".txt";
-    private static final String HISTORY_EXPORT_FILE_NAME = "sent_messages.txt";
+    private static final String HISTORY_EXPORT_FILE_NAME = "yabuulsan_chimee.txt";
+    private static final String WORDS_EXPORT_FILE_NAME = "minii_ug.kbd";
     private static final String RESERVED_CHARS= "|\\?*<\":>/";
     private static final String TAG = "Chimee FileUtils";
 
@@ -63,14 +64,15 @@ class FileUtils {
         return files;
     }
 
+    /**
+     *
+     * @param context needed for getting save location
+     * @param text String to save to file
+     * @return whether file was successfully saved
+     */
     public static boolean saveHistoryMessageFile(Context context, String text) {
-        // make sure the directory exists
         File destFolder = new File(getAppExportFolder());
-        if (!destFolder.exists()) {
-            boolean created = destFolder.mkdirs();
-            if (created)
-                scanFile(context, destFolder);
-        }
+        makeSureFolderExists(context, destFolder);
 
         try {
             copyTextFileOver(context, destFolder, HISTORY_EXPORT_FILE_NAME, text);
@@ -82,11 +84,40 @@ class FileUtils {
         return true;
     }
 
+    /**
+     *
+     * @param context needed for getting save location
+     * @param text String to save to file
+     * @return whether file was successfully saved
+     */
+    public static boolean saveExportedWordsFile(Context context, String text) {
+        File destFolder = new File(getAppExportFolder());
+        makeSureFolderExists(context, destFolder);
+
+        try {
+            copyTextFileOver(context, destFolder, WORDS_EXPORT_FILE_NAME, text);
+        } catch (IOException e) {
+            Log.e(TAG, "saveExportedWordsFile: copyTextFileOver failed");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    private static void makeSureFolderExists(Context context, File destFolder) {
+        if (!destFolder.exists()) {
+            boolean created = destFolder.mkdirs();
+            if (created)
+                scanFile(context, destFolder);
+        }
+    }
+
     private static class Pair implements Comparable {
 
         public long time;
 
         public File file;
+
         Pair(File file) {
             this.file = file;
             time = file.lastModified();
@@ -113,7 +144,6 @@ class FileUtils {
         }
         return list;
     }
-
     public static String openFile(String shortFilenameWithoutExtension) throws Exception {
         String fullFilePath = getAppDocumentFolder() + File.separator
                 + shortFilenameWithoutExtension + TEXT_FILE_EXTENSION;
@@ -153,13 +183,8 @@ class FileUtils {
 
     public static boolean saveTextFile(Context appContext, String filename, String text) {
 
-        // make sure the directory exists
         File destFolder = new File(getAppDocumentFolder());
-        if (!destFolder.exists()) {
-            boolean created = destFolder.mkdirs();
-            if (created)
-                scanFile(appContext, destFolder);
-        }
+        makeSureFolderExists(appContext, destFolder);
 
         String sanitizedFileName = sanitizeFileName(filename);
         if (TextUtils.isEmpty(sanitizedFileName)) return false;
@@ -197,10 +222,16 @@ class FileUtils {
         return getAppPublicFolder() + File.separator + EXPORT_FOLDER_NAME;
     }
 
-    public static String getHistoryFileDisplayPath() {
+    public static String getExportedHistoryFileDisplayPath() {
         return                APP_PUBLIC_FOLDER_NAME +
                  File.separator + EXPORT_FOLDER_NAME +
                 File.separator + HISTORY_EXPORT_FILE_NAME;
+    }
+
+    public static String getExportedWordsFileDisplayPath() {
+        return                APP_PUBLIC_FOLDER_NAME +
+                File.separator + EXPORT_FOLDER_NAME +
+                File.separator + WORDS_EXPORT_FILE_NAME;
     }
 
     private static void scanFile(Context context, File file) {
