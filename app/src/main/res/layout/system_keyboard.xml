@@ -16,7 +16,7 @@
         android:layout_height="match_parent"
         app:candidatesLocation="horizontal_top" />
 
-    <net.studymongolian.mongollibrary.KeyboardEnglish
+    <net.studymongolian.mongollibrary.KeyboardLatin
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:candidatesLocation="none" />

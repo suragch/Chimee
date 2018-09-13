@@ -134,4 +134,12 @@
     <string name="settings_choose_keyboard">switch current system keyboard</string>
     <string name="settings_export_keyboard_words">export keyboard words</string>
     <string name="export_keyboard_words_failed">Words could no be saved.</string>
+    <string name="converter_convert">convert</string>
+    <string name="converter_copy">copy</string>
+    <string name="converter_paste">paste</string>
+    <string name="converter_clear">clear</string>
+    <string name="converter_details">details</string>
+    <string name="converter_unicode">Unicode</string>
+    <string name="converter_menksoft_code">Bainu (menksoft old code)</string>
+    <string name="converter_clipboard_empty_notice">clipboard is empty</string>
 </resources>

@@ -109,6 +109,9 @@
 
     
     
+    <color name="converter_unicode">@color/green_500</color>
+    <color name="converter_menksoft">@color/purple_500</color>
+
     <color name="main_activity_top_bg">@color/very_light_grey</color>
     <color name="message_background">@color/white</color>
     

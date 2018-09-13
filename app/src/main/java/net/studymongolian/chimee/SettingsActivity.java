@@ -1,7 +1,6 @@
 package net.studymongolian.chimee;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -14,21 +13,17 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
 
 import net.studymongolian.mongollibrary.MongolAlertDialog;
 import net.studymongolian.mongollibrary.MongolFont;
 import net.studymongolian.mongollibrary.MongolTextView;
 import net.studymongolian.mongollibrary.MongolToast;
 
-import java.io.File;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -73,9 +68,7 @@ public class SettingsActivity extends AppCompatActivity {
     private static final int INSTALL_KEYBOARD_REQUEST = 1;
     private static final int IMPORT_KEYBOARD_WORDS_REQUEST = 2;
 
-	static final String SETTINGS_RETURN_ACTION_KEY = "return_key";
     private boolean isChimeeSystemKeyboardAvailable;
-    //static final String SETTINGS_ACTION_EDIT_HISTORY_MESSAGE_KEY = "edit_history";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -159,14 +152,9 @@ public class SettingsActivity extends AppCompatActivity {
         startActivityForResult(intent, IMPORT_KEYBOARD_WORDS_REQUEST);
     }
 
-    public void onKeyboardEmojiClick(View view) {
-        Intent intent = new Intent(this, EmojiActivity.class);
-        startActivity(intent);
-    }
-
     public void onCodeConverterClick(View view) {
-        MongolToast.makeText(this, R.string.settings_code_converter, MongolToast.LENGTH_SHORT).show();
-
+        Intent intent = new Intent(this, CodeConverterActivity.class);
+        startActivity(intent);
     }
 
     public void onHelpClick(View view) {
