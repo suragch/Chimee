@@ -95,6 +95,14 @@
     <string name="converter_menksoft_code">ᠪᠠᠢᠨᠠᠤ ᠺᠤᠳ᠋ ( ᠮᠥᠩᠬᠡ ᠭᠠᠯ ᠬᠠᠭᠤᠴᠢᠨ ᠺᠤᠳ᠋ )</string>
     <string name="converter_clipboard_empty_notice">clipboard is empty</string>
 
-    <!-- don't need to translate -->
+
     <string name="content_description_show_keyboard">show keyboard</string>
+    <string name="about_chimee_version">%1$s %2$s</string>
+    <string name="about_site_name">StudyMongolian.net</string>
+    <string name="about_button_contact">Contact</string>
+    <string name="about_button_updates">Check for updates</string>
+    <string name="about_button_share">Share</string>
+    <string name="about_button_develop">Develop apps</string>
+    <string name="about_developing_mongol_apps">Chimee app is open source and was made using the mongol-library Android framework. If you are interested in developing Mongolian apps, check the library out.</string>
+    <string name="about_develop_positive_button">check it out</string>
 </resources>
