@@ -30,7 +30,7 @@ public class ReaderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_reader);
 
         setupToolbar();
-        List<String> paragraphLines = getTextFromIntent();
+        ArrayList<CharSequence> paragraphLines = getTextFromIntent();
         setupRecyclerView(paragraphLines);
     }
 
@@ -39,9 +39,9 @@ public class ReaderActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
     }
 
-    private List<String> getTextFromIntent() {
+    private ArrayList<CharSequence> getTextFromIntent() {
         Uri uri = getIntent().getData();
-        List<String> text = new ArrayList<>();
+        ArrayList<CharSequence> text = new ArrayList<>();
         if (uri != null) {
             try {
                 InputStream inputStream = getContentResolver().openInputStream(uri);
@@ -63,7 +63,7 @@ public class ReaderActivity extends AppCompatActivity {
                 .show();
     }
 
-    private void setupRecyclerView(List<String> paragraphLines) {
+    private void setupRecyclerView(ArrayList<CharSequence> paragraphLines) {
         RecyclerView recyclerView = findViewById(R.id.rv_reader);
         LinearLayoutManager horizontalLayoutManager
                 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);

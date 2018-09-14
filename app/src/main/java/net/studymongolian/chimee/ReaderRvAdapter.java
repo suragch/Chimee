@@ -1,6 +1,7 @@
 package net.studymongolian.chimee;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,20 +10,20 @@ import android.view.ViewGroup;
 
 import net.studymongolian.mongollibrary.MongolTextView;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class ReaderRvAdapter extends RecyclerView.Adapter<ReaderRvAdapter.ViewHolder> {
 
-    private List<String> mParagraphs;
+    private ArrayList<CharSequence> mParagraphs;
     private LayoutInflater mInflater;
+    private int mTextColor = Color.BLACK;
 
     // data is passed into the constructor
-    ReaderRvAdapter(Context context, List<String> numbers) {
+    ReaderRvAdapter(Context context, ArrayList<CharSequence> numbers) {
         this.mInflater = LayoutInflater.from(context);
         this.mParagraphs = numbers;
     }
 
-    // inflates the row layout from xml when needed
     @Override
     @NonNull
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -30,10 +31,9 @@ public class ReaderRvAdapter extends RecyclerView.Adapter<ReaderRvAdapter.ViewHo
         return new ViewHolder(view);
     }
 
-    // binds the data to the view and textview in each row
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String text = mParagraphs.get(position);
+        CharSequence text = mParagraphs.get(position);
         holder.mongolTextView.setText(text);
     }
 
@@ -45,10 +45,14 @@ public class ReaderRvAdapter extends RecyclerView.Adapter<ReaderRvAdapter.ViewHo
 
     public String extractFullText() {
         StringBuilder sb = new StringBuilder();
-        for (String paragraph : mParagraphs) {
+        for (CharSequence paragraph : mParagraphs) {
             sb.append(paragraph).append('\n');
         }
         return sb.toString();
+    }
+
+    public void setTextColor(int color) {
+        mTextColor = color;
     }
 
     // stores and recycles views as they are scrolled off screen
@@ -58,6 +62,7 @@ public class ReaderRvAdapter extends RecyclerView.Adapter<ReaderRvAdapter.ViewHo
         ViewHolder(View itemView) {
             super(itemView);
             mongolTextView = itemView.findViewById(R.id.mtv_reader_paragraph);
+            mongolTextView.setTextColor(mTextColor);
         }
     }
 }

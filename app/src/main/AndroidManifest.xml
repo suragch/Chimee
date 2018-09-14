@@ -20,88 +20,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".FavoriteActivity"
-            android:label="@string/app_name"
-            android:parentActivityName="net.studymongolian.chimee.MainActivity">
-            <!-- Parent activity meta-data to support 4.0 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="net.studymongolian.chimee.MainActivity" />
-        </activity>
-        <activity
-            android:name=".HistoryActivity"
-            android:label="@string/app_name"
-            android:parentActivityName="net.studymongolian.chimee.MainActivity">
-            <!-- Parent activity meta-data to support 4.0 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="net.studymongolian.chimee.MainActivity" />
-        </activity>
-        <activity
-            android:name=".SettingsActivity"
-            android:label="@string/app_name"
-            android:parentActivityName="net.studymongolian.chimee.MainActivity">
-            <!-- Parent activity meta-data to support 4.0 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="net.studymongolian.chimee.MainActivity" />
-        </activity>
-        <activity
-            android:name=".AboutActivity"
-            android:label="@string/app_name"
-            android:parentActivityName="net.studymongolian.chimee.MainActivity">
-            <!-- Parent activity meta-data to support 4.0 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="net.studymongolian.chimee.MainActivity" />
-        </activity>
-        <activity
-            android:name=".HelpActivity"
-            android:label="@string/app_name"
-            android:parentActivityName="net.studymongolian.chimee.MainActivity">
-            <!-- Parent activity meta-data to support 4.0 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="net.studymongolian.chimee.MainActivity" />
-        </activity>
-        <activity
-            android:name=".PhotoOverlayActivity"
-            android:label="@string/title_activity_photo_overlay"
-            android:parentActivityName="net.studymongolian.chimee.MainActivity">
-            <!-- Parent activity meta-data to support 4.0 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="net.studymongolian.chimee.MainActivity" />
-        </activity>
-        <activity
-            android:name=".OpenActivity"
-            android:label="@string/app_name"
-            android:parentActivityName="net.studymongolian.chimee.MainActivity">
-            <!-- Parent activity meta-data to support 4.0 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="net.studymongolian.chimee.MainActivity" />
-        </activity>
+        <activity android:name=".FavoriteActivity" />
+        <activity android:name=".HistoryActivity" />
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".AboutActivity" />
+        <activity android:name=".HelpActivity" />
+        <activity android:name=".PhotoOverlayActivity" />
+        <activity android:name=".OpenActivity" />
         <activity
             android:name=".SaveActivity"
-            android:label="@string/app_name"
-            android:parentActivityName="net.studymongolian.chimee.MainActivity"
-            android:windowSoftInputMode="stateHidden">
-            <!-- Parent activity meta-data to support 4.0 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="net.studymongolian.chimee.MainActivity" />
-        </activity>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".AddEditFavoritesActivity"
-            android:parentActivityName="net.studymongolian.chimee.FavoriteActivity"
-            android:windowSoftInputMode="stateHidden">
-            <!-- Parent activity meta-data to support 4.0 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="net.studymongolian.chimee.FavoriteActivity" />
-        </activity>
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".CodeConverterActivity" />
+        <activity android:name=".CodeConverterDetailsActivity" />
+
         <activity
             android:name=".ReaderActivity"
             android:noHistory="true">
@@ -113,13 +47,6 @@
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".CodeConverterActivity"
-            />
-        <activity
-            android:name=".CodeConverterDetailsActivity"
-            />
-
 
         <provider
             android:name=".UserDictionaryProvider"

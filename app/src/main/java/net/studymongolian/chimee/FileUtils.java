@@ -159,9 +159,9 @@ class FileUtils {
         return text;
     }
 
-    public static List<String> convertStreamToStringArray(InputStream inputStream) throws Exception  {
+    public static ArrayList<CharSequence> convertStreamToStringArray(InputStream inputStream) throws Exception  {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-        List<String> lines = new ArrayList<>();
+        ArrayList<CharSequence> lines = new ArrayList<>();
         String line;
         while ((line = reader.readLine()) != null) {
             lines.add(line);

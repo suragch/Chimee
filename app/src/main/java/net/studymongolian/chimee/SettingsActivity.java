@@ -24,6 +24,7 @@ import net.studymongolian.mongollibrary.MongolToast;
 
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -285,7 +286,7 @@ public class SettingsActivity extends AppCompatActivity {
             int numberImported = 0;
             try {
                 InputStream inputStream = activity.getContentResolver().openInputStream(importFile);
-                List<String> textLines = FileUtils.convertStreamToStringArray(inputStream);
+                ArrayList<CharSequence> textLines = FileUtils.convertStreamToStringArray(inputStream);
 
                 numberImported = UserDictionary.Words.importWordAndFollowingList(activity, textLines);
 

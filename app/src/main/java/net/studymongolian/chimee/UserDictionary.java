@@ -256,15 +256,15 @@ public class UserDictionary {
          * @param textLines in the format of [word][FIELD_DELIMITER][following]
          * @return number of words imported
          */
-        public static int importWordAndFollowingList(Context context, List<String> textLines) {
+        public static int importWordAndFollowingList(Context context, ArrayList<CharSequence> textLines) {
             if (textLines == null ||
                     textLines.size() == 0) return 0;
 
 
             List<ContentValues> valueList = new ArrayList<>();
-            for (String line : textLines) {
+            for (CharSequence line : textLines) {
 
-                String[] fields = TextUtils.split(line, FIELD_DELIMITER);
+                String[] fields = TextUtils.split(line.toString(), FIELD_DELIMITER);
                 if (fields.length != 2 ||
                         TextUtils.isEmpty(fields[0])) {
                     continue;

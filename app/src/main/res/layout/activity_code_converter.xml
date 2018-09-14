@@ -31,7 +31,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:background="@color/converter_unicode"
-        app:layout_constraintEnd_toStartOf="@+id/horizontalScrollView"
+        app:layout_constraintEnd_toStartOf="@+id/rv_content"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
@@ -47,13 +47,13 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
-        app:layout_constraintEnd_toStartOf="@+id/horizontalScrollView"
+        app:layout_constraintEnd_toStartOf="@+id/rv_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/viewUnicode"
         app:text="@string/converter_unicode" />
 
-    <HorizontalScrollView
-        android:id="@+id/horizontalScrollView"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_content"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
@@ -63,26 +63,44 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/border_thin"
+        android:padding="8dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toStartOf="@+id/viewMenksoft"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/viewUnicode"
-        app:layout_constraintTop_toBottomOf="@id/toolbar">
+        app:layout_constraintTop_toBottomOf="@id/toolbar"/>
 
-        <net.studymongolian.mongollibrary.MongolTextView
-            android:id="@+id/mtv_convert_content"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            app:textColor="@color/converter_unicode"
-            />
+    <!--<HorizontalScrollView-->
+        <!--android:id="@+id/horizontalScrollView"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_marginBottom="8dp"-->
+        <!--android:layout_marginEnd="8dp"-->
+        <!--android:layout_marginLeft="8dp"-->
+        <!--android:layout_marginRight="8dp"-->
+        <!--android:layout_marginStart="8dp"-->
+        <!--android:layout_marginTop="16dp"-->
+        <!--android:background="@drawable/border_thin"-->
+        <!--app:layout_constraintBottom_toTopOf="@+id/guideline"-->
+        <!--app:layout_constraintEnd_toStartOf="@+id/viewMenksoft"-->
+        <!--app:layout_constraintHorizontal_bias="0.5"-->
+        <!--app:layout_constraintStart_toEndOf="@+id/viewUnicode"-->
+        <!--app:layout_constraintTop_toBottomOf="@id/toolbar">-->
 
-    </HorizontalScrollView>
+        <!--<net.studymongolian.mongollibrary.MongolTextView-->
+            <!--android:id="@+id/mtv_convert_content"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_marginBottom="8dp"-->
+            <!--android:layout_marginEnd="8dp"-->
+            <!--android:layout_marginLeft="8dp"-->
+            <!--android:layout_marginRight="8dp"-->
+            <!--android:layout_marginStart="8dp"-->
+            <!--android:layout_marginTop="8dp"-->
+            <!--app:textColor="@color/converter_unicode"-->
+            <!--/>-->
+
+    <!--</HorizontalScrollView>-->
 
     <View
         android:id="@+id/viewMenksoft"
@@ -94,7 +112,7 @@
         android:background="@color/converter_menksoft"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/horizontalScrollView"
+        app:layout_constraintStart_toEndOf="@+id/rv_content"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <net.studymongolian.mongollibrary.MongolTextView
@@ -109,7 +127,7 @@
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/horizontalScrollView"
+        app:layout_constraintStart_toEndOf="@+id/rv_content"
         app:layout_constraintTop_toBottomOf="@+id/viewMenksoft"
         app:text="@string/converter_menksoft_code" />
 

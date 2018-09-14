@@ -1,30 +1,40 @@
 package net.studymongolian.chimee;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import net.studymongolian.mongollibrary.MongolCode;
-import net.studymongolian.mongollibrary.MongolFont;
 
+import java.io.InputStream;
+import java.lang.ref.WeakReference;
 import java.text.BreakIterator;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CodeConverterDetailsActivity extends AppCompatActivity {
 
     static final String DETAILS_TEXT_KEY = "details";
 
+    RecyclerView recyclerView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_code_converter_details);
+        setContentView(R.layout.activity_reader);
 
         setupToolbar();
-        setupTextView();
+        setupRecyclerView();
+        new LoadTextFromIntent(this).execute();
+        //ArrayList<CharSequence> paragraphLines = getTextFromIntent();
     }
 
     private void setupToolbar() {
@@ -36,6 +46,15 @@ public class CodeConverterDetailsActivity extends AppCompatActivity {
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setTitle("");
         }
+    }
+
+    private void setupRecyclerView() {
+        recyclerView = findViewById(R.id.rv_reader);
+        LinearLayoutManager horizontalLayoutManager
+                = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(horizontalLayoutManager);
+        //ReaderRvAdapter adapter = new ReaderRvAdapter(this, paragraphLines);
+        //recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -51,23 +70,20 @@ public class CodeConverterDetailsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void setupTextView() {
-        TextView textView = findViewById(R.id.textView);
-        textView.setTypeface(MongolFont.get(MongolFont.QAGAN, this));
-
-        String text = getTextFromIntent();
-        String renderedText = renderText(text);
-        textView.setText(renderedText);
+    private static ArrayList<CharSequence> getTextFromIntent(Intent intent) {
+        ArrayList<CharSequence> renderedParagraphs = new ArrayList<>();
+        ArrayList<CharSequence> paragraphs = intent.getCharSequenceArrayListExtra(DETAILS_TEXT_KEY);
+        if (paragraphs == null || paragraphs.size() == 0)
+            return renderedParagraphs;
+        for (CharSequence paragraph : paragraphs) {
+            List<String> renderedText = renderText(paragraph.toString());
+            renderedParagraphs.addAll(renderedText);
+        }
+        return renderedParagraphs;
     }
 
-    private String getTextFromIntent() {
-        Intent intent = getIntent();
-        String text = intent.getStringExtra(DETAILS_TEXT_KEY);
-        return (text == null) ? "" : text;
-    }
-
-    private String renderText(String text) {
-        StringBuilder builder = new StringBuilder();
+    private static List<String> renderText(String text) {
+        List<String> parts = new ArrayList<>();
         BreakIterator boundary = BreakIterator.getLineInstance();
         boundary.setText(text);
         int start = boundary.first();
@@ -75,23 +91,51 @@ public class CodeConverterDetailsActivity extends AppCompatActivity {
             String substring = text.substring(start, end).trim();
 
             String rendered = MongolCode.INSTANCE.unicodeToMenksoft(substring);
-            builder.append(rendered).append('\n');
+            //builder.append(rendered).append('\n');
 
             String code = getCode(substring);
-            builder.append(code).append('\n');
-            builder.append('\n');
+            String item = rendered + "\n" + code + "\n";
+            parts.add(item);
+            //builder.append(code).append('\n');
+            //builder.append('\n');
 
             start = end;
         }
-        return builder.toString();
+        return parts;
     }
 
-    private String getCode(String substring) {
+    private static String getCode(String substring) {
         StringBuilder builder = new StringBuilder();
         for (char character : substring.toCharArray()) {
             String hexValue = String.format("%x", (int) character);
             builder.append(hexValue).append(' ');
         }
         return builder.toString();
+    }
+
+    private static class LoadTextFromIntent extends AsyncTask<Uri, Void, ArrayList<CharSequence>> {
+
+        private WeakReference<CodeConverterDetailsActivity> activityReference;
+
+        LoadTextFromIntent(CodeConverterDetailsActivity activityContext) {
+            activityReference = new WeakReference<>(activityContext);
+        }
+
+        @Override
+        protected ArrayList<CharSequence> doInBackground(Uri... params) {
+            CodeConverterDetailsActivity activity = activityReference.get();
+            if (activity == null) return null;
+            return getTextFromIntent(activity.getIntent());
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<CharSequence> paragraphs) {
+            CodeConverterDetailsActivity activity = activityReference.get();
+            if (activity == null || activity.isFinishing()) return;
+            if (paragraphs == null) return;
+            ReaderRvAdapter adapter = new ReaderRvAdapter(activity, paragraphs);
+            activity.recyclerView.setAdapter(adapter);
+        }
+
     }
 }
