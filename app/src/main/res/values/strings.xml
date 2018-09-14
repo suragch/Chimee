@@ -2,59 +2,15 @@
 <resources>
 
     <string name="app_name">Chimee</string>
-    <string name="word_deleted">ᠦᠰᠦᠭ ᠤᠰᠠᠳᠬᠠᠭᠰᠠᠨ</string>
-    <string name="toast_message_deleted">ᠵᠠᠬᠢᠶ᠎ᠠ ᠤᠰᠠᠳᠬᠠᠭᠰᠠᠨ</string>
-    <string name="cant_delete_suffix">ᠳᠠᠭᠠᠪᠤᠷᠢ ᠶᠢ ᠤᠰᠠᠳᠬᠠᠵᠤ ᠳᠡᠶᠢᠯᠬᠦ ᠦᠭᠡᠢ</string>
     <string name="toast_message_empty">ᠨᠠᠶᠢᠷᠠᠭᠤᠯᠬᠤ ᠴᠤᠩᠬᠤ ᠬᠤᠭᠤᠰᠤᠨ ᠪᠠᠶᠢᠨ᠎ᠠ</string>
-    <string name="toast_no_sdcard_cant_send">SD ᠺᠠᠷᠲ ᠪᠠᠶᠢᠬᠤ ᠦᠭᠡᠢ</string>
-    <string name="toast_favorite_added">ᠵᠠᠬᠢᠶ᠎ᠠ ᠬᠠᠳᠠᠭᠠᠯᠠᠭᠰᠠᠨ</string>
 
     <!-- Main Menu -->
-    <string name="menu_item_wechat">WeChat</string>
-    <string name="menu_item_photo">Photo</string>
-    <string name="menu_item_favorite">Important</string>
-    <string name="menu_item_overflow">More</string>
-    <string name="menu_item_share">share</string>
     <string name="menu_item_open">ᠨᠡᠭᠡᠭᠡᠬᠦ</string>
     <string name="menu_item_save">ᠬᠠᠳᠠᠭᠠᠯᠬᠤ</string>
     <string name="menu_item_settings">ᠳᠤᠬᠢᠷᠠᠭᠤᠯᠠᠭ᠎ᠠ</string>
 
-    <string name="menu_item_about">ᠮᠠᠨ ᠤ ᠲᠤᠬᠠᠢ</string>
-    <string name="menu_item_help">ᠬᠠᠪᠰᠤᠷᠤᠮᠵᠢ</string>
-    <string name="menu_item_history">ᠵᠠᠬᠢᠶ᠎ᠠ ᠶᠢᠨ ᠠᠭᠥᠯᠭ᠎ᠠ</string>
-    <string name="menu_item_clear_history">ᠪᠦᠬᠦ ᠵᠠᠬᠢᠶ᠎ᠠ ᠶᠢ ᠤᠰᠠᠳᠬᠠᠬᠤ</string>
-    <string name="contextmenu_copy">ᠬᠠᠭᠤᠯᠬᠤ</string>
-    <string name="contextmenu_paste">ᠨᠠᠭᠠᠬᠤ</string>
-    <string name="contextmenu_clear">ᠠᠷᠢᠯᠭᠠᠬᠤ</string>
-    <string name="contextmenu_favorites">ᠦᠷᠭᠦᠯᠵᠢ ᠬᠡᠷᠡᠭᠯᠡᠳᠡᠭ ᠵᠠᠬᠢᠶ᠎ᠠ</string>
-    <string name="contextmenu_move_to_front">ᠬᠠᠮᠤᠭ ᠡᠮᠦᠨ᠎ᠡ ᠨᠢ ᠲᠠᠯᠪᠢᠬᠤ</string>
-    <string name="contextmenu_delete">ᠤᠰᠠᠳᠬᠠᠬᠤ</string>
-    <string name="color_chooser_sample_text">ᠥᠩᠭᠡ</string>
-    <string name="color_chooser_background_button">ᠠᠷᠤ ᠦᠵᠡᠭᠳᠡᠯ</string>
-    <string name="color_chooser_font_button">ᠦᠰᠦᠭ</string>
-    <string name="dialog_title_default">ᠰᠠᠨᠠᠭᠤᠯᠬᠤ</string>
-    <string name="dialog_message_emptyfavorite">ᠨᠠᠶᠢᠷᠠᠭᠤᠯᠬᠤ ᠴᠤᠩᠬᠤ ᠬᠤᠭᠤᠰᠤᠨ ᠪᠠᠶᠢᠨ᠎ᠠ ᠂ ᠲᠠ ᠦᠰᠦᠭ ᠪᠢᠴᠢᠭᠡᠳ ᠦᠷᠭᠦᠯᠵᠢ ᠬᠡᠷᠡᠭᠯᠡᠳᠡᠭ ᠵᠠᠬᠢᠶᠠᠨ ᠳᠤ ᠪᠠᠨ ᠬᠠᠳᠠᠭᠠᠯᠠᠷᠠᠢ</string>
-    <string name="dialog_one_button_default">ᠲᠡᠭᠡ</string>
-    <string name="dialog_top_button_default">ᠲᠡᠭᠡ</string>
-    <string name="dialog_bottom_button_default">ᠪᠤᠯᠢ</string>
-    <string name="dialog_delete_history_title">ᠰᠠᠷᠠᠮᠵᠢ</string>
-    <string name="dialog_delete_history_message">ᠲᠠ ᠦᠨᠡᠭᠡᠷ ᠪᠦᠬᠦ ᠵᠠᠬᠢᠶ᠎ᠠ ᠶᠢ ᠤᠰᠠᠳᠬᠠᠬᠤ ᠤᠤ︖</string>
-    <string name="dialog_delete_history_top_button">ᠲᠡᠭᠡ</string>
-    <string name="dialog_delete_history_bottom_button">ᠪᠤᠯᠢ</string>
-    <string name="dialog_font_white">ᠰᠠᠶᠢᠨ ᠤᠤ︖</string>
-    <string name="listview_footer_load_more">ᠨᠡᠩ ᠤᠯᠠᠨ</string>
-    <string name="settings_color_item">ᠥᠩᠭᠡ</string>
     <string name="color_preview_text">ᠥ</string>
-    <string name="settings_font_item">ᠦᠰᠦᠭ ᠤᠨ ᠲᠢᠭ</string>
-    <string name="settings_font_detail">ᠦᠰᠦᠭ</string>
-    <string name="settings_clear_item">ᠢᠯᠡᠭᠡᠭᠰᠡᠨ ᠦ ᠳᠠᠷᠠᠭ᠎ᠠ ᠢᠯᠡᠷᠡᠬᠦ ᠦᠭᠡᠢ</string>
-    <string name="settings_keyboard_item">ᠳᠠᠷᠤᠴᠢ ᠶᠢᠨ ᠪᠠᠶᠢᠷᠢᠯᠠᠯ</string>
-    <string name="keyboard_aeiou">ᠴᠠᠭᠠᠨ ᠲᠤᠯᠤᠭᠠᠢ ᠶᠢᠨ ᠪᠠᠶᠢᠷᠢᠯᠠᠯ ᠲᠠᠢ ᠳᠠᠷᠤᠪᠴᠢ</string>
-    <string name="keyboard_qwerty_short">ᠺᠤᠮᠫᠢᠦ᠋ᠲ᠋ᠧᠷ</string>
-    <string name="keyboard_aeiou_short">ᠴᠠᠭᠠᠨ ᠲᠤᠯᠤᠭᠠᠢ</string>
-    <string name="keyboard_qwerty">ᠺᠤᠮᠫᠢᠦ᠋ᠲ᠋ᠧᠷ ᠤᠨ ᠪᠠᠶᠢᠷᠢᠯᠠᠯ ᠲᠠᠢ ᠳᠠᠷᠤᠪᠴᠢ</string>
-    <string name="keyboard_abc">abc</string>
-    <string name="keyboard_cyrillic">cyrillic</string>
+
     <string name="about_description_site_intro">Chimee ᠤ ᠬᠡᠷᠡᠭᠯᠡᠭᠡᠨ ᠤ ᠠᠯᠪᠠᠨ ᠤ ᠰᠦᠯᠵᠢᠶ᠎ᠡ᠄</string>
     <string name="about_description_site_address">www.studymongolian.net/apps/chimee/zh/</string>
     <string name="about_description_message">ᠲᠠ ᠰᠤᠹᠲ ᠶᠢ ᠬᠡᠷᠡᠭᠯᠡᠬᠦ ᠦᠶ᠎ᠡ ᠳᠦ ᠶᠠᠮᠠᠷ ᠨᠢᠭᠡ ᠠᠰᠠᠭᠤᠳᠠᠯ ᠤᠴᠠᠷᠠᠭᠰᠠᠨ ᠪᠤᠶᠤ ᠰᠠᠨᠠᠯ ᠵᠦᠪᠯᠡᠯᠭᠡ ᠪᠠᠶᠢᠪᠠᠯ ᠮᠠᠨ ᠲᠠᠢ ᠬᠠᠷᠢᠯᠴᠠᠭᠠᠷᠠᠢ᠃</string>
@@ -68,11 +24,9 @@
     <string name="favorite_db_message2">ᠵᠠᠬᠢᠶ᠎ᠠ ᠶᠢ ᠳᠣᠪᠴᠢᠳᠠᠪᠠᠯ ᠨᠠᠢᠷᠠᠭᠤᠯᠬᠤ ᠴᠣᠩᠬᠣᠨ ᠳᠤ ᠬᠠᠭᠤᠯᠤᠨ ᠠᠪᠴᠢᠷᠠᠨ᠎ᠠ ᠃</string>
     <string name="favorite_db_message3">ᠳᠠᠷᠤᠪᠴᠢ ᠶᠢ ᠳᠠᠷᠤᠭᠠᠳ ᠪᠠᠢᠪᠠᠯ ᠵᠠᠬᠢᠶ᠎ᠠ ᠶᠢ ᠤᠰᠠᠳᠬᠠᠵᠤ ᠬᠠᠶᠠᠨ᠎ᠠ ᠃</string>
 
-    <string name="title_activity_photo_overlay">PhotoOverlayActivity</string>
     <string name="menu_item_share_wechat">ᠸᠢᠴᠠᠲ</string>
     <string name="menu_item_share_bainu">ᠪᠠᠢᠨᠠᠤ</string>
     <string name="menu_item_share_other">ᠨᠡᠩ ᠣᠯᠠᠨ</string>
-    <string name="content_description_show_keyboard">show keyboard</string>
     <string name="color">ᠥᠩᠭᠡ</string>
     <string name="font">ᠦᠰᠦᠭ ᠤᠨ ᠲᠢᠭ</string>
 
@@ -94,6 +48,7 @@
 
     <string name="dialog_cancel">ᠦᠭᠡᠢ</string>
     <string name="dialog_ok">ᠪᠣᠯᠣᠨ᠎ᠠ</string>
+    <string name="dialog_got_it">ᠮᠡᠳᠡᠯ᠎ᠡ</string>
     <string name="dialog_background">ᠰᠠᠭᠤᠷᠢ</string>
     <string name="dialog_text_color">ᠦᠭᠡ</string>
 
@@ -101,19 +56,17 @@
     <string name="download_bainu_alert_positive">ᠲᠡᠭᠡᠶ᠎ᠡ</string>
     <string name="download_bainu_alert_negative">ᠦᠭᠡᠢ</string>
     <string name="favorites_menu_edit">edit</string>
-    <string name="favorites_menu_delete">delete</string>
+    <string name="favorites_menu_delete">ᠤᠰᠠᠳᠬᠠᠬᠤ</string>
     <string name="keyboard_show_system_keyboards">ᠰᠢᠰᠲ᠋ᠧᠮ</string>
     <string name="settings_message_history">message history</string>
     <string name="settings_import_keyboard_words">import keyboard words</string>
     <string name="settings_code_converter">unicode converter</string>
-    <string name="settings_help">help</string>
-    <string name="settings_about">about</string>
+    <string name="settings_help">ᠬᠠᠪᠰᠤᠷᠤᠮᠵᠢ</string>
+    <string name="settings_about">ᠮᠠᠨ ᠤ ᠲᠤᠬᠠᠢ</string>
     <string name="save_file_name">file name</string>
-    <string name="filename_cant_be_empty">the filename can\'t be empty</string>
     <string name="file_saved">File saved</string>
     <string name="file_not_saved">file couldn\'t be saved</string>
     <string name="no_write_file_permission">Chimee can\'t save a file to your SD card without write permission.</string>
-    <string name="dialog_got_it">ᠮᠡᠳᠡᠯ᠎ᠡ</string>
     <string name="dialog_confirm_overwrite_file">This file name already exists. Are you sure you want to overwrite it?</string>
     <string name="dialog_button_overwrite">overwrite</string>
     <string name="could_not_open_file">Could not open file</string>
@@ -126,20 +79,22 @@
     <string name="alert_where_to_find_history_export">Your messages were saved to %1$s.</string>
     <string name="alert_where_to_find_words_export">Your exported word file is:\n%1$s.</string>
     <string name="number_words_imported">%1$d words imported</string>
-    <string name="alert_delete_all_history_messages">Are you sure that you want to delete all of your sent messages?</string>
+    <string name="alert_delete_all_history_messages">ᠲᠠ ᠦᠨᠡᠭᠡᠷ ᠪᠦᠬᠦ ᠵᠠᠬᠢᠶ᠎ᠠ ᠶᠢ ᠤᠰᠠᠳᠬᠠᠬᠤ ᠤᠤ︖</string>
     <string name="dialog_delete">delete</string>
     <string name="settings_install_keyboard">install system keyboard</string>
-    <string name="settings_keyboard_emoji">emoji set</string>
     <string name="keyboard_name">Chimee</string>
     <string name="settings_choose_keyboard">switch current system keyboard</string>
     <string name="settings_export_keyboard_words">export keyboard words</string>
-    <string name="export_keyboard_words_failed">Words could no be saved.</string>
+    <string name="export_keyboard_words_failed">Words could not be saved.</string>
     <string name="converter_convert">convert</string>
-    <string name="converter_copy">copy</string>
-    <string name="converter_paste">paste</string>
-    <string name="converter_clear">clear</string>
+    <string name="converter_copy">ᠬᠠᠭᠤᠯᠬᠤ</string>
+    <string name="converter_paste">ᠨᠠᠭᠠᠬᠤ</string>
+    <string name="converter_clear">ᠠᠷᠢᠯᠭᠠᠬᠤ</string>
     <string name="converter_details">details</string>
-    <string name="converter_unicode">Unicode</string>
-    <string name="converter_menksoft_code">Bainu (menksoft old code)</string>
+    <string name="converter_unicode">ᠶᠦᠨᠢᠺᠤᠳ᠋ ( ᠣᠯᠠᠨ ᠤᠯᠤᠰ ᠤᠨ ᠪᠠᠷᠢᠮᠵᠢᠶ᠎ᠠ ᠺᠤᠳ᠋ )</string>
+    <string name="converter_menksoft_code">ᠪᠠᠢᠨᠠᠤ ᠺᠤᠳ᠋ ( ᠮᠥᠩᠬᠡ ᠭᠠᠯ ᠬᠠᠭᠤᠴᠢᠨ ᠺᠤᠳ᠋ )</string>
     <string name="converter_clipboard_empty_notice">clipboard is empty</string>
+
+    <!-- don't need to translate -->
+    <string name="content_description_show_keyboard">show keyboard</string>
 </resources>
