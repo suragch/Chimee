@@ -226,9 +226,9 @@ public class UserDictionary {
         /**
          * Adds a word to the dictionary, with the default frequency and following words.
          *
-         * @param context   the current application context
-         * @param word      the word to add to the dictionary. This should not be null
-         *                  or empty.
+         * @param context the current application context
+         * @param word    the word to add to the dictionary. This should not be null
+         *                or empty.
          */
         static void addWord(Context context, String word) {
 
@@ -252,7 +252,7 @@ public class UserDictionary {
          * Imports words (and their following words) into the user dictionary,
          * but does not import frequency
          *
-         * @param context context
+         * @param context   context
          * @param textLines in the format of [word][FIELD_DELIMITER][following]
          * @return number of words imported
          */
@@ -504,6 +504,13 @@ public class UserDictionary {
             }
             return builder.toString();
 
+        }
+
+        public static void touchDatabase(Context context) {
+            // just doing a simple random query to cause the database to be opened
+            Cursor cursor = queryWord(context, "whatever");
+            if (cursor != null)
+                cursor.close();
         }
     }
 }

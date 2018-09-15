@@ -46,6 +46,10 @@ public class ImeDataSourceHelper implements ImeContainer.DataSource {
         return container.getInputConnection();
     }
 
+    public void startDatabaseUpgradeIfNeeded() {
+        new StartDatabaseUpgradeIfNeeded(this).execute();
+    }
+
     @Override
     public void onRequestWordsStartingWith(String text) {
         if (text.startsWith(String.valueOf(MongolCode.Uni.NNBS))) {
@@ -367,6 +371,27 @@ public class ImeDataSourceHelper implements ImeContainer.DataSource {
             if (imeContainer == null) return;
 
             imeContainer.removeCandidate(index);
+        }
+    }
+
+    private static class StartDatabaseUpgradeIfNeeded extends AsyncTask<Void, Void, Void> {
+
+        private WeakReference<ImeDataSourceHelper> classReference;
+
+        StartDatabaseUpgradeIfNeeded(ImeDataSourceHelper helper) {
+            classReference = new WeakReference<>(helper);
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            ImeDataSourceHelper helper = classReference.get();
+            if (helper == null) return null;
+            Context context = helper.getContext();
+            if (context == null) return null;
+
+            UserDictionary.Words.touchDatabase(context);
+            return null;
         }
     }
 }

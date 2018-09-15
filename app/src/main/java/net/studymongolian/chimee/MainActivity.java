@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity
         setupKeyboardInput();
         setupKeyboardButton();
         setupInputWindow();
-        setInputWindowContent();
+        setSavedDraft();
     }
 
     private void setupToolbar() {
@@ -129,8 +129,9 @@ public class MainActivity extends AppCompatActivity
         mimm.addEditor(editText);
         mimm.setIme(imeContainer);
         imeContainer.showSystemKeyboardsOption(getString(R.string.keyboard_show_system_keyboards));
-
-        imeContainer.setDataSource(new ImeDataSourceHelper(this));
+        ImeDataSourceHelper helper = new ImeDataSourceHelper(this);
+        helper.startDatabaseUpgradeIfNeeded();
+        imeContainer.setDataSource(helper);
         imeContainer.setOnNonSystemImeListener(this);
         getSavedKeyboard();
     }
@@ -173,22 +174,6 @@ public class MainActivity extends AppCompatActivity
         Typeface typeface = MongolFont.get(font, getApplicationContext());
         inputWindow.setTypeface(typeface);
     }
-
-    private void setInputWindowContent() {
-        setSavedDraft();
-//        String textFromReader = getPossibleReaderActivityIntentText();
-//        if (textFromReader == null) {
-//        }else {
-//            MongolEditText editText = inputWindow.getEditText();
-//            editText.setText(textFromReader);
-//        }
-    }
-
-//    private String getPossibleReaderActivityIntentText() {
-//        Bundle extras = getIntent().getExtras();
-//        if (extras == null) return null;
-//        return extras.getString(ReaderActivity.READER_TEXT_KEY);
-//    }
 
     private void setSavedDraft() {
         MongolEditText editText = inputWindow.getEditText();
@@ -990,6 +975,4 @@ public class MainActivity extends AppCompatActivity
             return null;
         }
     }
-
-
 }
