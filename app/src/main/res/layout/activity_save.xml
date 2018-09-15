@@ -45,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:textColor="@color/light_grey"
-                app:text="@string/save_file_name"
+                app:text="@string/textview_hint_file_name"
                 android:visibility="visible"
                 android:padding="10dp"
                 app:textSize="24sp"

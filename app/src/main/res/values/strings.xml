@@ -1,35 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+    <resources>
 
     <string name="app_name">Chimee</string>
-    <string name="toast_message_empty">ᠨᠠᠶᠢᠷᠠᠭᠤᠯᠬᠤ ᠴᠤᠩᠬᠤ ᠬᠤᠭᠤᠰᠤᠨ ᠪᠠᠶᠢᠨ᠎ᠠ</string>
 
-    <!-- Main Menu -->
-    <string name="menu_item_open">ᠨᠡᠭᠡᠭᠡᠬᠦ</string>
-    <string name="menu_item_save">ᠬᠠᠳᠠᠭᠠᠯᠬᠤ</string>
-    <string name="menu_item_settings">ᠳᠤᠬᠢᠷᠠᠭᠤᠯᠠᠭ᠎ᠠ</string>
+    <!-- system keyboards -->
+    <string name="keyboard_name">Chimee</string>
+    <string name="keyboard_show_system_keyboards">ᠰᠢᠰᠲ᠋ᠧᠮ</string>
 
-    <string name="color_preview_text">ᠥ</string>
-
-    <string name="about_description_site_intro">Chimee ᠤ ᠬᠡᠷᠡᠭᠯᠡᠭᠡᠨ ᠤ ᠠᠯᠪᠠᠨ ᠤ ᠰᠦᠯᠵᠢᠶ᠎ᠡ᠄</string>
-    <string name="about_description_site_address">www.studymongolian.net/apps/chimee/zh/</string>
-    <string name="about_description_message">ᠲᠠ ᠰᠤᠹᠲ ᠶᠢ ᠬᠡᠷᠡᠭᠯᠡᠬᠦ ᠦᠶ᠎ᠡ ᠳᠦ ᠶᠠᠮᠠᠷ ᠨᠢᠭᠡ ᠠᠰᠠᠭᠤᠳᠠᠯ ᠤᠴᠠᠷᠠᠭᠰᠠᠨ ᠪᠤᠶᠤ ᠰᠠᠨᠠᠯ ᠵᠦᠪᠯᠡᠯᠭᠡ ᠪᠠᠶᠢᠪᠠᠯ ᠮᠠᠨ ᠲᠠᠢ ᠬᠠᠷᠢᠯᠴᠠᠭᠠᠷᠠᠢ᠃</string>
-    <string name="about_description_contact_intro">ᠬᠠᠷᠢᠯᠴᠠᠬᠤ ᠠᠷᠭ᠎ᠠ᠄</string>
-    <string name="about_description_contact_address">www.studymongolian.net/contact-zh/</string>
-    <string name="help_address">www.studymongolian.net/apps/chimee/zh/chimee-help/</string>
-
-
-    <!-- Initial default values (in Unicode) for Favorite Table in Message db-->
+    <!-- Initial default values for Favorite Table in Message db-->
     <string name="favorite_db_message1">ᠰᠠᠢᠨ ᠪᠠᠢᠨ᠎ᠠ ᠤᠤ ︖</string>
     <string name="favorite_db_message2">ᠵᠠᠬᠢᠶ᠎ᠠ ᠶᠢ ᠳᠣᠪᠴᠢᠳᠠᠪᠠᠯ ᠨᠠᠢᠷᠠᠭᠤᠯᠬᠤ ᠴᠣᠩᠬᠣᠨ ᠳᠤ ᠬᠠᠭᠤᠯᠤᠨ ᠠᠪᠴᠢᠷᠠᠨ᠎ᠠ ᠃</string>
     <string name="favorite_db_message3">ᠳᠠᠷᠤᠪᠴᠢ ᠶᠢ ᠳᠠᠷᠤᠭᠠᠳ ᠪᠠᠢᠪᠠᠯ ᠵᠠᠬᠢᠶ᠎ᠠ ᠶᠢ ᠤᠰᠠᠳᠬᠠᠵᠤ ᠬᠠᠶᠠᠨ᠎ᠠ ᠃</string>
 
+    <!-- menus -->
     <string name="menu_item_share_wechat">ᠸᠢᠴᠠᠲ</string>
     <string name="menu_item_share_bainu">ᠪᠠᠢᠨᠠᠤ</string>
     <string name="menu_item_share_other">ᠨᠡᠩ ᠣᠯᠠᠨ</string>
-    <string name="color">ᠥᠩᠭᠡ</string>
-    <string name="font">ᠦᠰᠦᠭ ᠤᠨ ᠲᠢᠭ</string>
+    <string name="menu_item_open">ᠨᠡᠭᠡᠭᠡᠬᠦ</string>
+    <string name="menu_item_save">ᠬᠠᠳᠠᠭᠠᠯᠬᠤ</string>
+    <string name="menu_item_settings">ᠳᠤᠬᠢᠷᠠᠭᠤᠯᠭ᠎ᠠ</string>
+    <string name="menu_item_color">ᠥᠩᠭᠡ</string>
+    <string name="menu_item_font">ᠦᠰᠦᠭ ᠤᠨ ᠲᠢᠭ</string>
 
+    <!-- color dialog -->
+    <string name="color_preview_text">ᠥ</string>
+    <string name="color_background">ᠰᠠᠭᠤᠷᠢ</string>
+    <string name="color_text">ᠦᠭᠡ</string>
+
+    <!-- fonts -->
     <string name="font_name_qagan">ᠴᠠᠭᠠᠨ ᠲᠢᠭ</string>
     <string name="font_name_garqag">ᠭᠠᠷᠴᠠᠭ ᠲᠢᠭ</string>
     <string name="font_name_hara">ᠬᠠᠷ᠎ᠠ ᠲᠢᠭ</string>
@@ -46,63 +44,76 @@
     <string name="font_name_svlbiya">ᠰᠤᠯᠪᠢᠶ᠎ᠠ ᠲᠢᠭ</string>
     <string name="font_name_jclgq">ᠵᠣᠯᠭᠠᠴᠠ ᠲᠢᠭ</string>
 
+    <!-- dialogs -->
     <string name="dialog_cancel">ᠦᠭᠡᠢ</string>
     <string name="dialog_ok">ᠪᠣᠯᠣᠨ᠎ᠠ</string>
     <string name="dialog_got_it">ᠮᠡᠳᠡᠯ᠎ᠡ</string>
-    <string name="dialog_background">ᠰᠠᠭᠤᠷᠢ</string>
-    <string name="dialog_text_color">ᠦᠭᠡ</string>
 
+    <!-- bainu -->
     <string name="download_bainu_alert_message">ᠲᠠᠨ ᠤ ᠮᠠᠰᠢᠨ ᠲᠡᠭᠡᠷ᠎ᠡ ᠴᠢᠨᠢ 《 ᠪᠠᠢᠨᠠᠤ 》 ᠵᠢ ᠤᠭᠰᠠᠷᠠᠭᠰᠠᠨ ᠦᠭᠡᠢ ᠂ 《 ᠪᠠᠢᠨᠠᠤ 》 ᠵᠢ ᠤᠭᠰᠠᠷᠠᠪᠠᠯ ᠴᠤᠯᠤ ᠮᠤᠨᠭ᠍ᠭᠤᠯ ᠢᠶᠠᠷ ᠶᠠᠷᠢᠯᠴᠠᠵᠤ ᠪᠤᠯᠤᠨ᠎ᠠ ᠂ ᠤᠳᠤ ᠪᠡᠷ ᠶᠢᠡᠨ ᠪᠠᠭᠤᠯᠭᠠᠬᠤ ᠦᠦ ︖</string>
     <string name="download_bainu_alert_positive">ᠲᠡᠭᠡᠶ᠎ᠡ</string>
     <string name="download_bainu_alert_negative">ᠦᠭᠡᠢ</string>
-    <string name="favorites_menu_edit">edit</string>
+
+    <!-- favorites -->
+    <string name="favorites_menu_edit">ᠨᠠᠢᠷᠭᠤᠯᠬᠤ</string>
     <string name="favorites_menu_delete">ᠤᠰᠠᠳᠬᠠᠬᠤ</string>
-    <string name="keyboard_show_system_keyboards">ᠰᠢᠰᠲ᠋ᠧᠮ</string>
-    <string name="settings_message_history">message history</string>
-    <string name="settings_import_keyboard_words">import keyboard words</string>
-    <string name="settings_code_converter">unicode converter</string>
-    <string name="settings_help">ᠬᠠᠪᠰᠤᠷᠤᠮᠵᠢ</string>
-    <string name="settings_about">ᠮᠠᠨ ᠤ ᠲᠤᠬᠠᠢ</string>
-    <string name="save_file_name">file name</string>
-    <string name="file_saved">File saved</string>
-    <string name="file_not_saved">file couldn\'t be saved</string>
+
+    <!-- save document -->
+    <string name="textview_hint_file_name">file name</string>
     <string name="no_write_file_permission">Chimee can\'t save a file to your SD card without write permission.</string>
     <string name="dialog_confirm_overwrite_file">This file name already exists. Are you sure you want to overwrite it?</string>
     <string name="dialog_button_overwrite">overwrite</string>
-    <string name="could_not_open_file">Could not open file</string>
+
+    <!-- toast message -->
     <string name="text_copied">text copied</string>
-    <string name="history_menu_export">save to file</string>
-    <string name="history_menu_delete_all">delete all</string>
-    <string name="history_menu_delete_item">delete</string>
-    <string name="history_menu_edit_item">edit</string>
+    <string name="could_not_open_file">Could not open file</string>
+    <string name="input_window_empty">ᠨᠠᠶᠢᠷᠠᠭᠤᠯᠬᠤ ᠴᠤᠩᠬᠤ ᠬᠤᠭᠤᠰᠤᠨ ᠪᠠᠶᠢᠨ᠎ᠠ</string>
+    <string name="file_saved">File saved</string>
+    <string name="file_not_saved">file couldn\'t be saved</string>
+
+    <!-- settings -->
+    <string name="settings_install_keyboard">ᠪᠢᠴᠢᠭᠯᠡᠬᠦ ᠠᠷᠭ᠎ᠠ ᠣᠷᠤᠭᠤᠯᠬᠤ</string>
+    <string name="settings_choose_keyboard">ᠪᠢᠴᠢᠭᠯᠡᠬᠦ ᠠᠷᠭ᠎ᠠ ᠰᠣᠩᠭᠤᠬᠤ</string>
+    <string name="settings_export_keyboard_words">ᠦᠭᠡᠰ ᠦᠨ ᠬᠦᠮᠦᠷᠭᠡ ᠡᠴᠡ ᠭᠠᠷᠭᠠᠬᠤ</string>
+    <string name="settings_import_keyboard_words">ᠦᠭᠡᠰ ᠦᠨ ᠬᠦᠮᠦᠷᠭᠡ ᠳᠦ ᠣᠷᠤᠭᠤᠯᠬᠤ</string>
+    <string name="number_words_imported">%1$d words imported</string>
+    <string name="export_keyboard_words_failed">Words could not be saved.</string>
+    <string name="settings_message_history">ᠶᠠᠪᠤᠭᠤᠯᠵᠤ ᠦᠩᠭᠡᠷᠡᠭᠰᠡᠨ ᠴᠢᠮᠡᠭᠡ</string>
+    <string name="settings_code_converter">ᠺᠤᠳ᠋ ᠰᠣᠯᠢᠬᠤ</string>
+    <string name="settings_help">ᠬᠠᠪᠰᠤᠷᠤᠮᠵᠢ</string>
+    <string name="settings_about">ᠮᠠᠨ ᠤ ᠲᠤᠬᠠᠢ</string>
+
+    <!-- history -->
+    <string name="history_menu_save">ᠬᠠᠳᠠᠭᠠᠯᠠᠬᠤ</string>
+    <string name="history_menu_delete_all">ᠪᠦᠭᠦᠨ ᠢ ᠠᠷᠢᠯᠭᠠᠬᠤ</string>
+    <string name="history_menu_delete_item">ᠠᠷᠢᠯᠭᠠᠬᠤ</string>
+    <string name="history_menu_edit_item">ᠨᠠᠢᠷᠭᠤᠯᠬᠤ</string>
     <string name="couldnt_save_file">couldn\'t save file</string>
     <string name="alert_where_to_find_history_export">Your messages were saved to %1$s.</string>
-    <string name="alert_where_to_find_words_export">Your exported word file is:\n%1$s.</string>
-    <string name="number_words_imported">%1$d words imported</string>
-    <string name="alert_delete_all_history_messages">ᠲᠠ ᠦᠨᠡᠭᠡᠷ ᠪᠦᠬᠦ ᠵᠠᠬᠢᠶ᠎ᠠ ᠶᠢ ᠤᠰᠠᠳᠬᠠᠬᠤ ᠤᠤ︖</string>
-    <string name="dialog_delete">delete</string>
-    <string name="settings_install_keyboard">install system keyboard</string>
-    <string name="keyboard_name">Chimee</string>
-    <string name="settings_choose_keyboard">switch current system keyboard</string>
-    <string name="settings_export_keyboard_words">export keyboard words</string>
-    <string name="export_keyboard_words_failed">Words could not be saved.</string>
-    <string name="converter_convert">convert</string>
+    <string name="alert_where_to_find_words_export">Your exported word file is: \n%1$s.</string>
+    <string name="alert_delete_all_history_messages">ᠲᠠ ᠦᠨᠡᠭᠡᠷ ᠪᠦᠬᠦ ᠵᠠᠬᠢᠶ᠎ᠠ ᠶᠢ ᠠᠷᠢᠯᠭᠠᠬᠤ ᠤᠤ︖</string>
+    <string name="dialog_delete_yes">ᠠᠷᠢᠯᠭᠠᠨ᠎ᠠ</string>
+
+    <!-- code converter -->
+    <string name="converter_convert">ᠺᠤᠳ᠋ ᠰᠣᠯᠢᠬᠤ</string>
     <string name="converter_copy">ᠬᠠᠭᠤᠯᠬᠤ</string>
     <string name="converter_paste">ᠨᠠᠭᠠᠬᠤ</string>
-    <string name="converter_clear">ᠠᠷᠢᠯᠭᠠᠬᠤ</string>
-    <string name="converter_details">details</string>
+    <string name="converter_details">ᠺᠤᠳ᠋ ᠤᠨ ᠨᠣᠮᠧᠷ</string>
     <string name="converter_unicode">ᠶᠦᠨᠢᠺᠤᠳ᠋ ( ᠣᠯᠠᠨ ᠤᠯᠤᠰ ᠤᠨ ᠪᠠᠷᠢᠮᠵᠢᠶ᠎ᠠ ᠺᠤᠳ᠋ )</string>
     <string name="converter_menksoft_code">ᠪᠠᠢᠨᠠᠤ ᠺᠤᠳ᠋ ( ᠮᠥᠩᠬᠡ ᠭᠠᠯ ᠬᠠᠭᠤᠴᠢᠨ ᠺᠤᠳ᠋ )</string>
     <string name="converter_clipboard_empty_notice">clipboard is empty</string>
 
-
-    <string name="content_description_show_keyboard">show keyboard</string>
+    <!-- about -->
     <string name="about_chimee_version">%1$s %2$s</string>
     <string name="about_site_name">StudyMongolian.net</string>
-    <string name="about_button_contact">Contact</string>
-    <string name="about_button_updates">Check for updates</string>
-    <string name="about_button_share">Share</string>
+    <string name="about_button_contact">ᠬᠠᠷᠢᠯᠴᠠᠬᠤ</string>
+    <string name="about_button_updates">ᠰᠢᠨᠡᠳᠭᠡᠬᠦ</string>
+    <string name="about_button_share">ᠬᠤᠪᠢᠶᠠᠯᠴᠠᠬᠤ</string>
     <string name="about_button_develop">Develop apps</string>
-    <string name="about_developing_mongol_apps">Chimee app is open source and was made using the mongol-library Android framework. If you are interested in developing Mongolian apps, check the library out.</string>
+    <string name="about_develop_mongol_apps">Chimee app is open source and was made using the mongol-library Android framework. If you are interested in developing Mongolian apps, check the library out.</string>
     <string name="about_develop_positive_button">check it out</string>
+
+    <!-- content description (doesn't need to be translated) -->
+    <string name="content_description_show_keyboard">show keyboard</string>
+
 </resources>

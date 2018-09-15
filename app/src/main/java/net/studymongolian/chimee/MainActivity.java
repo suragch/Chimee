@@ -51,7 +51,6 @@ import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
         implements ImeContainer.OnNonSystemImeListener,
@@ -225,10 +224,10 @@ public class MainActivity extends AppCompatActivity
         }
 
         // color
-        menu.add(new MongolMenuItem(getString(R.string.color), R.drawable.ic_color_black_32dp));
+        menu.add(new MongolMenuItem(getString(R.string.menu_item_color), R.drawable.ic_color_black_32dp));
 
         // font
-        menu.add(new MongolMenuItem(getString(R.string.font), R.drawable.ic_font_black_32dp));
+        menu.add(new MongolMenuItem(getString(R.string.menu_item_font), R.drawable.ic_font_black_32dp));
 
         menu.setOnMenuItemClickListener(contextMenuItemClickListener);
         return menu;
@@ -243,8 +242,8 @@ public class MainActivity extends AppCompatActivity
             String cut = getString(net.studymongolian.mongollibrary.R.string.cut);
             String paste = getString(net.studymongolian.mongollibrary.R.string.paste);
             String selectAll = getString(net.studymongolian.mongollibrary.R.string.select_all);
-            String color = getString(R.string.color);
-            String font = getString(R.string.font);
+            String color = getString(R.string.menu_item_color);
+            String font = getString(R.string.menu_item_font);
             MongolEditText editText = inputWindow.getEditText();
 
             if (name.equals(copy)) {
@@ -761,7 +760,7 @@ public class MainActivity extends AppCompatActivity
 
     private void notifyUserOfEmptyMessage() {
         MongolToast.makeText(this,
-                getString(R.string.toast_message_empty),
+                getString(R.string.input_window_empty),
                 MongolToast.LENGTH_LONG)
                 .show();
     }

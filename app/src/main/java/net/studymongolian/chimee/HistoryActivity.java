@@ -176,7 +176,7 @@ public class HistoryActivity extends AppCompatActivity
     private void overflowMenuItemClick() {
         MongolMenu menu = new MongolMenu(this);
         final MongolMenuItem export = new MongolMenuItem(
-                getString(R.string.history_menu_export), R.drawable.ic_save_black_24dp);
+                getString(R.string.history_menu_save), R.drawable.ic_save_black_24dp);
         final MongolMenuItem delete = new MongolMenuItem(
                 getString(R.string.history_menu_delete_all), R.drawable.ic_clear_black_24dp);
         menu.add(export);
@@ -205,7 +205,7 @@ public class HistoryActivity extends AppCompatActivity
     private void deleteAll() {
         MongolAlertDialog.Builder builder = new MongolAlertDialog.Builder(this);
         builder.setMessage(getString(R.string.alert_delete_all_history_messages));
-        builder.setPositiveButton(getString(R.string.dialog_delete), new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getString(R.string.dialog_delete_yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 new DeleteAllMessages(HistoryActivity.this).execute();

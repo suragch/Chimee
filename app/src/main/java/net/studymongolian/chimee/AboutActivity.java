@@ -77,7 +77,7 @@ public class AboutActivity extends AppCompatActivity {
 
     public void onDevelopClick(View view) {
         MongolAlertDialog.Builder builder = new MongolAlertDialog.Builder(this);
-        builder.setMessage(getString(R.string.about_developing_mongol_apps));
+        builder.setMessage(getString(R.string.about_develop_mongol_apps));
 
         builder.setPositiveButton(getString(R.string.about_develop_positive_button), new DialogInterface.OnClickListener() {
             @Override

@@ -51,7 +51,7 @@
         app:layout_constraintEnd_toEndOf="@+id/rb_bg_color"
         app:layout_constraintStart_toStartOf="@+id/rb_bg_color"
         app:layout_constraintTop_toBottomOf="@+id/rb_bg_color"
-        app:text="@string/dialog_background"
+        app:text="@string/color_background"
         app:textSize="20sp"/>
 
     <net.studymongolian.mongollibrary.MongolLabel
@@ -61,7 +61,7 @@
         app:layout_constraintEnd_toEndOf="@+id/rb_fg_color"
         app:layout_constraintStart_toStartOf="@+id/rb_fg_color"
         app:layout_constraintTop_toBottomOf="@+id/rb_fg_color"
-        app:text="@string/dialog_text_color"
+        app:text="@string/color_text"
         app:textSize="20sp"/>
 
 

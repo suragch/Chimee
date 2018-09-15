@@ -122,7 +122,7 @@ public class AddEditFavoritesActivity extends AppCompatActivity
     private void saveMessage() {
         String messageText = metMessage.getText().toString();
         if (TextUtils.isEmpty(messageText)) {
-            Toast.makeText(this, R.string.toast_message_empty, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.input_window_empty, Toast.LENGTH_LONG).show();
             return;
         }
 

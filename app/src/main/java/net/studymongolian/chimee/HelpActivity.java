@@ -40,8 +40,8 @@ public class HelpActivity extends AppCompatActivity {
 
 	private void loadHelpText() {
 		String helpText = readText();
-		MongolTextView textView = findViewById(R.id.tvHelpContent);
-		textView.setText(helpText);
+		//MongolTextView textView = findViewById(R.id.tvHelpContent);
+		//textView.setText(helpText);
 	}
 
 	private String readText() {
