@@ -41,11 +41,34 @@
                                 </PersistentState>
                               </value>
                             </entry>
-                          </map>
-                        </option>
-                        <option name="values">
-                          <map>
-                            <entry key="outputIconType" value="ACTIONBAR" />
+                            <entry key="launcher">
+                              <value>
+                                <PersistentState>
+                                  <option name="children">
+                                    <map>
+                                      <entry key="foregroundImage">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="scalingPercent" value="61" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
+                                    </map>
+                                  </option>
+                                  <option name="values">
+                                    <map>
+                                      <entry key="backgroundColor" value="f7f3ec" />
+                                      <entry key="backgroundImage" value="$USER_HOME$/Documents/Learning/Computer/Programming/Android/Chimee/images/logo/ChimeeLogoFelt_background.png" />
+                                      <entry key="foregroundImage" value="$USER_HOME$/Documents/Learning/Computer/Programming/Android/Chimee/images/logo/ChimeeLogoFelt_foreground.png" />
+                                    </map>
+                                  </option>
+                                </PersistentState>
+                              </value>
+                            </entry>
                           </map>
                         </option>
                       </PersistentState>

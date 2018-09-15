@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -94,5 +95,16 @@ public class AboutActivity extends AppCompatActivity {
     private void openDeveloperPage() {
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(MONGOL_LIBRARY_URL));
         startActivity(browserIntent);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
