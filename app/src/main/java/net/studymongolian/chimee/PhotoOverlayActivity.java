@@ -3,11 +3,17 @@ package net.studymongolian.chimee;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.PointF;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.app.Activity;
+import android.support.v4.view.ScaleGestureDetectorCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.widget.ImageView;
@@ -24,9 +30,8 @@ public class PhotoOverlayActivity extends AppCompatActivity {
 
     String currentMessage;
     private Bitmap bitmap;
-    private ImageView mImageView;
-    private ScaleGestureDetector mScaleGestureDetector;
-    private float mScaleFactor = 1.0f;
+    private TouchImageView mImageView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +58,7 @@ public class PhotoOverlayActivity extends AppCompatActivity {
 
     private void setupImageView() {
         mImageView = findViewById(R.id.imageView);
-        mScaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
+
     }
 
     private void chooseImage() {
@@ -77,6 +82,7 @@ public class PhotoOverlayActivity extends AppCompatActivity {
                 int nh = (int) (bitmap.getHeight() * (512.0 / bitmap.getWidth()));
                 Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
                 mImageView.setImageBitmap(scaled);
+                mImageView.setZoom(1f);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -85,20 +91,4 @@ public class PhotoOverlayActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
-
-        @Override
-        public boolean onScale(ScaleGestureDetector scaleGestureDetector) {
-            mScaleFactor *= scaleGestureDetector.getScaleFactor();
-            mScaleFactor = Math.max(0.1f, Math.min(mScaleFactor, 10.0f));
-            mImageView.setScaleX(mScaleFactor);
-            mImageView.setScaleY(mScaleFactor);
-            return true;
-        }
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent motionEvent) {
-        return mScaleGestureDetector.onTouchEvent(motionEvent);
-    }
 }
