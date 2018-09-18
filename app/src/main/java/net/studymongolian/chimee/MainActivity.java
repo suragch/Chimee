@@ -252,41 +252,6 @@ public class MainActivity extends AppCompatActivity
 
     };
 
-//    private boolean copySelectedText() {
-//        CharSequence selectedText = inputWindow.getEditText().getSelectedText();
-//        if (TextUtils.isEmpty(selectedText))
-//            return false;
-//        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-//        ClipData clip = ClipData.newPlainText(null, selectedText);
-//        if (clipboard == null) return false;
-//        clipboard.setPrimaryClip(clip);
-//        return true;
-//    }
-//    private void cutSelectedText() {
-//        boolean copiedSuccessfully = copySelectedText();
-//        if (copiedSuccessfully) {
-//            MongolEditText met = inputWindow.getEditText();
-//            int start = met.getSelectionStart();
-//            int end = met.getSelectionEnd();
-//            met.getText().delete(start, end);
-//        }
-//    }
-//
-//    private void pasteText() {
-//        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-//        if (clipboard == null) return;
-//        ClipData clip = clipboard.getPrimaryClip();
-//        if (clip == null) return;
-//        ClipData.Item item = clip.getItemAt(0);
-//        if (item == null) return;
-//        CharSequence text = item.getText();
-//        if (text == null) return;
-//        MongolEditText met = inputWindow.getEditText();
-//        int start = met.getSelectionStart();
-//        int end = met.getSelectionEnd();
-//        met.getText().replace(start, end, text);
-//    }
-
     private void openColorChooserDialog() {
         int bgColor = getInputWindowBackgroundColor();
         int fgColor = getSelectedTextColor();
@@ -447,7 +412,7 @@ public class MainActivity extends AppCompatActivity
                 shareActionBarItemClick();
                 return true;
             case R.id.main_action_photo:
-                //photoActionBarItemClick();
+                photoActionBarItemClick();
                 return true;
             case R.id.main_action_favorite:
                 favoriteActionBarItemClick();
@@ -548,6 +513,13 @@ public class MainActivity extends AppCompatActivity
     private void clearInputWindow() {
         inputWindow.getEditText().setText("");
         saveInputWindowDraftToSharedPreferences();
+    }
+
+    private void photoActionBarItemClick() {
+        Intent intent = new Intent(this, PhotoOverlayActivity.class);
+        String text = inputWindow.getText().toString();
+        intent.putExtra(PhotoOverlayActivity.CURRENT_MESSAGE_KEY, text);
+        startActivity(intent);
     }
 
 

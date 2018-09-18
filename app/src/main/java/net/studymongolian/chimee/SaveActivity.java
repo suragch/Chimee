@@ -216,6 +216,7 @@ public class SaveActivity extends AppCompatActivity
                 new SaveFile(SaveActivity.this).execute(filename, mText);
             }
         });
+        builder.setNegativeButton(getString(R.string.dialog_cancel), null);
         MongolAlertDialog dialog = builder.create();
         dialog.show();
     }

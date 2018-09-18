@@ -77,6 +77,7 @@
     <string name="settings_export_keyboard_words">ᠦᠭᠡᠰ ᠦᠨ ᠬᠦᠮᠦᠷᠭᠡ ᠡᠴᠡ ᠭᠠᠷᠭᠠᠬᠤ</string>
     <string name="settings_import_keyboard_words">ᠦᠭᠡᠰ ᠦᠨ ᠬᠦᠮᠦᠷᠭᠡ ᠳᠦ ᠣᠷᠤᠭᠤᠯᠬᠤ</string>
     <string name="number_words_imported">%1$d words imported</string>
+    <string name="import_chooser_message">Choose a .kbd file</string>
     <string name="export_keyboard_words_failed">Words could not be saved.</string>
     <string name="settings_message_history">ᠶᠠᠪᠤᠭᠤᠯᠵᠤ ᠦᠩᠭᠡᠷᠡᠭᠰᠡᠨ ᠴᠢᠮᠡᠭᠡ</string>
     <string name="settings_code_converter">ᠺᠤᠳ᠋ ᠰᠣᠯᠢᠬᠤ</string>

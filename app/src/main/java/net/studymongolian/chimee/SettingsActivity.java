@@ -150,7 +150,7 @@ public class SettingsActivity extends AppCompatActivity {
         Intent intent;
         chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
         chooseFile.setType("files/*");
-        intent = Intent.createChooser(chooseFile, "Choose a .kbd file");
+        intent = Intent.createChooser(chooseFile, getString(R.string.import_chooser_message));
         startActivityForResult(intent, IMPORT_KEYBOARD_WORDS_REQUEST);
     }
 
