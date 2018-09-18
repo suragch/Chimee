@@ -9,8 +9,7 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e373569e-ee9b-4412-b2d3-a86c151abae2" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/TouchImageView.java" />
+    <list default="true" id="e373569e-ee9b-4412-b2d3-a86c151abae2" name="Default" comment="photo overlay: simplified image resizing">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/PhotoOverlayActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/PhotoOverlayActivity.java" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_photo_overlay.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_photo_overlay.xml" />
@@ -46,76 +45,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PhotoOverlayActivity.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="PhotoOverlayActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/PhotoOverlayActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="465">
-              <caret line="83" column="33" lean-forward="false" selection-start-line="83" selection-start-column="33" selection-end-line="83" selection-end-column="33" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TouchImageView.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/TouchImageView.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="745">
-              <caret line="1014" column="18" lean-forward="false" selection-start-line="1014" selection-start-column="18" selection-end-line="1014" selection-end-column="18" />
+            <state relative-caret-position="716">
+              <caret line="105" column="13" lean-forward="false" selection-start-line="105" selection-start-column="13" selection-end-line="105" selection-end-column="13" />
               <folding>
-                <element signature="e#0#40110#0" expanded="true" />
                 <element signature="imports" expanded="true" />
-                <element signature="e#4297#4298#0" expanded="true" />
-                <element signature="e#4334#4335#0" expanded="true" />
-                <element signature="e#5982#5983#0" expanded="true" />
-                <element signature="e#6015#6016#0" expanded="true" />
-                <element signature="e#6182#6183#0" expanded="true" />
-                <element signature="e#6225#6226#0" expanded="true" />
-                <element signature="e#9483#9484#0" expanded="true" />
-                <element signature="e#9514#9515#0" expanded="true" />
-                <element signature="e#9872#9873#0" expanded="true" />
-                <element signature="e#9903#9904#0" expanded="true" />
-                <element signature="e#10107#10108#0" expanded="true" />
-                <element signature="e#10145#10146#0" expanded="true" />
-                <element signature="e#10709#10710#0" expanded="true" />
-                <element signature="e#10751#10752#0" expanded="true" />
-                <element signature="e#16296#16297#0" expanded="true" />
-                <element signature="e#16351#16352#0" expanded="true" />
-                <element signature="e#16389#16390#0" expanded="true" />
-                <element signature="e#16445#16446#0" expanded="true" />
-                <element signature="e#23928#23929#0" expanded="true" />
-                <element signature="e#23962#23963#0" expanded="true" />
-                <element signature="e#25089#25090#0" expanded="true" />
-                <element signature="e#25131#25132#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="OverScroller.java" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Android/Sdk/sources/android-28/android/widget/OverScroller.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="175">
-              <caret line="29" column="3" lean-forward="false" selection-start-line="29" selection-start-column="3" selection-end-line="29" selection-end-column="3" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ScaleGestureDetectorCompat.class" pinned="false" current-in-tab="false">
-        <entry file="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0-rc02.aar/c5a9e3eb34a9eac1d111f268a83965f3/jars/classes.jar!/android/support/v4/view/ScaleGestureDetectorCompat.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="186">
-              <caret line="10" column="19" lean-forward="false" selection-start-line="10" selection-start-column="19" selection-end-line="10" selection-end-column="19" />
-              <folding>
-                <marker date="1535512192443" expanded="false" signature="0:104" ph="/.../" />
-                <marker date="1535512192443" expanded="false" signature="147:214" ph="..." />
-                <marker date="1535512192443" expanded="true" signature="305:312" ph="{}" />
-                <marker date="1535512192443" expanded="true" signature="318:336" ph="/**...*/" />
-                <marker date="1535512192443" expanded="true" signature="443:533" ph="{...}" />
-                <marker date="1535512192443" expanded="true" signature="639:758" ph="{...}" />
-                <marker date="1535512192443" expanded="true" signature="764:782" ph="/**...*/" />
-                <marker date="1535512192443" expanded="true" signature="874:961" ph="{...}" />
-                <marker date="1535512192443" expanded="true" signature="1052:1150" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -147,8 +83,8 @@
       <file leaf-file-name="activity_photo_overlay.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_photo_overlay.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="806">
-              <caret line="26" column="10" lean-forward="false" selection-start-line="26" selection-start-column="10" selection-end-line="26" selection-end-column="10" />
+            <state relative-caret-position="124">
+              <caret line="4" column="27" lean-forward="false" selection-start-line="4" selection-start-column="27" selection-end-line="4" selection-end-column="27" />
               <folding />
             </state>
           </provider>
@@ -195,12 +131,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>keyboard_show_system_keyboards</find>
-      <find>string.color</find>
-      <find>dialog_color</find>
-      <find>could_not_open_file</find>
-      <find>toast_message_empty</find>
-      <find>save_file_name</find>
       <find>file_saved</find>
       <find>file_not_saved</find>
       <find>EMOJI_LIST</find>
@@ -225,6 +155,12 @@
       <find>setZoom</find>
       <find>fitImageToView</find>
       <find>CompatScroller</find>
+      <find>SUPER_MIN_MULTIPLIER</find>
+      <find>stretchImageToSuper</find>
+      <find>scaleImage</find>
+      <find>transformCoordTouchToBitmap</find>
+      <find>transformCoordBitmapToTouch</find>
+      <find>ZoomVariables</find>
     </findStrings>
     <replaceStrings>
       <replace>activityReference</replace>
@@ -2309,9 +2245,9 @@
         <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/SaveActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/TouchImageView.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_photo_overlay.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/PhotoOverlayActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/TouchImageView.java" />
       </list>
     </option>
   </component>
@@ -2606,20 +2542,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1525155675484</updated>
-    </task>
-    <task id="LOCAL-00002" summary="added WeChat sharing functionality back in">
-      <created>1525268828449</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1525268828449</updated>
-    </task>
-    <task id="LOCAL-00003" summary="WeChat sharing - fixed background color bug">
-      <created>1525317464683</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1525317464683</updated>
     </task>
     <task id="LOCAL-00004" summary="converting messages to unicode">
       <created>1525320538206</created>
@@ -2950,7 +2872,21 @@
       <option name="project" value="LOCAL" />
       <updated>1537248351815</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="photo overlay: advanced image resizing">
+      <created>1537256585954</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1537256585954</updated>
+    </task>
+    <task id="LOCAL-00052" summary="photo overlay: simplified image resizing">
+      <created>1537258631368</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1537258631368</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -2968,7 +2904,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900432" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900432" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Logcat" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900432" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Logcat" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32900432" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -2997,8 +2933,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="bug fixes, cleanup" />
-    <MESSAGE value="added activities" />
     <MESSAGE value="work on open/save" />
     <MESSAGE value="more work on saving" />
     <MESSAGE value="save/open basically completed" />
@@ -3022,7 +2956,9 @@
     <MESSAGE value="fix launcher icon and activity up buttons" />
     <MESSAGE value="upgrade db on start" />
     <MESSAGE value="photo overlay: basic image resizing" />
-    <option name="LAST_COMMIT_MESSAGE" value="photo overlay: basic image resizing" />
+    <MESSAGE value="photo overlay: advanced image resizing" />
+    <MESSAGE value="photo overlay: simplified image resizing" />
+    <option name="LAST_COMMIT_MESSAGE" value="photo overlay: simplified image resizing" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -3551,33 +3487,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="31">
-          <caret line="520" column="56" lean-forward="false" selection-start-line="520" selection-start-column="56" selection-end-line="520" selection-end-column="56" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_photo_overlay.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="806">
-          <caret line="26" column="10" lean-forward="false" selection-start-line="26" selection-start-column="10" selection-end-line="26" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/PhotoOverlayActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="83" column="33" lean-forward="false" selection-start-line="83" selection-start-column="33" selection-end-line="83" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Android/Sdk/sources/android-28/android/widget/OverScroller.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="175">
@@ -3588,33 +3497,71 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/TouchImageView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="745">
-          <caret line="1014" column="18" lean-forward="false" selection-start-line="1014" selection-start-column="18" selection-end-line="1014" selection-end-column="18" />
+        <state relative-caret-position="-124">
+          <caret line="23" column="29" lean-forward="true" selection-start-line="23" selection-start-column="29" selection-end-line="23" selection-end-column="29" />
           <folding>
-            <element signature="e#0#40110#0" expanded="true" />
+            <element signature="e#0#30398#0" expanded="false" />
+            <element signature="e#911#939#0" expanded="false" />
+            <element signature="e#4068#4069#0" expanded="false" />
+            <element signature="e#4105#4106#0" expanded="false" />
+            <element signature="e#4112#4139#0" expanded="false" />
+            <element signature="e#5667#5668#0" expanded="false" />
+            <element signature="e#5700#5701#0" expanded="false" />
+            <element signature="e#5874#5875#0" expanded="false" />
+            <element signature="e#5917#5918#0" expanded="false" />
+            <element signature="e#6045#6072#0" expanded="false" />
+            <element signature="e#9183#9210#0" expanded="false" />
+            <element signature="e#9241#9242#0" expanded="false" />
+            <element signature="e#9272#9273#0" expanded="false" />
+            <element signature="e#9395#9422#0" expanded="false" />
+            <element signature="e#9650#9677#0" expanded="false" />
+            <element signature="e#9708#9709#0" expanded="false" />
+            <element signature="e#9739#9740#0" expanded="false" />
+            <element signature="e#9950#9951#0" expanded="false" />
+            <element signature="e#9988#9989#0" expanded="false" />
+            <element signature="e#10111#10138#0" expanded="false" />
+            <element signature="e#10598#10599#0" expanded="false" />
+            <element signature="e#10640#10641#0" expanded="false" />
+            <element signature="e#14051#14078#0" expanded="false" />
+            <element signature="e#16240#16241#0" expanded="false" />
+            <element signature="e#16295#16296#0" expanded="false" />
+            <element signature="e#16333#16334#0" expanded="false" />
+            <element signature="e#16389#16390#0" expanded="false" />
+            <element signature="e#23949#23950#0" expanded="false" />
+            <element signature="e#23983#23984#0" expanded="false" />
+            <element signature="e#24784#24785#0" expanded="false" />
+            <element signature="e#24829#24830#0" expanded="false" />
+            <element signature="e#24897#24898#0" expanded="false" />
+            <element signature="e#24939#24940#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="31">
+          <caret line="520" column="56" lean-forward="false" selection-start-line="520" selection-start-column="56" selection-end-line="520" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_photo_overlay.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="124">
+          <caret line="4" column="27" lean-forward="false" selection-start-line="4" selection-start-column="27" selection-end-line="4" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/PhotoOverlayActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="716">
+          <caret line="105" column="13" lean-forward="false" selection-start-line="105" selection-start-column="13" selection-end-line="105" selection-end-column="13" />
+          <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#4297#4298#0" expanded="true" />
-            <element signature="e#4334#4335#0" expanded="true" />
-            <element signature="e#5982#5983#0" expanded="true" />
-            <element signature="e#6015#6016#0" expanded="true" />
-            <element signature="e#6182#6183#0" expanded="true" />
-            <element signature="e#6225#6226#0" expanded="true" />
-            <element signature="e#9483#9484#0" expanded="true" />
-            <element signature="e#9514#9515#0" expanded="true" />
-            <element signature="e#9872#9873#0" expanded="true" />
-            <element signature="e#9903#9904#0" expanded="true" />
-            <element signature="e#10107#10108#0" expanded="true" />
-            <element signature="e#10145#10146#0" expanded="true" />
-            <element signature="e#10709#10710#0" expanded="true" />
-            <element signature="e#10751#10752#0" expanded="true" />
-            <element signature="e#16296#16297#0" expanded="true" />
-            <element signature="e#16351#16352#0" expanded="true" />
-            <element signature="e#16389#16390#0" expanded="true" />
-            <element signature="e#16445#16446#0" expanded="true" />
-            <element signature="e#23928#23929#0" expanded="true" />
-            <element signature="e#23962#23963#0" expanded="true" />
-            <element signature="e#25089#25090#0" expanded="true" />
-            <element signature="e#25131#25132#0" expanded="true" />
           </folding>
         </state>
       </provider>
