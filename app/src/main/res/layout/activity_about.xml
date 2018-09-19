@@ -84,6 +84,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            app:textSize="24sp"
             app:text="@string/about_button_contact" />
 
     </FrameLayout>
@@ -106,6 +107,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            app:textSize="24sp"
             app:text="@string/about_button_updates" />
 
     </FrameLayout>
@@ -115,12 +117,13 @@
         android:layout_width="50dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/btn_default"
         android:onClick="onShareClick"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/flDevelopApps"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/flUpdates"
         app:layout_constraintTop_toTopOf="@+id/guideline2">
 
@@ -128,29 +131,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            app:textSize="24sp"
             app:text="@string/about_button_share" />
-
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/flDevelopApps"
-        android:layout_width="50dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/btn_default"
-        android:onClick="onDevelopClick"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/flShare"
-        app:layout_constraintTop_toTopOf="@+id/guideline2">
-
-        <net.studymongolian.mongollibrary.MongolLabel
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:text="@string/about_button_develop" />
 
     </FrameLayout>
 

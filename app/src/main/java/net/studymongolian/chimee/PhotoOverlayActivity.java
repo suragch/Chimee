@@ -3,6 +3,7 @@ package net.studymongolian.chimee;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
 import android.support.v7.app.ActionBar;
@@ -22,12 +23,13 @@ import java.io.InputStream;
 public class PhotoOverlayActivity extends AppCompatActivity {
 
     public static final String CURRENT_MESSAGE_KEY = "message";
+    public static final String PHOTO_URI_KEY = "uri";
 
-    private static final int IMAGE_REQUEST_CODE = 0;
 
     String currentMessage;
     private Bitmap bitmap;
     private TouchImageView mImageView;
+    private OverlayTextView textOverlayView;
 
 
     @Override
@@ -38,8 +40,7 @@ public class PhotoOverlayActivity extends AppCompatActivity {
         setupToolbar();
         setupImageView();
 
-        currentMessage = getIntent().getStringExtra(CURRENT_MESSAGE_KEY);
-        chooseImage();
+        getIntentData();
         createTextOverlay();
     }
 
@@ -56,11 +57,46 @@ public class PhotoOverlayActivity extends AppCompatActivity {
 
     private void setupImageView() {
         mImageView = findViewById(R.id.imageView);
+        mImageView.setOnTouchListener(mImageViewTouchListener);
+    }
 
+
+    private View.OnTouchListener mImageViewTouchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+                textOverlayView.setFocused(false);
+            }
+            return false;
+        }
+    };
+
+    private void getIntentData() {
+        currentMessage = getIntent().getStringExtra(CURRENT_MESSAGE_KEY);
+
+        try {
+            if (bitmap != null) {
+                bitmap.recycle();
+            }
+            Uri uri = getIntent().getData();
+            if (uri == null) return;
+            InputStream stream = getContentResolver().openInputStream(uri);
+            if (stream == null) return;
+            bitmap = BitmapFactory.decodeStream(stream);
+            stream.close();
+            int newHeight = (int) (bitmap.getHeight() * (512.0 / bitmap.getWidth()));
+            Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, newHeight, true);
+            mImageView.setImageBitmap(scaled);
+            mImageView.setZoom(1f);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void createTextOverlay() {
-        MongolTextView textOverlayView = new MongolTextView(this);
+        textOverlayView = new OverlayTextView(this);
         textOverlayView.setText(currentMessage);
 
         RelativeLayout.LayoutParams layoutParams =
@@ -70,7 +106,7 @@ public class PhotoOverlayActivity extends AppCompatActivity {
         layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
         textOverlayView.setLayoutParams(layoutParams);
         RelativeLayout rootLayout = findViewById(R.id.photo_overlay_root_layout);
-        textOverlayView.setOnTouchListener(textOverlayTouchListener);
+        //textOverlayView.setOnTouchListener(textOverlayTouchListener);
         rootLayout.addView(textOverlayView);
     }
 
@@ -109,44 +145,20 @@ public class PhotoOverlayActivity extends AppCompatActivity {
     };
 
     private void chooseImage() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        startActivityForResult(intent, IMAGE_REQUEST_CODE);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case IMAGE_REQUEST_CODE:
-                onImageResult(resultCode, data);
-                break;
-            default:
-                super.onActivityResult(requestCode, resultCode, data);
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        switch (requestCode) {
+//            default:
+//                super.onActivityResult(requestCode, resultCode, data);
+//        }
+//    }
 
     private void onImageResult(int resultCode, Intent data) {
         if (resultCode != Activity.RESULT_OK) return;
         if (data == null || data.getData() == null) return;
-        try {
-            if (bitmap != null) {
-                bitmap.recycle();
-            }
-            InputStream stream = getContentResolver().openInputStream(data.getData());
-            if (stream == null) return;
-            bitmap = BitmapFactory.decodeStream(stream);
-            stream.close();
-            int newHeight = (int) (bitmap.getHeight() * (512.0 / bitmap.getWidth()));
-            Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, newHeight, true);
-            mImageView.setImageBitmap(scaled);
-            mImageView.setZoom(1f);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
 
 }

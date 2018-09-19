@@ -17,6 +17,7 @@ import net.studymongolian.mongollibrary.MongolMenuItem;
 import net.studymongolian.mongollibrary.MongolToast;
 import net.studymongolian.mongollibrary.MongolTypefaceSpan;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -60,12 +61,11 @@ public class MainActivity extends AppCompatActivity
         FontChooserDialogFragment.FontDialogListener {
 
     private static final int SHARE_REQUEST = 0;
-    //private static final int WECHAT_REQUEST = 1;
-    //private static final int BAINU_REQUEST = 2;
-    private static final int SETTINGS_REQUEST = 3;
-    private static final int FAVORITE_MESSAGE_REQUEST = 4;
-    private static final int OPEN_REQUEST = 6;
-    private static final int SAVE_REQUEST = 7;
+    private static final int SETTINGS_REQUEST = 1;
+    private static final int FAVORITE_MESSAGE_REQUEST = 2;
+    private static final int PHOTO_REQUEST_CODE = 3;
+    private static final int OPEN_REQUEST = 4;
+    private static final int SAVE_REQUEST = 5;
 
     private static final String TEMP_CACHE_SUBDIR = "images";
     private static final String TEMP_CACHE_FILENAME = "image.png";
@@ -516,10 +516,17 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void photoActionBarItemClick() {
-        Intent intent = new Intent(this, PhotoOverlayActivity.class);
-        String text = inputWindow.getText().toString();
-        intent.putExtra(PhotoOverlayActivity.CURRENT_MESSAGE_KEY, text);
-        startActivity(intent);
+
+
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        startActivityForResult(intent, PHOTO_REQUEST_CODE);
+
+
+
+
     }
 
 
@@ -529,24 +536,6 @@ public class MainActivity extends AppCompatActivity
         String text = inputWindow.getText().toString();
         intent.putExtra(FavoriteActivity.CURRENT_MESSAGE_KEY, text);
         startActivityForResult(intent, FAVORITE_MESSAGE_REQUEST);
-
-
-        // catch empty string
-//        String text = inputWindow.getText().toString().trim();
-//        if (TextUtils.isEmpty(text)) {
-//            String message = getString(R.string.dialog_message_emptyfavorite);
-//            showAlertWithNoButtons(message);
-//            return;
-//        }
-//
-//        new AddMessageToFavoriteDb(this).execute(text);
-    }
-
-    private void showAlertWithNoButtons(String message) {
-        MongolAlertDialog.Builder builder = new MongolAlertDialog.Builder(this);
-        builder.setMessage(message);
-        MongolAlertDialog dialog = builder.create();
-        dialog.show();
     }
 
     private void overflowMenuItemClick() {
@@ -868,6 +857,9 @@ public class MainActivity extends AppCompatActivity
             case FAVORITE_MESSAGE_REQUEST:
                 onFavoriteActivityResult(resultCode, data);
                 break;
+            case PHOTO_REQUEST_CODE:
+                onPhotoResult(resultCode, data);
+                break;
             case OPEN_REQUEST:
                 onOpenFileResult(resultCode, data);
                 break;
@@ -903,6 +895,18 @@ public class MainActivity extends AppCompatActivity
         if (extras == null) return;
         String message = extras.getString(FavoriteActivity.RESULT_STRING_KEY);
         insertMessageIntoInputWindow(message);
+    }
+
+    private void onPhotoResult(int resultCode, Intent data) {
+        if (resultCode != RESULT_OK) return;
+        if (data == null || data.getData() == null) return;
+
+        Intent intent = new Intent(this, PhotoOverlayActivity.class);
+        String text = inputWindow.getText().toString();
+        intent.putExtra(PhotoOverlayActivity.CURRENT_MESSAGE_KEY, text);
+        Uri uri = data.getData();
+        intent.setData(uri);
+        startActivity(intent);
     }
 
     private void onOpenFileResult(int resultCode, Intent data) {
