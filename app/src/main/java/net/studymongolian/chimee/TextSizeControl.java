@@ -28,6 +28,7 @@ public class TextSizeControl extends View {
         borderPaint.setStyle(Paint.Style.STROKE);
         borderPaint.setStrokeWidth(BORDER_STROKE_WIDTH_PX);
         borderPaint.setColor(Color.BLACK);
+        borderPaint.setAntiAlias(true);
 
         fillPaint = new Paint();
         fillPaint.setColor(Color.WHITE);
@@ -120,6 +121,6 @@ public class TextSizeControl extends View {
         float radius = visibleItemSize / 2;
         canvas.drawCircle(x, y, radius, fillPaint);
         borderPaint.setColor(Color.BLACK);
-        canvas.drawCircle(x, y, radius, fillPaint);
+        canvas.drawCircle(x, y, radius, borderPaint);
     }
 }

@@ -1,18 +1,14 @@
 package net.studymongolian.chimee;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import net.studymongolian.mongollibrary.MongolTextView;
-
-import static android.content.ContentValues.TAG;
 
 public class OverlayTextView extends ViewGroup {
 
@@ -27,21 +23,14 @@ public class OverlayTextView extends ViewGroup {
 
     private ScalableTextView mTextView;
     private TextSizeControl xScaleControl;
-    private TextSizeControl yScaleControl;
     private TextSizeControl fontSizeControl;
-    private float xScale = 1f;
-    private float yScale = 1f;
 
     private float dX;
     private float dY;
     private int textPadding;
     private int boxControlSize;
-    private Paint backgroundPaint;
     private Paint borderPaint;
-    //private Paint fillPaint;
     private int controlTouchAreaSize;
-    private CharSequence mText;
-    //int lastAction;
 
     public OverlayTextView(Context context) {
         super(context);
@@ -50,10 +39,6 @@ public class OverlayTextView extends ViewGroup {
 
     private void init(Context context) {
         setDpValues();
-        //int paddingLeft = (int) (textPadding + 2 * BORDER_SIZE_PX + EXTRA_PADDING_PX);
-        //int paddingTopAndRight = (int) (paddingLeft + controlTouchAreaSize / 2);
-        //int paddingBottom = (int) (paddingLeft + controlTouchAreaSize / 2);
-
         setPadding(PADDING_PX, PADDING_PX, PADDING_PX, PADDING_PX);
         initPaint();
         setupTextView(context);
@@ -76,52 +61,43 @@ public class OverlayTextView extends ViewGroup {
     }
 
     private void initPaint() {
-        backgroundPaint = new Paint();
-        backgroundPaint.setColor(getResources().getColor(R.color.white_5));
-        backgroundPaint.setStyle(Paint.Style.FILL);
-
         borderPaint = new Paint();
         borderPaint.setStyle(Paint.Style.STROKE);
         borderPaint.setStrokeWidth(BORDER_SIZE_PX);
+        borderPaint.setAntiAlias(true);
     }
 
     private void setupTextView(Context context) {
-        mText = "";
         mTextView = new ScalableTextView(context);
-        mTextView.setText(mText);
+        mTextView.setText("");
         mTextView.setPadding(textPadding, textPadding, textPadding, textPadding);
         addView(mTextView);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void setupControls(Context context) {
         xScaleControl = new TextSizeControl(context);
-        yScaleControl = new TextSizeControl(context);
         fontSizeControl = new TextSizeControl(context);
 
         xScaleControl.setControlType(TextSizeControl.ControlType.BOX);
-        yScaleControl.setControlType(TextSizeControl.ControlType.BOX);
         fontSizeControl.setControlType(TextSizeControl.ControlType.CIRCLE);
 
         xScaleControl.setVisibleItemSize(boxControlSize);
-        yScaleControl.setVisibleItemSize(boxControlSize);
         fontSizeControl.setVisibleItemSize(2 * boxControlSize);
 
         xScaleControl.setOnTouchListener(xScaleTouchListener);
-        yScaleControl.setOnTouchListener(yScaleTouchListener);
-        //fontSizeControl.setOnTouchListener(fontSizeTouchListener);
+        fontSizeControl.setOnTouchListener(fontSizeTouchListener);
 
         addView(xScaleControl);
-        addView(yScaleControl);
         addView(fontSizeControl);
     }
 
     OnTouchListener xScaleTouchListener = new OnTouchListener() {
 
-        //private int rightEdgeStart;
-        //private float downX;
         float dx;
         int[] textViewLocation = new int[2];
 
+        @SuppressLint("ClickableViewAccessibility")
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             int action = event.getActionMasked();
@@ -130,81 +106,25 @@ public class OverlayTextView extends ViewGroup {
                     mTextView.getLocationOnScreen(textViewLocation);
                     int rightEdgeStart = mTextView.getRight() + textViewLocation[0];
                     dx = rightEdgeStart - event.getRawX();
-//                    Log.i(TAG, "DOWN rightEdgeStart: " + rightEdgeStart);
-//                    Log.i(TAG, "DOWN downX: " + event.getRawX());
                     return true;
                 case MotionEvent.ACTION_MOVE:
                     float desiredWidth = event.getRawX() + dx - textViewLocation[0];
-                    float scale = desiredWidth/mTextView.getUnscaledWidth();
-//                    Log.i(TAG, "MOVE dx: " + dx);
-//                    Log.i(TAG, "MOVE event.getRawX(): " + event.getRawX());
-//                    Log.i(TAG, "MOVE desiredWidth: " + desiredWidth);
-//                    Log.i(TAG, "MOVE getUnscaledWidth: " + mTextView.getUnscaledWidth());
-//                    Log.i(TAG, "MOVE scale: " + scale);
-//                    Log.i(TAG, "MOVE -------------- ");
+                    float scale = desiredWidth / mTextView.getUnscaledWidth();
                     mTextView.setScaleX(scale);
-                    //verlayTextView.this.invalidate();
-                    //OverlayTextView.this.requestLayout();
                     return true;
             }
             return true;
-        }
-    };
-
-    OnTouchListener yScaleTouchListener = new OnTouchListener() {
-        // distance of point (m,n) to line y=-x is (m+n)/√2
-        int lastDistance;
-        float lastY;
-        float dy;
-        int[] textViewLocation = new int[2];
-
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            int action = event.getActionMasked();
-            switch (action) {
-                case MotionEvent.ACTION_DOWN:
-                    mTextView.getLocationOnScreen(textViewLocation);
-                    int bottomEdgeStart = mTextView.getBottom() + textViewLocation[1];
-                    dy = bottomEdgeStart - event.getRawY();
-                    lastY = event.getY();
-                    return true;
-                case MotionEvent.ACTION_MOVE:
-                    float desiredHeight = event.getRawY() + dy - textViewLocation[1];
-                    int currentHeight = mTextView.getHeight();
-                    float thisY = event.getY();
-                    if (thisY > lastY && desiredHeight > currentHeight)
-                        increaseFontSize();
-                    else if (thisY < lastY && desiredHeight < currentHeight)
-                        decreaseFontSize();
-                    return true;
-            }
-            return true;
-        }
-
-        private void increaseFontSize() {
-            float currentTextSize = convertPxToSp(mTextView.getTextSize());
-            //if (currentTextSize >= 100) return;
-            mTextView.setTextSize(currentTextSize + 1);
-        }
-
-        private void decreaseFontSize() {
-            float currentTextSize = convertPxToSp(mTextView.getTextSize());
-            mTextView.setTextSize(currentTextSize - 1);
-        }
-
-
-        private int getDistance(MotionEvent event) {
-            return (int)((event.getX() + event.getY())/Math.sqrt(2));
         }
     };
 
     OnTouchListener fontSizeTouchListener = new OnTouchListener() {
-        // distance of point (m,n) to line y=-x is (m+n)/√2
-        int lastDistance;
+
+        private static final int TOUCH_SLOP = 0;
         float lastY;
         float dy;
         int[] textViewLocation = new int[2];
 
+        @SuppressLint("ClickableViewAccessibility")
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             int action = event.getActionMasked();
@@ -213,16 +133,21 @@ public class OverlayTextView extends ViewGroup {
                     mTextView.getLocationOnScreen(textViewLocation);
                     int bottomEdgeStart = mTextView.getBottom() + textViewLocation[1];
                     dy = bottomEdgeStart - event.getRawY();
-                    lastY = event.getY();
+                    lastY = event.getRawY();
                     return true;
                 case MotionEvent.ACTION_MOVE:
                     float desiredHeight = event.getRawY() + dy - textViewLocation[1];
                     int currentHeight = mTextView.getHeight();
-                    float thisY = event.getY();
-                    if (thisY > lastY && desiredHeight > currentHeight)
+                    float thisY = event.getRawY();
+                    if (thisY > lastY + TOUCH_SLOP
+                            && desiredHeight > currentHeight) {
                         increaseFontSize();
-                    else if (thisY < lastY && desiredHeight < currentHeight)
+                        lastY = thisY;
+                    } else if (thisY < lastY - TOUCH_SLOP
+                            && desiredHeight < currentHeight) {
                         decreaseFontSize();
+                        lastY = thisY;
+                    }
                     return true;
             }
             return true;
@@ -230,18 +155,12 @@ public class OverlayTextView extends ViewGroup {
 
         private void increaseFontSize() {
             float currentTextSize = convertPxToSp(mTextView.getTextSize());
-            //if (currentTextSize >= 100) return;
-            mTextView.setTextSize(currentTextSize + 1);
+            mTextView.setTextSize(currentTextSize + 0.5f);
         }
 
         private void decreaseFontSize() {
             float currentTextSize = convertPxToSp(mTextView.getTextSize());
-            mTextView.setTextSize(currentTextSize - 1);
-        }
-
-
-        private int getDistance(MotionEvent event) {
-            return (int)((event.getX() + event.getY())/Math.sqrt(2));
+            mTextView.setTextSize(currentTextSize - 0.5f);
         }
     };
 
@@ -284,16 +203,6 @@ public class OverlayTextView extends ViewGroup {
                 MeasureSpec.makeMeasureSpec(controlTouchAreaSize, MeasureSpec.EXACTLY));
         xScaleControl.layout(left, top, right, bottom);
 
-        // scale y control
-        left = getPaddingLeft() + (tvWidth - controlTouchAreaSize) / 2;
-        top = getPaddingTop() + tvHeight - controlTouchAreaSize / 2;
-        right = left + controlTouchAreaSize;
-        bottom = top + controlTouchAreaSize;
-        yScaleControl.measure(
-                MeasureSpec.makeMeasureSpec(controlTouchAreaSize, MeasureSpec.EXACTLY),
-                MeasureSpec.makeMeasureSpec(controlTouchAreaSize, MeasureSpec.EXACTLY));
-        yScaleControl.layout(left, top, right, bottom);
-
         // font size control
         left = getMeasuredWidth() - controlTouchAreaSize - getPaddingRight();
         top = getMeasuredHeight() - controlTouchAreaSize - getPaddingBottom();
@@ -307,15 +216,9 @@ public class OverlayTextView extends ViewGroup {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        drawBackground(canvas);
         if (hasFocus) {
             drawBorder(canvas);
         }
-    }
-
-    private void drawBackground(Canvas canvas) {
-        canvas.drawRect(0, 0, getWidth(), getHeight(), backgroundPaint);
     }
 
     private void drawBorder(Canvas canvas) {
@@ -336,13 +239,12 @@ public class OverlayTextView extends ViewGroup {
 
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         int action = event.getActionMasked();
         switch (action) {
             case MotionEvent.ACTION_DOWN:
-//                startScaleX = getScaleX();
-//                startScaleY = getScaleY();
                 dX = getX() - event.getRawX();
                 dY = getY() - event.getRawY();
                 if (!hasFocus) {
@@ -353,13 +255,7 @@ public class OverlayTextView extends ViewGroup {
                 return true;
 
             case MotionEvent.ACTION_MOVE:
-//                if (isStretchEvent(event)) {
-//                    resizeView(event);
-//                } else if (isChangeHeightEvent(event)) {
-//                    changeHeight(event);
-//                } else {
-                    moveView(event);
-//                }
+                moveView(event);
                 return true;
 
             case MotionEvent.ACTION_UP:
@@ -371,48 +267,16 @@ public class OverlayTextView extends ViewGroup {
 
     private void showControls() {
         xScaleControl.setVisibility(VISIBLE);
-        yScaleControl.setVisibility(VISIBLE);
         fontSizeControl.setVisibility(VISIBLE);
     }
 
 
     private void hideControls() {
         xScaleControl.setVisibility(INVISIBLE);
-        yScaleControl.setVisibility(INVISIBLE);
         fontSizeControl.setVisibility(INVISIBLE);
 
     }
 
-    //    }
-
-    //    private boolean isStretchEvent(MotionEvent event) {
-//    }
-    //        int touchAreaLeft = getWidth() - controlTouchAreaSize;
-    //        int touchAreaTop = getHeight() - controlTouchAreaSize;
-    //        return event.getX() > touchAreaLeft && event.getY() > touchAreaTop;
-//
-//    private boolean isChangeHeightEvent(MotionEvent event) {
-//        int topOfTouchArea = getHeight() - (int) (controlTouchAreaSize) - EXTRA_PADDING_PX;
-//        return event.getY() > topOfTouchArea;
-//    }
-//
-//    private float startScaleX, startScaleY;
-//
-//    private void resizeView(MotionEvent event) {
-//        float newScaleX = startScaleX * (getX() - event.getRawX())/dX;
-//        float newScaleY = startScaleY * (getY() - event.getRawY())/dY;
-//
-//        //scale
-//        setScaleX(newScaleX);
-//        setScaleY(newScaleY);
-//        TextViewCompat
-//
-//    }
-//
-//    private void changeHeight(MotionEvent event) {
-//        Log.i(TAG, "changeHeight: ");
-//    }
-//
     private void moveView(MotionEvent event) {
         setY(event.getRawY() + dY);
         setX(event.getRawX() + dX);
@@ -428,8 +292,6 @@ public class OverlayTextView extends ViewGroup {
 
     public void setText(CharSequence text) {
         mTextView.setText(text);
-        //invalidate();
-        //requestLayout();
     }
 }
 

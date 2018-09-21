@@ -11,6 +11,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.text.Layout;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.widget.HorizontalScrollView;
 
 import net.studymongolian.mongollibrary.MongolEditText;
+import net.studymongolian.mongollibrary.MongolLayout;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -310,5 +312,13 @@ public class InputWindow extends HorizontalScrollView {
     public boolean hasUnsavedContent() {
         String currentContent = editText.getText().toString();
         return !TextUtils.isEmpty(currentContent) && !currentContent.equals(mLastSavedContent);
+    }
+
+    public int getLineCount() {
+        return editText.getLineCount();
+    }
+
+    public MongolLayout getLayout() {
+        return editText.getLayout();
     }
 }

@@ -9,8 +9,10 @@ import android.app.Activity;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -27,7 +29,7 @@ public class PhotoOverlayActivity extends AppCompatActivity {
     public static final String PHOTO_URI_KEY = "uri";
 
 
-    String currentMessage;
+    CharSequence currentMessage;
     private Bitmap bitmap;
     private TouchImageView mImageView;
     private OverlayTextView textOverlayView;
@@ -43,6 +45,7 @@ public class PhotoOverlayActivity extends AppCompatActivity {
 
         getIntentData();
         createTextOverlay();
+        layoutTextOverlay();
     }
 
     private void setupToolbar() {
@@ -73,7 +76,7 @@ public class PhotoOverlayActivity extends AppCompatActivity {
     };
 
     private void getIntentData() {
-        currentMessage = getIntent().getStringExtra(CURRENT_MESSAGE_KEY);
+        currentMessage = getIntent().getCharSequenceExtra(CURRENT_MESSAGE_KEY);
 
         try {
             if (bitmap != null) {
@@ -106,8 +109,29 @@ public class PhotoOverlayActivity extends AppCompatActivity {
 //                        RelativeLayout.LayoutParams.WRAP_CONTENT);
 //        //layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 //        textOverlayView.setLayoutParams(layoutParams);
+//        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
+//                FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+//        layoutParams.gravity = Gravity.CENTER;
+        //textOverlayView.setLayoutParams(layoutParams);
         FrameLayout layout = findViewById(R.id.photo_frame_layout);
         layout.addView(textOverlayView);
+    }
+
+    private void layoutTextOverlay() {
+        //final View content = findViewById(android.R.id.content);
+        textOverlayView.getViewTreeObserver()
+                .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                textOverlayView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+
+                FrameLayout layout = findViewById(R.id.photo_frame_layout);
+                int x = (layout.getWidth() - textOverlayView.getWidth())/2 ;
+                int y = (layout.getHeight() - textOverlayView.getHeight())/2 ;
+                textOverlayView.setX(x);
+                textOverlayView.setY(y);
+            }
+        });
     }
 
 

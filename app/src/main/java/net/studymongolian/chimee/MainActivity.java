@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
 
 
 import net.studymongolian.mongollibrary.ImeContainer;
@@ -38,6 +40,7 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
@@ -51,7 +54,9 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity
         implements ImeContainer.OnNonSystemImeListener,
@@ -902,11 +907,28 @@ public class MainActivity extends AppCompatActivity
         if (data == null || data.getData() == null) return;
 
         Intent intent = new Intent(this, PhotoOverlayActivity.class);
-        String text = inputWindow.getText().toString();
+        CharSequence text = getInputWindowTextWithHardBreaksAdded();
         intent.putExtra(PhotoOverlayActivity.CURRENT_MESSAGE_KEY, text);
         Uri uri = data.getData();
         intent.setData(uri);
         startActivity(intent);
+    }
+
+    private CharSequence getInputWindowTextWithHardBreaksAdded() {
+        int count = inputWindow.getLineCount();
+        SpannableStringBuilder hardLineWraps = new SpannableStringBuilder();
+        for (int line = 0; line < count; line++) {
+            int start = inputWindow.getLayout().getLineStart(line);
+            int end = inputWindow.getLayout().getLineEnd(line);
+            CharSequence substring = inputWindow.getText().subSequence(start, end);
+            hardLineWraps.append(substring);
+            if (!TextUtils.isEmpty(substring)
+                    && line != count - 1
+                    && substring.charAt(substring.length() - 1) != '\n') {
+                hardLineWraps.append('\n');
+            }
+        }
+        return hardLineWraps;
     }
 
     private void onOpenFileResult(int resultCode, Intent data) {
