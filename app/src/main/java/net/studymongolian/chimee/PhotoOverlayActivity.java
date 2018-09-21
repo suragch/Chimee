@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -99,15 +100,14 @@ public class PhotoOverlayActivity extends AppCompatActivity {
         textOverlayView = new OverlayTextView(this);
         textOverlayView.setText(currentMessage);
 
-        RelativeLayout.LayoutParams layoutParams =
-                new RelativeLayout.LayoutParams(
-                        RelativeLayout.LayoutParams.WRAP_CONTENT,
-                        RelativeLayout.LayoutParams.WRAP_CONTENT);
-        layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-        textOverlayView.setLayoutParams(layoutParams);
-        RelativeLayout rootLayout = findViewById(R.id.photo_overlay_root_layout);
-        //textOverlayView.setOnTouchListener(textOverlayTouchListener);
-        rootLayout.addView(textOverlayView);
+//        RelativeLayout.LayoutParams layoutParams =
+//                new RelativeLayout.LayoutParams(
+//                        RelativeLayout.LayoutParams.WRAP_CONTENT,
+//                        RelativeLayout.LayoutParams.WRAP_CONTENT);
+//        //layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+//        textOverlayView.setLayoutParams(layoutParams);
+        FrameLayout layout = findViewById(R.id.photo_frame_layout);
+        layout.addView(textOverlayView);
     }
 
 

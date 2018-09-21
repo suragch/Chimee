@@ -20,11 +20,18 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
     </android.support.v7.widget.Toolbar>
 
-    <net.studymongolian.chimee.TouchImageView
-        android:id="@+id/imageView"
+    <FrameLayout
+        android:id="@+id/photo_frame_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"
-        />
+        android:layout_below="@id/toolbar">
+
+        <net.studymongolian.chimee.TouchImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </FrameLayout>
+
 
 </RelativeLayout>
