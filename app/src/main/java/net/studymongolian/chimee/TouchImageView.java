@@ -615,9 +615,12 @@ public class TouchImageView extends AppCompatImageView {
             // to NaN in translateMatrixAfterRotate. To avoid this, call savePreviousImageValues
             // to set them equal to the current values.
             //
-            if (prevMatchViewWidth == 0 || prevMatchViewHeight == 0) {
+
+            // commenting out this check so that it will not snap back to start
+            // https://github.com/MikeOrtiz/TouchImageView/issues/100#issuecomment-98402516
+            //if (prevMatchViewWidth == 0 || prevMatchViewHeight == 0) {
                 savePreviousImageValues();
-            }
+            //}
 
             prevMatrix.getValues(m);
 
