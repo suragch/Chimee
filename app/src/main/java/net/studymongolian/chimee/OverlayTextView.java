@@ -293,5 +293,10 @@ public class OverlayTextView extends ViewGroup {
     public void setText(CharSequence text) {
         mTextView.setText(text);
     }
+
+    public void setTextColor(int color) {
+        mTextView.setTextColor(color);
+        //invalidate();
+    }
 }
 

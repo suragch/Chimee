@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.Menu;
@@ -25,8 +27,11 @@ import net.studymongolian.mongollibrary.MongolTextView;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
-public class PhotoOverlayActivity extends AppCompatActivity {
+public class PhotoOverlayActivity extends AppCompatActivity
+        implements ColorsRvAdapter.ItemClickListener {
+
 
     public static final String CURRENT_MESSAGE_KEY = "message";
 
@@ -35,6 +40,9 @@ public class PhotoOverlayActivity extends AppCompatActivity {
     private Bitmap bitmap;
     private TouchImageView mImageView;
     private OverlayTextView textOverlayView;
+    private RecyclerView rvChooser;
+    private ColorsRvAdapter colorAdapter;
+    int[] mColorChoices;
 
 
     @Override
@@ -158,7 +166,32 @@ public class PhotoOverlayActivity extends AppCompatActivity {
     }
 
     public void onColorToolbarItemClick(View view) {
+        // put color array adapter into recycler view
+        if (rvChooser == null)
+            setupRecyclerView();
+        if (colorAdapter == null)
+            setupColorAdapter();
+        rvChooser.setAdapter(colorAdapter);
+        rvChooser.setVisibility(View.VISIBLE);
+    }
 
+    private void setupRecyclerView() {
+        rvChooser = findViewById(R.id.rv_photo_overlay_choices);
+        LinearLayoutManager horizontalLayoutManager
+                = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        rvChooser.setLayoutManager(horizontalLayoutManager);
+    }
+
+    private void setupColorAdapter() {
+        int[] viewColors = getColorChoices();
+        colorAdapter = new ColorsRvAdapter(this, R.layout.colors_rv_item, viewColors);
+        colorAdapter.setClickListener(this);
+    }
+
+    private int[] getColorChoices() {
+        if (mColorChoices == null)
+            mColorChoices = getResources().getIntArray(R.array.color_choices);
+        return mColorChoices;
     }
 
     public void onFontToolbarItemClick(View view) {
@@ -175,5 +208,11 @@ public class PhotoOverlayActivity extends AppCompatActivity {
 
     public void onBackgroundToolbarItemClick(View view) {
 
+    }
+
+    @Override
+    public void onColorItemClick(View view, int position) {
+        int color = colorAdapter.getColorAtPosition(position);
+        textOverlayView.setTextColor(color);
     }
 }
