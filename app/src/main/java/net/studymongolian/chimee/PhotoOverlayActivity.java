@@ -10,6 +10,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -26,7 +29,6 @@ import java.io.InputStream;
 public class PhotoOverlayActivity extends AppCompatActivity {
 
     public static final String CURRENT_MESSAGE_KEY = "message";
-    public static final String PHOTO_URI_KEY = "uri";
 
 
     CharSequence currentMessage;
@@ -102,17 +104,6 @@ public class PhotoOverlayActivity extends AppCompatActivity {
     private void createTextOverlay() {
         textOverlayView = new OverlayTextView(this);
         textOverlayView.setText(currentMessage);
-
-//        RelativeLayout.LayoutParams layoutParams =
-//                new RelativeLayout.LayoutParams(
-//                        RelativeLayout.LayoutParams.WRAP_CONTENT,
-//                        RelativeLayout.LayoutParams.WRAP_CONTENT);
-//        //layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-//        textOverlayView.setLayoutParams(layoutParams);
-//        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
-//                FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
-//        layoutParams.gravity = Gravity.CENTER;
-        //textOverlayView.setLayoutParams(layoutParams);
         FrameLayout layout = findViewById(R.id.photo_frame_layout);
         layout.addView(textOverlayView);
     }
@@ -134,55 +125,55 @@ public class PhotoOverlayActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.photo_overlay_menu, menu);
+        return true;
+    }
 
-    private View.OnTouchListener textOverlayTouchListener = new View.OnTouchListener() {
-
-        float dX;
-        float dY;
-        int lastAction;
-
-        @Override
-        public boolean onTouch(View view, MotionEvent event) {
-            switch (event.getActionMasked()) {
-                case MotionEvent.ACTION_DOWN:
-                    dX = view.getX() - event.getRawX();
-                    dY = view.getY() - event.getRawY();
-                    lastAction = MotionEvent.ACTION_DOWN;
-                    break;
-
-                case MotionEvent.ACTION_MOVE:
-                    view.setY(event.getRawY() + dY);
-                    view.setX(event.getRawX() + dX);
-                    lastAction = MotionEvent.ACTION_MOVE;
-                    break;
-
-                case MotionEvent.ACTION_UP:
-                    if (lastAction == MotionEvent.ACTION_DOWN)
-                        Toast.makeText(PhotoOverlayActivity.this, "Clicked!", Toast.LENGTH_SHORT).show();
-                    break;
-
-                default:
-                    return false;
-            }
-            return true;
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_save:
+                savePhoto();
+                return true;
+            case R.id.action_share:
+                sharePhoto();
+                return true;
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-    };
-
-    private void chooseImage() {
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        switch (requestCode) {
-//            default:
-//                super.onActivityResult(requestCode, resultCode, data);
-//        }
-//    }
-
-    private void onImageResult(int resultCode, Intent data) {
-        if (resultCode != Activity.RESULT_OK) return;
-        if (data == null || data.getData() == null) return;
+    private void savePhoto() {
 
     }
 
+    private void sharePhoto() {
+
+    }
+
+    public void onColorToolbarItemClick(View view) {
+
+    }
+
+    public void onFontToolbarItemClick(View view) {
+
+    }
+
+    public void onBorderToolbarItemClick(View view) {
+
+    }
+
+    public void onShadowToolbarItemClick(View view) {
+
+    }
+
+    public void onBackgroundToolbarItemClick(View view) {
+
+    }
 }

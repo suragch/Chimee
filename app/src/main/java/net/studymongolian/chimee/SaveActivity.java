@@ -133,7 +133,7 @@ public class SaveActivity extends AppCompatActivity
     }
 
     private void showExistingFilenameList() {
-        List<String> files = FileUtils.getTextFileNamesWithoutExtension();
+        List<String> files = FileUtils.getTextFileNamesWithoutExtension(this);
         if (files.size() > 0) {
             setupRecyclerView(files);
         } else {
@@ -204,7 +204,7 @@ public class SaveActivity extends AppCompatActivity
     }
 
     private boolean filenameExists(String filename) {
-        return FileUtils.textFileExists(filename);
+        return FileUtils.textFileExists(this, filename);
     }
 
     private void askUserWhetherToOverwrite(final String filename) {

@@ -23,7 +23,7 @@ class FileUtils {
     // TODO change these to mongolian names
     private static final String APP_PUBLIC_FOLDER_NAME = "Chimee";
     private static final String IMAGE_FOLDER_NAME = "suuder";
-    private static final String EXPORT_FOLDER_NAME = "export"; // TODO rename
+    private static final String EXPORT_FOLDER_NAME = "database";
     private static final String TEXT_FOLDER_NAME = "text";
     private static final String TEXT_FILE_EXTENSION = ".txt";
     private static final String HISTORY_EXPORT_FILE_NAME = "yabuulsan_chimee.txt";
@@ -31,10 +31,10 @@ class FileUtils {
     private static final String RESERVED_CHARS= "|\\?*<\":>/";
     private static final String TAG = "Chimee FileUtils";
 
-    private static List<String> getTextFileNames() {
+    private static List<String> getTextFileNames(Context context) {
         String path = getAppDocumentFolder();
         File directory = new File(path);
-        File[] files = getFilesInDirectorySortedByLastModified(directory);
+        File[] files = getFilesInDirectorySortedByLastModified(context, directory);
         List<String> list = new ArrayList<>();
         if (files == null)
             return list;
@@ -44,7 +44,8 @@ class FileUtils {
         return list;
     }
 
-    private static File[] getFilesInDirectorySortedByLastModified(File directory) {
+    private static File[] getFilesInDirectorySortedByLastModified(Context context, File directory) {
+        makeSureFolderExists(context, directory);
         File[] files = directory.listFiles();
         Pair[] pairs = new Pair[files.length];
         for (int i = 0; i < files.length; i++)
@@ -127,9 +128,9 @@ class FileUtils {
 
 
     }
-    static List<String> getTextFileNamesWithoutExtension() {
+    static List<String> getTextFileNamesWithoutExtension(Context context) {
         List<String> list = new ArrayList<>();
-        List<String> listWithExtensions = getTextFileNames();
+        List<String> listWithExtensions = getTextFileNames(context);
         int extLength = TEXT_FILE_EXTENSION.length();
         for (String name : listWithExtensions) {
             int nameLength = name.length();
@@ -256,11 +257,11 @@ class FileUtils {
         scanFile(context, csvFile);
     }
 
-    public static boolean textFileExists(String filename) {
+    public static boolean textFileExists(Context context, String filename) {
         String nameToTest = filename;
         if (!filename.endsWith(TEXT_FILE_EXTENSION))
             nameToTest += TEXT_FILE_EXTENSION;
-        List<String> fileNames = getTextFileNames();
+        List<String> fileNames = getTextFileNames(context);
         for (String file : fileNames) {
             if (file.equals(nameToTest))
                 return true;
