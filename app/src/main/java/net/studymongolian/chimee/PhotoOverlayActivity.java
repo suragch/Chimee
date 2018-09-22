@@ -1,17 +1,15 @@
 package net.studymongolian.chimee;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Activity;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,10 +17,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
 
-import net.studymongolian.mongollibrary.MongolTextView;
+import net.studymongolian.mongollibrary.MongolFont;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -30,7 +26,7 @@ import java.io.InputStream;
 import java.util.List;
 
 public class PhotoOverlayActivity extends AppCompatActivity
-        implements ColorsRvAdapter.ItemClickListener {
+        implements ColorsRvAdapter.ItemClickListener, FontRvAdapter.ItemClickListener {
 
 
     public static final String CURRENT_MESSAGE_KEY = "message";
@@ -43,6 +39,7 @@ public class PhotoOverlayActivity extends AppCompatActivity
     private RecyclerView rvChooser;
     private ColorsRvAdapter colorAdapter;
     int[] mColorChoices;
+    private FontRvAdapter fontAdapter;
 
 
     @Override
@@ -120,17 +117,17 @@ public class PhotoOverlayActivity extends AppCompatActivity
         //final View content = findViewById(android.R.id.content);
         textOverlayView.getViewTreeObserver()
                 .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                textOverlayView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                    @Override
+                    public void onGlobalLayout() {
+                        textOverlayView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
 
-                FrameLayout layout = findViewById(R.id.photo_frame_layout);
-                int x = (layout.getWidth() - textOverlayView.getWidth())/2 ;
-                int y = (layout.getHeight() - textOverlayView.getHeight())/2 ;
-                textOverlayView.setX(x);
-                textOverlayView.setY(y);
-            }
-        });
+                        FrameLayout layout = findViewById(R.id.photo_frame_layout);
+                        int x = (layout.getWidth() - textOverlayView.getWidth()) / 2;
+                        int y = (layout.getHeight() - textOverlayView.getHeight()) / 2;
+                        textOverlayView.setX(x);
+                        textOverlayView.setY(y);
+                    }
+                });
     }
 
     @Override
@@ -166,13 +163,16 @@ public class PhotoOverlayActivity extends AppCompatActivity
     }
 
     public void onColorToolbarItemClick(View view) {
-        // put color array adapter into recycler view
         if (rvChooser == null)
             setupRecyclerView();
         if (colorAdapter == null)
             setupColorAdapter();
-        rvChooser.setAdapter(colorAdapter);
-        rvChooser.setVisibility(View.VISIBLE);
+        if (rvChooser.getAdapter() != colorAdapter) {
+            rvChooser.setAdapter(colorAdapter);
+            rvChooser.setVisibility(View.VISIBLE);
+            return;
+        }
+        swapRvVisibility();
     }
 
     private void setupRecyclerView() {
@@ -195,7 +195,30 @@ public class PhotoOverlayActivity extends AppCompatActivity
     }
 
     public void onFontToolbarItemClick(View view) {
+        if (rvChooser == null)
+            setupRecyclerView();
+        if (fontAdapter == null)
+            setupFontAdapter();
+        if (rvChooser.getAdapter() != fontAdapter) {
+            rvChooser.setAdapter(fontAdapter);
+            rvChooser.setVisibility(View.VISIBLE);
+            return;
+        }
+        swapRvVisibility();
+    }
 
+    private void setupFontAdapter() {
+        List<Font> fonts = Font.getAvailableFonts(this);
+        fontAdapter = new FontRvAdapter(this, fonts);
+        fontAdapter.setClickListener(this);
+    }
+
+    private void swapRvVisibility() {
+        if (rvChooser.getVisibility() == View.VISIBLE) {
+            rvChooser.setVisibility(View.INVISIBLE);
+        } else {
+            rvChooser.setVisibility(View.VISIBLE);
+        }
     }
 
     public void onBorderToolbarItemClick(View view) {
@@ -214,5 +237,13 @@ public class PhotoOverlayActivity extends AppCompatActivity
     public void onColorItemClick(View view, int position) {
         int color = colorAdapter.getColorAtPosition(position);
         textOverlayView.setTextColor(color);
+    }
+
+    @Override
+    public void onFontItemClick(View view, int position) {
+        Font font = fontAdapter.getFontAtPosition(position);
+        Typeface typeface = MongolFont.get(font.getFileLocation(), this);
+        textOverlayView.setTypeface(typeface);
+
     }
 }

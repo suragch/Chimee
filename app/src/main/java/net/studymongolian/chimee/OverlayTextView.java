@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -297,6 +298,10 @@ public class OverlayTextView extends ViewGroup {
     public void setTextColor(int color) {
         mTextView.setTextColor(color);
         //invalidate();
+    }
+
+    public void setTypeface(Typeface typeface) {
+        mTextView.setTypeface(typeface);
     }
 }
 

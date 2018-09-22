@@ -13,15 +13,15 @@ import net.studymongolian.mongollibrary.MongolTextView;
 
 import java.util.List;
 
-public class FontRecyclerViewAdapter
-        extends RecyclerView.Adapter<FontRecyclerViewAdapter.ViewHolder> {
+public class FontRvAdapter
+        extends RecyclerView.Adapter<FontRvAdapter.ViewHolder> {
 
     private List<Font> mFonts;
     private ItemClickListener mClickListener;
     private Context mContext;
 
     // data is passed into the constructor
-    FontRecyclerViewAdapter(Context context, List<Font> fonts) {
+    FontRvAdapter(Context context, List<Font> fonts) {
         this.mContext = context;
         this.mFonts = fonts;
     }
@@ -63,12 +63,12 @@ public class FontRecyclerViewAdapter
 
         @Override
         public void onClick(View view) {
-            if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
+            if (mClickListener != null) mClickListener.onFontItemClick(view, getAdapterPosition());
         }
     }
 
     // convenience method for getting data at click position
-    public Font getItem(int id) {
+    public Font getFontAtPosition(int id) {
         return mFonts.get(id);
     }
 
@@ -79,6 +79,6 @@ public class FontRecyclerViewAdapter
 
     // parent activity will implement this method to respond to click events
     public interface ItemClickListener {
-        void onItemClick(View view, int position);
+        void onFontItemClick(View view, int position);
     }
 }

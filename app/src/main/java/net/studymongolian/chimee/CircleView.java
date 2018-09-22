@@ -1,5 +1,6 @@
 package net.studymongolian.chimee;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -9,18 +10,17 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-public class CircleView extends View implements View.OnClickListener {
+public class CircleView extends View {
 
     private static final float BORDER_WIDTH_NORMAL = 3;
     private static final float BORDER_WIDTH_PRESSED = 3;
     private static final float CIRCLE_PROPORTION_OF_SIZE = 0.7f;
-    private int mColor;
+    private static final int BORDER_PRESSED_NORMAL_COLOR = Color.BLACK;
     private boolean isPressed;
 
     private Paint fillPaint;
     private Paint borderPaint;
     private int mBorderPressedColor = Color.WHITE;
-    private int mBorderNormalColor = Color.BLACK;
 
     public CircleView(Context context) {
         super(context);
@@ -66,7 +66,7 @@ public class CircleView extends View implements View.OnClickListener {
             borderPaint.setStrokeWidth(BORDER_WIDTH_PRESSED);
         } else {
             borderPaint.setStrokeWidth(BORDER_WIDTH_NORMAL);
-            borderPaint.setColor(mBorderNormalColor);
+            borderPaint.setColor(BORDER_PRESSED_NORMAL_COLOR);
         }
         int x = getWidth() / 2;
         int y = getWidth() / 2;
@@ -79,18 +79,14 @@ public class CircleView extends View implements View.OnClickListener {
         invalidate();
     }
 
-    public void setBorderPressedColor(int color) {
-        borderPaint.setColor(color);
-    }
-
     public void setPressed(boolean isPressed) {
         this.isPressed = isPressed;
         invalidate();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        //super.onTouchEvent(event);
         int action = event.getActionMasked();
         switch (action) {
             case MotionEvent.ACTION_DOWN:
@@ -101,16 +97,6 @@ public class CircleView extends View implements View.OnClickListener {
             default:
                 setPressed(false);
         }
-        return false;
-    }
-
-    @Override
-    public void setOnClickListener(@Nullable OnClickListener l) {
-        super.setOnClickListener(l);
-    }
-
-    @Override
-    public void onClick(View v) {
-
+        return super.onTouchEvent(event);
     }
 }

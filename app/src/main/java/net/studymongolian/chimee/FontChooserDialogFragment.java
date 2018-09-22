@@ -2,7 +2,6 @@ package net.studymongolian.chimee;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -12,18 +11,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import net.studymongolian.mongollibrary.MongolFont;
-import net.studymongolian.mongollibrary.MongolTextView;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class FontChooserDialogFragment extends DialogFragment
-        implements FontRecyclerViewAdapter.ItemClickListener {
+        implements FontRvAdapter.ItemClickListener {
 
 
 
-    FontRecyclerViewAdapter adapter;
+    FontRvAdapter adapter;
     FontDialogListener mListener;
     List<Font> mFonts;
 
@@ -34,27 +30,27 @@ public class FontChooserDialogFragment extends DialogFragment
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setupFontList();
+
     }
 
-    private void setupFontList() {
-        mFonts = new ArrayList<>();
-        mFonts.add(new Font(getString(R.string.font_name_qagan), SettingsActivity.FONT_QAGAN));
-        mFonts.add(new Font(getString(R.string.font_name_garqag), SettingsActivity.FONT_GARQAG));
-        mFonts.add(new Font(getString(R.string.font_name_hara), SettingsActivity.FONT_HARA));
-        mFonts.add(new Font(getString(R.string.font_name_scnin), SettingsActivity.FONT_SCNIN));
-        mFonts.add(new Font(getString(R.string.font_name_hawang), SettingsActivity.FONT_HAWANG));
-        mFonts.add(new Font(getString(R.string.font_name_qimed), SettingsActivity.FONT_QIMED));
-        mFonts.add(new Font(getString(R.string.font_name_narin), SettingsActivity.FONT_NARIN));
-        mFonts.add(new Font(getString(R.string.font_name_mcdcnbar), SettingsActivity.FONT_MCDVNBAR));
-        mFonts.add(new Font(getString(R.string.font_name_amglang), SettingsActivity.FONT_AMGLANG));
-        mFonts.add(new Font(getString(R.string.font_name_sidam), SettingsActivity.FONT_SIDAM));
-        mFonts.add(new Font(getString(R.string.font_name_qingming), SettingsActivity.FONT_QINGMING));
-        mFonts.add(new Font(getString(R.string.font_name_onqa_hara), SettingsActivity.FONT_ONQA_HARA));
-        mFonts.add(new Font(getString(R.string.font_name_svgvnag), SettingsActivity.FONT_SVGVNAG));
-        mFonts.add(new Font(getString(R.string.font_name_svlbiya), SettingsActivity.FONT_SVLBIYA));
-        mFonts.add(new Font(getString(R.string.font_name_jclgq), SettingsActivity.FONT_JCLGQ));
-    }
+//    private void setupFontList() {
+//        mFonts = new ArrayList<>();
+//        mFonts.add(new Font(getString(R.string.font_name_qagan), SettingsActivity.FONT_QAGAN));
+//        mFonts.add(new Font(getString(R.string.font_name_garqag), SettingsActivity.FONT_GARQAG));
+//        mFonts.add(new Font(getString(R.string.font_name_hara), SettingsActivity.FONT_HARA));
+//        mFonts.add(new Font(getString(R.string.font_name_scnin), SettingsActivity.FONT_SCNIN));
+//        mFonts.add(new Font(getString(R.string.font_name_hawang), SettingsActivity.FONT_HAWANG));
+//        mFonts.add(new Font(getString(R.string.font_name_qimed), SettingsActivity.FONT_QIMED));
+//        mFonts.add(new Font(getString(R.string.font_name_narin), SettingsActivity.FONT_NARIN));
+//        mFonts.add(new Font(getString(R.string.font_name_mcdcnbar), SettingsActivity.FONT_MCDVNBAR));
+//        mFonts.add(new Font(getString(R.string.font_name_amglang), SettingsActivity.FONT_AMGLANG));
+//        mFonts.add(new Font(getString(R.string.font_name_sidam), SettingsActivity.FONT_SIDAM));
+//        mFonts.add(new Font(getString(R.string.font_name_qingming), SettingsActivity.FONT_QINGMING));
+//        mFonts.add(new Font(getString(R.string.font_name_onqa_hara), SettingsActivity.FONT_ONQA_HARA));
+//        mFonts.add(new Font(getString(R.string.font_name_svgvnag), SettingsActivity.FONT_SVGVNAG));
+//        mFonts.add(new Font(getString(R.string.font_name_svlbiya), SettingsActivity.FONT_SVLBIYA));
+//        mFonts.add(new Font(getString(R.string.font_name_jclgq), SettingsActivity.FONT_JCLGQ));
+//    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -71,9 +67,15 @@ public class FontChooserDialogFragment extends DialogFragment
         LinearLayoutManager horizontalLayoutManager
                 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(horizontalLayoutManager);
-        adapter = new FontRecyclerViewAdapter(getContext(), mFonts);
+        mFonts = getFonts();
+        adapter = new FontRvAdapter(getContext(), mFonts);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
+    }
+
+    private List<Font> getFonts() {
+        if (getContext() == null) return new ArrayList<>();
+        return Font.getAvailableFonts(getContext());
     }
 
     @Override
@@ -88,7 +90,7 @@ public class FontChooserDialogFragment extends DialogFragment
     }
 
     @Override
-    public void onItemClick(View view, int position) {
+    public void onFontItemClick(View view, int position) {
         //MongolTextView textView = view.findViewById(R.id.mtv_font_preview);
         if (mListener != null) {
             //Typeface typeface = textView.getTypeface();
