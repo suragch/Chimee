@@ -35,6 +35,7 @@ public class CodeConverterActivity extends AppCompatActivity {
     private static final int OPEN_FILE_REQUEST = 0;
     private static final int SAVE_REQUEST = 1;
 
+    FrameLayout pasteButton;
     FrameLayout convertButton;
     FrameLayout copyButton;
     FrameLayout detailsButton;
@@ -53,6 +54,14 @@ public class CodeConverterActivity extends AppCompatActivity {
         hideExtraButtons();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (pasteButton == null) return;
+        if (TextUtils.isEmpty(getClipboardText())) return;
+        pasteButton.setVisibility(View.VISIBLE);
+    }
+
     private void setupToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -66,6 +75,7 @@ public class CodeConverterActivity extends AppCompatActivity {
 
     private void initViews() {
         //contentWindow = findViewById(R.id.mtv_convert_content);
+        pasteButton = findViewById(R.id.flPaste);
         convertButton = findViewById(R.id.flConvert);
         copyButton = findViewById(R.id.flCopy);
         detailsButton = findViewById(R.id.flDetails);
@@ -85,6 +95,8 @@ public class CodeConverterActivity extends AppCompatActivity {
     }
 
     private void hideExtraButtons() {
+        if (TextUtils.isEmpty(getClipboardText()))
+            pasteButton.setVisibility(View.INVISIBLE);
         convertButton.setVisibility(View.INVISIBLE);
         copyButton.setVisibility(View.INVISIBLE);
         detailsButton.setVisibility(View.INVISIBLE);
@@ -160,7 +172,7 @@ public class CodeConverterActivity extends AppCompatActivity {
     public void onPasteClick(View view) {
         String clipboardText = getClipboardText();
         if (TextUtils.isEmpty(clipboardText)) {
-            notifyUserThatClipboardIsEmpty();
+            //notifyUserThatClipboardIsEmpty();
             return;
         }
         //SpannableStringBuilder formattedText = colorTextAccordingToCoding(clipboardText);
@@ -187,6 +199,7 @@ public class CodeConverterActivity extends AppCompatActivity {
         if (clipboard == null) return;
         clipboard.setPrimaryClip(clip);
         notifyUserThatTextCopied();
+        pasteButton.setVisibility(View.VISIBLE);
     }
 
     private void notifyUserThatTextCopied() {
@@ -196,12 +209,12 @@ public class CodeConverterActivity extends AppCompatActivity {
                 .show();
     }
 
-    private void notifyUserThatClipboardIsEmpty() {
-        MongolToast.makeText(this,
-                getString(R.string.converter_clipboard_empty_notice),
-                MongolToast.LENGTH_LONG)
-                .show();
-    }
+//    private void notifyUserThatClipboardIsEmpty() {
+//        MongolToast.makeText(this,
+//                getString(R.string.converter_clipboard_empty_notice),
+//                MongolToast.LENGTH_LONG)
+//                .show();
+//    }
 
     private String getClipboardText() {
         ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);

@@ -261,7 +261,7 @@ public class SettingsActivity extends AppCompatActivity {
                 notifyUserOfExportLocation(activity);
             } else {
                 MongolToast.makeText(activity,
-                        activity.getString(R.string.export_keyboard_words_failed),
+                        activity.getString(R.string.there_was_a_problem),
                         MongolToast.LENGTH_LONG)
                         .show();
             }

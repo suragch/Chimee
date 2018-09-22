@@ -76,21 +76,21 @@ public class AboutActivity extends AppCompatActivity {
         startActivity(Intent.createChooser(intent, ""));
     }
 
-    public void onDevelopClick(View view) {
-        MongolAlertDialog.Builder builder = new MongolAlertDialog.Builder(this);
-        builder.setMessage(getString(R.string.about_develop_mongol_apps));
-
-        builder.setPositiveButton(getString(R.string.about_develop_positive_button), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                openDeveloperPage();
-            }
-        });
-        builder.setNegativeButton(getString(R.string.dialog_cancel), null);
-
-        MongolAlertDialog dialog = builder.create();
-        dialog.show();
-    }
+//    public void onDevelopClick(View view) {
+//        MongolAlertDialog.Builder builder = new MongolAlertDialog.Builder(this);
+//        builder.setMessage(getString(R.string.about_develop_mongol_apps));
+//
+//        builder.setPositiveButton(getString(R.string.about_develop_positive_button), new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                openDeveloperPage();
+//            }
+//        });
+//        builder.setNegativeButton(getString(R.string.dialog_cancel), null);
+//
+//        MongolAlertDialog dialog = builder.create();
+//        dialog.show();
+//    }
 
     private void openDeveloperPage() {
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(MONGOL_LIBRARY_URL));

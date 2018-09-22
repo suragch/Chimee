@@ -1,9 +1,6 @@
 package net.studymongolian.chimee;
 
 import android.content.Context;
-import android.content.Intent;
-import android.media.MediaScannerConnection;
-import android.net.Uri;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -25,12 +22,12 @@ class FileUtils {
 
     // TODO change these to mongolian names
     private static final String APP_PUBLIC_FOLDER_NAME = "Chimee";
-    private static final String IMAGE_FOLDER_NAME = "photo";
-    private static final String EXPORT_FOLDER_NAME = "export";
-    private static final String TEXT_FOLDER_NAME = "doc";
+    private static final String IMAGE_FOLDER_NAME = "suuder";
+    private static final String EXPORT_FOLDER_NAME = "export"; // TODO rename
+    private static final String TEXT_FOLDER_NAME = "text";
     private static final String TEXT_FILE_EXTENSION = ".txt";
     private static final String HISTORY_EXPORT_FILE_NAME = "yabuulsan_chimee.txt";
-    private static final String WORDS_EXPORT_FILE_NAME = "minii_ug.kbd";
+    private static final String WORDS_EXPORT_FILE_NAME = "minii_uges.kbd";
     private static final String RESERVED_CHARS= "|\\?*<\":>/";
     private static final String TAG = "Chimee FileUtils";
 
@@ -151,7 +148,7 @@ class FileUtils {
         return getStringFromFile(fullFilePath);
     }
 
-    public static String getStringFromFile (String filePath) throws Exception {
+    private static String getStringFromFile (String filePath) throws Exception {
         File file = new File(filePath);
         FileInputStream inputStream = new FileInputStream(file);
         String text = convertStreamToString(inputStream);

@@ -17,7 +17,7 @@
     <string name="menu_item_share_bainu">ᠪᠠᠢᠨᠠᠤ</string>
     <string name="menu_item_share_other">ᠨᠡᠩ ᠣᠯᠠᠨ</string>
     <string name="menu_item_open">ᠨᠡᠭᠡᠭᠡᠬᠦ</string>
-    <string name="menu_item_save">ᠬᠠᠳᠠᠭᠠᠯᠬᠤ</string>
+    <string name="menu_item_save">ᠬᠠᠳᠠᠭᠠᠯᠠᠬᠤ</string>
     <string name="menu_item_settings">ᠳᠤᠬᠢᠷᠠᠭᠤᠯᠭ᠎ᠠ</string>
     <string name="menu_item_color">ᠥᠩᠭᠡ</string>
     <string name="menu_item_font">ᠦᠰᠦᠭ ᠤᠨ ᠲᠢᠭ</string>
@@ -59,26 +59,27 @@
     <string name="favorites_menu_delete">ᠤᠰᠠᠳᠬᠠᠬᠤ</string>
 
     <!-- save document -->
-    <string name="textview_hint_file_name">file name</string>
-    <string name="no_write_file_permission">Chimee can\'t save a file to your SD card without write permission.</string>
-    <string name="dialog_confirm_overwrite_file">This file name already exists. Are you sure you want to overwrite it?</string>
-    <string name="dialog_button_overwrite">overwrite</string>
+    <string name="textview_hint_file_name">ᠬᠠᠳᠠᠭᠠᠯᠠᠬᠤ ᠨᠡᠷ᠎ᠡ</string>
+    <string name="no_write_file_permission">SD ᠺᠠᠷᠲ ᠢ ᠤᠩᠰᠢᠵᠤ ᠪᠣᠯᠬᠤ ᠦᠭᠡᠢ ᠶᠢ ᠰᠣᠩᠭᠤᠭᠰᠠᠨ ᠪᠣᠯᠬᠣᠷ ᠬᠠᠳᠠᠭᠠᠯᠠᠵᠤ ᠳᠡᠢᠯᠬᠦ ᠦᠭᠡᠢ ᠃</string>
+    <string name="dialog_confirm_overwrite_file">ᠡᠨᠡ ᠨᠡᠷ᠎ᠡ ᠪᠡᠷ ᠨᠢᠭᠡᠨᠲᠡ ᠬᠠᠳᠠᠭᠠᠯᠠᠵᠠᠢ ᠃ ᠰᠢᠨ᠎ᠡ ᠠᠭᠤᠯᠭ᠎ᠠ ᠪᠠᠷ ᠰᠣᠯᠢᠨ᠎ᠠ ᠤᠤ ︖</string>
+    <string name="dialog_button_overwrite">ᠰᠣᠯᠢᠨ᠎ᠠ</string>
 
     <!-- toast message -->
-    <string name="text_copied">text copied</string>
-    <string name="could_not_open_file">Could not open file</string>
+    <string name="text_copied">ᠬᠠᠭᠤᠯᠵᠠᠢ</string>
+    <string name="could_not_open_file">ᠨᠡᠭᠡᠭᠡᠭᠳᠡᠬᠦ ᠦᠭᠡᠢ ᠪᠠᠢᠨ᠎ᠠ</string>
     <string name="input_window_empty">ᠨᠠᠶᠢᠷᠠᠭᠤᠯᠬᠤ ᠴᠤᠩᠬᠤ ᠬᠤᠭᠤᠰᠤᠨ ᠪᠠᠶᠢᠨ᠎ᠠ</string>
-    <string name="file_saved">File saved</string>
-    <string name="file_not_saved">file couldn\'t be saved</string>
+    <string name="saved">ᠬᠠᠳᠠᠭᠠᠯᠠᠵᠠᠢ</string>
+    <string name="couldnt_be_saved">ᠬᠠᠳᠠᠭᠠᠯᠠᠵᠤ ᠳᠡᠢᠯᠦᠭᠰᠡᠨ ᠦᠭᠡᠢ</string>
 
     <!-- settings -->
     <string name="settings_install_keyboard">ᠪᠢᠴᠢᠭᠯᠡᠬᠦ ᠠᠷᠭ᠎ᠠ ᠣᠷᠤᠭᠤᠯᠬᠤ</string>
     <string name="settings_choose_keyboard">ᠪᠢᠴᠢᠭᠯᠡᠬᠦ ᠠᠷᠭ᠎ᠠ ᠰᠣᠩᠭᠤᠬᠤ</string>
     <string name="settings_export_keyboard_words">ᠦᠭᠡᠰ ᠦᠨ ᠬᠦᠮᠦᠷᠭᠡ ᠡᠴᠡ ᠭᠠᠷᠭᠠᠬᠤ</string>
     <string name="settings_import_keyboard_words">ᠦᠭᠡᠰ ᠦᠨ ᠬᠦᠮᠦᠷᠭᠡ ᠳᠦ ᠣᠷᠤᠭᠤᠯᠬᠤ</string>
-    <string name="number_words_imported">%1$d words imported</string>
-    <string name="import_chooser_message">Choose a .kbd file</string>
-    <string name="export_keyboard_words_failed">Words could not be saved.</string>
+    <string name="number_words_imported">%1$d ᠦᠭᠡ ᠣᠷᠤᠭᠤᠯᠵᠠᠢ</string>
+    <!--suppress CheckTagEmptyBody (only used for API 23 up) -->
+    <string name="import_chooser_message"></string>
+    <string name="there_was_a_problem">ᠠᠰᠠᠭᠤᠳᠠᠯ ᠭᠠᠷᠴᠠᠢ</string>
     <string name="settings_message_history">ᠶᠠᠪᠤᠭᠤᠯᠵᠤ ᠦᠩᠭᠡᠷᠡᠭᠰᠡᠨ ᠴᠢᠮᠡᠭᠡ</string>
     <string name="settings_code_converter">ᠺᠤᠳ᠋ ᠰᠣᠯᠢᠬᠤ</string>
     <string name="settings_help">ᠬᠠᠪᠰᠤᠷᠤᠮᠵᠢ</string>
@@ -89,9 +90,8 @@
     <string name="history_menu_delete_all">ᠪᠦᠭᠦᠨ ᠢ ᠠᠷᠢᠯᠭᠠᠬᠤ</string>
     <string name="history_menu_delete_item">ᠠᠷᠢᠯᠭᠠᠬᠤ</string>
     <string name="history_menu_edit_item">ᠨᠠᠢᠷᠭᠤᠯᠬᠤ</string>
-    <string name="couldnt_save_file">couldn\'t save file</string>
-    <string name="alert_where_to_find_history_export">Your messages were saved to %1$s.</string>
-    <string name="alert_where_to_find_words_export">Your exported word file is: \n%1$s.</string>
+    <string name="alert_where_to_find_history_export">ᠲᠠᠨ ᠤ ᠶᠠᠪᠤᠭᠤᠯᠵᠤ ᠦᠩᠭᠡᠷᠡᠭᠰᠡᠨ ᠴᠢᠮᠡᠭᠡ %1$s ᠬᠠᠳᠠᠭᠠᠯᠠᠭᠳᠠᠵᠠᠢ ᠃</string>
+    <string name="alert_where_to_find_words_export">ᠲᠠᠨ ᠤ ᠦᠭᠡᠰ ᠦᠨ ᠬᠦᠮᠦᠷᠭᠡ %1$s ᠬᠠᠳᠠᠭᠠᠯᠠᠭᠳᠠᠵᠠᠢ ᠃</string>
     <string name="alert_delete_all_history_messages">ᠲᠠ ᠦᠨᠡᠭᠡᠷ ᠪᠦᠬᠦ ᠵᠠᠬᠢᠶ᠎ᠠ ᠶᠢ ᠠᠷᠢᠯᠭᠠᠬᠤ ᠤᠤ︖</string>
     <string name="dialog_delete_yes">ᠠᠷᠢᠯᠭᠠᠨ᠎ᠠ</string>
 
@@ -110,9 +110,9 @@
     <string name="about_button_contact">ᠬᠠᠷᠢᠯᠴᠠᠬᠤ</string>
     <string name="about_button_updates">ᠰᠢᠨᠡᠳᠭᠡᠬᠦ</string>
     <string name="about_button_share">ᠬᠤᠪᠢᠶᠠᠯᠴᠠᠬᠤ</string>
-    <string name="about_button_develop">Develop apps</string>
-    <string name="about_develop_mongol_apps">Chimee app is open source and was made using the mongol-library Android framework. If you are interested in developing Mongolian apps, check the library out.</string>
-    <string name="about_develop_positive_button">check it out</string>
+    <!--<string name="about_button_develop">Develop apps</string>-->
+    <!--<string name="about_develop_mongol_apps">Chimee app is open source and was made using the mongol-library Android framework. If you are interested in developing Mongolian apps, check the library out.</string>-->
+    <!--<string name="about_develop_positive_button">check it out</string>-->
 
     <!-- content description (doesn't need to be translated) -->
     <string name="content_description_show_keyboard">show keyboard</string>

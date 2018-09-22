@@ -313,7 +313,7 @@ public class HistoryActivity extends AppCompatActivity
                 tellUserWhereToFindFile(activity);
             } else {
                 MongolToast.makeText(activity,
-                        activity.getString(R.string.couldnt_save_file),
+                        activity.getString(R.string.couldnt_be_saved),
                         MongolToast.LENGTH_SHORT).show();
             }
 		}

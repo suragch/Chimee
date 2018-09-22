@@ -307,10 +307,10 @@ public class SaveActivity extends AppCompatActivity
 
             Intent intent = new Intent();
             if (exportSuccessful) {
-                MongolToast.makeText(activity, activity.getString(R.string.file_saved), MongolToast.LENGTH_SHORT).show();
+                MongolToast.makeText(activity, activity.getString(R.string.saved), MongolToast.LENGTH_SHORT).show();
                 activity.setResult(RESULT_OK, intent);
             } else {
-                MongolToast.makeText(activity, activity.getString(R.string.file_not_saved), MongolToast.LENGTH_SHORT).show();
+                MongolToast.makeText(activity, activity.getString(R.string.couldnt_be_saved), MongolToast.LENGTH_SHORT).show();
             }
 
             activity.finish();
