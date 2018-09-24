@@ -15,7 +15,7 @@ public class OverlayTextView extends ViewGroup {
 
 
     private static final int PADDING_PX = 2;
-    private static final float TEXT_PADDING_DP = 5;
+    private static final float TEXT_PADDING_DP = 10;
     private static final int BORDER_SIZE_PX = 1;
     private static final float BOX_CONTROL_SIZE_DP = 10;
     private static final float CONTROL_TOUCH_AREA_SIZE_DP = 48;
@@ -32,6 +32,7 @@ public class OverlayTextView extends ViewGroup {
     private int boxControlSize;
     private Paint borderPaint;
     private int controlTouchAreaSize;
+    public float mStrokeMultiplier = 0;
 
     public OverlayTextView(Context context) {
         super(context);
@@ -156,12 +157,16 @@ public class OverlayTextView extends ViewGroup {
 
         private void increaseFontSize() {
             float currentTextSize = convertPxToSp(mTextView.getTextSize());
-            mTextView.setTextSize(currentTextSize + 0.5f);
+            float newTextSize = currentTextSize + 0.5f;
+            mTextView.setTextSize(newTextSize);
+            mTextView.setStrokeWidth(newTextSize * mStrokeMultiplier);
         }
 
         private void decreaseFontSize() {
             float currentTextSize = convertPxToSp(mTextView.getTextSize());
-            mTextView.setTextSize(currentTextSize - 0.5f);
+            float newTextSize = currentTextSize - 0.5f;
+            mTextView.setTextSize(newTextSize);
+            mTextView.setStrokeWidth(newTextSize * mStrokeMultiplier);
         }
     };
 
@@ -297,11 +302,29 @@ public class OverlayTextView extends ViewGroup {
 
     public void setTextColor(int color) {
         mTextView.setTextColor(color);
-        //invalidate();
     }
 
     public void setTypeface(Typeface typeface) {
         mTextView.setTypeface(typeface);
+    }
+
+    /**
+     * this sets the stroke width as a percentage of the font size
+     * @param multiplier a value usually from 0 to about 0.1 (0 means no stroke)
+     */
+    public void setStrokeWidthMultiplier(float multiplier) {
+        mStrokeMultiplier = multiplier;
+        float currentTextSize = convertPxToSp(mTextView.getTextSize());
+        float strokeWidth = currentTextSize * multiplier;
+        mTextView.setStrokeWidth(strokeWidth);
+    }
+
+    public int getStrokeColor() {
+        return mTextView.getStrokeColor();
+    }
+
+    public void setStrokeColor(int color) {
+        mTextView.setStrokeColor(color);
     }
 }
 

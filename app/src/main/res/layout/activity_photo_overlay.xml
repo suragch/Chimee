@@ -54,9 +54,12 @@
             android:onClick="onColorToolbarItemClick">
 
             <ImageView
+                android:id="@+id/iv_color"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:padding="5dp"
+                android:background="@drawable/photo_toolbar_item"
                 android:src="@drawable/ic_color_black_32dp"/>
 
         </FrameLayout>
@@ -72,9 +75,12 @@
             android:onClick="onFontToolbarItemClick">
 
             <ImageView
+                android:id="@+id/iv_font"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:padding="5dp"
+                android:background="@drawable/photo_toolbar_item"
                 android:src="@drawable/ic_font_black_32dp"/>
 
         </FrameLayout>
@@ -90,10 +96,13 @@
             android:onClick="onBorderToolbarItemClick">
 
             <ImageView
+                android:id="@+id/iv_border"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_font_black_32dp"/>
+                android:padding="5dp"
+                android:background="@drawable/photo_toolbar_item"
+                android:src="@drawable/ic_border_black_32dp"/>
 
         </FrameLayout>
 
@@ -108,10 +117,13 @@
             android:onClick="onShadowToolbarItemClick">
 
             <ImageView
+                android:id="@+id/iv_shadow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_font_black_32dp"/>
+                android:padding="5dp"
+                android:background="@drawable/photo_toolbar_item"
+                android:src="@drawable/ic_shadow_black_32dp"/>
 
         </FrameLayout>
 
@@ -126,10 +138,13 @@
             android:onClick="onBackgroundToolbarItemClick">
 
             <ImageView
+                android:id="@+id/iv_background"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_color_black_32dp"/>
+                android:padding="5dp"
+                android:background="@drawable/photo_toolbar_item"
+                android:src="@drawable/ic_background_black_32dp"/>
 
         </FrameLayout>
 
@@ -146,6 +161,7 @@
     </android.support.v7.widget.RecyclerView>
 
     <FrameLayout
+        android:id="@+id/fl_seekbar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_above="@id/rv_photo_overlay_choices"

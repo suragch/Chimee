@@ -2,6 +2,7 @@ package net.studymongolian.chimee;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,6 +18,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.SeekBar;
 
 import net.studymongolian.mongollibrary.MongolFont;
 
@@ -30,16 +33,28 @@ public class PhotoOverlayActivity extends AppCompatActivity
 
 
     public static final String CURRENT_MESSAGE_KEY = "message";
+    private static final float STROKE_WIDTH_MULTIPLIER_MAX = 0.2f;
+    private static final float STROKE_WIDTH_MULTIPLIER_MIN = 0.02f;
+    private static final int DEFAULT_STROKE_COLOR = Color.BLACK;
+    private static final int DEFAULT_TEXT_COLOR = Color.WHITE;
 
-
-    CharSequence currentMessage;
+    private CharSequence currentMessage;
     private Bitmap bitmap;
     private TouchImageView mImageView;
     private OverlayTextView textOverlayView;
     private RecyclerView rvChooser;
+    private FrameLayout flSeekbar;
+    private SeekBar seekBar;
     private ColorsRvAdapter colorAdapter;
     int[] mColorChoices;
     private FontRvAdapter fontAdapter;
+    private View selectedView;
+
+    ImageView ivColor;
+    ImageView ivFont;
+    ImageView ivBorder;
+    ImageView ivShadow;
+    ImageView ivBackground;
 
 
     @Override
@@ -48,11 +63,17 @@ public class PhotoOverlayActivity extends AppCompatActivity
         setContentView(R.layout.activity_photo_overlay);
 
         setupToolbar();
-        setupImageView();
-
+        setupPhotoView();
         getIntentData();
         createTextOverlay();
         layoutTextOverlay();
+        setupRecyclerView();
+        setupColorAdapter();
+        setupFontAdapter();
+        setupSeekBar();
+        setupBottomToolbar();
+
+
     }
 
     private void setupToolbar() {
@@ -66,7 +87,7 @@ public class PhotoOverlayActivity extends AppCompatActivity
         }
     }
 
-    private void setupImageView() {
+    private void setupPhotoView() {
         mImageView = findViewById(R.id.imageView);
         mImageView.setOnTouchListener(mImageViewTouchListener);
     }
@@ -109,12 +130,12 @@ public class PhotoOverlayActivity extends AppCompatActivity
     private void createTextOverlay() {
         textOverlayView = new OverlayTextView(this);
         textOverlayView.setText(currentMessage);
+        textOverlayView.setTextColor(DEFAULT_TEXT_COLOR);
         FrameLayout layout = findViewById(R.id.photo_frame_layout);
         layout.addView(textOverlayView);
     }
 
     private void layoutTextOverlay() {
-        //final View content = findViewById(android.R.id.content);
         textOverlayView.getViewTreeObserver()
                 .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
@@ -128,6 +149,69 @@ public class PhotoOverlayActivity extends AppCompatActivity
                         textOverlayView.setY(y);
                     }
                 });
+    }
+
+
+    private void setupRecyclerView() {
+        rvChooser = findViewById(R.id.rv_photo_overlay_choices);
+        LinearLayoutManager horizontalLayoutManager
+                = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        rvChooser.setLayoutManager(horizontalLayoutManager);
+    }
+
+    private void setupColorAdapter() {
+        int[] viewColors = getColorChoices();
+        colorAdapter = new ColorsRvAdapter(this, R.layout.colors_rv_item, viewColors);
+        colorAdapter.setClickListener(this);
+    }
+
+    private int[] getColorChoices() {
+        if (mColorChoices == null)
+            mColorChoices = getResources().getIntArray(R.array.color_choices);
+        return mColorChoices;
+    }
+
+    private void setupFontAdapter() {
+        List<Font> fonts = Font.getAvailableFonts(this);
+        fontAdapter = new FontRvAdapter(this, fonts);
+        fontAdapter.setClickListener(this);
+    }
+
+    private void setupSeekBar() {
+        flSeekbar = findViewById(R.id.fl_seekbar);
+        seekBar = findViewById(R.id.seekBar);
+        seekBar.setOnSeekBarChangeListener(seekBarChangeListener);
+    }
+
+    private SeekBar.OnSeekBarChangeListener seekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            float multiplier = getStrokeMultiplierFromSeekBarProgress(progress);
+            textOverlayView.setStrokeWidthMultiplier(multiplier);
+            if (textOverlayView.getStrokeColor() == 0)
+                textOverlayView.setStrokeColor(DEFAULT_STROKE_COLOR);
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+        }
+    };
+
+    private float getStrokeMultiplierFromSeekBarProgress(int progress) {
+        return STROKE_WIDTH_MULTIPLIER_MIN
+                + (STROKE_WIDTH_MULTIPLIER_MAX - STROKE_WIDTH_MULTIPLIER_MIN) * progress / 100;
+    }
+
+    private void setupBottomToolbar() {
+        ivColor = findViewById(R.id.iv_color);
+        ivFont = findViewById(R.id.iv_font);
+        ivBorder = findViewById(R.id.iv_border);
+        ivShadow = findViewById(R.id.iv_shadow);
+        ivBackground = findViewById(R.id.iv_background);
     }
 
     @Override
@@ -154,6 +238,14 @@ public class PhotoOverlayActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if (rvChooser.getVisibility() == View.VISIBLE)
+            hideSettingBars();
+        else
+            super.onBackPressed();
+    }
+
     private void savePhoto() {
 
     }
@@ -163,80 +255,113 @@ public class PhotoOverlayActivity extends AppCompatActivity
     }
 
     public void onColorToolbarItemClick(View view) {
-        if (rvChooser == null)
-            setupRecyclerView();
-        if (colorAdapter == null)
-            setupColorAdapter();
-        if (rvChooser.getAdapter() != colorAdapter) {
-            rvChooser.setAdapter(colorAdapter);
-            rvChooser.setVisibility(View.VISIBLE);
-            return;
-        }
-        swapRvVisibility();
+        setColorAdapter();
+        setVisibility(view);
     }
 
-    private void setupRecyclerView() {
-        rvChooser = findViewById(R.id.rv_photo_overlay_choices);
-        LinearLayoutManager horizontalLayoutManager
-                = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        rvChooser.setLayoutManager(horizontalLayoutManager);
+    private void setColorAdapter() {
+        if (rvChooser.getAdapter() == colorAdapter) return;
+        rvChooser.setAdapter(colorAdapter);
     }
 
-    private void setupColorAdapter() {
-        int[] viewColors = getColorChoices();
-        colorAdapter = new ColorsRvAdapter(this, R.layout.colors_rv_item, viewColors);
-        colorAdapter.setClickListener(this);
-    }
-
-    private int[] getColorChoices() {
-        if (mColorChoices == null)
-            mColorChoices = getResources().getIntArray(R.array.color_choices);
-        return mColorChoices;
+    private void setFontAdapter() {
+        if (rvChooser.getAdapter() == fontAdapter) return;
+        rvChooser.setAdapter(fontAdapter);
     }
 
     public void onFontToolbarItemClick(View view) {
-        if (rvChooser == null)
-            setupRecyclerView();
-        if (fontAdapter == null)
-            setupFontAdapter();
-        if (rvChooser.getAdapter() != fontAdapter) {
-            rvChooser.setAdapter(fontAdapter);
-            rvChooser.setVisibility(View.VISIBLE);
+        setFontAdapter();
+        setVisibility(view);
+    }
+
+    private void setVisibility(View view) {
+
+
+        // hide if already selected
+        if (selectedView == view &&
+                rvChooser.getVisibility() == View.VISIBLE) {
+            hideSettingBars();
             return;
         }
-        swapRvVisibility();
-    }
+        selectedView = view;
 
-    private void setupFontAdapter() {
-        List<Font> fonts = Font.getAvailableFonts(this);
-        fontAdapter = new FontRvAdapter(this, fonts);
-        fontAdapter.setClickListener(this);
-    }
-
-    private void swapRvVisibility() {
-        if (rvChooser.getVisibility() == View.VISIBLE) {
-            rvChooser.setVisibility(View.INVISIBLE);
-        } else {
-            rvChooser.setVisibility(View.VISIBLE);
+        // show setting bars
+        rvChooser.setVisibility(View.VISIBLE);
+        unselectAllItems();
+        int id = view.getId();
+        switch (id) {
+            case R.id.fl_photo_overlay_color:
+                ivColor.setSelected(true);
+                flSeekbar.setVisibility(View.INVISIBLE);
+                break;
+            case R.id.fl_photo_overlay_font:
+                ivFont.setSelected(true);
+                flSeekbar.setVisibility(View.INVISIBLE);
+                break;
+            case R.id.fl_photo_overlay_border:
+                ivBorder.setSelected(true);
+                flSeekbar.setVisibility(View.VISIBLE);
+                break;
+            case R.id.fl_photo_overlay_shadow:
+                ivShadow.setSelected(true);
+                flSeekbar.setVisibility(View.VISIBLE);
+                break;
+            case R.id.fl_photo_overlay_background:
+                ivBackground.setSelected(true);
+                flSeekbar.setVisibility(View.VISIBLE);
+                break;
         }
+    }
+
+    private void hideSettingBars() {
+        rvChooser.setVisibility(View.INVISIBLE);
+        flSeekbar.setVisibility(View.INVISIBLE);
+        unselectAllItems();
+    }
+
+    private void unselectAllItems() {
+        ivColor.setSelected(false);
+        ivFont.setSelected(false);
+        ivBorder.setSelected(false);
+        ivShadow.setSelected(false);
+        ivBackground.setSelected(false);
     }
 
     public void onBorderToolbarItemClick(View view) {
-
+        setColorAdapter();
+        setVisibility(view);
     }
 
     public void onShadowToolbarItemClick(View view) {
-
+        setColorAdapter();
+        setVisibility(view);
     }
 
     public void onBackgroundToolbarItemClick(View view) {
-
+        setColorAdapter();
+        setVisibility(view);
     }
 
     @Override
     public void onColorItemClick(View view, int position) {
         int color = colorAdapter.getColorAtPosition(position);
-        textOverlayView.setTextColor(color);
+        int id = selectedView.getId();
+        switch (id) {
+            case R.id.fl_photo_overlay_color:
+                textOverlayView.setTextColor(color);
+                break;
+            case R.id.fl_photo_overlay_border:
+                textOverlayView.setStrokeColor(color);
+                float multiplier = getStrokeMultiplierFromSeekBarProgress(seekBar.getProgress());
+                textOverlayView.setStrokeWidthMultiplier(multiplier);
+                break;
+            case R.id.fl_photo_overlay_shadow:
+                //textOverlayView.setTextColor(color);
+                break;
+            case R.id.fl_photo_overlay_background:
+                //textOverlayView.setTextColor(color);
+                break;
+        }
     }
 
     @Override
