@@ -160,22 +160,36 @@
 
     </android.support.v7.widget.RecyclerView>
 
-    <FrameLayout
-        android:id="@+id/fl_seekbar"
+    <LinearLayout
+        android:id="@+id/ll_seekbar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_above="@id/rv_photo_overlay_choices"
         android:background="@color/light_grey"
+        android:orientation="horizontal"
         android:visibility="invisible">
 
         <SeekBar
-            android:id="@+id/seekBar"
+            android:id="@+id/generalSeekBar"
             android:max="100"
             android:progress="50"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            />
 
-    </FrameLayout>
+        <SeekBar
+            android:id="@+id/shadow_radius_seekBar"
+            android:max="100"
+            android:progress="50"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:visibility="gone"
+            />
+
+    </LinearLayout>
 
 </RelativeLayout>

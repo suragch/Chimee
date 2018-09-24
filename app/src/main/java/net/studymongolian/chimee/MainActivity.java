@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.List;
 
 
 import net.studymongolian.mongollibrary.ImeContainer;
@@ -19,7 +17,6 @@ import net.studymongolian.mongollibrary.MongolMenuItem;
 import net.studymongolian.mongollibrary.MongolToast;
 import net.studymongolian.mongollibrary.MongolTypefaceSpan;
 
-import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -54,9 +51,7 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity
         implements ImeContainer.OnNonSystemImeListener,
@@ -522,16 +517,17 @@ public class MainActivity extends AppCompatActivity
 
     private void photoActionBarItemClick() {
 
+        if (TextUtils.isEmpty(inputWindow.getText().toString().trim())) {
+            MongolToast.makeText(this, R.string.input_window_empty,
+                    MongolToast.LENGTH_SHORT).show();
+            return;
+        }
 
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         startActivityForResult(intent, PHOTO_REQUEST_CODE);
-
-
-
-
     }
 
 

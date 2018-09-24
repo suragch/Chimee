@@ -19,7 +19,9 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import net.studymongolian.mongollibrary.MongolFont;
 
@@ -35,6 +37,10 @@ public class PhotoOverlayActivity extends AppCompatActivity
     public static final String CURRENT_MESSAGE_KEY = "message";
     private static final float STROKE_WIDTH_MULTIPLIER_MAX = 0.2f;
     private static final float STROKE_WIDTH_MULTIPLIER_MIN = 0.02f;
+    private static final float SHADOW_SPIRAL_ANGLE_RADIANS_MIN = 0;
+    private static final float SHADOW_SPIRAL_ANGLE_RADIANS_MAX = (float) (6*Math.PI);
+    private static final float SHADOW_RADIUS_MIN = 0;
+    private static final float SHADOW_RADIUS_MAX = 20;
     private static final int DEFAULT_STROKE_COLOR = Color.BLACK;
     private static final int DEFAULT_TEXT_COLOR = Color.WHITE;
 
@@ -43,8 +49,9 @@ public class PhotoOverlayActivity extends AppCompatActivity
     private TouchImageView mImageView;
     private OverlayTextView textOverlayView;
     private RecyclerView rvChooser;
-    private FrameLayout flSeekbar;
-    private SeekBar seekBar;
+    private LinearLayout llSeekbar;
+    private SeekBar generalSeekBar;
+    private SeekBar shadowRadiusSeekBar;
     private ColorsRvAdapter colorAdapter;
     int[] mColorChoices;
     private FontRvAdapter fontAdapter;
@@ -178,33 +185,93 @@ public class PhotoOverlayActivity extends AppCompatActivity
     }
 
     private void setupSeekBar() {
-        flSeekbar = findViewById(R.id.fl_seekbar);
-        seekBar = findViewById(R.id.seekBar);
-        seekBar.setOnSeekBarChangeListener(seekBarChangeListener);
+        llSeekbar = findViewById(R.id.ll_seekbar);
+        generalSeekBar = findViewById(R.id.generalSeekBar);
+        generalSeekBar.setOnSeekBarChangeListener(seekBarChangeListener);
+        shadowRadiusSeekBar = findViewById(R.id.shadow_radius_seekBar);
+        shadowRadiusSeekBar.setOnSeekBarChangeListener(shadowRadiusListener);
     }
+
 
     private SeekBar.OnSeekBarChangeListener seekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            switch (selectedView.getId()) {
+                case R.id.fl_photo_overlay_border:
+                    updateBorderFromProgress(progress);
+                    break;
+                case R.id.fl_photo_overlay_shadow:
+                    updateShadowXyFromProgress(progress);
+                    break;
+                case R.id.fl_photo_overlay_background:
+                    updateBackgroundFromProgress(progress);
+                    break;
+            }
+
+        }
+
+        private void updateBorderFromProgress(int progress) {
             float multiplier = getStrokeMultiplierFromSeekBarProgress(progress);
             textOverlayView.setStrokeWidthMultiplier(multiplier);
             if (textOverlayView.getStrokeColor() == 0)
                 textOverlayView.setStrokeColor(DEFAULT_STROKE_COLOR);
         }
 
-        @Override
-        public void onStartTrackingTouch(SeekBar seekBar) {
+        private void updateShadowXyFromProgress(int progress) {
+
+            int color = textOverlayView.getShadowColor();
+            if (color == Color.TRANSPARENT) return;
+
+            // do a spiral looping three times (spiral of Archimedes)
+            float radians = getShadowSpiralAngleFromSeekBarProgress(progress);
+            float dx = (float) (radians * Math.cos(radians));
+            float dy = (float) (radians * Math.sin(radians));
+            float shadowRadius = textOverlayView.getShadowRadius();
+            textOverlayView.setShadowLayer(shadowRadius, dx, dy, color);
+        }
+
+        private void updateBackgroundFromProgress(int progress) {
+
         }
 
         @Override
-        public void onStopTrackingTouch(SeekBar seekBar) {
-        }
+        public void onStartTrackingTouch(SeekBar seekBar) {}
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {}
     };
+
+    private float getShadowSpiralAngleFromSeekBarProgress(int progress) {
+        return SHADOW_SPIRAL_ANGLE_RADIANS_MIN
+                + (SHADOW_SPIRAL_ANGLE_RADIANS_MAX - SHADOW_SPIRAL_ANGLE_RADIANS_MIN) * progress / 100;
+    }
+
+    private float getShadowRadiusFromSeekBarProgress(int progress) {
+        return SHADOW_RADIUS_MIN
+                + (SHADOW_RADIUS_MAX - SHADOW_RADIUS_MIN) * progress / 100;
+    }
 
     private float getStrokeMultiplierFromSeekBarProgress(int progress) {
         return STROKE_WIDTH_MULTIPLIER_MIN
                 + (STROKE_WIDTH_MULTIPLIER_MAX - STROKE_WIDTH_MULTIPLIER_MIN) * progress / 100;
     }
+
+    private SeekBar.OnSeekBarChangeListener shadowRadiusListener = new SeekBar.OnSeekBarChangeListener() {
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            int color = textOverlayView.getShadowColor();
+            if (color == Color.TRANSPARENT) return;
+
+            float dx = textOverlayView.getShadowDx();
+            float dy = textOverlayView.getShadowDy();
+            float shadowRadius = getShadowRadiusFromSeekBarProgress(progress);
+            textOverlayView.setShadowLayer(shadowRadius, dx, dy, color);
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {}
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {}
+    };
 
     private void setupBottomToolbar() {
         ivColor = findViewById(R.id.iv_color);
@@ -292,30 +359,30 @@ public class PhotoOverlayActivity extends AppCompatActivity
         switch (id) {
             case R.id.fl_photo_overlay_color:
                 ivColor.setSelected(true);
-                flSeekbar.setVisibility(View.INVISIBLE);
+                llSeekbar.setVisibility(View.INVISIBLE);
                 break;
             case R.id.fl_photo_overlay_font:
                 ivFont.setSelected(true);
-                flSeekbar.setVisibility(View.INVISIBLE);
+                llSeekbar.setVisibility(View.INVISIBLE);
                 break;
             case R.id.fl_photo_overlay_border:
                 ivBorder.setSelected(true);
-                flSeekbar.setVisibility(View.VISIBLE);
+                llSeekbar.setVisibility(View.VISIBLE);
                 break;
             case R.id.fl_photo_overlay_shadow:
                 ivShadow.setSelected(true);
-                flSeekbar.setVisibility(View.VISIBLE);
+                llSeekbar.setVisibility(View.VISIBLE);
                 break;
             case R.id.fl_photo_overlay_background:
                 ivBackground.setSelected(true);
-                flSeekbar.setVisibility(View.VISIBLE);
+                llSeekbar.setVisibility(View.VISIBLE);
                 break;
         }
     }
 
     private void hideSettingBars() {
         rvChooser.setVisibility(View.INVISIBLE);
-        flSeekbar.setVisibility(View.INVISIBLE);
+        llSeekbar.setVisibility(View.INVISIBLE);
         unselectAllItems();
     }
 
@@ -352,11 +419,14 @@ public class PhotoOverlayActivity extends AppCompatActivity
                 break;
             case R.id.fl_photo_overlay_border:
                 textOverlayView.setStrokeColor(color);
-                float multiplier = getStrokeMultiplierFromSeekBarProgress(seekBar.getProgress());
+                float multiplier = getStrokeMultiplierFromSeekBarProgress(generalSeekBar.getProgress());
                 textOverlayView.setStrokeWidthMultiplier(multiplier);
                 break;
             case R.id.fl_photo_overlay_shadow:
-                //textOverlayView.setTextColor(color);
+                float radius = textOverlayView.getShadowRadius();
+                float dx = textOverlayView.getShadowDx();
+                float dy = textOverlayView.getShadowDy();
+                textOverlayView.setShadowLayer(radius, dx, dy, color);
                 break;
             case R.id.fl_photo_overlay_background:
                 //textOverlayView.setTextColor(color);

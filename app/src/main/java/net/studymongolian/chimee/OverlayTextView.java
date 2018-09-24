@@ -326,5 +326,25 @@ public class OverlayTextView extends ViewGroup {
     public void setStrokeColor(int color) {
         mTextView.setStrokeColor(color);
     }
+
+    public void setShadowLayer(float shadowRadius, float dx, float dy, int color) {
+        mTextView.setShadowLayer(shadowRadius, dx, dy, color);
+    }
+
+    public float getShadowRadius() {
+        return mTextView.getShadowRadius();
+    }
+
+    public int getShadowColor() {
+        return mTextView.getShadowColor();
+    }
+
+    public float getShadowDx() {
+        return mTextView.getShadowDx();
+    }
+
+    public float getShadowDy() {
+        return mTextView.getShadowDy();
+    }
 }
 
