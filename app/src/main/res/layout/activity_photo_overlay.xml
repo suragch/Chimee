@@ -150,27 +150,52 @@
 
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_photo_overlay_choices"
+    <LinearLayout
+        android:id="@+id/ll_photo_overlay_colors"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/ll_bottom_toolbar"
         android:background="@color/light_grey"
-        android:visibility="invisible">
+        android:orientation="horizontal">
 
-    </android.support.v7.widget.RecyclerView>
+        <FrameLayout
+            android:id="@+id/fl_cancel_color"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:clickable="true"
+            android:background="@drawable/custom_ripple"
+            android:onClick="onCancelColorToolbarItemClick">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="5dp"
+                android:background="@drawable/photo_toolbar_item"
+                android:src="@drawable/ic_clear_black_24dp" />
+
+        </FrameLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_photo_overlay_choices"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ll_seekbar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_above="@id/rv_photo_overlay_choices"
+        android:layout_above="@id/ll_photo_overlay_colors"
         android:background="@color/light_grey"
         android:orientation="horizontal"
         android:visibility="invisible">
 
         <SeekBar
-            android:id="@+id/generalSeekBar"
+            android:id="@+id/left_seekbar"
             android:max="100"
             android:progress="50"
             android:layout_width="0dp"
@@ -180,7 +205,7 @@
             />
 
         <SeekBar
-            android:id="@+id/shadow_radius_seekBar"
+            android:id="@+id/right_seekbar"
             android:max="100"
             android:progress="50"
             android:layout_width="0dp"

@@ -33,6 +33,9 @@ public class OverlayTextView extends ViewGroup {
     private Paint borderPaint;
     private int controlTouchAreaSize;
     public float mStrokeMultiplier = 0;
+    private float mShadowRadiusMultiplier = 0;
+    private float mShadowDxMultiplier = 0;
+    private float mShadowDyMultiplier = 0;
 
     public OverlayTextView(Context context) {
         super(context);
@@ -46,6 +49,7 @@ public class OverlayTextView extends ViewGroup {
         setupTextView(context);
         setupControls(context);
         setWillNotDraw(false);
+        setLayerType(View.LAYER_TYPE_SOFTWARE, null);
     }
 
     private void setDpValues() {
@@ -60,6 +64,10 @@ public class OverlayTextView extends ViewGroup {
 
     private float convertPxToSp(float sizePx) {
         return sizePx / getResources().getDisplayMetrics().scaledDensity;
+    }
+
+    private float convertSpToPx(float sizeSp) {
+        return sizeSp * getResources().getDisplayMetrics().scaledDensity;
     }
 
     private void initPaint() {
@@ -158,17 +166,48 @@ public class OverlayTextView extends ViewGroup {
         private void increaseFontSize() {
             float currentTextSize = convertPxToSp(mTextView.getTextSize());
             float newTextSize = currentTextSize + 0.5f;
-            mTextView.setTextSize(newTextSize);
-            mTextView.setStrokeWidth(newTextSize * mStrokeMultiplier);
+            updateTextViewSize(newTextSize);
+//            mTextView.setTextSize(newTextSize);
+//            mTextView.setStrokeWidth(newTextSize * mStrokeMultiplier);
+//            if (mTextView.getShadowRadius() > 0 && mTextView.getShadowColor() != Color.TRANSPARENT) {
+//                float radius = newTextSize * mShadowRadiusMultiplier;
+//                float dx = newTextSize * mShadowDxMultiplier;
+//                float dy = newTextSize * mShadowDyMultiplier;
+//                mTextView.setShadowLayer(radius, dx, dy, mTextView.getShadowColor());
+//            }
         }
 
         private void decreaseFontSize() {
             float currentTextSize = convertPxToSp(mTextView.getTextSize());
             float newTextSize = currentTextSize - 0.5f;
-            mTextView.setTextSize(newTextSize);
-            mTextView.setStrokeWidth(newTextSize * mStrokeMultiplier);
+            updateTextViewSize(newTextSize);
+//            mTextView.setTextSize(newTextSize);
+//            mTextView.setStrokeWidth(newTextSize * mStrokeMultiplier);
+//            if (mTextView.getShadowRadius() > 0 && mTextView.getShadowColor() != Color.TRANSPARENT) {
+//                float radius = newTextSize * mShadowRadiusMultiplier;
+//                float dx = newTextSize * mShadowDxMultiplier;
+//                float dy = newTextSize * mShadowDyMultiplier;
+//                mTextView.setShadowLayer(radius, dx, dy, mTextView.getShadowColor());
+//            }
+        }
+
+        private void updateTextViewSize(float fontSizeSp) {
+            // text
+            mTextView.setTextSize(fontSizeSp);
+            // stroke
+            mTextView.setStrokeWidth(fontSizeSp * mStrokeMultiplier);
+            // shadow
+            if (mTextView.getShadowRadius() > 0 && mTextView.getShadowColor() != Color.TRANSPARENT) {
+                float sizePx = convertSpToPx(fontSizeSp);
+                float radius = sizePx * mShadowRadiusMultiplier;
+                float dx = sizePx * mShadowDxMultiplier;
+                float dy = sizePx * mShadowDyMultiplier;
+                mTextView.setShadowLayer(radius, dx, dy, mTextView.getShadowColor());
+            }
         }
     };
+
+
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -319,6 +358,10 @@ public class OverlayTextView extends ViewGroup {
         mTextView.setStrokeWidth(strokeWidth);
     }
 
+    public float getStrokeMultiplier() {
+        return mStrokeMultiplier;
+    }
+
     public int getStrokeColor() {
         return mTextView.getStrokeColor();
     }
@@ -327,24 +370,47 @@ public class OverlayTextView extends ViewGroup {
         mTextView.setStrokeColor(color);
     }
 
-    public void setShadowLayer(float shadowRadius, float dx, float dy, int color) {
+    /**
+     * this sets the shadow radius and offset as a percentage of the font size
+     * @param radiusMultiplier a value usually from 0 to about 1 (0 means no shadow)
+     * @param dxMultiplier x offset multiplier
+     * @param dyMultiplier y offset multiplier
+     * @param color shadow color, no multiplier needed
+     */
+    public void setShadowLayerMultipliers(
+            float radiusMultiplier,
+            float dxMultiplier,
+            float dyMultiplier,
+            int color) {
+
+        mShadowRadiusMultiplier = radiusMultiplier;
+        mShadowDxMultiplier = dxMultiplier;
+        mShadowDyMultiplier = dyMultiplier;
+        float textSizePx = mTextView.getTextSize();
+        float shadowRadius = textSizePx * radiusMultiplier;
+        float dx = textSizePx * dxMultiplier;
+        float dy = textSizePx * dyMultiplier;
         mTextView.setShadowLayer(shadowRadius, dx, dy, color);
     }
 
-    public float getShadowRadius() {
-        return mTextView.getShadowRadius();
+    public float getShadowRadiusMultiplier() {
+        return mShadowRadiusMultiplier;
     }
 
     public int getShadowColor() {
         return mTextView.getShadowColor();
     }
 
-    public float getShadowDx() {
-        return mTextView.getShadowDx();
+    public float getShadowDxMultiplier() {
+        return mShadowDxMultiplier;
     }
 
-    public float getShadowDy() {
-        return mTextView.getShadowDy();
+    public float getShadowDyMultiplier() {
+        return mShadowDyMultiplier;
+    }
+
+    public float getTextSize() {
+        return mTextView.getTextSize();
     }
 }
 
