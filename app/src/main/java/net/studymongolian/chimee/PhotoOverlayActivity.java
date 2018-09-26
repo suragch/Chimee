@@ -41,9 +41,14 @@ public class PhotoOverlayActivity extends AppCompatActivity
     private static final float SHADOW_RADIUS_MULTIPLIER_MIN = 0.01f;
     private static final float SHADOW_RADIUS_MULTIPLIER_MAX = 0.2f;
     private static final float DEFAULT_SHADOW_RADIUS_MULTIPLIER = 0.1f;
+    private static final float BG_CORNER_RADIUS_MULTIPLIER_MIN = 0;
+    private static final float BG_CORNER_RADIUS_MULTIPLIER_MAX = 0.2f;
+    private static final int BG_OPACITY_MIN = 0x00;
+    private static final int BG_OPACITY_MAX = 0xff;
     private static final int DEFAULT_STROKE_COLOR = Color.BLACK;
     private static final int DEFAULT_TEXT_COLOR = Color.WHITE;
     private static final int DEFAULT_SHADOW_COLOR = Color.BLACK;
+    private static final int DEFAULT_BG_COLOR = Color.LTGRAY;
 
     private CharSequence currentMessage;
     private Bitmap bitmap;
@@ -222,7 +227,7 @@ public class PhotoOverlayActivity extends AppCompatActivity
             borderSeekBarProgress = progress;
             float multiplier = getStrokeMultiplierFromSeekBarProgress(progress);
             textOverlayView.setStrokeWidthMultiplier(multiplier);
-            if (textOverlayView.getStrokeColor() == 0) {
+            if (textOverlayView.getStrokeColor() == Color.TRANSPARENT) {
                 textOverlayView.setStrokeColor(DEFAULT_STROKE_COLOR);
             }
         }
@@ -247,7 +252,10 @@ public class PhotoOverlayActivity extends AppCompatActivity
 
         private void updateBackgroundOpacityFromProgress(int progress) {
             backgroundLeftSeekBarProgress = progress;
-
+            if (textOverlayView.getRoundBackgroundColor() == 0)
+                textOverlayView.setBackgroundColor(DEFAULT_BG_COLOR);
+            int opacity = getBackgroungOpacityFromSeekBarProgress(progress);
+            textOverlayView.setBackgroundOpacity(opacity);
         }
 
         @Override
@@ -265,14 +273,24 @@ public class PhotoOverlayActivity extends AppCompatActivity
         return new PointFloat(dx, dy);
     }
 
+    private float getStrokeMultiplierFromSeekBarProgress(int progress) {
+        return STROKE_WIDTH_MULTIPLIER_MIN
+                + (STROKE_WIDTH_MULTIPLIER_MAX - STROKE_WIDTH_MULTIPLIER_MIN) * progress / 100;
+    }
+
     private float getShadowRadiusMultiplierFromSeekBarProgress(int progress) {
         return SHADOW_RADIUS_MULTIPLIER_MIN
                 + (SHADOW_RADIUS_MULTIPLIER_MAX - SHADOW_RADIUS_MULTIPLIER_MIN) * progress / 100;
     }
 
-    private float getStrokeMultiplierFromSeekBarProgress(int progress) {
-        return STROKE_WIDTH_MULTIPLIER_MIN
-                + (STROKE_WIDTH_MULTIPLIER_MAX - STROKE_WIDTH_MULTIPLIER_MIN) * progress / 100;
+    private float getBgCornerMultiplierFromSeekBarProgress(int progress) {
+        return BG_CORNER_RADIUS_MULTIPLIER_MIN
+                + (BG_CORNER_RADIUS_MULTIPLIER_MAX - BG_CORNER_RADIUS_MULTIPLIER_MIN) * progress / 100;
+    }
+
+    private int getBackgroungOpacityFromSeekBarProgress(int progress) {
+        return BG_OPACITY_MIN
+                + (BG_OPACITY_MAX - BG_OPACITY_MIN) * progress / 100;
     }
 
     private int getSeekBarProgressFromStrokeMultiplier(float multiplier) {
@@ -308,8 +326,14 @@ public class PhotoOverlayActivity extends AppCompatActivity
         }
 
         private void updateBackgroundCornerRadiusFromProgress(int progress) {
-
             backgroundRightSeekBarProgress = progress;
+
+            int color = textOverlayView.getRoundBackgroundColor();
+            if (color == Color.TRANSPARENT)
+                textOverlayView.setRoundBackgroundColor(DEFAULT_BG_COLOR);
+
+            float radiusMultiplier = getBgCornerMultiplierFromSeekBarProgress(progress);
+            textOverlayView.setBackgroundCornerRadiusMultiplier(radiusMultiplier);
         }
 
         @Override
@@ -390,7 +414,7 @@ public class PhotoOverlayActivity extends AppCompatActivity
     }
 
     private void setVisibility(View view) {
-
+        if (view == null) return;
 
         // hide if already selected
         if (selectedView == view &&
@@ -518,7 +542,9 @@ public class PhotoOverlayActivity extends AppCompatActivity
                 setShadowColor(color);
                 break;
             case R.id.fl_photo_overlay_background:
-                //textOverlayView.setTextColor(color);
+                textOverlayView.setRoundBackgroundColor(color);
+//                float bgMultiplier = getBgCornerMultiplierFromSeekBarProgress(leftSeekBar.getProgress());
+//                textOverlayView.setBackgroundCornerRadiusMultiplier(bgMultiplier);
                 break;
         }
     }
@@ -537,7 +563,7 @@ public class PhotoOverlayActivity extends AppCompatActivity
                 textOverlayView.setShadowLayerMultipliers(0, 0, 0, color);
                 break;
             case R.id.fl_photo_overlay_background:
-                //textOverlayView.setTextColor(color);
+                textOverlayView.setRoundBackgroundColor(color);
                 break;
         }
     }

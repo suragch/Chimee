@@ -2,15 +2,21 @@ package net.studymongolian.chimee;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.RectF;
 
 import net.studymongolian.mongollibrary.MongolTextView;
 
 public class ScalableTextView extends MongolTextView {
 
+    private static final int BG_PADDING_PX = 2;
     private float mScaleX = 1f;
     private float mScaleY = 1f;
     private int unscaledWidth;
     private int unScaledHeight;
+    private int mBgColor = Color.LTGRAY;
+    private float mBgCornerRadius = 50.0f;
 
     public ScalableTextView(Context context) {
         super(context);
@@ -31,10 +37,23 @@ public class ScalableTextView extends MongolTextView {
     @Override
     protected void onDraw(Canvas canvas) {
         canvas.save();
+        drawBackground(canvas);
         canvas.translate(getPaddingLeft(), getPaddingTop());
         canvas.scale(mScaleX, mScaleY);
         mLayout.draw(canvas);
         canvas.restore();
+    }
+
+    private void drawBackground(Canvas canvas) {
+        Paint bgPaint = new Paint();
+        bgPaint.setStyle(Paint.Style.FILL);
+        bgPaint.setColor(mBgColor);
+        int left = getLeft() + BG_PADDING_PX;
+        int top = getTop() + BG_PADDING_PX;
+        int right = getRight() - BG_PADDING_PX;
+        int bottom = getBottom() - BG_PADDING_PX;
+        canvas.drawRoundRect(new RectF(left, top, right, bottom),
+                mBgCornerRadius, mBgCornerRadius, bgPaint);
     }
 
     @Override
@@ -67,5 +86,19 @@ public class ScalableTextView extends MongolTextView {
 
     public int getUnscaledHeight() {
         return unScaledHeight;
+    }
+
+    public int getRoundBackgroundColor() {
+        return mBgColor;
+    }
+
+    public void setBackgroundCornerRadius(float cornerRadius) {
+        mBgCornerRadius = cornerRadius;
+        invalidate();
+    }
+
+    public void setRoundBackgroundColor(int color) {
+        mBgColor = color;
+        invalidate();
     }
 }

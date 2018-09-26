@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.support.annotation.ColorInt;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,9 @@ public class OverlayTextView extends ViewGroup {
     private float mShadowRadiusMultiplier = 0;
     private float mShadowDxMultiplier = 0;
     private float mShadowDyMultiplier = 0;
+    private float mBgCornerRadiusMultiplier = 0;
+    private int mBgColor = 0;
+    private int mBgOpacity = 0;
 
     public OverlayTextView(Context context) {
         super(context);
@@ -167,28 +171,12 @@ public class OverlayTextView extends ViewGroup {
             float currentTextSize = convertPxToSp(mTextView.getTextSize());
             float newTextSize = currentTextSize + 0.5f;
             updateTextViewSize(newTextSize);
-//            mTextView.setTextSize(newTextSize);
-//            mTextView.setStrokeWidth(newTextSize * mStrokeMultiplier);
-//            if (mTextView.getShadowRadius() > 0 && mTextView.getShadowColor() != Color.TRANSPARENT) {
-//                float radius = newTextSize * mShadowRadiusMultiplier;
-//                float dx = newTextSize * mShadowDxMultiplier;
-//                float dy = newTextSize * mShadowDyMultiplier;
-//                mTextView.setShadowLayer(radius, dx, dy, mTextView.getShadowColor());
-//            }
         }
 
         private void decreaseFontSize() {
             float currentTextSize = convertPxToSp(mTextView.getTextSize());
             float newTextSize = currentTextSize - 0.5f;
             updateTextViewSize(newTextSize);
-//            mTextView.setTextSize(newTextSize);
-//            mTextView.setStrokeWidth(newTextSize * mStrokeMultiplier);
-//            if (mTextView.getShadowRadius() > 0 && mTextView.getShadowColor() != Color.TRANSPARENT) {
-//                float radius = newTextSize * mShadowRadiusMultiplier;
-//                float dx = newTextSize * mShadowDxMultiplier;
-//                float dy = newTextSize * mShadowDyMultiplier;
-//                mTextView.setShadowLayer(radius, dx, dy, mTextView.getShadowColor());
-//            }
         }
 
         private void updateTextViewSize(float fontSizeSp) {
@@ -270,8 +258,8 @@ public class OverlayTextView extends ViewGroup {
 
         int left = getPaddingLeft();
         int top = getPaddingTop();
-        int right = left + mTextView.getWidth();
-        int bottom = top + mTextView.getHeight();
+        int right = left + mTextView.getWidth() + 5;
+        int bottom = top + mTextView.getHeight() + 5;
         borderPaint.setColor(Color.BLACK);
         canvas.drawRect(left, top, right, bottom, borderPaint);
         borderPaint.setColor(Color.WHITE);
@@ -358,10 +346,6 @@ public class OverlayTextView extends ViewGroup {
         mTextView.setStrokeWidth(strokeWidth);
     }
 
-    public float getStrokeMultiplier() {
-        return mStrokeMultiplier;
-    }
-
     public int getStrokeColor() {
         return mTextView.getStrokeColor();
     }
@@ -411,6 +395,41 @@ public class OverlayTextView extends ViewGroup {
 
     public float getTextSize() {
         return mTextView.getTextSize();
+    }
+
+    public int getRoundBackgroundColor() {
+        return mTextView.getRoundBackgroundColor();
+    }
+
+    /**
+     * this sets the background corner radius as a percentage of the font size
+     * @param multiplier a value usually from 0 to about 0.2 (0 means 90 degree corners)
+     */
+    public void setBackgroundCornerRadiusMultiplier(float multiplier) {
+        mBgCornerRadiusMultiplier = multiplier;
+        float currentTextSize = convertPxToSp(mTextView.getTextSize());
+        float cornerRadius = currentTextSize * multiplier;
+        mTextView.setBackgroundCornerRadius(cornerRadius);
+    }
+
+    public void setRoundBackgroundColor(int color) {
+        mBgColor = color;
+        int colorWithAlpha = getColorWithAlpha(mBgOpacity, color);
+        mTextView.setRoundBackgroundColor(colorWithAlpha);
+    }
+
+    public void setBackgroundOpacity(int opacity) {
+        mBgOpacity = opacity;
+        int color = getColorWithAlpha(opacity, mBgColor);
+        mTextView.setRoundBackgroundColor(color);
+    }
+
+    @ColorInt
+    public static int getColorWithAlpha(int alpha, @ColorInt int color) {
+        int red = Color.red(color);
+        int green = Color.green(color);
+        int blue = Color.blue(color);
+        return Color.argb(alpha, red, green, blue);
     }
 }
 
