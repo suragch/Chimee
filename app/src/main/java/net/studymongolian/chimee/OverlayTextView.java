@@ -5,11 +5,15 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.graphics.Typeface;
-import android.support.annotation.ColorInt;
+import android.text.StaticLayout;
+import android.text.TextPaint;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+
+import net.studymongolian.mongollibrary.TextPaintPlus;
 
 
 public class OverlayTextView extends ViewGroup {
@@ -39,7 +43,7 @@ public class OverlayTextView extends ViewGroup {
     private float mShadowDyMultiplier = 0;
     private float mBgCornerRadiusMultiplier = 0;
     private int mBgColor = 0;
-    private int mBgOpacity = 0;
+    private int mBgAlpha = 0;
 
     public OverlayTextView(Context context) {
         super(context);
@@ -151,50 +155,115 @@ public class OverlayTextView extends ViewGroup {
                     return true;
                 case MotionEvent.ACTION_MOVE:
                     float desiredHeight = event.getRawY() + dy - textViewLocation[1];
-                    int currentHeight = mTextView.getHeight();
-                    float thisY = event.getRawY();
-                    if (thisY > lastY + TOUCH_SLOP
-                            && desiredHeight > currentHeight) {
-                        increaseFontSize();
-                        lastY = thisY;
-                    } else if (thisY < lastY - TOUCH_SLOP
-                            && desiredHeight < currentHeight) {
-                        decreaseFontSize();
-                        lastY = thisY;
-                    }
+                    updateTextSizeForDesiredHeight(desiredHeight);
+                    //float requiredTextSize = getNecessaryTextSizeForViewHeight(desiredHeight);
+//                    int currentHeight = mTextView.getHeight();
+//                    float scale = desiredHeight / currentHeight;
+//                    float fontSizeSp = convertPxToSp(mTextView.getTextSize());
+//                    updateTextSize(fontSizeSp * scale);
+
+//                    float thisY = event.getRawY();
+//                    if (thisY > lastY + TOUCH_SLOP
+//                            && desiredHeight > currentHeight) {
+//                        increaseFontSize();
+//                        lastY = thisY;
+//                    } else if (thisY < lastY - TOUCH_SLOP
+//                            && desiredHeight < currentHeight) {
+//                        decreaseFontSize();
+//                        lastY = thisY;
+//                    }
                     return true;
             }
             return true;
         }
 
-        private void increaseFontSize() {
-            float currentTextSize = convertPxToSp(mTextView.getTextSize());
-            float newTextSize = currentTextSize + 0.5f;
-            updateTextViewSize(newTextSize);
-        }
+//        private void increaseFontSize() {
+//            float currentTextSize = convertPxToSp(mTextView.getTextSize());
+//            float newTextSize = currentTextSize + 0.5f;
+//            updateTextSize(newTextSize);
+//        }
+//
+//        private void decreaseFontSize() {
+//            float currentTextSize = convertPxToSp(mTextView.getTextSize());
+//            float newTextSize = currentTextSize - 0.5f;
+//            updateTextSize(newTextSize);
+//        }
 
-        private void decreaseFontSize() {
-            float currentTextSize = convertPxToSp(mTextView.getTextSize());
-            float newTextSize = currentTextSize - 0.5f;
-            updateTextViewSize(newTextSize);
-        }
 
-        private void updateTextViewSize(float fontSizeSp) {
-            // text
-            mTextView.setTextSize(fontSizeSp);
-            // stroke
-            mTextView.setStrokeWidth(fontSizeSp * mStrokeMultiplier);
-            // shadow
-            if (mTextView.getShadowRadius() > 0 && mTextView.getShadowColor() != Color.TRANSPARENT) {
-                float sizePx = convertSpToPx(fontSizeSp);
-                float radius = sizePx * mShadowRadiusMultiplier;
-                float dx = sizePx * mShadowDxMultiplier;
-                float dy = sizePx * mShadowDyMultiplier;
-                mTextView.setShadowLayer(radius, dx, dy, mTextView.getShadowColor());
-            }
-        }
     };
 
+    private void updateTextSizeForDesiredHeight(float height) {
+        int currentHeight = mTextView.getHeight();
+        float scale = height / currentHeight;
+        float fontSizeSp = convertPxToSp(mTextView.getTextSize());
+        updateTextSize(fontSizeSp * scale);
+    }
+
+    public void updateTextSize(float fontSizeSp) {
+        // text
+        mTextView.setTextSize(fontSizeSp);
+        // stroke
+        mTextView.setStrokeWidth(fontSizeSp * mStrokeMultiplier);
+        // shadow
+        if (mTextView.getShadowRadius() > 0 && mTextView.getShadowColor() != Color.TRANSPARENT) {
+            float sizePx = convertSpToPx(fontSizeSp);
+            float radius = sizePx * mShadowRadiusMultiplier;
+            float dx = sizePx * mShadowDxMultiplier;
+            float dy = sizePx * mShadowDyMultiplier;
+            mTextView.setShadowLayer(radius, dx, dy, mTextView.getShadowColor());
+        }
+        // bg corner radius
+        if (mTextView.getRoundBackgroundColor() != Color.TRANSPARENT) {
+            mTextView.setBackgroundCornerRadius(fontSizeSp * mBgCornerRadiusMultiplier);
+        }
+    }
+
+//    private float getNecessaryTextSizeForViewHeight(float desiredHeight) {
+//        return 0;
+//    }
+//
+//    private int findLargestTextSizeWhichFits(float availableHeight) {
+//        final int sizesCount = mMaxTextSize;
+//
+//        int bestSize = 0;
+//        int low = bestSize + 1;
+//        int high = sizesCount - 1;
+//        int sizeToTry;
+//        while (low <= high) {
+//            sizeToTry = (low + high) / 2;
+//            if (suggestedSizeFitsInSpace(sizeToTry, availableHeight)) {
+//                bestSize = low;
+//                low = sizeToTry + 1;
+//            } else {
+//                high = sizeToTry - 1;
+//                bestSize = high;
+//            }
+//        }
+//
+//        return bestSize;
+//    }
+//
+//    private TextPaintPlus mTempTextPaint;
+//
+//    private boolean suggestedSizeFitsInSpace(int suggestedSizeInPx, float availableHeight) {
+//        final CharSequence text = "longest line of text"; // Get longest line
+//        if (mTempTextPaint == null) {
+//            mTempTextPaint = new TextPaintPlus();
+//        } else {
+//            mTempTextPaint.reset();
+//        }
+//        mTempTextPaint.set(mTextView.getLayout().getPaint());
+//        mTempTextPaint.setTextSize(suggestedSizeInPx);
+//
+//        float measuredHeight = mTempTextPaint.measureText(text, 0, text.length());
+//
+//        // Height overflow.
+//        if (measuredHeight > availableHeight) {
+//            return false;
+//        }
+//
+//        return true;
+//    }
 
 
     @Override
@@ -227,7 +296,7 @@ public class OverlayTextView extends ViewGroup {
         mTextView.layout(left, top, right, bottom);
 
         // scale x control
-        left = getPaddingLeft() + tvWidth - controlTouchAreaSize / 2;
+        left = getPaddingLeft() + tvWidth - controlTouchAreaSize / 2 + BORDER_SIZE_PX;
         top = getPaddingTop() + (tvHeight - controlTouchAreaSize) / 2;
         right = left + controlTouchAreaSize;
         bottom = top + controlTouchAreaSize;
@@ -258,8 +327,8 @@ public class OverlayTextView extends ViewGroup {
 
         int left = getPaddingLeft();
         int top = getPaddingTop();
-        int right = left + mTextView.getWidth() + 5;
-        int bottom = top + mTextView.getHeight() + 5;
+        int right = left + mTextView.getWidth();
+        int bottom = top + mTextView.getHeight();
         borderPaint.setColor(Color.BLACK);
         canvas.drawRect(left, top, right, bottom, borderPaint);
         borderPaint.setColor(Color.WHITE);
@@ -412,24 +481,13 @@ public class OverlayTextView extends ViewGroup {
         mTextView.setBackgroundCornerRadius(cornerRadius);
     }
 
-    public void setRoundBackgroundColor(int color) {
-        mBgColor = color;
-        int colorWithAlpha = getColorWithAlpha(mBgOpacity, color);
-        mTextView.setRoundBackgroundColor(colorWithAlpha);
-    }
-
-    public void setBackgroundOpacity(int opacity) {
-        mBgOpacity = opacity;
-        int color = getColorWithAlpha(opacity, mBgColor);
-        mTextView.setRoundBackgroundColor(color);
-    }
-
-    @ColorInt
-    public static int getColorWithAlpha(int alpha, @ColorInt int color) {
+    public void setRoundBackgroundColor(int alpha, int color) {
         int red = Color.red(color);
         int green = Color.green(color);
         int blue = Color.blue(color);
-        return Color.argb(alpha, red, green, blue);
+        mBgColor = Color.argb(alpha, red, green, blue);
+        mTextView.setRoundBackgroundColor(mBgColor);
     }
+
 }
 

@@ -1,11 +1,13 @@
 package net.studymongolian.chimee;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -37,18 +39,19 @@ public class PhotoOverlayActivity extends AppCompatActivity
     private static final float STROKE_WIDTH_MULTIPLIER_MAX = 0.2f;
     private static final float STROKE_WIDTH_MULTIPLIER_MIN = 0.02f;
     private static final float SHADOW_SPIRAL_ANGLE_RADIANS_MIN = 0;
-    private static final float SHADOW_SPIRAL_ANGLE_RADIANS_MAX = (float) (6*Math.PI);
+    private static final float SHADOW_SPIRAL_ANGLE_RADIANS_MAX = (float) (6 * Math.PI);
     private static final float SHADOW_RADIUS_MULTIPLIER_MIN = 0.01f;
     private static final float SHADOW_RADIUS_MULTIPLIER_MAX = 0.2f;
     private static final float DEFAULT_SHADOW_RADIUS_MULTIPLIER = 0.1f;
     private static final float BG_CORNER_RADIUS_MULTIPLIER_MIN = 0;
-    private static final float BG_CORNER_RADIUS_MULTIPLIER_MAX = 0.2f;
+    private static final float BG_CORNER_RADIUS_MULTIPLIER_MAX = 1f;
     private static final int BG_OPACITY_MIN = 0x00;
     private static final int BG_OPACITY_MAX = 0xff;
     private static final int DEFAULT_STROKE_COLOR = Color.BLACK;
     private static final int DEFAULT_TEXT_COLOR = Color.WHITE;
     private static final int DEFAULT_SHADOW_COLOR = Color.BLACK;
     private static final int DEFAULT_BG_COLOR = Color.LTGRAY;
+    private static final int DEFAULT_BG_ALPHA = 0x80;
 
     private CharSequence currentMessage;
     private Bitmap bitmap;
@@ -92,8 +95,6 @@ public class PhotoOverlayActivity extends AppCompatActivity
         setupColorAdapter();
         setupFontAdapter();
         setupBottomToolbar();
-
-
     }
 
     private void setupToolbar() {
@@ -122,6 +123,7 @@ public class PhotoOverlayActivity extends AppCompatActivity
             return false;
         }
     };
+
 
     private void getIntentData() {
         currentMessage = getIntent().getCharSequenceExtra(CURRENT_MESSAGE_KEY);
@@ -252,16 +254,20 @@ public class PhotoOverlayActivity extends AppCompatActivity
 
         private void updateBackgroundOpacityFromProgress(int progress) {
             backgroundLeftSeekBarProgress = progress;
-            if (textOverlayView.getRoundBackgroundColor() == 0)
-                textOverlayView.setBackgroundColor(DEFAULT_BG_COLOR);
-            int opacity = getBackgroungOpacityFromSeekBarProgress(progress);
-            textOverlayView.setBackgroundOpacity(opacity);
+            int color = textOverlayView.getRoundBackgroundColor();
+            int alpha = getBackgroundAlphaFromSeekBarProgress(progress);
+            if (color == 0)
+                color = DEFAULT_BG_COLOR;
+            textOverlayView.setRoundBackgroundColor(alpha, color);
         }
 
         @Override
-        public void onStartTrackingTouch(SeekBar seekBar) {}
+        public void onStartTrackingTouch(SeekBar seekBar) {
+        }
+
         @Override
-        public void onStopTrackingTouch(SeekBar seekBar) {}
+        public void onStopTrackingTouch(SeekBar seekBar) {
+        }
     };
 
     private PointFloat getShadowOffsetFromSeekBarProgress(int progress) {
@@ -288,14 +294,9 @@ public class PhotoOverlayActivity extends AppCompatActivity
                 + (BG_CORNER_RADIUS_MULTIPLIER_MAX - BG_CORNER_RADIUS_MULTIPLIER_MIN) * progress / 100;
     }
 
-    private int getBackgroungOpacityFromSeekBarProgress(int progress) {
+    private int getBackgroundAlphaFromSeekBarProgress(int progress) {
         return BG_OPACITY_MIN
                 + (BG_OPACITY_MAX - BG_OPACITY_MIN) * progress / 100;
-    }
-
-    private int getSeekBarProgressFromStrokeMultiplier(float multiplier) {
-        return (int) (100 * (multiplier - STROKE_WIDTH_MULTIPLIER_MIN)
-                / (STROKE_WIDTH_MULTIPLIER_MAX - STROKE_WIDTH_MULTIPLIER_MIN));
     }
 
     private SeekBar.OnSeekBarChangeListener rightSeekBarListener = new SeekBar.OnSeekBarChangeListener() {
@@ -330,16 +331,19 @@ public class PhotoOverlayActivity extends AppCompatActivity
 
             int color = textOverlayView.getRoundBackgroundColor();
             if (color == Color.TRANSPARENT)
-                textOverlayView.setRoundBackgroundColor(DEFAULT_BG_COLOR);
+                textOverlayView.setRoundBackgroundColor(DEFAULT_BG_ALPHA, DEFAULT_BG_COLOR);
 
             float radiusMultiplier = getBgCornerMultiplierFromSeekBarProgress(progress);
             textOverlayView.setBackgroundCornerRadiusMultiplier(radiusMultiplier);
         }
 
         @Override
-        public void onStartTrackingTouch(SeekBar seekBar) {}
+        public void onStartTrackingTouch(SeekBar seekBar) {
+        }
+
         @Override
-        public void onStopTrackingTouch(SeekBar seekBar) {}
+        public void onStopTrackingTouch(SeekBar seekBar) {
+        }
     };
 
     private void setupBottomToolbar() {
@@ -379,10 +383,11 @@ public class PhotoOverlayActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        if (rvChooser.getVisibility() == View.VISIBLE)
+        if (llColorChooser.getVisibility() == View.VISIBLE)
             hideSettingBars();
-        else
+        else {
             super.onBackPressed();
+        }
     }
 
     private void savePhoto() {
@@ -542,9 +547,8 @@ public class PhotoOverlayActivity extends AppCompatActivity
                 setShadowColor(color);
                 break;
             case R.id.fl_photo_overlay_background:
-                textOverlayView.setRoundBackgroundColor(color);
-//                float bgMultiplier = getBgCornerMultiplierFromSeekBarProgress(leftSeekBar.getProgress());
-//                textOverlayView.setBackgroundCornerRadiusMultiplier(bgMultiplier);
+                int alpha = getBackgroundAlphaFromSeekBarProgress(leftSeekBar.getProgress());
+                textOverlayView.setRoundBackgroundColor(alpha, color);
                 break;
         }
     }
@@ -563,11 +567,11 @@ public class PhotoOverlayActivity extends AppCompatActivity
                 textOverlayView.setShadowLayerMultipliers(0, 0, 0, color);
                 break;
             case R.id.fl_photo_overlay_background:
-                textOverlayView.setRoundBackgroundColor(color);
+                int alpha = 0;
+                textOverlayView.setRoundBackgroundColor(alpha, color);
                 break;
         }
     }
-
 
 
     private void setShadowColor(int color) {

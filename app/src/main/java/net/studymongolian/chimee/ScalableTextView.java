@@ -10,16 +10,23 @@ import net.studymongolian.mongollibrary.MongolTextView;
 
 public class ScalableTextView extends MongolTextView {
 
-    private static final int BG_PADDING_PX = 2;
+    private static final int BG_PADDING_PX = 4;
     private float mScaleX = 1f;
     private float mScaleY = 1f;
     private int unscaledWidth;
     private int unScaledHeight;
-    private int mBgColor = Color.LTGRAY;
-    private float mBgCornerRadius = 50.0f;
+    private int mBgColor = Color.TRANSPARENT;
+    private float mBgCornerRadius = 0;
+    Paint bgPaint;
 
     public ScalableTextView(Context context) {
         super(context);
+        init();
+    }
+
+    private void init() {
+        bgPaint = new Paint();
+        bgPaint.setStyle(Paint.Style.FILL);
     }
 
     @Override
@@ -45,11 +52,9 @@ public class ScalableTextView extends MongolTextView {
     }
 
     private void drawBackground(Canvas canvas) {
-        Paint bgPaint = new Paint();
-        bgPaint.setStyle(Paint.Style.FILL);
         bgPaint.setColor(mBgColor);
-        int left = getLeft() + BG_PADDING_PX;
-        int top = getTop() + BG_PADDING_PX;
+        int left = getLeft();
+        int top = getTop();
         int right = getRight() - BG_PADDING_PX;
         int bottom = getBottom() - BG_PADDING_PX;
         canvas.drawRoundRect(new RectF(left, top, right, bottom),
