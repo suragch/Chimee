@@ -916,6 +916,26 @@ public class TouchImageView extends AppCompatImageView {
         return new PointF(finalX, finalY);
     }
 
+    /**
+     * This function will transform the coordinates in the view area to the coordinate
+     * system of the drawable that the ImageView contains. This method differs from
+     * transformCoordTouchToBitmap() in that the result is not confined to the bitmap area.
+     *
+     * @param x x-coordinate
+     * @param y y-coordinate
+     * @return Coordinates of the input point, in the coordinate system of the original drawable.
+     */
+    public PointF transformZoomedCoordToBitmapCoord(float x, float y) {
+        matrix.getValues(m);
+        float origW = getDrawable().getIntrinsicWidth();
+        float origH = getDrawable().getIntrinsicHeight();
+        float transX = m[Matrix.MTRANS_X];
+        float transY = m[Matrix.MTRANS_Y];
+        float finalX = ((x - transX) * origW) / getImageWidth();
+        float finalY = ((y - transY) * origH) / getImageHeight();
+        return new PointF(finalX, finalY);
+    }
+
     private class ZoomVariables {
         float scale;
         float focusX;

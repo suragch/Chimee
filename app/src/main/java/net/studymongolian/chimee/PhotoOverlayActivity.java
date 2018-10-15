@@ -1,13 +1,23 @@
 package net.studymongolian.chimee;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PointF;
+import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,10 +33,13 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 import net.studymongolian.mongollibrary.MongolFont;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -395,7 +408,97 @@ public class PhotoOverlayActivity extends AppCompatActivity
     }
 
     private void sharePhoto() {
+        Bitmap bitmap = renderBitmap();
+        mImageView.setImageBitmap(bitmap);
+        //Intent shareIntent = FileUtils.getShareImageIntent(this, bitmap);
+        //startActivity(Intent.createChooser(shareIntent, null));
+    }
 
+    private Bitmap renderBitmap() {
+
+        // text location in ImageView coordinates
+        PointF text = textOverlayView.getTextViewTopLeft();
+        float size = textOverlayView.getTextSize();
+
+        // text location in ImageView bitmap coordinates
+        PointF textTopLeftBitmap = mImageView.transformZoomedCoordToBitmapCoord(text.x, text.y);
+        float size2 = size * mImageView.getCurrentZoom();
+
+        // text location in original bitmap coordinates
+        float scale = (float) mImageView.getDrawable().getIntrinsicWidth() / bitmap.getWidth();
+        float x = textTopLeftBitmap.x * scale;
+        float y = textTopLeftBitmap.y * scale;
+        float size3 = size2 * scale;
+        //float height = textHeightBitmap * scale;
+
+        // recreate text view with correct size
+        ScalableTextView textView = textOverlayView.getTextViewCopy();
+        float textSizeSp = convertPxToSp(size3);
+        textView.setTextSize(textSizeSp);
+
+        // draw text on bitmap
+        Bitmap bitmapOut = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmapOut);
+
+        Paint paint = new Paint();
+        canvas.drawBitmap(bitmap, 0, 0, paint);
+        canvas.translate(x, y);
+        textView.draw(canvas);
+
+        return bitmapOut;
+    }
+
+    private void colorBackground(Canvas canvas) {
+        int color = Color.BLUE;
+        Paint paint = new Paint();
+        paint.setColor(color);
+        paint.setStyle(Paint.Style.FILL);
+        canvas.drawPaint(paint);
+    }
+
+    public Bitmap drawTextToBitmap(Context mContext,  int resourceId,  String mText) {
+        try {
+            Resources resources = mContext.getResources();
+            float scale = resources.getDisplayMetrics().density;
+            Bitmap bitmap = BitmapFactory.decodeResource(resources, resourceId);
+            Bitmap.Config bitmapConfig =   bitmap.getConfig();
+            // set default bitmap config if none
+            if(bitmapConfig == null) {
+                bitmapConfig = android.graphics.Bitmap.Config.ARGB_8888;
+            }
+            // resource bitmaps are imutable,
+            // so we need to convert it to mutable one
+            bitmap = bitmap.copy(bitmapConfig, true);
+
+            Canvas canvas = new Canvas(bitmap);
+            // new antialised Paint
+            Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+            // text color - #3D3D3D
+            paint.setColor(Color.rgb(110,110, 110));
+            // text size in pixels
+            paint.setTextSize((int) (12 * scale));
+            // text shadow
+            paint.setShadowLayer(1f, 0f, 1f, Color.DKGRAY);
+
+            // draw text to the Canvas center
+            Rect bounds = new Rect();
+            paint.getTextBounds(mText, 0, mText.length(), bounds);
+            int x = (bitmap.getWidth() - bounds.width())/6;
+            int y = (bitmap.getHeight() + bounds.height())/5;
+
+            canvas.drawText(mText, x * scale, y * scale, paint);
+
+            return bitmap;
+        } catch (Exception e) {
+            // TODO: handle exception
+
+            return null;
+        }
+
+    }
+
+    private float convertPxToSp(float sizePx) {
+        return sizePx / getResources().getDisplayMetrics().scaledDensity;
     }
 
     public void onColorToolbarItemClick(View view) {

@@ -67,9 +67,6 @@ public class MainActivity extends AppCompatActivity
     private static final int OPEN_REQUEST = 4;
     private static final int SAVE_REQUEST = 5;
 
-    private static final String TEMP_CACHE_SUBDIR = "images";
-    private static final String TEMP_CACHE_FILENAME = "image.png";
-    private static final String FILE_PROVIDER_AUTHORITY = "net.studymongolian.chimee.fileprovider";
     private static final int MENU_MARGIN_DP = 4;
     private static final String WECHAT_PACKAGE_NAME = "com.tencent.mm";
     private static final String BAINU_PACKAGE_NAME = "com.zuga.im";
@@ -594,43 +591,43 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    private boolean saveBitmapToCacheDir(Bitmap bitmap) {
-        Context context = getApplicationContext();
-        try {
-            File cachePath = new File(context.getCacheDir(), TEMP_CACHE_SUBDIR);
-            //noinspection ResultOfMethodCallIgnored
-            cachePath.mkdirs();
-            FileOutputStream stream =
-                    new FileOutputStream(cachePath + File.separator + TEMP_CACHE_FILENAME);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            stream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
+//    private boolean saveBitmapToCacheDir(Bitmap bitmap) {
+//        Context context = getApplicationContext();
+//        try {
+//            File cachePath = new File(context.getCacheDir(), FileUtils.TEMP_CACHE_SUBDIR);
+//            //noinspection ResultOfMethodCallIgnored
+//            cachePath.mkdirs();
+//            FileOutputStream stream =
+//                    new FileOutputStream(cachePath + File.separator + FileUtils.TEMP_CACHE_FILENAME);
+//            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+//            stream.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+//        return true;
+//    }
+//
+//    private Uri getUriForSavedImage() {
+//        Context context = getApplicationContext();
+//        File imagePath = new File(context.getCacheDir(), FileUtils.TEMP_CACHE_SUBDIR);
+//        File newFile = new File(imagePath, FileUtils.TEMP_CACHE_FILENAME);
+//        return FileProvider.getUriForFile(context, FileUtils.FILE_PROVIDER_AUTHORITY, newFile);
+//    }
 
-    private Uri getUriForSavedImage() {
-        Context context = getApplicationContext();
-        File imagePath = new File(context.getCacheDir(), TEMP_CACHE_SUBDIR);
-        File newFile = new File(imagePath, TEMP_CACHE_FILENAME);
-        return FileProvider.getUriForFile(context, FILE_PROVIDER_AUTHORITY, newFile);
-    }
-
-    private Intent getShareImageIntent() {
-        Bitmap bitmap = getInputWindowBitmap();
-        boolean successfullySaved = saveBitmapToCacheDir(bitmap);
-        if (!successfullySaved) return null;
-        Uri imageUri = getUriForSavedImage();
-        if (imageUri == null) return null;
-        Intent shareIntent = new Intent();
-        shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        shareIntent.setDataAndType(imageUri, getContentResolver().getType(imageUri));
-        shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
-        return shareIntent;
-    }
+//    private Intent getShareImageIntent() {
+//        Bitmap bitmap = getInputWindowBitmap();
+//        boolean successfullySaved = saveBitmapToCacheDir(bitmap);
+//        if (!successfullySaved) return null;
+//        Uri imageUri = getUriForSavedImage();
+//        if (imageUri == null) return null;
+//        Intent shareIntent = new Intent();
+//        shareIntent.setAction(Intent.ACTION_SEND);
+//        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//        shareIntent.setDataAndType(imageUri, getContentResolver().getType(imageUri));
+//        shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
+//        return shareIntent;
+//    }
 
     private Bitmap getInputWindowBitmap() {
         inputWindow.setCursorVisible(false);
@@ -640,11 +637,13 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void shareToWeChat() {
-        Intent shareIntent = getShareImageIntent();
+        Bitmap bitmap = getInputWindowBitmap();
+        Intent shareIntent = FileUtils.getShareImageIntent(this, bitmap);
         ComponentName comp = new ComponentName("com.tencent.mm",
                 "com.tencent.mm.ui.tools.ShareImgUI");
+        if (shareIntent == null) return;
         shareIntent.setComponent(comp);
-        startActivityForResult(shareIntent, SHARE_REQUEST);
+        startActivity(shareIntent);
     }
 
     private void shareToBainu() {
@@ -701,7 +700,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void shareToSystemApp() {
-        Intent shareIntent = getShareImageIntent();
+        Bitmap bitmap = getInputWindowBitmap();
+        Intent shareIntent = FileUtils.getShareImageIntent(this, bitmap);
         startActivity(Intent.createChooser(shareIntent, null));
     }
 

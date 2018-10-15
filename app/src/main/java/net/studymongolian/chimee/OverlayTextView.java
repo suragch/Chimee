@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PointF;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.text.StaticLayout;
@@ -289,8 +290,8 @@ public class OverlayTextView extends ViewGroup {
         int tvHeight = mTextView.getMeasuredHeight();
 
         // text view
-        int left = getPaddingLeft();
-        int top = getPaddingTop();
+        int left = getTextViewLeft();
+        int top = getTextViewTop();
         int right = left + tvWidth;
         int bottom = top + tvHeight;
         mTextView.layout(left, top, right, bottom);
@@ -316,6 +317,16 @@ public class OverlayTextView extends ViewGroup {
         fontSizeControl.layout(left, top, right, bottom);
     }
 
+    // in local coordinates
+    private int getTextViewTop() {
+        return getPaddingTop();
+    }
+
+    // in local coordinates
+    private int getTextViewLeft() {
+        return getPaddingLeft();
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         if (hasFocus) {
@@ -325,8 +336,8 @@ public class OverlayTextView extends ViewGroup {
 
     private void drawBorder(Canvas canvas) {
 
-        int left = getPaddingLeft();
-        int top = getPaddingTop();
+        int left = getTextViewLeft();
+        int top = getTextViewTop();
         int right = left + mTextView.getWidth();
         int bottom = top + mTextView.getHeight();
         borderPaint.setColor(Color.BLACK);
@@ -390,6 +401,10 @@ public class OverlayTextView extends ViewGroup {
         if (!focused) {
             hideControls();
         }
+    }
+
+    public CharSequence getText() {
+        return mTextView.getText();
     }
 
     public void setText(CharSequence text) {
@@ -489,5 +504,34 @@ public class OverlayTextView extends ViewGroup {
         mTextView.setRoundBackgroundColor(mBgColor);
     }
 
+    // in parent coordinates
+    public PointF getTextViewTopLeft() {
+        float x = getX() + getTextViewLeft();
+        float y = getY() + getTextViewTop();
+        return new PointF(x, y);
+    }
+
+    ScalableTextView getTextViewCopy() {
+        ScalableTextView textView = new ScalableTextView(getContext());
+        textView.measure(
+                MeasureSpec.makeMeasureSpec(mTextView.getWidth(), MeasureSpec.EXACTLY),
+                MeasureSpec.makeMeasureSpec(mTextView.getHeight(), MeasureSpec.EXACTLY));
+        textView.setText(mTextView.getText());
+        textView.setTextSize(convertPxToSp(mTextView.getTextSize()));
+        textView.setTypeface(mTextView.getTypeface());
+        textView.setTextColor(mTextView.getTextColor());
+        textView.setStrokeColor(mTextView.getStrokeColor());
+        textView.setStrokeWidth(mTextView.getStrokeWidth());
+        textView.setShadowLayer(
+                mTextView.getShadowRadius(),
+                mTextView.getShadowDx(),
+                mTextView.getShadowDy(),
+                mTextView.getShadowColor());
+        return textView;
+    }
+
+    public ScalableTextView getTextView() {
+        return mTextView;
+    }
 }
 

@@ -1,8 +1,12 @@
 package net.studymongolian.chimee;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -30,6 +34,11 @@ class FileUtils {
     private static final String WORDS_EXPORT_FILE_NAME = "minii_uges.kbd";
     private static final String RESERVED_CHARS= "|\\?*<\":>/";
     private static final String TAG = "Chimee FileUtils";
+
+    public static final String TEMP_CACHE_SUBDIR = "images";
+    public static final String TEMP_CACHE_FILENAME = "image.png";
+    public static final String FILE_PROVIDER_AUTHORITY = "net.studymongolian.chimee.fileprovider";
+
 
     private static List<String> getTextFileNames(Context context) {
         String path = getAppDocumentFolder();
@@ -267,5 +276,40 @@ class FileUtils {
                 return true;
         }
         return false;
+    }
+
+    static Intent getShareImageIntent(Context context, Bitmap bitmap) {
+        boolean successfullySaved = saveBitmapToCacheDir(context, bitmap);
+        if (!successfullySaved) return null;
+        Uri imageUri = getUriForSavedImage(context);
+        if (imageUri == null) return null;
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        shareIntent.setDataAndType(imageUri, context.getContentResolver().getType(imageUri));
+        shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
+        return shareIntent;
+    }
+
+    private static boolean saveBitmapToCacheDir(Context context, Bitmap bitmap) {
+        try {
+            File cachePath = new File(context.getCacheDir(), TEMP_CACHE_SUBDIR);
+            //noinspection ResultOfMethodCallIgnored
+            cachePath.mkdirs();
+            FileOutputStream stream =
+                    new FileOutputStream(cachePath + File.separator + TEMP_CACHE_FILENAME);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            stream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    private static Uri getUriForSavedImage(Context context) {
+        File imagePath = new File(context.getCacheDir(), TEMP_CACHE_SUBDIR);
+        File newFile = new File(imagePath, TEMP_CACHE_FILENAME);
+        return FileProvider.getUriForFile(context, FILE_PROVIDER_AUTHORITY, newFile);
     }
 }

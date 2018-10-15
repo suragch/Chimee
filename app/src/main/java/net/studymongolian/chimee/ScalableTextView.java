@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 
 import net.studymongolian.mongollibrary.MongolTextView;
+import net.studymongolian.mongollibrary.TextPaintPlus;
 
 public class ScalableTextView extends MongolTextView {
 
@@ -106,4 +107,12 @@ public class ScalableTextView extends MongolTextView {
         mBgColor = color;
         invalidate();
     }
+//
+//    public TextPaintPlus getPaint() {
+//        return (TextPaintPlus) getLayout().getPaint();
+//    }
+//
+//    public void setPaint(TextPaintPlus paint) {
+//        getLayout().set
+//    }
 }
