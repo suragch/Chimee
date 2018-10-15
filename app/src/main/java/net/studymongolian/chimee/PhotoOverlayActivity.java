@@ -417,23 +417,29 @@ public class PhotoOverlayActivity extends AppCompatActivity
     private Bitmap renderBitmap() {
 
         // text location in ImageView coordinates
-        PointF text = textOverlayView.getTextViewTopLeft();
-        float size = textOverlayView.getTextSize();
+        PointF textViewTopLeft = textOverlayView.getTextViewTopLeft();
+        PointF textViewBottomLeft = textOverlayView.getTextViewBottomLeft();
+        //float heightOrig = textOverlayView.getTextViewHeight();
+        //float size = textOverlayView.getTextSize();
 
         // text location in ImageView bitmap coordinates
-        PointF textTopLeftBitmap = mImageView.transformZoomedCoordToBitmapCoord(text.x, text.y);
-        float size2 = size * mImageView.getCurrentZoom();
+        PointF textTopLeftBitmap = mImageView.transformZoomedCoordToBitmapCoord(
+                textViewTopLeft.x, textViewTopLeft.y);
+        PointF textBottomLeftBitmap = mImageView.transformZoomedCoordToBitmapCoord(
+                textViewBottomLeft.x, textViewBottomLeft.y);
+        float textViewHeightBitmap = textBottomLeftBitmap.y - textTopLeftBitmap.y;
+        //float size2 = size * mImageView.getCurrentZoom();
 
         // text location in original bitmap coordinates
-        float scale = (float) mImageView.getDrawable().getIntrinsicWidth() / bitmap.getWidth();
+        float scale = (float) bitmap.getWidth() / mImageView.getDrawable().getIntrinsicWidth();
         float x = textTopLeftBitmap.x * scale;
         float y = textTopLeftBitmap.y * scale;
-        float size3 = size2 * scale;
-        //float height = textHeightBitmap * scale;
+        //float size3 = size2 / scale;
+        float textSize = getTextSizeToMatchHeight(textViewHeightBitmap);
 
         // recreate text view with correct size
         ScalableTextView textView = textOverlayView.getTextViewCopy();
-        float textSizeSp = convertPxToSp(size3);
+        float textSizeSp = convertPxToSp(textSize);
         textView.setTextSize(textSizeSp);
 
         // draw text on bitmap
@@ -446,6 +452,10 @@ public class PhotoOverlayActivity extends AppCompatActivity
         textView.draw(canvas);
 
         return bitmapOut;
+    }
+
+    private float getTextSizeToMatchHeight(float textViewHeightBitmap) {
+        return 100;
     }
 
     private void colorBackground(Canvas canvas) {

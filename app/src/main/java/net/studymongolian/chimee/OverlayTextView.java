@@ -327,6 +327,12 @@ public class OverlayTextView extends ViewGroup {
         return getPaddingLeft();
     }
 
+    // in local coordinates
+    private int getTextViewBottom() {
+        return getTextViewTop() + mTextView.getHeight();
+        //return getPaddingLeft();
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         if (hasFocus) {
@@ -511,8 +517,17 @@ public class OverlayTextView extends ViewGroup {
         return new PointF(x, y);
     }
 
+    // in parent coordinates
+    public PointF getTextViewBottomLeft() {
+        float x = getX() + getTextViewLeft();
+        float y = getY() + getTextViewBottom();
+        return new PointF(x, y);
+    }
+
     ScalableTextView getTextViewCopy() {
         ScalableTextView textView = new ScalableTextView(getContext());
+        textView.setPadding(mTextView.getPaddingLeft(), mTextView.getPaddingTop(),
+                mTextView.getPaddingRight(), mTextView.getPaddingBottom());
         textView.measure(
                 MeasureSpec.makeMeasureSpec(mTextView.getWidth(), MeasureSpec.EXACTLY),
                 MeasureSpec.makeMeasureSpec(mTextView.getHeight(), MeasureSpec.EXACTLY));
