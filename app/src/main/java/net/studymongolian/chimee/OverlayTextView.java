@@ -436,6 +436,10 @@ public class OverlayTextView extends ViewGroup {
         mTextView.setStrokeWidth(strokeWidth);
     }
 
+    public float getStrokeWidthMultiplier() {
+        return mStrokeMultiplier;
+    }
+
     public int getStrokeColor() {
         return mTextView.getStrokeColor();
     }
@@ -511,23 +515,23 @@ public class OverlayTextView extends ViewGroup {
     }
 
     // in parent coordinates
-    public PointF getTextViewTopLeft() {
-        float x = getX() + getTextViewLeft();
-        float y = getY() + getTextViewTop();
+    public PointF getTextTopLeft() {
+        float x = getX() + getTextViewLeft() + mTextView.getPaddingLeft();
+        float y = getY() + getTextViewTop() + mTextView.getPaddingTop();
         return new PointF(x, y);
     }
 
     // in parent coordinates
-    public PointF getTextViewBottomLeft() {
-        float x = getX() + getTextViewLeft();
-        float y = getY() + getTextViewBottom();
+    public PointF getTextBottomLeft() {
+        float x = getX() + getTextViewLeft() + mTextView.getPaddingLeft();
+        float y = getY() + getTextViewBottom() - mTextView.getPaddingBottom();
         return new PointF(x, y);
     }
 
     ScalableTextView getTextViewCopy() {
         ScalableTextView textView = new ScalableTextView(getContext());
-        textView.setPadding(mTextView.getPaddingLeft(), mTextView.getPaddingTop(),
-                mTextView.getPaddingRight(), mTextView.getPaddingBottom());
+//        textView.setPadding(mTextView.getPaddingLeft(), mTextView.getPaddingTop(),
+//                mTextView.getPaddingRight(), mTextView.getPaddingBottom());
         textView.measure(
                 MeasureSpec.makeMeasureSpec(mTextView.getWidth(), MeasureSpec.EXACTLY),
                 MeasureSpec.makeMeasureSpec(mTextView.getHeight(), MeasureSpec.EXACTLY));
@@ -536,7 +540,7 @@ public class OverlayTextView extends ViewGroup {
         textView.setTypeface(mTextView.getTypeface());
         textView.setTextColor(mTextView.getTextColor());
         textView.setStrokeColor(mTextView.getStrokeColor());
-        textView.setStrokeWidth(mTextView.getStrokeWidth());
+        textView.setStrokeWidth(convertPxToSp(mTextView.getStrokeWidth()));
         textView.setShadowLayer(
                 mTextView.getShadowRadius(),
                 mTextView.getShadowDx(),

@@ -1,8 +1,6 @@
 package net.studymongolian.chimee;
 
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,12 +10,8 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.Typeface;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
-import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -33,13 +27,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
-import android.widget.Toast;
 
 import net.studymongolian.mongollibrary.MongolFont;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -417,10 +408,8 @@ public class PhotoOverlayActivity extends AppCompatActivity
     private Bitmap renderBitmap() {
 
         // text location in ImageView coordinates
-        PointF textViewTopLeft = textOverlayView.getTextViewTopLeft();
-        PointF textViewBottomLeft = textOverlayView.getTextViewBottomLeft();
-        //float heightOrig = textOverlayView.getTextViewHeight();
-        //float size = textOverlayView.getTextSize();
+        PointF textViewTopLeft = textOverlayView.getTextTopLeft();
+        PointF textViewBottomLeft = textOverlayView.getTextBottomLeft();
 
         // text location in ImageView bitmap coordinates
         PointF textTopLeftBitmap = mImageView.transformZoomedCoordToBitmapCoord(
@@ -428,19 +417,19 @@ public class PhotoOverlayActivity extends AppCompatActivity
         PointF textBottomLeftBitmap = mImageView.transformZoomedCoordToBitmapCoord(
                 textViewBottomLeft.x, textViewBottomLeft.y);
         float textViewHeightBitmap = textBottomLeftBitmap.y - textTopLeftBitmap.y;
-        //float size2 = size * mImageView.getCurrentZoom();
 
         // text location in original bitmap coordinates
         float scale = (float) bitmap.getWidth() / mImageView.getDrawable().getIntrinsicWidth();
         float x = textTopLeftBitmap.x * scale;
         float y = textTopLeftBitmap.y * scale;
-        //float size3 = size2 / scale;
-        float textSize = getTextSizeToMatchHeight(textViewHeightBitmap);
+        float height = textViewHeightBitmap * scale;
 
         // recreate text view with correct size
         ScalableTextView textView = textOverlayView.getTextViewCopy();
-        float textSizeSp = convertPxToSp(textSize);
-        textView.setTextSize(textSizeSp);
+        setTextSizeToMatchHeight(textView, height);
+        float fontSizeSp = convertPxToSp(textView.getTextSize());
+        float strokeWidthMultiplier = textOverlayView.getStrokeWidthMultiplier();
+        textView.setStrokeWidth(fontSizeSp * strokeWidthMultiplier);
 
         // draw text on bitmap
         Bitmap bitmapOut = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
@@ -454,8 +443,38 @@ public class PhotoOverlayActivity extends AppCompatActivity
         return bitmapOut;
     }
 
-    private float getTextSizeToMatchHeight(float textViewHeightBitmap) {
-        return 100;
+    private boolean isCloseEnough(float currentHeight, float desiredHeight) {
+        return Math.abs(currentHeight - desiredHeight) <= 2;
+    }
+
+    private void setTextSizeToMatchHeight(ScalableTextView textView, float desiredHeight) {
+        int step = 50;
+        float low;
+        float high = 0;
+        do {
+            low = high;
+            high += step;
+            textView.setTextSize(high);
+            measureTextView(textView);
+        } while (textView.getMeasuredHeight() < desiredHeight);
+
+        float sizeToTry;
+        while (!isCloseEnough(textView.getMeasuredHeight(), desiredHeight)) {
+            sizeToTry = (low + high) / 2;
+            textView.setTextSize(sizeToTry);
+            measureTextView(textView);
+            if (textView.getMeasuredHeight() < desiredHeight) {
+                low = sizeToTry;
+            } else {
+                high = sizeToTry;
+            }
+        }
+    }
+
+    private void measureTextView(ScalableTextView textView) {
+        textView.measure(
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
     }
 
     private void colorBackground(Canvas canvas) {
