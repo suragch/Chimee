@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -408,28 +409,62 @@ public class PhotoOverlayActivity extends AppCompatActivity
     private Bitmap renderBitmap() {
 
         // text location in ImageView coordinates
-        PointF textViewTopLeft = textOverlayView.getTextTopLeft();
-        PointF textViewBottomLeft = textOverlayView.getTextBottomLeft();
+        PointF textViewTopLeft = textOverlayView.getTextViewTopLeft();
+        PointF textViewTopRight = textOverlayView.getTextViewTopRight();
+        PointF textViewBottomLeft = textOverlayView.getTextViewBottomLeft();
+        PointF textTopLeft = textOverlayView.getTextTopLeft();
 
         // text location in ImageView bitmap coordinates
-        PointF textTopLeftBitmap = mImageView.transformZoomedCoordToBitmapCoord(
+        PointF textViewTopLeftBitmap = mImageView.transformZoomedCoordToBitmapCoord(
                 textViewTopLeft.x, textViewTopLeft.y);
-        PointF textBottomLeftBitmap = mImageView.transformZoomedCoordToBitmapCoord(
+        PointF textViewTopRightBitmap = mImageView.transformZoomedCoordToBitmapCoord(
+                textViewTopRight.x, textViewTopRight.y);
+        PointF textViewBottomLeftBitmap = mImageView.transformZoomedCoordToBitmapCoord(
                 textViewBottomLeft.x, textViewBottomLeft.y);
-        float textViewHeightBitmap = textBottomLeftBitmap.y - textTopLeftBitmap.y;
+        PointF textTopLeftBitmap = mImageView.transformZoomedCoordToBitmapCoord(
+                textTopLeft.x, textTopLeft.y);
+        float textViewHeightBitmap = textViewBottomLeftBitmap.y - textViewTopLeftBitmap.y;
+        float textViewWidthBitmap = textViewTopRightBitmap.x - textViewTopLeftBitmap.x;
+        float textViewPaddingLeftBitmap = textTopLeftBitmap.x - textViewTopLeftBitmap.x;
+        float textViewPaddingTopBitmap = textTopLeftBitmap.y - textViewTopLeftBitmap.y;
 
         // text location in original bitmap coordinates
         float scale = (float) bitmap.getWidth() / mImageView.getDrawable().getIntrinsicWidth();
-        float x = textTopLeftBitmap.x * scale;
-        float y = textTopLeftBitmap.y * scale;
+        float x = textViewTopLeftBitmap.x * scale;
+        float y = textViewTopLeftBitmap.y * scale;
         float height = textViewHeightBitmap * scale;
+        float width = textViewWidthBitmap * scale;
+        float paddingLeft = textViewPaddingLeftBitmap * scale;
+        float paddingTop = textViewPaddingTopBitmap * scale;
+
 
         // recreate text view with correct size
         ScalableTextView textView = textOverlayView.getTextViewCopy();
+        textView.setPadding((int)paddingLeft, (int)paddingTop, (int)paddingLeft, (int)paddingTop);
         setTextSizeToMatchHeight(textView, height);
-        float fontSizeSp = convertPxToSp(textView.getTextSize());
+        layoutTextView(textView);
+
+        // set stroke
+        float fontSizePx = textView.getTextSize();
+        float fontSizeSp = convertPxToSp(fontSizePx);
         float strokeWidthMultiplier = textOverlayView.getStrokeWidthMultiplier();
         textView.setStrokeWidth(fontSizeSp * strokeWidthMultiplier);
+
+        // set shadow
+        if (textView.getShadowRadius() > 0 && textView.getShadowColor() != Color.TRANSPARENT) {
+            float radius = fontSizePx * textOverlayView.getShadowRadiusMultiplier();
+            float dx = fontSizePx * textOverlayView.getShadowDxMultiplier();
+            float dy = fontSizePx * textOverlayView.getShadowDyMultiplier();
+            textView.setShadowLayer(radius, dx, dy, textView.getShadowColor());
+        }
+
+        // bg corner radius
+        if (textView.getRoundBackgroundColor() != Color.TRANSPARENT) {
+            //float bgPadding = ScalableTextView.BG_PADDING_PX;
+            //textView.setRight(textView.getLeft() + (int) width);
+            //textView.setBottom(textView.getTop() + (int) height);
+            textView.setRoundBackgroundCornerRadius(fontSizeSp * textOverlayView.getBgCornerRadiusMultiplier());
+        }
 
         // draw text on bitmap
         Bitmap bitmapOut = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
@@ -438,6 +473,9 @@ public class PhotoOverlayActivity extends AppCompatActivity
         Paint paint = new Paint();
         canvas.drawBitmap(bitmap, 0, 0, paint);
         canvas.translate(x, y);
+//        canvas.drawRoundRect(new RectF(0, 0, width, height),
+//                textView.getRoundBackgroundCornerRadius(),
+//                textView.getRoundBackgroundCornerRadius(), textView.getBgPaint());
         textView.draw(canvas);
 
         return bitmapOut;
@@ -459,6 +497,7 @@ public class PhotoOverlayActivity extends AppCompatActivity
         } while (textView.getMeasuredHeight() < desiredHeight);
 
         float sizeToTry;
+        int count = 0;
         while (!isCloseEnough(textView.getMeasuredHeight(), desiredHeight)) {
             sizeToTry = (low + high) / 2;
             textView.setTextSize(sizeToTry);
@@ -468,6 +507,13 @@ public class PhotoOverlayActivity extends AppCompatActivity
             } else {
                 high = sizeToTry;
             }
+
+            // the font can't get the size close enough in some situations
+            // so make a way to exit if needed
+            float highLowDiff = high - low;
+            count++;
+            if (count > 20 || highLowDiff < 0.1)
+                return;
         }
     }
 
@@ -475,6 +521,18 @@ public class PhotoOverlayActivity extends AppCompatActivity
         textView.measure(
                 View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
                 View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+    }
+
+    private void layoutTextView(ScalableTextView textView) {
+        int tvWidth = textView.getMeasuredWidth();
+        int tvHeight = textView.getMeasuredHeight();
+
+        // text view
+        int left = textView.getLeft();
+        int top = textView.getTop();
+        int right = left + tvWidth;
+        int bottom = top + tvHeight;
+        textView.layout(left, top, right, bottom);
     }
 
     private void colorBackground(Canvas canvas) {
@@ -495,7 +553,7 @@ public class PhotoOverlayActivity extends AppCompatActivity
             if(bitmapConfig == null) {
                 bitmapConfig = android.graphics.Bitmap.Config.ARGB_8888;
             }
-            // resource bitmaps are imutable,
+            // resource bitmaps are immutable,
             // so we need to convert it to mutable one
             bitmap = bitmap.copy(bitmapConfig, true);
 

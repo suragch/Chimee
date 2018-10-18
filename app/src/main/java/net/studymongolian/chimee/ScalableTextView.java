@@ -11,14 +11,14 @@ import net.studymongolian.mongollibrary.TextPaintPlus;
 
 public class ScalableTextView extends MongolTextView {
 
-    private static final int BG_PADDING_PX = 4;
+    static final int BG_PADDING_PX = 4;
     private float mScaleX = 1f;
     private float mScaleY = 1f;
     private int unscaledWidth;
     private int unScaledHeight;
     private int mBgColor = Color.TRANSPARENT;
     private float mBgCornerRadius = 0;
-    Paint bgPaint;
+    private Paint bgPaint;
 
     public ScalableTextView(Context context) {
         super(context);
@@ -98,14 +98,22 @@ public class ScalableTextView extends MongolTextView {
         return mBgColor;
     }
 
-    public void setBackgroundCornerRadius(float cornerRadius) {
+    public void setRoundBackgroundCornerRadius(float cornerRadius) {
         mBgCornerRadius = cornerRadius;
         invalidate();
+    }
+
+    public float getRoundBackgroundCornerRadius() {
+        return mBgCornerRadius;
     }
 
     public void setRoundBackgroundColor(int color) {
         mBgColor = color;
         invalidate();
+    }
+
+    public Paint getBgPaint() {
+        return bgPaint;
     }
 //
 //    public TextPaintPlus getPaint() {

@@ -6,15 +6,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
-import android.graphics.RectF;
 import android.graphics.Typeface;
-import android.text.StaticLayout;
-import android.text.TextPaint;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-
-import net.studymongolian.mongollibrary.TextPaintPlus;
 
 
 public class OverlayTextView extends ViewGroup {
@@ -215,7 +210,7 @@ public class OverlayTextView extends ViewGroup {
         }
         // bg corner radius
         if (mTextView.getRoundBackgroundColor() != Color.TRANSPARENT) {
-            mTextView.setBackgroundCornerRadius(fontSizeSp * mBgCornerRadiusMultiplier);
+            mTextView.setRoundBackgroundCornerRadius(fontSizeSp * mBgCornerRadiusMultiplier);
         }
     }
 
@@ -325,6 +320,11 @@ public class OverlayTextView extends ViewGroup {
     // in local coordinates
     private int getTextViewLeft() {
         return getPaddingLeft();
+    }
+
+    // in local coordinates
+    private int getTextViewRight() {
+        return getPaddingLeft() + mTextView.getWidth();
     }
 
     // in local coordinates
@@ -495,6 +495,10 @@ public class OverlayTextView extends ViewGroup {
         return mTextView.getRoundBackgroundColor();
     }
 
+    public float getBgCornerRadiusMultiplier() {
+        return mBgCornerRadiusMultiplier;
+    }
+
     /**
      * this sets the background corner radius as a percentage of the font size
      * @param multiplier a value usually from 0 to about 0.2 (0 means 90 degree corners)
@@ -503,7 +507,7 @@ public class OverlayTextView extends ViewGroup {
         mBgCornerRadiusMultiplier = multiplier;
         float currentTextSize = convertPxToSp(mTextView.getTextSize());
         float cornerRadius = currentTextSize * multiplier;
-        mTextView.setBackgroundCornerRadius(cornerRadius);
+        mTextView.setRoundBackgroundCornerRadius(cornerRadius);
     }
 
     public void setRoundBackgroundColor(int alpha, int color) {
@@ -515,26 +519,43 @@ public class OverlayTextView extends ViewGroup {
     }
 
     // in parent coordinates
+    public PointF getTextViewTopLeft() {
+        float x = getX() + getTextViewLeft();// + mTextView.getPaddingLeft();
+        float y = getY() + getTextViewTop();// + mTextView.getPaddingTop();
+        return new PointF(x, y);
+    }
+
+    // in parent coordinates
+    public PointF getTextViewTopRight() {
+        float x = getX() + getTextViewRight();// + mTextView.getPaddingLeft();
+        float y = getY() + getTextViewTop();// + mTextView.getPaddingTop();
+        return new PointF(x, y);
+    }
+
+    // in parent coordinates
+    public PointF getTextViewBottomLeft() {
+        float x = getX() + getTextViewLeft();// + mTextView.getPaddingLeft();
+        float y = getY() + getTextViewBottom();// - mTextView.getPaddingBottom();
+        return new PointF(x, y);
+    }
+
     public PointF getTextTopLeft() {
         float x = getX() + getTextViewLeft() + mTextView.getPaddingLeft();
         float y = getY() + getTextViewTop() + mTextView.getPaddingTop();
         return new PointF(x, y);
     }
 
-    // in parent coordinates
-    public PointF getTextBottomLeft() {
-        float x = getX() + getTextViewLeft() + mTextView.getPaddingLeft();
-        float y = getY() + getTextViewBottom() - mTextView.getPaddingBottom();
-        return new PointF(x, y);
-    }
-
     ScalableTextView getTextViewCopy() {
         ScalableTextView textView = new ScalableTextView(getContext());
-//        textView.setPadding(mTextView.getPaddingLeft(), mTextView.getPaddingTop(),
-//                mTextView.getPaddingRight(), mTextView.getPaddingBottom());
+        textView.setPadding(mTextView.getPaddingLeft(), mTextView.getPaddingTop(),
+                mTextView.getPaddingRight(), mTextView.getPaddingBottom());
         textView.measure(
                 MeasureSpec.makeMeasureSpec(mTextView.getWidth(), MeasureSpec.EXACTLY),
                 MeasureSpec.makeMeasureSpec(mTextView.getHeight(), MeasureSpec.EXACTLY));
+        textView.setLeft(mTextView.getLeft());
+        textView.setTop(mTextView.getTop());
+        textView.setRight(mTextView.getRight());
+        textView.setBottom(mTextView.getBottom());
         textView.setText(mTextView.getText());
         textView.setTextSize(convertPxToSp(mTextView.getTextSize()));
         textView.setTypeface(mTextView.getTypeface());
@@ -546,6 +567,9 @@ public class OverlayTextView extends ViewGroup {
                 mTextView.getShadowDx(),
                 mTextView.getShadowDy(),
                 mTextView.getShadowColor());
+        textView.setRoundBackgroundColor(mTextView.getRoundBackgroundColor());
+        textView.setRoundBackgroundCornerRadius(mTextView.getRoundBackgroundCornerRadius());
+        textView.setScaleX(mTextView.getScaleX());
         return textView;
     }
 
