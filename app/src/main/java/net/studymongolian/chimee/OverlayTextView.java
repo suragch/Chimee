@@ -421,6 +421,10 @@ public class OverlayTextView extends ViewGroup {
         mTextView.setTextColor(color);
     }
 
+    public int getTextColor() {
+        return mTextView.getTextColor();
+    }
+
     public void setTypeface(Typeface typeface) {
         mTextView.setTypeface(typeface);
     }
@@ -471,6 +475,13 @@ public class OverlayTextView extends ViewGroup {
         mTextView.setShadowLayer(shadowRadius, dx, dy, color);
     }
 
+    public void setShadowColor(int color) {
+        float radius = mTextView.getShadowRadius();
+        float dx = mTextView.getShadowDx();
+        float dy = mTextView.getShadowDy();
+        mTextView.setShadowLayer(radius, dx, dy, color);
+    }
+
     public float getShadowRadiusMultiplier() {
         return mShadowRadiusMultiplier;
     }
@@ -510,12 +521,9 @@ public class OverlayTextView extends ViewGroup {
         mTextView.setRoundBackgroundCornerRadius(cornerRadius);
     }
 
-    public void setRoundBackgroundColor(int alpha, int color) {
-        int red = Color.red(color);
-        int green = Color.green(color);
-        int blue = Color.blue(color);
-        mBgColor = Color.argb(alpha, red, green, blue);
-        mTextView.setRoundBackgroundColor(mBgColor);
+    public void setRoundBackgroundColor(int color) {
+        mBgColor = color;
+        mTextView.setRoundBackgroundColor(color);
     }
 
     // in parent coordinates
@@ -575,6 +583,11 @@ public class OverlayTextView extends ViewGroup {
 
     public ScalableTextView getTextView() {
         return mTextView;
+    }
+
+    public void setTextPaddingDp(int paddingDp) {
+        int paddingPx = convertDpToPx(paddingDp);
+        mTextView.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
     }
 }
 

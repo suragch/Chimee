@@ -44,7 +44,7 @@
         android:orientation="horizontal">
 
         <FrameLayout
-            android:id="@+id/fl_photo_overlay_color"
+            android:id="@+id/fl_photo_overlay_text_color"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -150,22 +150,39 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/ll_photo_overlay_colors"
+    <RelativeLayout
+        android:id="@+id/rl_photo_overlay_colors"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/ll_bottom_toolbar"
         android:background="@color/light_grey"
+        android:visibility="gone"
         android:orientation="horizontal">
+
+        <SeekBar
+            android:id="@+id/alpha_seekbar"
+            android:max="100"
+            android:progress="100"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            />
 
         <FrameLayout
             android:id="@+id/fl_cancel_color"
             android:layout_width="60dp"
-            android:layout_height="match_parent"
+            android:layout_height="60dp"
             android:focusable="true"
             android:clickable="true"
             android:background="@drawable/custom_ripple"
-            android:onClick="onCancelColorToolbarItemClick">
+            android:onClick="onCancelColorToolbarItemClick"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/alpha_seekbar"
+            >
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -179,17 +196,20 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_photo_overlay_choices"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/alpha_seekbar"
+            android:layout_toRightOf="@id/fl_cancel_color"
+            />
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/ll_seekbar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_above="@id/ll_photo_overlay_colors"
+        android:layout_above="@id/rl_photo_overlay_colors"
         android:background="@color/light_grey"
         android:orientation="horizontal"
         android:visibility="invisible">
