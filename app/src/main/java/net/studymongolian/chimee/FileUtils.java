@@ -8,6 +8,7 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
+import android.text.format.DateFormat;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -20,6 +21,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 class FileUtils {
@@ -117,6 +119,27 @@ class FileUtils {
             if (created)
                 scanFile(context, destFolder);
         }
+    }
+
+    static String saveOverlayPhoto(Context context, Bitmap bitmap) {
+        File destFolder = new File(getAppImageFolder());
+        makeSureFolderExists(context, destFolder);
+        String filename = convertCurrentTimeToString() + ".png";
+        String pathName = destFolder + File.separator + filename;
+        try {
+            FileOutputStream stream = new FileOutputStream(pathName);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            stream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return getSavedPhotoDisplayFilePath(filename);
+    }
+
+    private static String convertCurrentTimeToString() {
+        Date date = new Date(System.currentTimeMillis());
+        return DateFormat.format("yyyy-MM-dd_kk-mm-ss", date).toString();
     }
 
     private static class Pair implements Comparable {
@@ -229,16 +252,26 @@ class FileUtils {
         return getAppPublicFolder() + File.separator + EXPORT_FOLDER_NAME;
     }
 
+    private static String getAppImageFolder() {
+        return getAppPublicFolder() + File.separator + IMAGE_FOLDER_NAME;
+    }
+
     public static String getExportedHistoryFileDisplayPath() {
-        return                APP_PUBLIC_FOLDER_NAME +
+        return APP_PUBLIC_FOLDER_NAME +
                  File.separator + EXPORT_FOLDER_NAME +
                 File.separator + HISTORY_EXPORT_FILE_NAME;
     }
 
     public static String getExportedWordsFileDisplayPath() {
-        return                APP_PUBLIC_FOLDER_NAME +
+        return APP_PUBLIC_FOLDER_NAME +
                 File.separator + EXPORT_FOLDER_NAME +
                 File.separator + WORDS_EXPORT_FILE_NAME;
+    }
+
+    public static String getSavedPhotoDisplayFilePath(String filename) {
+        return APP_PUBLIC_FOLDER_NAME +
+                File.separator + IMAGE_FOLDER_NAME +
+                File.separator + filename;
     }
 
     private static void scanFile(Context context, File file) {

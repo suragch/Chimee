@@ -1,6 +1,9 @@
 package net.studymongolian.chimee;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,12 +14,16 @@ import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -29,11 +36,14 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 
+import net.studymongolian.mongollibrary.MongolAlertDialog;
 import net.studymongolian.mongollibrary.MongolFont;
+import net.studymongolian.mongollibrary.MongolToast;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 public class PhotoOverlayActivity extends AppCompatActivity
@@ -483,14 +493,11 @@ public class PhotoOverlayActivity extends AppCompatActivity
     }
 
     private void savePhoto() {
-
+        new SavePhoto(this).execute();
     }
 
     private void sharePhoto() {
-        Bitmap bitmap = renderBitmap();
-        mImageView.setImageBitmap(bitmap);
-        //Intent shareIntent = FileUtils.getShareImageIntent(this, bitmap);
-        //startActivity(Intent.createChooser(shareIntent, null));
+        new SharePhoto(this).execute();
     }
 
     private Bitmap renderBitmap() {
@@ -621,55 +628,55 @@ public class PhotoOverlayActivity extends AppCompatActivity
         int bottom = top + tvHeight;
         textView.layout(left, top, right, bottom);
     }
-
-    private void colorBackground(Canvas canvas) {
-        int color = Color.BLUE;
-        Paint paint = new Paint();
-        paint.setColor(color);
-        paint.setStyle(Paint.Style.FILL);
-        canvas.drawPaint(paint);
-    }
-
-    public Bitmap drawTextToBitmap(Context mContext,  int resourceId,  String mText) {
-        try {
-            Resources resources = mContext.getResources();
-            float scale = resources.getDisplayMetrics().density;
-            Bitmap bitmap = BitmapFactory.decodeResource(resources, resourceId);
-            Bitmap.Config bitmapConfig =   bitmap.getConfig();
-            // set default bitmap config if none
-            if(bitmapConfig == null) {
-                bitmapConfig = android.graphics.Bitmap.Config.ARGB_8888;
-            }
-            // resource bitmaps are immutable,
-            // so we need to convert it to mutable one
-            bitmap = bitmap.copy(bitmapConfig, true);
-
-            Canvas canvas = new Canvas(bitmap);
-            // new antialised Paint
-            Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-            // text color - #3D3D3D
-            paint.setColor(Color.rgb(110,110, 110));
-            // text size in pixels
-            paint.setTextSize((int) (12 * scale));
-            // text shadow
-            paint.setShadowLayer(1f, 0f, 1f, Color.DKGRAY);
-
-            // draw text to the Canvas center
-            Rect bounds = new Rect();
-            paint.getTextBounds(mText, 0, mText.length(), bounds);
-            int x = (bitmap.getWidth() - bounds.width())/6;
-            int y = (bitmap.getHeight() + bounds.height())/5;
-
-            canvas.drawText(mText, x * scale, y * scale, paint);
-
-            return bitmap;
-        } catch (Exception e) {
-            // TODO: handle exception
-
-            return null;
-        }
-
-    }
+//
+//    private void colorBackground(Canvas canvas) {
+//        int color = Color.BLUE;
+//        Paint paint = new Paint();
+//        paint.setColor(color);
+//        paint.setStyle(Paint.Style.FILL);
+//        canvas.drawPaint(paint);
+//    }
+//
+//    public Bitmap drawTextToBitmap(Context mContext,  int resourceId,  String mText) {
+//        try {
+//            Resources resources = mContext.getResources();
+//            float scale = resources.getDisplayMetrics().density;
+//            Bitmap bitmap = BitmapFactory.decodeResource(resources, resourceId);
+//            Bitmap.Config bitmapConfig =   bitmap.getConfig();
+//            // set default bitmap config if none
+//            if(bitmapConfig == null) {
+//                bitmapConfig = android.graphics.Bitmap.Config.ARGB_8888;
+//            }
+//            // resource bitmaps are immutable,
+//            // so we need to convert it to mutable one
+//            bitmap = bitmap.copy(bitmapConfig, true);
+//
+//            Canvas canvas = new Canvas(bitmap);
+//            // new antialised Paint
+//            Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+//            // text color - #3D3D3D
+//            paint.setColor(Color.rgb(110,110, 110));
+//            // text size in pixels
+//            paint.setTextSize((int) (12 * scale));
+//            // text shadow
+//            paint.setShadowLayer(1f, 0f, 1f, Color.DKGRAY);
+//
+//            // draw text to the Canvas center
+//            Rect bounds = new Rect();
+//            paint.getTextBounds(mText, 0, mText.length(), bounds);
+//            int x = (bitmap.getWidth() - bounds.width())/6;
+//            int y = (bitmap.getHeight() + bounds.height())/5;
+//
+//            canvas.drawText(mText, x * scale, y * scale, paint);
+//
+//            return bitmap;
+//        } catch (Exception e) {
+//            // TODO: handle exception
+//
+//            return null;
+//        }
+//
+//    }
 
     private float convertPxToSp(float sizePx) {
         return sizePx / getResources().getDisplayMetrics().scaledDensity;
@@ -876,5 +883,100 @@ public class PhotoOverlayActivity extends AppCompatActivity
         Typeface typeface = MongolFont.get(font.getFileLocation(), this);
         textOverlayView.setTypeface(typeface);
 
+    }
+
+    private static class SharePhoto extends AsyncTask<Void, Void, Intent> {
+
+        WeakReference<PhotoOverlayActivity> activityReference;
+        private AlertDialog progress;
+
+        SharePhoto(PhotoOverlayActivity context) {
+            activityReference = new WeakReference<>(context);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            PhotoOverlayActivity activity = activityReference.get();
+            showProgressDialog(activity);
+        }
+
+        void showProgressDialog(PhotoOverlayActivity activity) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+            final View customLayout = activity.getLayoutInflater().inflate(R.layout.dialog_spinner, null);
+            builder.setView(customLayout);
+            progress = builder.create();
+            progress.show();
+        }
+
+        @Override
+        protected Intent doInBackground(Void... params) {
+            PhotoOverlayActivity activity = activityReference.get();
+            Bitmap bitmap = activity.renderBitmap();
+            return FileUtils.getShareImageIntent(activity, bitmap);
+        }
+
+        @Override
+        protected void onPostExecute(Intent shareIntent) {
+            if (shareIntent == null) return;
+            PhotoOverlayActivity activity = activityReference.get();
+            if (activity == null || activity.isFinishing()) return;
+            if (progress != null && progress.isShowing()) {
+                progress.dismiss();
+            }
+            activity.startActivity(Intent.createChooser(shareIntent, null));
+        }
+    }
+
+    private static class SavePhoto extends AsyncTask<Void, Void, String> {
+
+        WeakReference<PhotoOverlayActivity> activityReference;
+        private AlertDialog progress;
+
+        SavePhoto(PhotoOverlayActivity context) {
+            activityReference = new WeakReference<>(context);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            PhotoOverlayActivity activity = activityReference.get();
+            showProgressDialog(activity);
+        }
+
+        void showProgressDialog(PhotoOverlayActivity activity) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+            final View customLayout = activity.getLayoutInflater().inflate(R.layout.dialog_spinner, null);
+            builder.setView(customLayout);
+            progress = builder.create();
+            progress.show();
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            PhotoOverlayActivity activity = activityReference.get();
+            Bitmap bitmap = activity.renderBitmap();
+            return FileUtils.saveOverlayPhoto(activity, bitmap);
+        }
+
+        @Override
+        protected void onPostExecute(String savedFileNameName) {
+            PhotoOverlayActivity activity = activityReference.get();
+            if (activity == null || activity.isFinishing()) return;
+            if (progress != null && progress.isShowing()) {
+                progress.dismiss();
+            }
+            if (TextUtils.isEmpty(savedFileNameName)) {
+                MongolToast.makeText(activity, R.string.couldnt_be_saved, MongolToast.LENGTH_SHORT).show();
+            } else {
+                notifyUserOfPhotoLocation(activity, savedFileNameName);
+            }
+        }
+
+        private void notifyUserOfPhotoLocation(Context context, String pathName) {
+            MongolAlertDialog.Builder builder = new MongolAlertDialog.Builder(context);
+            builder.setMessage(context.getString(R.string.alert_where_to_find_photo, pathName));
+            builder.setPositiveButton(context.getString(R.string.dialog_got_it), null);
+            MongolAlertDialog dialog = builder.create();
+            dialog.show();
+        }
     }
 }

@@ -58,6 +58,9 @@
     <string name="favorites_menu_edit">ᠨᠠᠢᠷᠭᠤᠯᠬᠤ</string>
     <string name="favorites_menu_delete">ᠤᠰᠠᠳᠬᠠᠬᠤ</string>
 
+    <!-- photo overlay -->
+    <string name="alert_where_to_find_photo">ᠲᠠᠨ ᠤ ᠰᠡᠭᠦᠳᠡᠷ %1$s ᠳᠦ ᠬᠠᠳᠠᠭᠠᠯᠠᠭᠳᠠᠵᠠᠢ ᠃</string>
+
     <!-- save document -->
     <string name="textview_hint_file_name">ᠬᠠᠳᠠᠭᠠᠯᠠᠬᠤ ᠨᠡᠷ᠎ᠡ</string>
     <string name="no_write_file_permission">SD ᠺᠠᠷᠲ ᠢ ᠤᠩᠰᠢᠵᠤ ᠪᠣᠯᠬᠤ ᠦᠭᠡᠢ ᠶᠢ ᠰᠣᠩᠭᠤᠭᠰᠠᠨ ᠪᠣᠯᠬᠣᠷ ᠬᠠᠳᠠᠭᠠᠯᠠᠵᠤ ᠳᠡᠢᠯᠬᠦ ᠦᠭᠡᠢ ᠃</string>
@@ -90,8 +93,8 @@
     <string name="history_menu_delete_all">ᠪᠦᠭᠦᠨ ᠢ ᠠᠷᠢᠯᠭᠠᠬᠤ</string>
     <string name="history_menu_delete_item">ᠠᠷᠢᠯᠭᠠᠬᠤ</string>
     <string name="history_menu_edit_item">ᠨᠠᠢᠷᠭᠤᠯᠬᠤ</string>
-    <string name="alert_where_to_find_history_export">ᠲᠠᠨ ᠤ ᠶᠠᠪᠤᠭᠤᠯᠵᠤ ᠦᠩᠭᠡᠷᠡᠭᠰᠡᠨ ᠴᠢᠮᠡᠭᠡ %1$s ᠬᠠᠳᠠᠭᠠᠯᠠᠭᠳᠠᠵᠠᠢ ᠃</string>
-    <string name="alert_where_to_find_words_export">ᠲᠠᠨ ᠤ ᠦᠭᠡᠰ ᠦᠨ ᠬᠦᠮᠦᠷᠭᠡ %1$s ᠬᠠᠳᠠᠭᠠᠯᠠᠭᠳᠠᠵᠠᠢ ᠃</string>
+    <string name="alert_where_to_find_history_export">ᠲᠠᠨ ᠤ ᠶᠠᠪᠤᠭᠤᠯᠵᠤ ᠦᠩᠭᠡᠷᠡᠭᠰᠡᠨ ᠴᠢᠮᠡᠭᠡ %1$s ᠳᠦ ᠬᠠᠳᠠᠭᠠᠯᠠᠭᠳᠠᠵᠠᠢ ᠃</string>
+    <string name="alert_where_to_find_words_export">ᠲᠠᠨ ᠤ ᠦᠭᠡᠰ ᠦᠨ ᠬᠦᠮᠦᠷᠭᠡ %1$s ᠳᠦ ᠬᠠᠳᠠᠭᠠᠯᠠᠭᠳᠠᠵᠠᠢ ᠃</string>
     <string name="alert_delete_all_history_messages">ᠲᠠ ᠦᠨᠡᠭᠡᠷ ᠪᠦᠬᠦ ᠵᠠᠬᠢᠶ᠎ᠠ ᠶᠢ ᠠᠷᠢᠯᠭᠠᠬᠤ ᠤᠤ︖</string>
     <string name="dialog_delete_yes">ᠠᠷᠢᠯᠭᠠᠨ᠎ᠠ</string>
 

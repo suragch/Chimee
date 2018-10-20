@@ -7,8 +7,8 @@ android {
         applicationId "net.studymongolian.chimee"
         minSdkVersion 14
         targetSdkVersion 28
-        versionCode 21
-        versionName "3.0.0 测试版4"
+        versionCode 22
+        versionName "3.0.0 测试版5"
     }
 
     buildTypes {
