@@ -643,7 +643,7 @@ public class MainActivity extends AppCompatActivity
                 "com.tencent.mm.ui.tools.ShareImgUI");
         if (shareIntent == null) return;
         shareIntent.setComponent(comp);
-        startActivity(shareIntent);
+        startActivityForResult(shareIntent, SHARE_REQUEST);
     }
 
     private void shareToBainu() {
@@ -905,6 +905,10 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(this, PhotoOverlayActivity.class);
         CharSequence text = getInputWindowTextWithHardBreaksAdded();
         intent.putExtra(PhotoOverlayActivity.CURRENT_MESSAGE_KEY, text);
+        SharedPreferences settings = getSharedPreferences(SettingsActivity.PREFS_NAME, MODE_PRIVATE);
+        String font = settings.getString(SettingsActivity.FONT_KEY, SettingsActivity.FONT_DEFAULT);
+        intent.putExtra(PhotoOverlayActivity.CURRENT_TYPEFACE_KEY, font);
+
         Uri uri = data.getData();
         intent.setData(uri);
         startActivity(intent);

@@ -16,7 +16,7 @@ public class OverlayTextView extends ViewGroup {
 
 
     private static final int PADDING_PX = 2;
-    private static final float TEXT_PADDING_DP = 10;
+    static final float TEXT_PADDING_DP = 10;
     private static final int BORDER_SIZE_PX = 1;
     private static final float BOX_CONTROL_SIZE_DP = 10;
     private static final float CONTROL_TOUCH_AREA_SIZE_DP = 48;

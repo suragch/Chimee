@@ -1,17 +1,13 @@
 package net.studymongolian.chimee;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
-import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -23,7 +19,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -51,6 +46,7 @@ public class PhotoOverlayActivity extends AppCompatActivity
 
 
     public static final String CURRENT_MESSAGE_KEY = "message";
+    public static final String CURRENT_TYPEFACE_KEY = "typeface";
     private static final float STROKE_WIDTH_MULTIPLIER_MAX = 0.2f;
     private static final float STROKE_WIDTH_MULTIPLIER_MIN = 0.02f;
     private static final float SHADOW_SPIRAL_ANGLE_RADIANS_MIN = 0;
@@ -71,6 +67,7 @@ public class PhotoOverlayActivity extends AppCompatActivity
     private static final int DEFAULT_BG_ALPHA = 0x80;
 
     private CharSequence currentMessage;
+    private Typeface defaultTypeface;
     private Bitmap bitmap;
     private TouchImageView mImageView;
     private OverlayTextView textOverlayView;
@@ -141,6 +138,7 @@ public class PhotoOverlayActivity extends AppCompatActivity
         public boolean onTouch(View v, MotionEvent event) {
             if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
                 textOverlayView.setFocused(false);
+                hideSettingBars();
             }
             return false;
         }
@@ -149,6 +147,8 @@ public class PhotoOverlayActivity extends AppCompatActivity
 
     private void getIntentData() {
         currentMessage = getIntent().getCharSequenceExtra(CURRENT_MESSAGE_KEY);
+        String fontLocation = getIntent().getStringExtra(CURRENT_TYPEFACE_KEY);
+        defaultTypeface = MongolFont.get(fontLocation, this);
 
         try {
             if (bitmap != null) {
@@ -175,6 +175,7 @@ public class PhotoOverlayActivity extends AppCompatActivity
         textOverlayView = new OverlayTextView(this);
         textOverlayView.setText(currentMessage);
         textOverlayView.setTextColor(DEFAULT_TEXT_COLOR);
+        textOverlayView.setTypeface(defaultTypeface);
         FrameLayout layout = findViewById(R.id.photo_frame_layout);
         layout.addView(textOverlayView);
     }
@@ -310,7 +311,7 @@ public class PhotoOverlayActivity extends AppCompatActivity
                     updateShadowXyFromProgress(progress);
                     break;
                 case R.id.fl_photo_overlay_background:
-                    updateBackgroundOpacityFromProgress(progress);
+                    updatePaddingFromProgress(progress);
                     break;
             }
 
@@ -343,7 +344,7 @@ public class PhotoOverlayActivity extends AppCompatActivity
                     radiusMultiplier, dxMultiplier, dyMultiplier, color);
         }
 
-        private void updateBackgroundOpacityFromProgress(int progress) {
+        private void updatePaddingFromProgress(int progress) {
             backgroundPaddingSeekBarProgress = progress;
 
             int color = textOverlayView.getRoundBackgroundColor();
@@ -792,8 +793,8 @@ public class PhotoOverlayActivity extends AppCompatActivity
         llSeekBars.setVisibility(View.VISIBLE);
         rightSeekBar.setVisibility(View.VISIBLE);
         updateProgressWithoutSettingValue(alphaSeekBar, backgroundOpacitySeekBarProgress);
-        updateProgressWithoutSettingValue(leftSeekBar, backgroundCornerRadiusSeekBarProgress);
-        updateProgressWithoutSettingValue(rightSeekBar, backgroundPaddingSeekBarProgress);
+        updateProgressWithoutSettingValue(leftSeekBar, backgroundPaddingSeekBarProgress);
+        updateProgressWithoutSettingValue(rightSeekBar, backgroundCornerRadiusSeekBarProgress);
     }
 
     private void hideSettingBars() {
