@@ -1,7 +1,10 @@
 package net.studymongolian.chimee;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -12,6 +15,9 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -494,7 +500,19 @@ public class PhotoOverlayActivity extends AppCompatActivity
     }
 
     private void savePhoto() {
-        new SavePhoto(this).execute();
+        if (PermissionsHelper.getWriteExternalStoragePermission(this))
+            new SavePhoto(this).execute();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String permissions[],
+                                           @NonNull int[] grantResults) {
+        if (PermissionsHelper.isWritePermissionRequestGranted(requestCode, grantResults)) {
+            new SavePhoto(this).execute();
+        } else {
+            PermissionsHelper.notifyUserThatTheyCantSaveFileWithoutWritePermission(this);
+        }
     }
 
     private void sharePhoto() {

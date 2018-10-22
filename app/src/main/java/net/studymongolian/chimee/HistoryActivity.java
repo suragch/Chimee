@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
@@ -184,7 +185,7 @@ public class HistoryActivity extends AppCompatActivity
         menu.setOnMenuItemClickListener(new MongolMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MongolMenuItem item) {
                 if (item == export) {
-                    new ExportHistory(HistoryActivity.this).execute();
+                    onExportHistoryMenuItemClick();
                 } else if (item == delete) {
                     deleteAll();
                 }
@@ -200,6 +201,22 @@ public class HistoryActivity extends AppCompatActivity
         int yOffset = location[1] + marginPx;
 
         menu.showAtLocation(overflowMenuButton, gravity, marginPx, yOffset);
+    }
+
+    private void onExportHistoryMenuItemClick() {
+        if (PermissionsHelper.getWriteExternalStoragePermission(this))
+            new ExportHistory(HistoryActivity.this).execute();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String permissions[],
+                                           @NonNull int[] grantResults) {
+        if (PermissionsHelper.isWritePermissionRequestGranted(requestCode, grantResults)) {
+            new ExportHistory(HistoryActivity.this).execute();
+        } else {
+            PermissionsHelper.notifyUserThatTheyCantSaveFileWithoutWritePermission(this);
+        }
     }
 
     private void deleteAll() {

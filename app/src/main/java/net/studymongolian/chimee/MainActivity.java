@@ -17,6 +17,7 @@ import net.studymongolian.mongollibrary.MongolMenuItem;
 import net.studymongolian.mongollibrary.MongolToast;
 import net.studymongolian.mongollibrary.MongolTypefaceSpan;
 
+import android.Manifest;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -32,7 +33,10 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -66,6 +70,7 @@ public class MainActivity extends AppCompatActivity
     private static final int PHOTO_REQUEST_CODE = 3;
     private static final int OPEN_REQUEST = 4;
     private static final int SAVE_REQUEST = 5;
+    private static final int WRITE_EXTERNAL_STORAGE_REQUEST = 6;
 
     private static final int MENU_MARGIN_DP = 4;
     private static final String WECHAT_PACKAGE_NAME = "com.tencent.mm";
@@ -576,9 +581,25 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void onSaveMenuItemClick() {
+        if (PermissionsHelper.getWriteExternalStoragePermission(this))
+            startSaveActivity();
+    }
+
+    private void startSaveActivity() {
         Intent intent = new Intent(this, SaveActivity.class);
         intent.putExtra(SaveActivity.TEXT_KEY, inputWindow.getText().toString());
         startActivityForResult(intent, SAVE_REQUEST);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String permissions[],
+                                           @NonNull int[] grantResults) {
+        if (PermissionsHelper.isWritePermissionRequestGranted(requestCode, grantResults)) {
+            startSaveActivity();
+        } else {
+            PermissionsHelper.notifyUserThatTheyCantSaveFileWithoutWritePermission(this);
+        }
     }
 
     private void onSettingsMenuItemClick() {

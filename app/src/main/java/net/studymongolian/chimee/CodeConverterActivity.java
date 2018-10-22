@@ -1,13 +1,19 @@
 package net.studymongolian.chimee;
 
+import android.Manifest;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,6 +29,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import net.studymongolian.mongollibrary.MongolAlertDialog;
 import net.studymongolian.mongollibrary.MongolCode;
 import net.studymongolian.mongollibrary.MongolToast;
 
@@ -34,6 +41,7 @@ public class CodeConverterActivity extends AppCompatActivity {
 
     private static final int OPEN_FILE_REQUEST = 0;
     private static final int SAVE_REQUEST = 1;
+    private static final int WRITE_EXTERNAL_STORAGE_REQUEST = 3;
 
     FrameLayout pasteButton;
     FrameLayout convertButton;
@@ -138,10 +146,26 @@ public class CodeConverterActivity extends AppCompatActivity {
     }
 
     private void saveToFile() {
+        if (PermissionsHelper.getWriteExternalStoragePermission(this))
+            startSaveActivity();
+    }
+
+    private void startSaveActivity() {
         String text = getText();
         Intent intent = new Intent(this, SaveActivity.class);
         intent.putExtra(SaveActivity.TEXT_KEY, text);
         startActivityForResult(intent, SAVE_REQUEST);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String permissions[],
+                                           @NonNull int[] grantResults) {
+        if (PermissionsHelper.isWritePermissionRequestGranted(requestCode, grantResults)) {
+            startSaveActivity();
+        } else {
+            PermissionsHelper.notifyUserThatTheyCantSaveFileWithoutWritePermission(this);
+        }
     }
 
     @Override

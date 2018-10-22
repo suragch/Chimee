@@ -37,8 +37,8 @@ public class SaveActivity extends AppCompatActivity
         SimpleListRvAdapter.ItemClickListener {
 
     static final String TEXT_KEY = "text";
-    public static final int REQUEST_WRITE_STORAGE = 112;
-    private final String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    //public static final int REQUEST_WRITE_STORAGE = 112;
+    //private final String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
     private MenuItem saveButton;
     private MongolTextView hintText;
@@ -56,7 +56,7 @@ public class SaveActivity extends AppCompatActivity
         setupKeyboard();
         setupMongolEditText();
         loadInfoFromIntent();
-        requestWritePermission();
+        //requestWritePermission();
         showExistingFilenameList();
     }
 
@@ -128,9 +128,9 @@ public class SaveActivity extends AppCompatActivity
         mText = intent.getStringExtra(TEXT_KEY);
     }
 
-    private void requestWritePermission() {
-        ActivityCompat.requestPermissions(this, permissions, REQUEST_WRITE_STORAGE);
-    }
+//    private void requestWritePermission() {
+//        ActivityCompat.requestPermissions(this, permissions, REQUEST_WRITE_STORAGE);
+//    }
 
     private void showExistingFilenameList() {
         List<String> files = FileUtils.getTextFileNamesWithoutExtension(this);
@@ -221,21 +221,21 @@ public class SaveActivity extends AppCompatActivity
         dialog.show();
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        switch (requestCode) {
-            case REQUEST_WRITE_STORAGE: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    return;
-                }
-                notifyUserThatTheyCantSaveFileWithoutWritePermission();
-                break;
-            }
-        }
-    }
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//
+//        switch (requestCode) {
+//            case REQUEST_WRITE_STORAGE: {
+//                if (grantResults.length > 0
+//                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                    return;
+//                }
+//                notifyUserThatTheyCantSaveFileWithoutWritePermission();
+//                break;
+//            }
+//        }
+//    }
 
     private void notifyUserThatTheyCantSaveFileWithoutWritePermission() {
         MongolAlertDialog.Builder builder = new MongolAlertDialog.Builder(this);
