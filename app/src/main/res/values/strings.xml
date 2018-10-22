@@ -43,6 +43,12 @@
     <string name="font_name_svgvnag">ᠰᠤᠭᠤᠨᠠᠭ ᠲᠢᠭ</string>
     <string name="font_name_svlbiya">ᠰᠤᠯᠪᠢᠶ᠎ᠠ ᠲᠢᠭ</string>
     <string name="font_name_jclgq">ᠵᠣᠯᠭᠠᠴᠠ ᠲᠢᠭ</string>
+    <string name="font_name_tvgvrai">ᠲᠤᠭᠤᠷᠠᠢ ᠲᠢᠭ</string>
+    <string name="font_name_erihe">ᠡᠷᠢᠬᠡ ᠲᠢᠭ</string>
+    <string name="font_name_hvlvsvn">ᠬᠤᠯᠤᠰᠤᠨ ᠲᠢᠭ</string>
+    <string name="font_name_qimeg">ᠴᠢᠮᠡᠭ ᠲᠢᠭ</string>
+    <string name="font_name_ujug">ᠦᠵᠦᠭ ᠲᠢᠭ</string>
+    <string name="font_name_uyanga">ᠤᠶᠠᠩᠭ᠎ᠠ ᠲᠢᠭ</string>
 
     <!-- dialogs -->
     <string name="dialog_cancel">ᠦᠭᠡᠢ</string>
