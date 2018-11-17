@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- see MainActivity onOptionsItemSelected for implementation -->
+
+    <!-- Share to WeChat -->
+    <item
+        android:id="@+id/main_action_share"
+        android:icon="@drawable/ic_share_white_24dp"
+        android:title="todo"
+        app:showAsAction="always"/>
+
+    <!-- Photo Overlay -->
+    <item
+        android:id="@+id/main_action_photo"
+        android:icon="@drawable/ic_insert_photo_white_24dp"
+        android:title="todo"
+        app:showAsAction="always"/>
+
+    <!-- Favorites -->
+    <item
+        android:id="@+id/main_action_favorite"
+        android:icon="@drawable/ic_star_white_24dp"
+        android:title="todo"
+        app:showAsAction="always"/>
+
+    <!-- Overflow Menu -->
+    <item
+        android:id="@+id/main_action_overflow"
+        android:icon="@drawable/ic_more_vert_white_24dp"
+        android:title="todo"
+        app:showAsAction="always"/>
+
+</menu>

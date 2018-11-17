@@ -1,25 +1,45 @@
 package net.studymongolian.chimee;
 
-import android.app.Activity;
+import android.Manifest;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Color;
-import android.graphics.Typeface;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.FrameLayout;
-import android.widget.TextView;
+import android.view.inputmethod.InputMethodInfo;
+import android.view.inputmethod.InputMethodManager;
 
-public class SettingsActivity extends Activity {
+import net.studymongolian.mongollibrary.MongolAlertDialog;
+import net.studymongolian.mongollibrary.MongolTextView;
+import net.studymongolian.mongollibrary.MongolToast;
 
-	protected static final String PREFS_NAME = "MyPrefsFile";
-	protected static final String FONT_KEY = "font";
-	protected static final String FONT_WHITE = "fontWhite";
-	protected static final String FONT_WRITING = "fontWriting";
-	protected static final String FONT_ART = "fontArt";
-	protected static final String FONT_TITLE = "fontTitle";
-	protected static final String FONT_DEFAULT = FONT_WHITE;
+import java.io.InputStream;
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
+
+public class SettingsActivity extends AppCompatActivity {
+
+
+	static final String PREFS_NAME = "MyPrefsFile";
+	static final String FONT_KEY = "font";
+
+	protected static final String FONT_DEFAULT = Font.QAGAN;
 
 	protected static final String MONGOLIAN_KEYBOARD_KEY = "mongolKeyboard";
 	protected static final String MONGOLIAN_AEIOU_KEYBOARD = "aeiouKeyboard";
@@ -30,168 +50,276 @@ public class SettingsActivity extends Activity {
 	protected static final String TEXTCOLOR_KEY = "textColor";
 	protected static final int TEXTCOLOR_DEFAULT = Color.BLACK;
 
-    protected static final String DRAFT_KEY = "draft"; // Unicode text in input window when closed
-    protected static final String DRAFT_DEFAULT = "";
-    protected static final String CURSOR_POSITION_KEY = "cursorPosition";
-    protected static final int CURSOR_POSITION_DEFAULT = 0;
+	protected static final String DRAFT_KEY = "draft"; // Unicode text in input window when closed
+	protected static final String DRAFT_DEFAULT = "";
+	protected static final String CURSOR_POSITION_KEY = "cursorPosition";
+	protected static final int CURSOR_POSITION_DEFAULT = 0;
+	public static final String SHOW_BAINU_BUTTON_KEY = "show_bainu";
 
 
-	private static final int KEYBOARD_REQUEST = 1;
-	private static final int COLOR_REQUEST = 2;
-	private static final int FONT_REQUEST = 3;
+    private static final int HISTORY_REQUEST = 0;
+    private static final int INSTALL_KEYBOARD_REQUEST = 1;
+    private static final int IMPORT_KEYBOARD_WORDS_REQUEST = 2;
 
-	TextView tvColorText;
-	TextView tvFontSetting;
-	FrameLayout flColorBox;
-	TextView tvKeyboard;
-	SharedPreferences settings;
-	Intent returnInfoIntent;
+    private boolean isChimeeSystemKeyboardAvailable;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_settings);
 
-		tvKeyboard = (TextView) findViewById(R.id.tvSettingsKeyboard);
+		setupToolbar();
+		setupSystemKeyboardItem();
+	}
 
-		// Get preferences and update settings display
-		settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+    private void setupToolbar() {
+		Toolbar toolbar = findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+		ActionBar actionBar = getSupportActionBar();
+		if (actionBar != null) {
+			actionBar.setDisplayHomeAsUpEnabled(true);
+			actionBar.setDisplayShowHomeEnabled(true);
+			actionBar.setTitle("");
+		}
+	}
 
-		// Color
-		int background = settings.getInt(BGCOLOR_KEY, BGCOLOR_DEFAULT);
-		int text = settings.getInt(TEXTCOLOR_KEY, TEXTCOLOR_DEFAULT);
-		flColorBox = (FrameLayout) findViewById(R.id.flSettingsColorSampleBox);
-		flColorBox.setBackgroundColor(background);
-		tvColorText = (TextView) findViewById(R.id.tvSettingsColorSampleU);
-		tvColorText.setTextColor(text);
-		
-		// Font
-		String font = settings.getString(FONT_KEY, FONT_DEFAULT);
-		tvFontSetting = (TextView) findViewById(R.id.tvSettingsFontSelected);
-		tvFontSetting.setText(getResources().getString(R.string.settings_font_detail));
-		Typeface tf = FontCache.get(font, getApplicationContext());
-        if(tf != null) {
-        	tvFontSetting.setTypeface(tf);
+    private void setupSystemKeyboardItem() {
+        isChimeeSystemKeyboardAvailable = isKeyboardActivated();
+        if (isChimeeSystemKeyboardAvailable) {
+            MongolTextView mtv = findViewById(R.id.mtv_install_keyboard);
+            mtv.setText(getString(R.string.settings_choose_keyboard));
         }
-		
-		// Keyboard type
-		String userKeyboard = settings
-				.getString(MONGOLIAN_KEYBOARD_KEY, MONGOLIAN_KEYBOARD_DEFAULT);
-		if (userKeyboard.equals(MONGOLIAN_AEIOU_KEYBOARD)) {
-			tvKeyboard.setText(getResources().getString(R.string.settings_keyboard_aeiou_short));
-		} else {
-			tvKeyboard.setText(getResources().getString(R.string.settings_keyboard_qwerty_short));
-		}
+    }
 
-		// initialize things that need to be updated on result
-		returnInfoIntent = new Intent();
-		returnInfoIntent.putExtra("settingsHaveChanged", false);
+    private boolean isKeyboardActivated() {
+        String packageLocal = getPackageName();
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        if (inputMethodManager == null) return false;
+        List<InputMethodInfo> list = inputMethodManager.getEnabledInputMethodList();
 
-	}
+        // check if our keyboard is enabled as input method
+        for (InputMethodInfo inputMethod : list) {
+            String packageName = inputMethod.getPackageName();
+            if (packageName.equals(packageLocal)) {
+                return true;
+            }
+        }
 
-	public void finishedClick(View v) {
-		finish();
-	}
+        return false;
+    }
 
-	public void settingsColorClick(View v) {
-		// Choose the color for the message text and background
-		Intent intent = new Intent(v.getContext(), ColorChooserActivity.class);
-		startActivityForResult(intent, COLOR_REQUEST);
-	}
+    public void onHistoryClick(View view) {
+	    Intent intent = new Intent(this, HistoryActivity.class);
+	    startActivityForResult(intent, HISTORY_REQUEST);
+    }
 
-	public void settingsFontClick(View v) {
-		// Bring up a dialog box with font size choices
-		Intent intent = new Intent(v.getContext(), FontChooserDialog.class);
-		startActivityForResult(intent, FONT_REQUEST);
-		setResult(RESULT_OK, returnInfoIntent);
-	}
+    public void onInstallKeyboardClick(View view) {
+	    if (isChimeeSystemKeyboardAvailable) {
+	        showChooseKeyboardDialog();
+        } else {
+	        showInstallKeyboardDialog();
+        }
+    }
 
-	public void settingsKeyboardClick(View v) {
-		// Bring up a dialog box with font size choices
-		Intent intent = new Intent(v.getContext(), SettingsKeyboardChooserDialog.class);
-		startActivityForResult(intent, KEYBOARD_REQUEST);
-		setResult(RESULT_OK, returnInfoIntent);
-	}
+    private void showChooseKeyboardDialog() {
+        InputMethodManager im = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        if (im == null) return;
+        im.showInputMethodPicker();
+    }
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    private void showInstallKeyboardDialog() {
+        Intent inputSettings = new Intent(Settings.ACTION_INPUT_METHOD_SETTINGS);
+        startActivityForResult(inputSettings, INSTALL_KEYBOARD_REQUEST);
+    }
 
-		if (requestCode == KEYBOARD_REQUEST) {
-			if (resultCode == RESULT_OK) {
+    public void onExportKeyboardWordsClick(View view) {
+        if (PermissionsHelper.getWriteExternalStoragePermission(this))
+            new ExportKeyboardWords(this).execute();
+    }
 
-				boolean keyboardChanged = true;
-				returnInfoIntent.putExtra("keyboardResult", keyboardChanged);
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String permissions[],
+                                           @NonNull int[] grantResults) {
+        if (PermissionsHelper.isWritePermissionRequestGranted(requestCode, grantResults)) {
+            new ExportKeyboardWords(this).execute();
+        } else {
+            PermissionsHelper.notifyUserThatTheyCantSaveFileWithoutWritePermission(this);
+        }
+    }
 
-				// get choice
-				String chosenKeyboard = data.getStringExtra("result");
+    public void onImportKeyboardWordsClick(View view) {
+        Intent chooseFile;
+        Intent intent;
+        chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
+        chooseFile.setType("files/*");
+        intent = Intent.createChooser(chooseFile, getString(R.string.import_chooser_message));
+        startActivityForResult(intent, IMPORT_KEYBOARD_WORDS_REQUEST);
+    }
 
-				// save settings
-				SharedPreferences settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-				SharedPreferences.Editor editor = settings.edit();
-				editor.putString(MONGOLIAN_KEYBOARD_KEY, chosenKeyboard);
-				editor.commit();
+    public void onCodeConverterClick(View view) {
+        Intent intent = new Intent(this, CodeConverterActivity.class);
+        startActivity(intent);
+    }
 
-				// update display
-				if (chosenKeyboard.equals(MONGOLIAN_AEIOU_KEYBOARD)) {
-					tvKeyboard.setText(getResources().getString(
-							R.string.settings_keyboard_aeiou_short));
-				} else {
-					tvKeyboard.setText(getResources().getString(
-							R.string.settings_keyboard_qwerty_short));
-				}
+    public void onHelpClick(View view) {
+        Intent intent = new Intent(this, HelpActivity.class);
+        startActivity(intent);
+    }
 
-				// change keyboard on return
-				setResult(RESULT_OK, returnInfoIntent);
-			}
-		} else if (requestCode == COLOR_REQUEST) {
-			if (resultCode == RESULT_OK) {
+    public void onAboutClick(View view) {
+        Intent intent = new Intent(this, AboutActivity.class);
+        startActivity(intent);
+    }
 
-				// get colors
-				int backgroundColor = data.getExtras().getInt("resultBackground");
-				int textColor = data.getExtras().getInt("resultText");
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
-				// Save to settings
-				SharedPreferences settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-				SharedPreferences.Editor editor = settings.edit();
-				editor.putInt(BGCOLOR_KEY, backgroundColor);
-				editor.putInt(TEXTCOLOR_KEY, textColor);
-				editor.commit();
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        switch (requestCode) {
+            case HISTORY_REQUEST:
+                onHistoryResult(resultCode, data);
+                break;
+            case INSTALL_KEYBOARD_REQUEST:
+                setupSystemKeyboardItem();
+                break;
+            case IMPORT_KEYBOARD_WORDS_REQUEST:
+                onImportKeyboardWordsResult(resultCode, data);
+                break;
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
 
-				// Update settings view
-				flColorBox.setBackgroundColor(backgroundColor);
-				tvColorText.setTextColor(textColor);
+    private void onHistoryResult(int resultCode, Intent data) {
+	    if (resultCode != RESULT_OK) return;
+	    String message = data.getStringExtra(HistoryActivity.RESULT_STRING_KEY);
+	    if (TextUtils.isEmpty(message)) return;
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra(HistoryActivity.RESULT_STRING_KEY, message);
+        setResult(RESULT_OK, returnIntent);
+        finish();
+    }
 
-				// send message to main view to update that
-				boolean colorChanged = true;
-				returnInfoIntent.putExtra("colorResult", colorChanged);
-				setResult(RESULT_OK, returnInfoIntent);
+    private void onImportKeyboardWordsResult(int resultCode, Intent data) {
+        if (resultCode != RESULT_OK) return;
+        Uri uri = data.getData();
+        new ImportWordList(this).execute(uri);
+    }
 
-			}
-		} else if (requestCode == FONT_REQUEST) {
-			if (resultCode == RESULT_OK) {
+    private static class ExportKeyboardWords extends AsyncTask<Void, Void, Boolean> {
 
-				// get font
-				String font = data.getStringExtra("resultFont");
 
-				// Save to settings
-				SharedPreferences settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-				SharedPreferences.Editor editor = settings.edit();
-				editor.putString(FONT_KEY, font);
-				editor.commit();
 
-				// Update settings view
-				Typeface tf = FontCache.get(font, getApplicationContext());
-		        if(tf != null) {
-		        	tvFontSetting.setTypeface(tf);
-		        }
+        WeakReference<SettingsActivity> activityReference;
 
-				// send message to main view to update that
-				boolean fontChanged = true;
-				returnInfoIntent.putExtra("fontResult", fontChanged);
-				setResult(RESULT_OK, returnInfoIntent);
+        ExportKeyboardWords(SettingsActivity context) {
+            activityReference = new WeakReference<>(context);
+        }
 
-			}
-		}
-	}
+        @Override
+        protected Boolean doInBackground(Void... params) {
 
+            SettingsActivity activity = activityReference.get();
+
+            String text = extractTextFromDatabase(activity);
+            return !TextUtils.isEmpty(text) &&
+                    FileUtils.saveExportedWordsFile(activity, text);
+        }
+
+        private String extractTextFromDatabase(SettingsActivity activity) {
+            Cursor cursor = UserDictionary.Words.getAllWords(activity);
+            if (cursor == null) return "";
+
+            int indexWord = cursor.getColumnIndex(UserDictionary.Words.WORD);
+            //int indexFrequency = cursor.getColumnIndex(UserDictionary.Words.FREQUENCY);
+            int indexFollowing = cursor.getColumnIndex(UserDictionary.Words.FOLLOWING);
+
+            StringBuilder builder = new StringBuilder();
+            while (cursor.moveToNext()) {
+                builder.append(cursor.getString(indexWord)).append(UserDictionary.Words.FIELD_DELIMITER);
+                //builder.append(cursor.getInt(indexFrequency)).append(UserDictionary.Words.FIELD_DELIMITER);
+                builder.append(cursor.getString(indexFollowing)).append('\n');
+            }
+            cursor.close();
+
+            return builder.toString();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean exportSuccessful) {
+            SettingsActivity activity = activityReference.get();
+            if (activity == null || activity.isFinishing()) return;
+
+            if (exportSuccessful) {
+                notifyUserOfExportLocation(activity);
+            } else {
+                MongolToast.makeText(activity,
+                        activity.getString(R.string.there_was_a_problem),
+                        MongolToast.LENGTH_LONG)
+                        .show();
+            }
+
+        }
+
+        private void notifyUserOfExportLocation(Context context) {
+            MongolAlertDialog.Builder builder = new MongolAlertDialog.Builder(context);
+            String file = FileUtils.getExportedWordsFileDisplayPath();
+            builder.setMessage(context.getString(R.string.alert_where_to_find_words_export, file));
+            builder.setPositiveButton(context.getString(R.string.dialog_got_it), null);
+            MongolAlertDialog dialog = builder.create();
+            dialog.show();
+        }
+    }
+
+    private static class ImportWordList extends AsyncTask<Uri, Void, Integer> {
+
+        private WeakReference<SettingsActivity> activityReference;
+
+        ImportWordList(SettingsActivity activityContext) {
+            activityReference = new WeakReference<>(activityContext);
+        }
+
+        @Override
+        protected Integer doInBackground(Uri... params) {
+
+
+            SettingsActivity activity = activityReference.get();
+            if (activity == null) return 0;
+            Uri importFile = params[0];
+            if (importFile == null) return 0;
+
+            int numberImported = 0;
+            try {
+                InputStream inputStream = activity.getContentResolver().openInputStream(importFile);
+                ArrayList<CharSequence> textLines = FileUtils.convertStreamToStringArray(inputStream);
+
+                numberImported = UserDictionary.Words.importWordAndFollowingList(activity, textLines);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return numberImported;
+            }
+
+            return numberImported;
+        }
+
+        @Override
+        protected void onPostExecute(Integer numberImported) {
+            SettingsActivity activity = activityReference.get();
+            if (activity == null || activity.isFinishing()) return;
+            String message = activity.getString(R.string.number_words_imported, numberImported);
+            MongolToast.makeText(activity, message, MongolToast.LENGTH_LONG).show();
+        }
+
+    }
 }

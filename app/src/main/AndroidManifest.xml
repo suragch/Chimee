@@ -1,80 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="net.studymongolian.chimee" >
-
+    package="net.studymongolian.chimee">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/launcher"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
-            android:name="net.studymongolian.chimee.MainActivity"
-            android:label="@string/app_name" >
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".FavoriteActivity" />
+        <activity android:name=".HistoryActivity" />
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".AboutActivity" />
+        <activity android:name=".HelpActivity" />
+        <activity android:name=".PhotoOverlayActivity" />
+        <activity android:name=".OpenActivity" />
         <activity
-            android:name="net.studymongolian.chimee.FavoriteActivity"
-            android:label="@string/app_name" >
-        </activity>
+            android:name=".SaveActivity"
+            android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="net.studymongolian.chimee.HistoryActivity"
-            android:label="@string/app_name" >
-        </activity>
+            android:name=".AddEditFavoritesActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".CodeConverterActivity" />
+        <activity android:name=".CodeConverterDetailsActivity" />
+
         <activity
-            android:name="net.studymongolian.chimee.SettingsActivity"
-            android:label="@string/app_name" >
+            android:name=".ReaderActivity"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="file" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
         </activity>
-        <activity
-            android:name="net.studymongolian.chimee.ColorChooserActivity"
-            android:label="@string/app_name" >
-        </activity>
-        <activity
-            android:name="net.studymongolian.chimee.AboutActivity"
-            android:label="@string/app_name" >
-        </activity>
-        <activity
-            android:name="net.studymongolian.chimee.HelpActivity"
-            android:label="@string/app_name" >
-        </activity>
-        <activity
-            android:name="net.studymongolian.chimee.MongolDialogOneButton"
-            android:theme="@android:style/Theme.Dialog" >
-        </activity>
-        <activity
-            android:name="net.studymongolian.chimee.MongolDialogTwoButton"
-            android:theme="@android:style/Theme.Dialog" >
-        </activity>
-        <activity
-            android:name="net.studymongolian.chimee.FvsChooserDialog"
-            android:theme="@android:style/Theme.Dialog" >
-        </activity>
-        <activity
-            android:name="net.studymongolian.chimee.AeChooserDialog"
-            android:theme="@android:style/Theme.Dialog" >
-        </activity>
-        <activity
-            android:name="net.studymongolian.chimee.FontChooserDialog"
-            android:theme="@android:style/Theme.Dialog" >
-        </activity>
-        <activity
-            android:name="net.studymongolian.chimee.SettingsKeyboardChooserDialog"
-            android:theme="@android:style/Theme.Dialog" >
-        </activity>
-        
 
         <provider
-            android:name="net.studymongolian.chimee.ChimeeUserDictionaryProvider"
+            android:name=".UserDictionaryProvider"
             android:authorities="net.studymongolian.chimee.user_dictionary"
-            android:exported="false" >
+            android:exported="false" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="net.studymongolian.chimee.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
         </provider>
+
+        <service
+            android:name=".ChimeeInputMethodService"
+            android:label="@string/keyboard_name"
+            android:permission="android.permission.BIND_INPUT_METHOD">
+            <intent-filter>
+                <action android:name="android.view.InputMethod" />
+            </intent-filter>
+            <meta-data
+                android:name="android.view.im"
+                android:resource="@xml/method" />
+        </service>
+
     </application>
 
 </manifest>

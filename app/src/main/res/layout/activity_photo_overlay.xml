@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/photo_overlay_root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="net.studymongolian.chimee.PhotoOverlayActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:minHeight="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:titleTextColor="@android:color/primary_text_dark"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+    </android.support.v7.widget.Toolbar>
+
+    <FrameLayout
+        android:id="@+id/photo_frame_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:layout_above="@id/ll_bottom_toolbar">
+
+        <net.studymongolian.chimee.TouchImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_bottom_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:elevation="4dp"
+        android:background="@color/light_grey"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:id="@+id/fl_photo_overlay_text_color"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:focusable="true"
+            android:clickable="true"
+            android:background="@drawable/custom_ripple"
+            android:onClick="onColorToolbarItemClick">
+
+            <ImageView
+                android:id="@+id/iv_color"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="5dp"
+                android:background="@drawable/photo_toolbar_item"
+                android:src="@drawable/ic_color_black_32dp"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_photo_overlay_font"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:focusable="true"
+            android:clickable="true"
+            android:background="@drawable/custom_ripple"
+            android:onClick="onFontToolbarItemClick">
+
+            <ImageView
+                android:id="@+id/iv_font"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="5dp"
+                android:background="@drawable/photo_toolbar_item"
+                android:src="@drawable/ic_font_black_32dp"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_photo_overlay_border"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:focusable="true"
+            android:clickable="true"
+            android:background="@drawable/custom_ripple"
+            android:onClick="onBorderToolbarItemClick">
+
+            <ImageView
+                android:id="@+id/iv_border"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="5dp"
+                android:background="@drawable/photo_toolbar_item"
+                android:src="@drawable/ic_border_black_32dp"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_photo_overlay_shadow"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:focusable="true"
+            android:clickable="true"
+            android:background="@drawable/custom_ripple"
+            android:onClick="onShadowToolbarItemClick">
+
+            <ImageView
+                android:id="@+id/iv_shadow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="5dp"
+                android:background="@drawable/photo_toolbar_item"
+                android:src="@drawable/ic_shadow_black_32dp"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_photo_overlay_background"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:focusable="true"
+            android:clickable="true"
+            android:background="@drawable/custom_ripple"
+            android:onClick="onBackgroundToolbarItemClick">
+
+            <ImageView
+                android:id="@+id/iv_background"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="5dp"
+                android:background="@drawable/photo_toolbar_item"
+                android:src="@drawable/ic_background_black_32dp"/>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_photo_overlay_colors"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/ll_bottom_toolbar"
+        android:background="@color/light_grey"
+        android:visibility="gone"
+        android:orientation="horizontal">
+
+        <SeekBar
+            android:id="@+id/alpha_seekbar"
+            android:max="100"
+            android:progress="100"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            />
+
+        <FrameLayout
+            android:id="@+id/fl_cancel_color"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:focusable="true"
+            android:clickable="true"
+            android:background="@drawable/custom_ripple"
+            android:onClick="onCancelColorToolbarItemClick"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/alpha_seekbar"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="5dp"
+                android:background="@drawable/photo_toolbar_item"
+                android:src="@drawable/ic_clear_black_24dp" />
+
+        </FrameLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_photo_overlay_choices"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/alpha_seekbar"
+            android:layout_toRightOf="@id/fl_cancel_color"
+            />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_above="@id/rl_photo_overlay_colors"
+        android:background="@color/light_grey"
+        android:orientation="horizontal"
+        android:visibility="invisible">
+
+        <SeekBar
+            android:id="@+id/left_seekbar"
+            android:max="100"
+            android:progress="50"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            />
+
+        <SeekBar
+            android:id="@+id/right_seekbar"
+            android:max="100"
+            android:progress="50"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:visibility="gone"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>

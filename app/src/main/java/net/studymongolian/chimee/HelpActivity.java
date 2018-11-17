@@ -4,27 +4,45 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
-public class HelpActivity extends Activity  {
+import net.studymongolian.mongollibrary.MongolTextView;
+
+public class HelpActivity extends AppCompatActivity {
 
 	protected static final String HELP_URL = "http://www.studymongolian.net/apps/chimee/zh/chimee-help/";
-	
-	MongolUnicodeRenderer converter = new MongolUnicodeRenderer();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_help);
 
-		TextView tvHelpText = (TextView) findViewById(R.id.tvHelpContent);
-		tvHelpText.setText(converter.unicodeToGlyphs(readText()));
+		setupToolbar();
+		loadHelpText();
+	}
 
+	private void setupToolbar() {
+		Toolbar toolbar = findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+		ActionBar actionBar = getSupportActionBar();
+		if (actionBar != null) {
+			actionBar.setDisplayHomeAsUpEnabled(true);
+			actionBar.setDisplayShowHomeEnabled(true);
+			actionBar.setTitle("");
+		}
+	}
+
+	private void loadHelpText() {
+		String helpText = readText();
+		//MongolTextView textView = findViewById(R.id.tvHelpContent);
+		//textView.setText(helpText);
 	}
 
 	private String readText() {
@@ -58,5 +76,15 @@ public class HelpActivity extends Activity  {
 		startActivity(browserIntent);
 	}
 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				finish();
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+	}
 
 }

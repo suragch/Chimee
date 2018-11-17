@@ -1,155 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
-    <!-- This is the custom top action bar -->
-
-    <RelativeLayout
-        android:id="@+id/topActionBarLayout"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_alignParentTop="true"
-        android:background="@color/actionbar_bg" >
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:titleTextColor="@android:color/primary_text_dark"
+        tools:ignore="UnusedAttribute" />
 
-        <!-- press the left caret and app icon to go up -->
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:srcCompat="@drawable/logo" />
 
-        <RelativeLayout
-            android:id="@+id/goUpLayout"
+    <TextView
+        android:id="@+id/tv_app_name_and_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/about_chimee_version"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/about_site_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_app_name_and_version" />
+
+    <FrameLayout
+        android:id="@+id/flContact"
+        android:layout_width="50dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/btn_default"
+        android:onClick="onContactClick"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/flUpdates"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline2">
+
+        <net.studymongolian.mongollibrary.MongolLabel
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:background="@drawable/bar_icon"
-            android:clickable="true"
-            android:onClick="finishedClick"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" >
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:textSize="24sp"
+            app:text="@string/about_button_contact" />
 
-            <ImageView
-                android:id="@+id/leftCaretIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/left_caret" />
+    </FrameLayout>
 
-            <ImageView
-                android:id="@+id/appIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/leftCaretIcon"
-                android:paddingLeft="5dp"
-                android:src="@drawable/logo" />
-        </RelativeLayout>
-    </RelativeLayout>
+    <FrameLayout
+        android:id="@+id/flUpdates"
+        android:layout_width="50dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/btn_default"
+        android:onClick="onUpdatesClick"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/flShare"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/flContact"
+        app:layout_constraintTop_toTopOf="@+id/guideline2">
 
-    <!-- This is the main settings area -->
+        <net.studymongolian.mongollibrary.MongolLabel
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:textSize="24sp"
+            app:text="@string/about_button_updates" />
 
-    <HorizontalScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/topActionBarLayout"
-        android:fillViewport="true"
-        android:scrollbars="none" >
+    </FrameLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/about_bg"
-            android:orientation="horizontal" >
+    <FrameLayout
+        android:id="@+id/flShare"
+        android:layout_width="50dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/btn_default"
+        android:onClick="onShareClick"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/flUpdates"
+        app:layout_constraintTop_toTopOf="@+id/guideline2">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:orientation="vertical" >
+        <net.studymongolian.mongollibrary.MongolLabel
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:textSize="24sp"
+            app:text="@string/about_button_share" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_margin="20dp"
-                    android:src="@drawable/launcher" />
+    </FrameLayout>
 
-                <TextView
-                    android:id="@+id/aboutAppTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="20dp"
-                    android:textColor="@color/about_text"
-                    android:textSize="24sp" />
-            </LinearLayout>
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="150dp" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_margin="20dp"
-                android:background="@drawable/about_layout"
-                android:padding="20dp" >
 
-                <net.studymongolian.chimee.MongolTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:text="@string/about_description_site_intro"
-                    android:textColor="@color/about_text"
-                    android:textSize="24sp" />
-
-                <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:background="@drawable/border_thin" >
-
-                    <net.studymongolian.chimee.MongolTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bar_icon"
-                        android:clickable="true"
-                        android:onClick="siteClick"
-                        android:padding="10dp"
-                        android:text="@string/about_description_site_address"
-                        android:textColor="@color/about_text"
-                        android:textSize="20sp" />
-                </FrameLayout>
-
-                <net.studymongolian.chimee.MongolTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:text="@string/about_description_message"
-                    android:textColor="@color/about_text"
-                    android:textSize="24sp" />
-
-                <net.studymongolian.chimee.MongolTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:text="@string/about_description_contact_intro"
-                    android:textColor="@color/about_text"
-                    android:textSize="24sp" />
-
-                <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:background="@drawable/border_thin" >
-
-                    <net.studymongolian.chimee.MongolTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bar_icon"
-                        android:clickable="true"
-                        android:onClick="contactClick"
-                        android:padding="10dp"
-                        android:text="@string/about_description_contact_address"
-                        android:textColor="@color/about_text"
-                        android:textSize="20sp" />
-                </FrameLayout>
-            </LinearLayout>
-        </LinearLayout>
-    </HorizontalScrollView>
-
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

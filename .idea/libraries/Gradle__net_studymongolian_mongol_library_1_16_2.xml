@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: net.studymongolian:mongol-library-1.16.2">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/mongol-library-1.16.2.aar/82e661bf40fc8ebfda90ee62c407374b/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/mongol-library-1.16.2.aar/82e661bf40fc8ebfda90ee62c407374b/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.studymongolian/mongol-library/1.16.2/8bf2b0a5f180bf532c88c3d5b7c2495416e74c8e/mongol-library-1.16.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

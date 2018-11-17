@@ -1,374 +1,431 @@
 package net.studymongolian.chimee;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.List;
 
-import android.content.Context;
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.annotation.NonNull;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
-import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
-public class HistoryActivity extends FragmentActivity implements OnItemClickListener,
-		OnItemLongClickListener {
+import net.studymongolian.mongollibrary.MongolAlertDialog;
+import net.studymongolian.mongollibrary.MongolMenu;
+import net.studymongolian.mongollibrary.MongolMenuItem;
+import net.studymongolian.mongollibrary.MongolToast;
 
-	public static final int NUMBER_OF_MESSAGES_TO_LOAD = 100;
-	private static final String STATE_SCROLL_POSITION = "scrollPosition";
-	//public static final String CONTEXT_MENU_TAG = "context_menu";
-	public static final int DELETE_REQUEST = 0;
+public class HistoryActivity extends AppCompatActivity
+        implements HistoryRvAdapter.HistoryListener {
 
-	ListView lvHistory;
-	View footerView;
-	ProgressBar progressSpinner;
-	TextView tvListviewFooter;
-	LinearLayout menuLayout;
-	MessageHistoryListAdapter adapter;
-	int savedPosition = 0;
-	ArrayList<Message> historyMessages = new ArrayList<Message>();
-	View menuHiderForOutsideClicks;
+    public static final String RESULT_STRING_KEY = "history_result";
+    private static final int MENU_MARGIN_DP = 8;
+    private static final int NUMBER_OF_MESSAGES_TO_LOAD = 100;
+    private int longClickedItem = -1;
+    private int mDataPageCounter = 0;
+    private MenuItem overflowMenuItem;
 
-	@Override
+	HistoryRvAdapter adapter;
+    List<Message> mMessages = new ArrayList<>();
+    private boolean isFinishedLoadingData = false;
+
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_history);
 
-		// create objects
-		lvHistory = (ListView) findViewById(R.id.lvHistory);
-		footerView = ((LayoutInflater) getApplicationContext().getSystemService(
-				Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.listview_footer, null, false);
-		progressSpinner = (ProgressBar) footerView.findViewById(R.id.pbListviewFooter);
-		tvListviewFooter = (TextView) footerView.findViewById(R.id.tvListviewFooter);
-		lvHistory.addFooterView(footerView);
-		menuLayout = (LinearLayout) findViewById(R.id.menuLayout);
-		menuHiderForOutsideClicks =  findViewById(R.id.transparent_view);
+		setupToolbar();
+		setupRecyclerView();
+		getHistoryMessages();
+    }
 
-		// Show messages
-		new GetRecentHistoryMessages().execute();
-		lvHistory.setOnItemClickListener(this);
-		lvHistory.setOnItemLongClickListener(this);
-		
-
-	}
-
-	@Override
-	public void onSaveInstanceState(Bundle savedInstanceState) {
-
-		// Save the user's current game state
-		int currentPosition = lvHistory.getFirstVisiblePosition();
-		savedInstanceState.putInt(STATE_SCROLL_POSITION, currentPosition);
-
-		// Always call the superclass so it can save the view hierarchy state
-		super.onSaveInstanceState(savedInstanceState);
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-
-		// hide the menu if showing
-		if (menuLayout.getVisibility() == View.VISIBLE) {
-			menuLayout.setVisibility(View.GONE);
-			menuHiderForOutsideClicks.setVisibility(View.GONE);
+    private void setupToolbar() {
+		Toolbar toolbar = findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+		ActionBar actionBar = getSupportActionBar();
+		if (actionBar != null) {
+			actionBar.setDisplayHomeAsUpEnabled(true);
+			actionBar.setDisplayShowHomeEnabled(true);
+			actionBar.setTitle("");
 		}
 	}
 
-	public void onRestoreInstanceState(Bundle savedInstanceState) {
-		// Always call the superclass so it can restore the view hierarchy
-		super.onRestoreInstanceState(savedInstanceState);
+    private void setupRecyclerView() {
+        RecyclerView recyclerView = findViewById(R.id.rv_message_history);
+        final LinearLayoutManager horizontalLayoutManager
+                = new LinearLayoutManager(this,
+                LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(horizontalLayoutManager);
+        DividerItemDecoration dividerItemDecoration =
+                new DividerItemDecoration(recyclerView.getContext(),
+                        horizontalLayoutManager.getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
+        adapter = new HistoryRvAdapter(this, mMessages);
+        adapter.setClickListener(this);
+        recyclerView.setAdapter(adapter);
+    }
 
-		savedPosition = savedInstanceState.getInt(STATE_SCROLL_POSITION);
-		lvHistory.setSelection(savedPosition);
+    private void getHistoryMessages() {
+        new AppendHistoryMessageRange(this,
+                NUMBER_OF_MESSAGES_TO_LOAD, mDataPageCounter).execute();
+    }
 
-	}
+    @Override
+    public void onItemClick(View view, int position) {
+        insertHistoryMessageIntoInputWindow(position);
+    }
 
-	public void finishedClick(View v) {
-		finish();
-	}
+    private void insertHistoryMessageIntoInputWindow(int adapterPosition) {
+        Message message = adapter.getItem(adapterPosition);
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra(RESULT_STRING_KEY, message.getMessage());
+        setResult(RESULT_OK, returnIntent);
+        finish();
+    }
 
-	public void menuClick(View v) {
+    @Override
+    public boolean onItemLongClick(View view, int position) {
+        View menuButton = findViewById(R.id.action_overflow);
+        int[] location = new int[2];
+        menuButton.getLocationInWindow(location);
+        int gravity = Gravity.TOP | Gravity.RIGHT;
+        int marginPx = convertDpToPx(MENU_MARGIN_DP);
+        int xOffset = menuButton.getWidth();
+        int yOffset = location[1] + marginPx;
+        MongolMenu menu = getContextMenu();
+        menu.showAtLocation(menuButton, gravity, xOffset, yOffset);
+        longClickedItem = position;
+        return true;
+    }
 
-		if (menuLayout.getVisibility() == View.GONE) {
-			menuLayout.setVisibility(View.VISIBLE);
-			menuHiderForOutsideClicks.setVisibility(View.VISIBLE);
-		} else {
-			menuLayout.setVisibility(View.GONE);
-			menuHiderForOutsideClicks.setVisibility(View.GONE);
-		}
+    @Override
+    public void loadMore() {
+        if (isFinishedLoadingData) return;
+	    int offset = mDataPageCounter * NUMBER_OF_MESSAGES_TO_LOAD;
+        new AppendHistoryMessageRange(this, NUMBER_OF_MESSAGES_TO_LOAD, offset).execute();
+    }
 
-	}
+    private int convertDpToPx(int dp) {
+        return (int) (dp * getResources().getDisplayMetrics().density);
+    }
 
-	private class GetRecentHistoryMessages extends AsyncTask<Void, Void, ArrayList<Message>> {
+    private MongolMenu getContextMenu() {
+        MongolMenu menu = new MongolMenu(this);
+        final MongolMenuItem edit = new MongolMenuItem(
+                getString(R.string.history_menu_edit_item), R.drawable.ic_mode_edit_black_24dp);
+        final MongolMenuItem delete = new MongolMenuItem(
+                getString(R.string.history_menu_delete_item), R.drawable.ic_clear_black_24dp);
+        menu.add(edit);
+        menu.add(delete);
+        menu.setOnMenuItemClickListener(new MongolMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MongolMenuItem item) {
+                if (item == edit) {
+                    editItem();
+                } else if (item == delete) {
+                    deleteItem();
+                }
+                return true;
+            }
+        });
+        return menu;
+    }
+
+    private void editItem() {
+        insertHistoryMessageIntoInputWindow(longClickedItem);
+    }
+
+    private void deleteItem() {
+        Message message = adapter.getItem(longClickedItem);
+        new DeleteMessageByIdTask(this).execute(message.getId());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.history_menu, menu);
+        overflowMenuItem = menu.findItem(R.id.action_overflow);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_overflow:
+                overflowMenuItemClick();
+                return true;
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void overflowMenuItemClick() {
+        MongolMenu menu = new MongolMenu(this);
+        final MongolMenuItem export = new MongolMenuItem(
+                getString(R.string.history_menu_save), R.drawable.ic_save_black_24dp);
+        final MongolMenuItem delete = new MongolMenuItem(
+                getString(R.string.history_menu_delete_all), R.drawable.ic_clear_black_24dp);
+        menu.add(export);
+        menu.add(delete);
+        menu.setOnMenuItemClickListener(new MongolMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MongolMenuItem item) {
+                if (item == export) {
+                    onExportHistoryMenuItemClick();
+                } else if (item == delete) {
+                    deleteAll();
+                }
+                return true;
+            }
+        });
+
+        int[] location = new int[2];
+        View overflowMenuButton = findViewById(R.id.action_overflow);
+        overflowMenuButton.getLocationInWindow(location);
+        int gravity = Gravity.TOP | Gravity.RIGHT;
+        int marginPx = convertDpToPx(MENU_MARGIN_DP);
+        int yOffset = location[1] + marginPx;
+
+        menu.showAtLocation(overflowMenuButton, gravity, marginPx, yOffset);
+    }
+
+    private void onExportHistoryMenuItemClick() {
+        if (PermissionsHelper.getWriteExternalStoragePermission(this))
+            new ExportHistory(HistoryActivity.this).execute();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String permissions[],
+                                           @NonNull int[] grantResults) {
+        if (PermissionsHelper.isWritePermissionRequestGranted(requestCode, grantResults)) {
+            new ExportHistory(HistoryActivity.this).execute();
+        } else {
+            PermissionsHelper.notifyUserThatTheyCantSaveFileWithoutWritePermission(this);
+        }
+    }
+
+    private void deleteAll() {
+        MongolAlertDialog.Builder builder = new MongolAlertDialog.Builder(this);
+        builder.setMessage(getString(R.string.alert_delete_all_history_messages));
+        builder.setPositiveButton(getString(R.string.dialog_delete_yes), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                new DeleteAllMessages(HistoryActivity.this).execute();
+            }
+        });
+        builder.setNegativeButton(getString(R.string.dialog_cancel), null);
+        MongolAlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+	private static class AppendHistoryMessageRange extends AsyncTask<Void, Void, ArrayList<Message>> {
+
+        private WeakReference<HistoryActivity> activityReference;
+        int limit;
+        int offset;
+
+        AppendHistoryMessageRange(HistoryActivity context, int limit, int offset) {
+            activityReference = new WeakReference<>(context);
+            this.limit = limit;
+            this.offset = offset;
+        }
 
 		@Override
 		protected ArrayList<Message> doInBackground(Void... params) {
 
-			// android.os.Debug.waitForDebugger();
-
-			ArrayList<Message> result = new ArrayList<Message>();
-
+			ArrayList<Message> result = new ArrayList<>();
+            HistoryActivity activity = activityReference.get();
 			try {
-
-				MessageDatabaseAdapter dbAdapter = new MessageDatabaseAdapter(
-						getApplicationContext());
-				result = dbAdapter.getRecentHistoryMessages(NUMBER_OF_MESSAGES_TO_LOAD);
+				MessageDatabaseAdapter dbAdapter = new MessageDatabaseAdapter(activity);
+				result = dbAdapter.getHistoryMessages(limit, offset);
 			} catch (Exception e) {
-				// Log.i("app", e.toString());
+				e.printStackTrace();
 			}
-
 			return result;
-
 		}
 
 		@Override
-		protected void onPostExecute(ArrayList<Message> result) {
+		protected void onPostExecute(ArrayList<Message> range) {
 
-			historyMessages = result;
-			adapter = new MessageHistoryListAdapter(getApplicationContext(), result);
-			lvHistory.setAdapter(adapter);
-			lvHistory.setSelection(savedPosition);
-			if (adapter.getCount() < NUMBER_OF_MESSAGES_TO_LOAD) {
-				// TODO this will give one false show when total messages=NUMBER
-				lvHistory.removeFooterView(footerView);
-			}
-			/*
-			 * if (historyMessages.size() < NUMBER_OF_MESSAGES_TO_LOAD) {
-			 * lvHistory.removeFooterView(footerView); }
-			 */
-			// TODO add lvHistory.setOnScrollListener and populate data without having to press a
-			// button
-			// https://chrisarriola.wordpress.com/2012/06/15/dynamic-data-with-listview-loading-footer/
+            HistoryActivity activity = activityReference.get();
+            if (activity == null || activity.isFinishing()) return;
 
+            activity.mMessages.addAll(range);
+            int lastIndex = activity.adapter.getItemCount();
+            activity.adapter.notifyItemRangeInserted(lastIndex, range.size());
+            activity.mDataPageCounter++;
+            if (range.size() < HistoryActivity.NUMBER_OF_MESSAGES_TO_LOAD) {
+                activity.isFinishedLoadingData = true;
+            }
+            if (activity.adapter.getItemCount() == 0 && activity.overflowMenuItem != null) {
+                activity.overflowMenuItem.setVisible(false);
+            }
 		}
 	}
 
-	private class GetAllHistoryMessages extends AsyncTask<Void, Void, ArrayList<Message>> {
+	private static class ExportHistory extends AsyncTask<Void, Void, Boolean> {
 
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
+        private WeakReference<HistoryActivity> activityReference;
 
-			progressSpinner.setVisibility(View.VISIBLE);
-			tvListviewFooter.setVisibility(View.GONE);
-		}
+        ExportHistory(HistoryActivity context) {
+            activityReference = new WeakReference<>(context);
+        }
 
-		@Override
-		protected ArrayList<Message> doInBackground(Void... params) {
+        @Override
+        protected void onPreExecute() {
+            turnOnSpinner();
+        }
 
-			// android.os.Debug.waitForDebugger();
-
-			ArrayList<Message> result = new ArrayList<Message>();
-
+        @Override
+		protected Boolean doInBackground(Void... params) {
+            HistoryActivity activity = activityReference.get();
+            boolean result = false;
 			try {
-
-				MessageDatabaseAdapter dbAdapter = new MessageDatabaseAdapter(
-						getApplicationContext());
-				result = dbAdapter.getAllHistoryMessages();
+				MessageDatabaseAdapter dbAdapter = new MessageDatabaseAdapter(activity);
+                ArrayList<Message> messages = dbAdapter.getAllHistoryMessages();
+                String text = createFileTextFromMessages(messages);
+                result = FileUtils.saveHistoryMessageFile(activity, text);
 			} catch (Exception e) {
-				// Log.i("app", e.toString());
+                e.printStackTrace();
 			}
-
 			return result;
-
 		}
 
-		@Override
-		protected void onPostExecute(ArrayList<Message> result) {
+        private String createFileTextFromMessages(ArrayList<Message> messages) {
+            StringBuilder text = new StringBuilder();
+            for (Message message : messages) {
+                String messageText = message.getMessage();
+                String date = HistoryRvAdapter.convertDate(message.getDate());
+                text.append(date).append('\n');
+                text.append(messageText).append('\n');
+                text.append("---").append('\n');
+            }
+            return text.toString();
+        }
 
-			historyMessages = result;
-			adapter = new MessageHistoryListAdapter(getApplicationContext(), result);
-			lvHistory.setAdapter(adapter);
-			lvHistory.removeFooterView(footerView);
-			progressSpinner.setVisibility(View.GONE);
-			tvListviewFooter.setVisibility(View.VISIBLE);
-			lvHistory.setSelection(savedPosition);
-			// TODO use the same adapter rather than making a new one
-		}
-	}
+        @Override
+		protected void onPostExecute(Boolean wasSuccessfullyExported) {
 
-	// call with: new DeleteMessageByIdTask().execute(int lvPosition, long messageId);
-	private class DeleteMessageByIdTask extends AsyncTask<Object, Void, Integer> {
+            HistoryActivity activity = activityReference.get();
+            if (activity == null || activity.isFinishing()) return;
 
-		private Context context = getApplicationContext();
-		private int lvPosition = -1;
+            turnOffSpinner();
 
-		@Override
-		protected Integer doInBackground(Object... params) {
-
-			// android.os.Debug.waitForDebugger();
-
-			// get the message
-			lvPosition = (Integer) params[0];
-			long messageId = (Long) params[1];
-
-			int count = 0;
-
-			try {
-				MessageDatabaseAdapter dbAdapter = new MessageDatabaseAdapter(context);
-				count = dbAdapter.deleteHistoryMessage(messageId);
-			} catch (Exception e) {
-				//Log.e("app", e.toString());
-			}
-
-			return count;
+            if (wasSuccessfullyExported) {
+                tellUserWhereToFindFile(activity);
+            } else {
+                MongolToast.makeText(activity,
+                        activity.getString(R.string.couldnt_be_saved),
+                        MongolToast.LENGTH_SHORT).show();
+            }
 		}
 
-		@Override
-		protected void onPostExecute(Integer count) {
+        private void turnOnSpinner() {
+            HistoryActivity activity = activityReference.get();
+            if (activity == null || activity.isFinishing()) return;
+            ProgressBar spinner = new ProgressBar(activity);
+            spinner.getIndeterminateDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+            activity.overflowMenuItem.setActionView(spinner);
+        }
 
-			// This is the result from doInBackground
+        private void turnOffSpinner() {
+            HistoryActivity activity = activityReference.get();
+            if (activity == null || activity.isFinishing()) return;
+            activity.overflowMenuItem.setActionView(null);
+        }
 
-			if (count > 0) {
-				// Notify the user that the message was deleted
-				showToast(context, getResources().getString(R.string.toast_message_deleted),
-						Toast.LENGTH_SHORT);
-				// update display
-				if (lvPosition >= 0) {
-					historyMessages.remove(lvPosition);
-					adapter.notifyDataSetChanged();
-					savedPosition = lvHistory.getFirstVisiblePosition();
-				}
+        private void tellUserWhereToFindFile(final Activity activity) {
+            MongolAlertDialog.Builder builder = new MongolAlertDialog.Builder(activity);
+            String location = FileUtils.getExportedHistoryFileDisplayPath();
+            builder.setMessage(activity.getString(R.string.alert_where_to_find_history_export, location));
+            builder.setPositiveButton(activity.getString(R.string.dialog_got_it), null);
+            MongolAlertDialog dialog = builder.create();
+            dialog.show();
+        }
 
-				// new GetHistoryMessages().execute();
-				// TODO just update adapter rather than requerying
-			}
-		}
-	}
+    }
 
-	// call with: new DeleteAllMessages().execute();
-	private class DeleteAllMessages extends AsyncTask<Void, Void, Integer> {
+    private static class DeleteMessageByIdTask extends AsyncTask<Long, Void, Integer> {
 
-		private Context context = getApplicationContext();
+        private WeakReference<HistoryActivity> activityReference;
 
-		@Override
-		protected Integer doInBackground(Void... params) {
+        DeleteMessageByIdTask(HistoryActivity context) {
+            activityReference = new WeakReference<>(context);
+        }
 
-			// android.os.Debug.waitForDebugger();
+        @Override
+        protected Integer doInBackground(Long... params) {
+            long messageId = params[0];
+            int count = 0;
+            HistoryActivity activity = activityReference.get();
+            try {
+                MessageDatabaseAdapter dbAdapter = new MessageDatabaseAdapter(activity);
+                count = dbAdapter.deleteHistoryMessage(messageId);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-			int count = 0;
+            return count;
+        }
 
-			try {
-				MessageDatabaseAdapter dbAdapter = new MessageDatabaseAdapter(context);
-				count = dbAdapter.deleteHistoryAllMessages();
-			} catch (Exception e) {
-				//Log.e("app", e.toString());
-			}
+        @Override
+        protected void onPostExecute(Integer count) {
+            HistoryActivity activity = activityReference.get();
+            if (activity == null || activity.isFinishing()) return;
+            if (count <= 0) return;
+            activity.mMessages.remove(activity.longClickedItem);
+            activity.adapter.notifyItemRemoved(activity.longClickedItem);
+            if (activity.adapter.getItemCount() == 0 && activity.overflowMenuItem != null) {
+                activity.overflowMenuItem.setVisible(false);
+            }
+        }
+    }
 
-			return count;
-		}
+    private static class DeleteAllMessages extends AsyncTask<Void, Void, Integer> {
 
-		@Override
-		protected void onPostExecute(Integer count) {
+        private WeakReference<HistoryActivity> activityReference;
 
-			// This is the result from doInBackground
+        DeleteAllMessages(HistoryActivity context) {
+            activityReference = new WeakReference<>(context);
+        }
 
-			if (count > 0) {
-				// Notify the user that the messages were deleted
-				/*showToast(getApplicationContext(),
-						getResources().getString(R.string.toast_history_deleted),
-						Toast.LENGTH_SHORT);*/
-				// update display
-				new GetRecentHistoryMessages().execute();
-				// TODO just update adapter rather than requerying
-			}
-		}
-	}
+        @Override
+        protected Integer doInBackground(Void... params) {
+            int count = 0;
+            HistoryActivity activity = activityReference.get();
+            try {
+                MessageDatabaseAdapter dbAdapter = new MessageDatabaseAdapter(activity);
+                count = dbAdapter.deleteHistoryAllMessages();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-	public void hideMenu(View view) {
+            return count;
+        }
 
-		menuLayout.setVisibility(View.GONE);
-		menuHiderForOutsideClicks.setVisibility(View.GONE);
-		// longClickedItem = -1;
-	}
-
-	public void menuDeleteAllClick(View view) {
-
-		// confirm with two button dialog
-		Intent intent = new Intent(getApplicationContext(), MongolDialogTwoButton.class);
-		intent.putExtra(MongolDialogTwoButton.TITLE,
-				getResources().getString(R.string.dialog_delete_history_title));
-		intent.putExtra(MongolDialogTwoButton.MESSAGE,
-				getResources().getString(R.string.dialog_delete_history_message));
-		intent.putExtra(MongolDialogTwoButton.BUTTON_TOP_TEXT,
-				getResources().getString(R.string.dialog_delete_history_top_button));
-		intent.putExtra(MongolDialogTwoButton.BUTTON_BOTTOM_TEXT,
-				getResources().getString(R.string.dialog_delete_history_bottom_button));
-		this.startActivityForResult(intent, DELETE_REQUEST);
-		// if yes then delete
-	}
-
-	private void showToast(Context context, String text, int toastLength) {
-
-		// TextView
-		final float scale = getResources().getDisplayMetrics().density;
-		int padding_8dp = (int) (8 * scale + 0.5f);
-		MongolTextView tvMongolToastMessage = new MongolTextView(context);
-		tvMongolToastMessage.setText(text);
-		tvMongolToastMessage.setPadding(padding_8dp, padding_8dp, padding_8dp, padding_8dp);
-		tvMongolToastMessage.setTextColor(getResources().getColor(R.color.white));
-
-		// Layout
-		LinearLayout toastLayout = new LinearLayout(context);
-		toastLayout.setBackgroundResource(R.color.black_c);
-		toastLayout.addView(tvMongolToastMessage);
-
-		// Toast
-		Toast mongolToast = new Toast(context);
-		mongolToast.setView(toastLayout);
-		mongolToast.setDuration(toastLength);
-		mongolToast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-		mongolToast.show();
-
-	}
-
-	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position, long rowId) {
-
-		if (position == adapter.getCount()) { // footer
-			if (progressSpinner.getVisibility()!=View.VISIBLE){ // don't allow second click 
-				// load everything
-				savedPosition = lvHistory.getFirstVisiblePosition();
-				new GetAllHistoryMessages().execute();
-			}
-			
-		} else {
-			// send back to activity to insert in input window
-			Intent returnIntent = new Intent();
-			returnIntent.putExtra("resultString", historyMessages.get(position).getMessage());
-			setResult(RESULT_OK, returnIntent);
-			finish();
-		}
-
-	}
-
-	@Override
-	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long rowId) {
-
-		if (position != adapter.getCount()) { // not the footer
-			// delete message
-			new DeleteMessageByIdTask().execute(position, historyMessages.get(position).getId());
-		}
-
-		return true;
-	}
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == DELETE_REQUEST) {
-			if (resultCode == RESULT_OK) {
-				// Delete all message history
-				new DeleteAllMessages().execute();
-			}
-		}
-	}
+        @Override
+        protected void onPostExecute(Integer count) {
+            HistoryActivity activity = activityReference.get();
+            if (activity == null || activity.isFinishing()) return;
+            if (count <= 0) return;
+            activity.mMessages.clear();
+            activity.adapter.notifyDataSetChanged();
+        }
+    }
 
 }

@@ -1,352 +1,297 @@
 package net.studymongolian.chimee;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.List;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
+import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.Toast;
-
-public class FavoriteActivity extends FragmentActivity implements OnItemClickListener,
-		OnItemLongClickListener, FavoriteActivityContextMenu.ContextMenuCallback {
-
-	private static final String STATE_SCROLL_POSITION = "scrollPosition";
-	public static final String CONTEXT_MENU_TAG = "context_menu";
-
-	String currentMessage;
-	ListView lvFavorite;
-	FrameLayout flContextMenuContainer;
-	MessageFavoriteListAdapter adapter;
-	int savedPosition = 0;
-	ArrayList<Message> favoriteMessages = new ArrayList<Message>();
-	FragmentManager fragmentManager;
-	FavoriteActivityContextMenu contextMenu;
-	View menuHiderForOutsideClicks;
-	int longClickedItem = -1;
-
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_favorite);
-
-		Intent intent = getIntent();
-		currentMessage = intent.getStringExtra("message");
-
-		// create objects
-		lvFavorite = (ListView) findViewById(R.id.lvFavorite);
-		flContextMenuContainer = (FrameLayout) findViewById(R.id.flContextMenuContainer);
-		menuHiderForOutsideClicks = findViewById(R.id.transparent_view);
-
-		// Set up fragments
-		fragmentManager = getSupportFragmentManager();
-		if (savedInstanceState == null) {
-			contextMenu = new FavoriteActivityContextMenu();
-			fragmentManager.beginTransaction()
-					.add(R.id.flContextMenuContainer, contextMenu, CONTEXT_MENU_TAG).commit();
-			contextMenu.setRetainInstance(true);
-		} else {
-			contextMenu = (FavoriteActivityContextMenu) fragmentManager
-					.findFragmentByTag(CONTEXT_MENU_TAG);
-		}
 
-		// Show messages
-		new GetFavoriteMessages().execute();
-		lvFavorite.setOnItemClickListener(this);
-		lvFavorite.setOnItemLongClickListener(this);
-
-	}
-
-	@Override
-	public void onSaveInstanceState(Bundle savedInstanceState) {
-
-		// Save the user's current game state
-		int currentPosition = lvFavorite.getFirstVisiblePosition();
-		savedInstanceState.putInt(STATE_SCROLL_POSITION, currentPosition);
-
-		// Always call the superclass so it can save the view hierarchy state
-		super.onSaveInstanceState(savedInstanceState);
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-
-		// hide the menu if showing
-		if (flContextMenuContainer.getVisibility() == View.VISIBLE) {
-			flContextMenuContainer.setVisibility(View.GONE);
-			menuHiderForOutsideClicks.setVisibility(View.GONE);
-		}
-	}
-
-	public void onRestoreInstanceState(Bundle savedInstanceState) {
-		// Always call the superclass so it can restore the view hierarchy
-		super.onRestoreInstanceState(savedInstanceState);
-
-		savedPosition = savedInstanceState.getInt(STATE_SCROLL_POSITION);
-		lvFavorite.setSelection(savedPosition);
-
-	}
-
-	public void finishedClick(View v) {
-		finish();
-	}
-
-	public void addFavoriteClick(View v) {
-
-		// catch empty string
-		if (currentMessage.trim().length() == 0) {
-			showNoContentDialog();
-			return;
-		}
-
-		// add string to db
-		new AddMessageToDb().execute();
-
-	}
-
-	private void showNoContentDialog() {
-
-		Intent intent = new Intent(this, MongolDialogOneButton.class);
-		intent.putExtra(MongolDialogOneButton.MESSAGE, getResources().getString(R.string.dialog_message_emptyfavorite));
-		startActivity(intent);
-
-	}
-
-	// call: new AddMessageToDb().execute();
-	private class AddMessageToDb extends AsyncTask<Void, Void, Void> {
-
-		@Override
-		protected Void doInBackground(Void... params) {
-
-			// android.os.Debug.waitForDebugger();
-
-			// Log.i("app", "Current message: " + currentMessage);
-			try {
-
-				MessageDatabaseAdapter dbAdapter = new MessageDatabaseAdapter(
-						getApplicationContext());
-				dbAdapter.addFavorateMessage(currentMessage);
-			} catch (Exception e) {
-				//Log.e("app", e.toString());
-			}
-			return null;
-
-		}
-
-		@Override
-		protected void onPostExecute(Void v) {
-
-			// update display
-			new GetFavoriteMessages().execute();
-
-		}
-
-	}
-
-	private class GetFavoriteMessages extends AsyncTask<Void, Void, ArrayList<Message>> {
-
-		@Override
-		protected ArrayList<Message> doInBackground(Void... params) {
-
-			// android.os.Debug.waitForDebugger();
-
-			ArrayList<Message> result = new ArrayList<Message>();
-
-			try {
-
-				MessageDatabaseAdapter dbAdapter = new MessageDatabaseAdapter(
-						getApplicationContext());
-				result = dbAdapter.getAllFavoriteMessages();
-			} catch (Exception e) {
-				// Log.i("app", e.toString());
-			}
-
-			return result;
-
-		}
-
-		@Override
-		protected void onPostExecute(ArrayList<Message> result) {
-
-			favoriteMessages = result;
-			adapter = new MessageFavoriteListAdapter(getApplicationContext(), result);
-			lvFavorite.setAdapter(adapter);
-			lvFavorite.setSelection(savedPosition);
-
-		}
-	}
-
-	// call with: new UpdateMessageTime().execute(messageId);
-	private class UpdateMessageTime extends AsyncTask<Long, Void, Integer> {
-
-		private Context context = getApplicationContext();
-
-		@Override
-		protected Integer doInBackground(Long... params) {
-
-			// android.os.Debug.waitForDebugger();
-
-			// get the message
-			long messageId = params[0];
-
-			int count = 0;
-
-			try {
-				MessageDatabaseAdapter dbAdapter = new MessageDatabaseAdapter(context);
-				count = dbAdapter.updateFavorateMessageTime(messageId);
-			} catch (Exception e) {
-				// Log.e("app", e.toString());
-			}
-
-			return count;
-		}
-
-		@Override
-		protected void onPostExecute(Integer count) {
-
-			// This is the result from doInBackground
-
-			if (count > 0) {
-				// Notify the user that the message was deleted
-				//showToast(context, getResources().getString(R.string.message_deleted),
-				//		Toast.LENGTH_SHORT);
-				// update display
-				new GetFavoriteMessages().execute();
-			}
-		}
-	}
-
-	// call with: new DeleteMessageByIdTask().execute(messageId);
-	private class DeleteMessageByIdTask extends AsyncTask<Long, Void, Integer> {
-
-		private Context context = getApplicationContext();
-
-		@Override
-		protected Integer doInBackground(Long... params) {
-
-			// android.os.Debug.waitForDebugger();
-
-			// get the message
-			long messageId = params[0];
-
-			// Delete word
-			int count = 0;
-
-			try {
-				MessageDatabaseAdapter dbAdapter = new MessageDatabaseAdapter(context);
-				count = dbAdapter.deleteFavoriteMessage(messageId);
-			} catch (Exception e) {
-				//Log.e("app", e.toString());
-			}
-
-			return count;
-		}
-
-		@Override
-		protected void onPostExecute(Integer count) {
-
-			// This is the result from doInBackground
-
-			if (count > 0) {
-				// Notify the user that the message was deleted
-				showToast(context, getResources().getString(R.string.toast_message_deleted),
-						Toast.LENGTH_SHORT);
-				// update display
-				savedPosition = lvFavorite.getFirstVisiblePosition();
-				new GetFavoriteMessages().execute();
-			}
-		}
-	}
-
-	public void hideMenu(View view) {
-
-		flContextMenuContainer.setVisibility(View.GONE);
-		menuHiderForOutsideClicks.setVisibility(View.GONE);
-		longClickedItem = -1;
-	}
-
-	private void showToast(Context context, String text, int toastLength) {
-
-		// TextView
-		final float scale = getResources().getDisplayMetrics().density;
-		int padding_8dp = (int) (8 * scale + 0.5f);
-		MongolTextView tvMongolToastMessage = new MongolTextView(context);
-		tvMongolToastMessage.setText(text);
-		tvMongolToastMessage.setPadding(padding_8dp, padding_8dp, padding_8dp, padding_8dp);
-		tvMongolToastMessage.setTextColor(getResources().getColor(R.color.white));
-
-		// Layout
-		LinearLayout toastLayout = new LinearLayout(context);
-		toastLayout.setBackgroundResource(R.color.black_c);
-		toastLayout.addView(tvMongolToastMessage);
-
-		// Toast
-		Toast mongolToast = new Toast(context);
-		mongolToast.setView(toastLayout);
-		mongolToast.setDuration(toastLength);
-		mongolToast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-		mongolToast.show();
-
-	}
-
-	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position, long rowId) {
-
-		Message chosenMessage = favoriteMessages.get(position);
-
-		// send back to activity
-		Intent returnIntent = new Intent();
-		returnIntent.putExtra("resultString", chosenMessage.getMessage());
-		setResult(RESULT_OK, returnIntent);
-		finish();
-
-	}
-
-	@Override
-	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long rowId) {
-
-		if (view != null) {
-			flContextMenuContainer.setVisibility(View.VISIBLE);
-			menuHiderForOutsideClicks.setVisibility(View.VISIBLE);
-			longClickedItem = position;
-		} else {
-			longClickedItem = -1;
-		}
-
-		return true;
-	}
-
-	@Override
-	public void contextMenuItemClicked(int itemCode) {
-
-		if (longClickedItem >= 0) {
-
-			Message chosenMessage = favoriteMessages.get(longClickedItem);
-
-			switch (itemCode) {
-			case FavoriteActivityContextMenu.MOVE_TO_FRONT:
-
-				new UpdateMessageTime().execute(chosenMessage.getId());
-				break;
-			case FavoriteActivityContextMenu.DELETE:
-
-				new DeleteMessageByIdTask().execute(chosenMessage.getId());
-				break;
-			}
-		}
-
-		hideMenu(null);
-	}
-
+import net.studymongolian.mongollibrary.MongolMenu;
+import net.studymongolian.mongollibrary.MongolMenuItem;
+
+public class FavoriteActivity extends AppCompatActivity
+        implements FavoritesRvAdapter.ItemClickListener {
+
+    private static final int MARGIN_DP = 4;
+    public static final String CURRENT_MESSAGE_KEY = "message";
+    public static final String RESULT_STRING_KEY = "result";
+
+    private static final int EDIT_REQUEST_CODE = 0;
+    private static final int ADD_REQUEST_CODE = 1;
+
+    List<Message> mMessages = new ArrayList<>();
+    String currentMessage;
+    FavoritesRvAdapter adapter;
+    int longClickedItem = -1;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_favorite);
+
+        setupToolbar();
+        setupRecyclerView();
+        currentMessage = getIntent().getStringExtra(CURRENT_MESSAGE_KEY);
+        new GetFavoriteMessages(this).execute();
+    }
+
+    private void setupToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setTitle("");
+        }
+    }
+
+    private void setupRecyclerView() {
+        RecyclerView recyclerView = findViewById(R.id.rv_all_favorites);
+        LinearLayoutManager horizontalLayoutManager
+                = new LinearLayoutManager(this,
+                LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(horizontalLayoutManager);
+        DividerItemDecoration dividerItemDecoration =
+                new DividerItemDecoration(recyclerView.getContext(),
+                        horizontalLayoutManager.getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
+        adapter = new FavoritesRvAdapter(this, mMessages);
+        adapter.setClickListener(this);
+        recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        Message chosenMessage = adapter.getItem(position);
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra(RESULT_STRING_KEY, chosenMessage.getMessage());
+        setResult(RESULT_OK, returnIntent);
+        finish();
+    }
+
+    @Override
+    public boolean onItemLongClick(View view, int position) {
+
+        View menuButton = findViewById(R.id.action_add);
+        int[] location = new int[2];
+        menuButton.getLocationInWindow(location);
+        int gravity = Gravity.TOP | Gravity.RIGHT;
+        int marginPx = convertDpToPx(MARGIN_DP);
+        int xOffset = menuButton.getWidth();
+        int yOffset = location[1] + marginPx;
+        MongolMenu menu = getMenu();
+        menu.showAtLocation(menuButton, gravity, xOffset, yOffset);
+        longClickedItem = position;
+        return true;
+    }
+
+    private int convertDpToPx(int dp) {
+        return (int) (dp * getResources().getDisplayMetrics().density);
+    }
+
+    private MongolMenu getMenu() {
+        MongolMenu menu = new MongolMenu(this);
+        final MongolMenuItem edit = new MongolMenuItem(
+                getString(R.string.favorites_menu_edit), R.drawable.ic_mode_edit_black_24dp);
+        final MongolMenuItem delete = new MongolMenuItem(
+                getString(R.string.favorites_menu_delete), R.drawable.ic_clear_black_24dp);
+        menu.add(edit);
+        menu.add(delete);
+        menu.setOnMenuItemClickListener(new MongolMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MongolMenuItem item) {
+                if (item == edit) {
+                    editItem();
+                } else if (item == delete) {
+                    deleteItem();
+                }
+                return true;
+            }
+        });
+        return menu;
+    }
+
+    private void editItem() {
+        Intent intent = new Intent(this, AddEditFavoritesActivity.class);
+        Message message = adapter.getItem(longClickedItem);
+        intent.putExtra(AddEditFavoritesActivity.MESSAGE_ID_KEY, message.getId());
+        intent.putExtra(AddEditFavoritesActivity.MESSAGE_TEXT_KEY, message.getMessage());
+        startActivityForResult(intent, EDIT_REQUEST_CODE);
+    }
+
+    private void deleteItem() {
+        Message message = adapter.getItem(longClickedItem);
+        new DeleteMessageByIdTask(this).execute(message.getId());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.favorites_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_add:
+                addNewFavorite();
+                return true;
+            case android.R.id.home:
+                Intent intent = new Intent();
+                setResult(RESULT_OK, intent);
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void addNewFavorite() {
+        Intent intent = new Intent(this, AddEditFavoritesActivity.class);
+        //Message message = adapter.getItem(longClickedItem);
+        intent.putExtra(AddEditFavoritesActivity.MESSAGE_TEXT_KEY, currentMessage);
+        startActivityForResult(intent, ADD_REQUEST_CODE);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != RESULT_OK) return;
+
+        switch (requestCode) {
+
+            case EDIT_REQUEST_CODE:
+
+                Message message = adapter.getItem(longClickedItem);
+                if (message == null) break;
+                new RefreshMessageItem(this).execute(message.getId());
+                break;
+
+            case ADD_REQUEST_CODE:
+                new GetFavoriteMessages(this).execute();
+                break;
+        }
+    }
+
+    private static class RefreshMessageItem extends AsyncTask<Long, Void, Message> {
+
+        private WeakReference<FavoriteActivity> activityReference;
+
+        RefreshMessageItem(FavoriteActivity context) {
+            activityReference = new WeakReference<>(context);
+        }
+
+        @Override
+        protected Message doInBackground(Long... params) {
+
+            long messageId = params[0];
+
+            Message messageItem = null;
+            FavoriteActivity activity = activityReference.get();
+            try {
+
+                MessageDatabaseAdapter dbAdapter = new MessageDatabaseAdapter(activity);
+                messageItem = dbAdapter.getFavoriteMessage(messageId);
+            } catch (Exception e) {
+                Log.i("app", e.toString());
+            }
+
+            return messageItem;
+        }
+
+        @Override
+        protected void onPostExecute(Message messageItem) {
+            FavoriteActivity activity = activityReference.get();
+            if (activity == null || activity.isFinishing()) return;
+
+            activity.mMessages.set(activity.longClickedItem, messageItem);
+            activity.adapter.notifyItemChanged(activity.longClickedItem);
+            activity.longClickedItem = -1;
+        }
+
+    }
+
+    private static class GetFavoriteMessages extends AsyncTask<Void, Void, ArrayList<Message>> {
+
+        private WeakReference<FavoriteActivity> activityReference;
+
+        GetFavoriteMessages(FavoriteActivity context) {
+            activityReference = new WeakReference<>(context);
+        }
+
+        @Override
+        protected ArrayList<Message> doInBackground(Void... params) {
+
+            ArrayList<Message> result = new ArrayList<>();
+            FavoriteActivity activity = activityReference.get();
+            try {
+                MessageDatabaseAdapter dbAdapter = new MessageDatabaseAdapter(activity);
+                result = dbAdapter.getAllFavoriteMessages();
+            } catch (Exception e) {
+                // Log.i("app", e.toString());
+            }
+
+            return result;
+
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Message> results) {
+            FavoriteActivity activity = activityReference.get();
+            if (activity == null || activity.isFinishing()) return;
+            activity.mMessages.clear();
+            activity.mMessages.addAll(results);
+            activity.adapter.notifyDataSetChanged();
+        }
+    }
+
+    private static class DeleteMessageByIdTask extends AsyncTask<Long, Void, Integer> {
+
+        private WeakReference<FavoriteActivity> activityReference;
+
+        DeleteMessageByIdTask(FavoriteActivity context) {
+            activityReference = new WeakReference<>(context);
+        }
+
+        @Override
+        protected Integer doInBackground(Long... params) {
+            long messageId = params[0];
+            int count = 0;
+            FavoriteActivity activity = activityReference.get();
+            try {
+                MessageDatabaseAdapter dbAdapter = new MessageDatabaseAdapter(activity);
+                count = dbAdapter.deleteFavoriteMessage(messageId);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return count;
+        }
+
+        @Override
+        protected void onPostExecute(Integer count) {
+            FavoriteActivity activity = activityReference.get();
+            if (activity == null || activity.isFinishing()) return;
+            if (count <= 0) return;
+            activity.mMessages.remove(activity.longClickedItem);
+            activity.adapter.notifyItemRemoved(activity.longClickedItem);
+        }
+    }
 }
