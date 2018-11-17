@@ -1,6 +1,7 @@
 package net.studymongolian.chimee;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.inputmethodservice.InputMethodService;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +29,16 @@ public class ChimeeInputMethodService extends InputMethodService
     @Override
     public InputConnection getInputConnection() {
         return getCurrentInputConnection();
+    }
+
+    @Override
+    public void onComputeInsets(InputMethodService.Insets outInsets) {
+        super.onComputeInsets(outInsets);
+
+        // This gives an invisible padding at the top so that key popups will show in API 28+
+        // Touch events on this padding are passed on to whatever views are below it.
+        outInsets.visibleTopInsets = imeContainer.getVisibleTop();
+        outInsets.contentTopInsets = imeContainer.getVisibleTop();
     }
 
     @Override
