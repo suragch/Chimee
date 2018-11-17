@@ -1,6 +1,5 @@
 package net.studymongolian.chimee;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
@@ -12,13 +11,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import net.studymongolian.mongollibrary.MongolAlertDialog;
 
 public class AboutActivity extends AppCompatActivity {
 
 	protected static final String SITE_URL = "http://www.studymongolian.net/apps/chimee/zh/";
 	protected static final String CONTACT_URL = "http://www.studymongolian.net/contact-zh/";
-	protected static final String MONGOL_LIBRARY_URL = "https://github.com/suragch/mongol-library/blob/master/README.md";
 
     String appName;
     String appVersion = "";
@@ -74,27 +71,6 @@ public class AboutActivity extends AppCompatActivity {
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_TEXT, shareString);
         startActivity(Intent.createChooser(intent, ""));
-    }
-
-//    public void onDevelopClick(View view) {
-//        MongolAlertDialog.Builder builder = new MongolAlertDialog.Builder(this);
-//        builder.setMessage(getString(R.string.about_develop_mongol_apps));
-//
-//        builder.setPositiveButton(getString(R.string.about_develop_positive_button), new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                openDeveloperPage();
-//            }
-//        });
-//        builder.setNegativeButton(getString(R.string.dialog_cancel), null);
-//
-//        MongolAlertDialog dialog = builder.create();
-//        dialog.show();
-//    }
-
-    private void openDeveloperPage() {
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(MONGOL_LIBRARY_URL));
-        startActivity(browserIntent);
     }
 
     @Override
