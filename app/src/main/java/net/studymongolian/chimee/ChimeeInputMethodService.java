@@ -2,6 +2,7 @@ package net.studymongolian.chimee;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.inputmethodservice.ExtractEditText;
 import android.inputmethodservice.InputMethodService;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 
 import net.studymongolian.mongollibrary.ImeContainer;
+import net.studymongolian.mongollibrary.MongolFont;
 
 public class ChimeeInputMethodService extends InputMethodService
         implements ImeContainer.OnSystemImeListener,
@@ -61,5 +63,13 @@ public class ChimeeInputMethodService extends InputMethodService
     @Override
     public Context getContext() {
         return this;
+    }
+
+    @Override
+    public View onCreateExtractTextView() {
+        View extractedView = super.onCreateExtractTextView();
+        ExtractEditText editText = extractedView.findViewById(android.R.id.inputExtractEditText);
+        editText.setTypeface(MongolFont.get(MongolFont.QAGAN, getApplicationContext()));
+        return extractedView;
     }
 }
