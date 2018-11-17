@@ -45,7 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:visibility="invisible"
-        app:text="The documents directory is empty"
+        app:text="@string/activity_open_doc_directory_empty"
         app:textColor="@color/grey_800"
         app:textSize="30sp" />
 

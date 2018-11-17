@@ -58,6 +58,7 @@ class FileUtils {
     private static File[] getFilesInDirectorySortedByLastModified(Context context, File directory) {
         makeSureFolderExists(context, directory);
         File[] files = directory.listFiles();
+        if (files == null) return null;
         Pair[] pairs = new Pair[files.length];
         for (int i = 0; i < files.length; i++)
             pairs[i] = new Pair(files[i]);
