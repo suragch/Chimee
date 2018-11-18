@@ -114,7 +114,6 @@
     <string name="converter_details">ᠺᠤᠳ᠋ ᠤᠨ ᠨᠣᠮᠧᠷ</string>
     <string name="converter_unicode">ᠶᠦᠨᠢᠺᠤᠳ᠋ ( ᠣᠯᠠᠨ ᠤᠯᠤᠰ ᠤᠨ ᠪᠠᠷᠢᠮᠵᠢᠶ᠎ᠠ ᠺᠤᠳ᠋ )</string>
     <string name="converter_menksoft_code">ᠪᠠᠢᠨᠠᠤ ᠺᠤᠳ᠋ ( ᠮᠥᠩᠬᠡ ᠭᠠᠯ ᠬᠠᠭᠤᠴᠢᠨ ᠺᠤᠳ᠋ )</string>
-    <string name="converter_clipboard_empty_notice">clipboard is empty</string>
 
     <!-- about -->
     <string name="about_chimee_version">%1$s %2$s</string>

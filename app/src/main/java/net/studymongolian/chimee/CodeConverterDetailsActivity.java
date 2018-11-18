@@ -28,7 +28,7 @@ public class CodeConverterDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reader);
+        setContentView(R.layout.activity_code_converter_details);
 
         setupToolbar();
         setupRecyclerView();
