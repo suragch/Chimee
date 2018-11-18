@@ -1,8 +1,5 @@
 package net.studymongolian.chimee;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.lang.ref.WeakReference;
 
 
@@ -17,7 +14,7 @@ import net.studymongolian.mongollibrary.MongolMenuItem;
 import net.studymongolian.mongollibrary.MongolToast;
 import net.studymongolian.mongollibrary.MongolTypefaceSpan;
 
-import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -34,10 +31,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -70,7 +64,6 @@ public class MainActivity extends AppCompatActivity
     private static final int PHOTO_REQUEST_CODE = 3;
     private static final int OPEN_REQUEST = 4;
     private static final int SAVE_REQUEST = 5;
-    private static final int WRITE_EXTERNAL_STORAGE_REQUEST = 6;
 
     private static final int MENU_MARGIN_DP = 4;
     private static final String WECHAT_PACKAGE_NAME = "com.tencent.mm";
@@ -192,7 +185,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public MongolMenu getMongolEditTextContextMenu(MongolEditText met) {
-        //final Context context = getContext();
+
         MongolMenu menu = new MongolMenu(this);
         CharSequence selected = met.getSelectedText();
 
@@ -288,6 +281,7 @@ public class MainActivity extends AppCompatActivity
         dialog.show(getSupportFragmentManager(), "FontChooserDialogFragment");
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void addGestureDetectorToTopLayout() {
         FrameLayout topLayout = findViewById(R.id.flTop);
         mScaleDetector = new ScaleGestureDetector(this, new ScaleListener());
@@ -295,6 +289,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     View.OnTouchListener touchListener = new View.OnTouchListener() {
+        @SuppressLint("ClickableViewAccessibility")
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             mScaleDetector.onTouchEvent(event);
@@ -384,7 +379,6 @@ public class MainActivity extends AppCompatActivity
 
     private void showInAppKeyboard() {
         imeContainer.setVisibility(View.VISIBLE);
-        //adjustInputWindowHeightIfNeeded();
         showKeyboardButton.setVisibility(View.INVISIBLE);
     }
 
@@ -430,7 +424,6 @@ public class MainActivity extends AppCompatActivity
     private void shareActionBarItemClick() {
 
         // check WeChat and Bainu
-        PackageManager pm = getApplicationContext().getPackageManager();
         boolean shouldShowWeChat = isPackageInstalled(WECHAT_PACKAGE_NAME);
         boolean shouldShowBainu = isPackageInstalled(BAINU_PACKAGE_NAME)
                 || shouldShowBainuIcon();
@@ -467,7 +460,7 @@ public class MainActivity extends AppCompatActivity
         View shareButton = findViewById(R.id.main_action_share);
         shareButton.getLocationInWindow(location);
         int gravity = Gravity.NO_GRAVITY;
-        int marginPx = convertDpToPx(MENU_MARGIN_DP);
+        int marginPx = convertMarginDpToPx();
         int xOffset = location[0];
         int yOffset = location[1] + marginPx;
         menu.showAtLocation(shareButton, gravity, xOffset, yOffset);
@@ -497,7 +490,6 @@ public class MainActivity extends AppCompatActivity
         }
 
         saveMessageToHistory(message);
-        //clearInputWindow();
 
         switch (shareDestination) {
             case WeChat:
@@ -569,7 +561,7 @@ public class MainActivity extends AppCompatActivity
         int[] location = new int[2];
         overflowMenuButton.getLocationInWindow(location);
         int gravity = Gravity.TOP | Gravity.RIGHT;
-        int marginPx = convertDpToPx(MENU_MARGIN_DP);
+        int marginPx = convertMarginDpToPx();
         int yOffset = location[1] + marginPx;
 
         menu.showAtLocation(overflowMenuButton, gravity, marginPx, yOffset);
@@ -607,48 +599,9 @@ public class MainActivity extends AppCompatActivity
         startActivityForResult(intent, SETTINGS_REQUEST);
     }
 
-    private int convertDpToPx(int dp) {
-        return (int) (dp * getResources().getDisplayMetrics().density);
+    private int convertMarginDpToPx() {
+        return (int) (MENU_MARGIN_DP * getResources().getDisplayMetrics().density);
     }
-
-
-//    private boolean saveBitmapToCacheDir(Bitmap bitmap) {
-//        Context context = getApplicationContext();
-//        try {
-//            File cachePath = new File(context.getCacheDir(), FileUtils.TEMP_CACHE_SUBDIR);
-//            //noinspection ResultOfMethodCallIgnored
-//            cachePath.mkdirs();
-//            FileOutputStream stream =
-//                    new FileOutputStream(cachePath + File.separator + FileUtils.TEMP_CACHE_FILENAME);
-//            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-//            stream.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            return false;
-//        }
-//        return true;
-//    }
-//
-//    private Uri getUriForSavedImage() {
-//        Context context = getApplicationContext();
-//        File imagePath = new File(context.getCacheDir(), FileUtils.TEMP_CACHE_SUBDIR);
-//        File newFile = new File(imagePath, FileUtils.TEMP_CACHE_FILENAME);
-//        return FileProvider.getUriForFile(context, FileUtils.FILE_PROVIDER_AUTHORITY, newFile);
-//    }
-
-//    private Intent getShareImageIntent() {
-//        Bitmap bitmap = getInputWindowBitmap();
-//        boolean successfullySaved = saveBitmapToCacheDir(bitmap);
-//        if (!successfullySaved) return null;
-//        Uri imageUri = getUriForSavedImage();
-//        if (imageUri == null) return null;
-//        Intent shareIntent = new Intent();
-//        shareIntent.setAction(Intent.ACTION_SEND);
-//        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//        shareIntent.setDataAndType(imageUri, getContentResolver().getType(imageUri));
-//        shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
-//        return shareIntent;
-//    }
 
     private Bitmap getInputWindowBitmap() {
         inputWindow.setCursorVisible(false);
@@ -700,7 +653,7 @@ public class MainActivity extends AppCompatActivity
         builder.setNegativeButton(getString(R.string.download_bainu_alert_negative), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                saveBainuChoiceToPreferences(false);
+                dontShowBainuOptionAgain();
             }
         });
 
@@ -713,10 +666,10 @@ public class MainActivity extends AppCompatActivity
         startActivity(browserIntent);
     }
 
-    private void saveBainuChoiceToPreferences(boolean showBainuButton) {
+    private void dontShowBainuOptionAgain() {
         SharedPreferences settings = getSharedPreferences(SettingsActivity.PREFS_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putBoolean(SettingsActivity.SHOW_BAINU_BUTTON_KEY, showBainuButton);
+        editor.putBoolean(SettingsActivity.SHOW_BAINU_BUTTON_KEY, false);
         editor.apply();
     }
 
@@ -869,8 +822,6 @@ public class MainActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case SHARE_REQUEST:
-            //case WECHAT_REQUEST:
-            //case BAINU_REQUEST:
                 onShareResult();
                 break;
             case SETTINGS_REQUEST:

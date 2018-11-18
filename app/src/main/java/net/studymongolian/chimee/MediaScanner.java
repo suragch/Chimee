@@ -12,7 +12,7 @@ public class MediaScanner implements MediaScannerConnection.MediaScannerConnecti
     private MediaScannerConnection mMs;
     private File mFile;
 
-    public MediaScanner(Context context, File f) {
+    MediaScanner(Context context, File f) {
         mFile = f;
         mMs = new MediaScannerConnection(context, this);
         mMs.connect();

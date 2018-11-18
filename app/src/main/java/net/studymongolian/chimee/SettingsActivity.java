@@ -1,10 +1,7 @@
 package net.studymongolian.chimee;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
@@ -13,8 +10,6 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -241,13 +236,11 @@ public class SettingsActivity extends AppCompatActivity {
             if (cursor == null) return "";
 
             int indexWord = cursor.getColumnIndex(UserDictionary.Words.WORD);
-            //int indexFrequency = cursor.getColumnIndex(UserDictionary.Words.FREQUENCY);
             int indexFollowing = cursor.getColumnIndex(UserDictionary.Words.FOLLOWING);
 
             StringBuilder builder = new StringBuilder();
             while (cursor.moveToNext()) {
                 builder.append(cursor.getString(indexWord)).append(UserDictionary.Words.FIELD_DELIMITER);
-                //builder.append(cursor.getInt(indexFrequency)).append(UserDictionary.Words.FIELD_DELIMITER);
                 builder.append(cursor.getString(indexFollowing)).append('\n');
             }
             cursor.close();

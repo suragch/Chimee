@@ -15,10 +15,8 @@ import android.view.MenuItem;
 
 import net.studymongolian.mongollibrary.MongolToast;
 
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ReaderActivity extends AppCompatActivity {
 

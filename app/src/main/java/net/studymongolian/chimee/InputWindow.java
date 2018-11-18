@@ -11,7 +11,6 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.text.Layout;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -38,7 +37,6 @@ public class InputWindow extends HorizontalScrollView {
     private boolean mIsManualScaling = false;
     private Rect mOldGoodSize;
     private MongolEditText editText;
-    private int mBackgroundColor;
     private String mLastSavedContent;
 
 
@@ -63,7 +61,6 @@ public class InputWindow extends HorizontalScrollView {
         mHeightStepPx = convertDpToPx(HEIGHT_STEP_DP);
         int width = (int) (mDesiredHeight / MIN_HEIGHT_TO_WIDTH_PROPORTION);
         mOldGoodSize = new Rect(0, 0, width, mDesiredHeight);
-        mBackgroundColor = DEFAULT_BACKGROUND_COLOR;
 
         editText = new MongolEditText(context, attrs, defStyleAttr);
         editText.setId(getUniqueId());

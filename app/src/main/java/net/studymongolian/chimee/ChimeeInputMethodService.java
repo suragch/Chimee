@@ -1,7 +1,7 @@
 package net.studymongolian.chimee;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
 import android.inputmethodservice.ExtractEditText;
 import android.inputmethodservice.InputMethodService;
 import android.view.LayoutInflater;
@@ -18,6 +18,7 @@ public class ChimeeInputMethodService extends InputMethodService
 
     CustomImeContainer imeContainer;
 
+    @SuppressLint("InflateParams")
     @Override
     public View onCreateInputView() {
         LayoutInflater inflater = getLayoutInflater();

@@ -26,7 +26,6 @@ import java.util.List;
 
 class FileUtils {
 
-    // TODO change these to mongolian names
     private static final String APP_PUBLIC_FOLDER_NAME = "Chimee";
     private static final String IMAGE_FOLDER_NAME = "suuder";
     private static final String EXPORT_FOLDER_NAME = "database";
@@ -37,9 +36,9 @@ class FileUtils {
     private static final String RESERVED_CHARS= "|\\?*<\":>/";
     private static final String TAG = "Chimee FileUtils";
 
-    public static final String TEMP_CACHE_SUBDIR = "images";
-    public static final String TEMP_CACHE_FILENAME = "image.png";
-    public static final String FILE_PROVIDER_AUTHORITY = "net.studymongolian.chimee.fileprovider";
+    private static final String TEMP_CACHE_SUBDIR = "images";
+    private static final String TEMP_CACHE_FILENAME = "image.png";
+    private static final String FILE_PROVIDER_AUTHORITY = "net.studymongolian.chimee.fileprovider";
 
 
     private static List<String> getTextFileNames(Context context) {
@@ -80,7 +79,7 @@ class FileUtils {
      * @param text String to save to file
      * @return whether file was successfully saved
      */
-    public static boolean saveHistoryMessageFile(Context context, String text) {
+    static boolean saveHistoryMessageFile(Context context, String text) {
         File destFolder = new File(getAppExportFolder());
         makeSureFolderExists(context, destFolder);
 
@@ -100,7 +99,7 @@ class FileUtils {
      * @param text String to save to file
      * @return whether file was successfully saved
      */
-    public static boolean saveExportedWordsFile(Context context, String text) {
+    static boolean saveExportedWordsFile(Context context, String text) {
         File destFolder = new File(getAppExportFolder());
         makeSureFolderExists(context, destFolder);
 
@@ -175,7 +174,8 @@ class FileUtils {
         }
         return list;
     }
-    public static String openFile(String shortFilenameWithoutExtension) throws Exception {
+
+    static String openFile(String shortFilenameWithoutExtension) throws Exception {
         String fullFilePath = getAppDocumentFolder() + File.separator
                 + shortFilenameWithoutExtension + TEXT_FILE_EXTENSION;
 
@@ -190,7 +190,7 @@ class FileUtils {
         return text;
     }
 
-    public static ArrayList<CharSequence> convertStreamToStringArray(InputStream inputStream) throws Exception  {
+    static ArrayList<CharSequence> convertStreamToStringArray(InputStream inputStream) throws Exception  {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         ArrayList<CharSequence> lines = new ArrayList<>();
         String line;
@@ -212,7 +212,7 @@ class FileUtils {
         return sb.toString();
     }
 
-    public static boolean saveTextFile(Context appContext, String filename, String text) {
+    static boolean saveTextFile(Context appContext, String filename, String text) {
 
         File destFolder = new File(getAppDocumentFolder());
         makeSureFolderExists(appContext, destFolder);
@@ -257,19 +257,19 @@ class FileUtils {
         return getAppPublicFolder() + File.separator + IMAGE_FOLDER_NAME;
     }
 
-    public static String getExportedHistoryFileDisplayPath() {
+    static String getExportedHistoryFileDisplayPath() {
         return APP_PUBLIC_FOLDER_NAME +
                  File.separator + EXPORT_FOLDER_NAME +
                 File.separator + HISTORY_EXPORT_FILE_NAME;
     }
 
-    public static String getExportedWordsFileDisplayPath() {
+    static String getExportedWordsFileDisplayPath() {
         return APP_PUBLIC_FOLDER_NAME +
                 File.separator + EXPORT_FOLDER_NAME +
                 File.separator + WORDS_EXPORT_FILE_NAME;
     }
 
-    public static String getSavedPhotoDisplayFilePath(String filename) {
+    private static String getSavedPhotoDisplayFilePath(String filename) {
         return APP_PUBLIC_FOLDER_NAME +
                 File.separator + IMAGE_FOLDER_NAME +
                 File.separator + filename;
@@ -278,13 +278,6 @@ class FileUtils {
     private static void scanFile(Context context, File file) {
         // this registers the file so that file explorers can find it more quickly
         new MediaScanner(context, file);
-//        MediaScannerConnection
-//                .scanFile(context, new String[]{file.getAbsolutePath()},
-//                        null, null);
-//        Uri contentUri = Uri.fromFile(file);
-//        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-//        mediaScanIntent.setData(contentUri);
-//        context.sendBroadcast(mediaScanIntent);
     }
 
     private static void copyTextFileOver
@@ -300,7 +293,7 @@ class FileUtils {
         scanFile(context, csvFile);
     }
 
-    public static boolean textFileExists(Context context, String filename) {
+    static boolean textFileExists(Context context, String filename) {
         String nameToTest = filename;
         if (!filename.endsWith(TEXT_FILE_EXTENSION))
             nameToTest += TEXT_FILE_EXTENSION;

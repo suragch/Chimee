@@ -1,15 +1,11 @@
 package net.studymongolian.chimee;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
@@ -37,8 +33,6 @@ public class SaveActivity extends AppCompatActivity
         SimpleListRvAdapter.ItemClickListener {
 
     static final String TEXT_KEY = "text";
-    //public static final int REQUEST_WRITE_STORAGE = 112;
-    //private final String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
     private MenuItem saveButton;
     private MongolTextView hintText;
@@ -56,7 +50,6 @@ public class SaveActivity extends AppCompatActivity
         setupKeyboard();
         setupMongolEditText();
         loadInfoFromIntent();
-        //requestWritePermission();
         showExistingFilenameList();
     }
 
@@ -127,10 +120,6 @@ public class SaveActivity extends AppCompatActivity
         Intent intent = getIntent();
         mText = intent.getStringExtra(TEXT_KEY);
     }
-
-//    private void requestWritePermission() {
-//        ActivityCompat.requestPermissions(this, permissions, REQUEST_WRITE_STORAGE);
-//    }
 
     private void showExistingFilenameList() {
         List<String> files = FileUtils.getTextFileNamesWithoutExtension(this);
@@ -217,35 +206,6 @@ public class SaveActivity extends AppCompatActivity
             }
         });
         builder.setNegativeButton(getString(R.string.dialog_cancel), null);
-        MongolAlertDialog dialog = builder.create();
-        dialog.show();
-    }
-
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//
-//        switch (requestCode) {
-//            case REQUEST_WRITE_STORAGE: {
-//                if (grantResults.length > 0
-//                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                    return;
-//                }
-//                notifyUserThatTheyCantSaveFileWithoutWritePermission();
-//                break;
-//            }
-//        }
-//    }
-
-    private void notifyUserThatTheyCantSaveFileWithoutWritePermission() {
-        MongolAlertDialog.Builder builder = new MongolAlertDialog.Builder(this);
-        builder.setMessage(getString(R.string.no_write_file_permission));
-        builder.setPositiveButton(getString(R.string.dialog_got_it), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-            }
-        });
         MongolAlertDialog dialog = builder.create();
         dialog.show();
     }

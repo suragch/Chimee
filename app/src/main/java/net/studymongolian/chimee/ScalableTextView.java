@@ -7,7 +7,6 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 
 import net.studymongolian.mongollibrary.MongolTextView;
-import net.studymongolian.mongollibrary.TextPaintPlus;
 
 public class ScalableTextView extends MongolTextView {
 
@@ -15,7 +14,6 @@ public class ScalableTextView extends MongolTextView {
     private float mScaleX = 1f;
     private float mScaleY = 1f;
     private int unscaledWidth;
-    private int unScaledHeight;
     private int mBgColor = Color.TRANSPARENT;
     private float mBgCornerRadius = 0;
     private Paint bgPaint;
@@ -34,7 +32,7 @@ public class ScalableTextView extends MongolTextView {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         unscaledWidth = getMeasuredWidth();
-        unScaledHeight = getMeasuredHeight();
+        int unScaledHeight = getMeasuredHeight();
         int width = (int) ((unscaledWidth - getPaddingLeft() - getPaddingRight()) * mScaleX)
                 + getPaddingLeft() + getPaddingRight();
         int height = (int) ((unScaledHeight - getPaddingTop() - getPaddingBottom()) * mScaleY
@@ -90,10 +88,6 @@ public class ScalableTextView extends MongolTextView {
         return unscaledWidth;
     }
 
-    public int getUnscaledHeight() {
-        return unScaledHeight;
-    }
-
     public int getRoundBackgroundColor() {
         return mBgColor;
     }
@@ -111,16 +105,4 @@ public class ScalableTextView extends MongolTextView {
         mBgColor = color;
         invalidate();
     }
-
-    public Paint getBgPaint() {
-        return bgPaint;
-    }
-//
-//    public TextPaintPlus getPaint() {
-//        return (TextPaintPlus) getLayout().getPaint();
-//    }
-//
-//    public void setPaint(TextPaintPlus paint) {
-//        getLayout().set
-//    }
 }

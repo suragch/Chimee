@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SuffixDatabaseAdapter {
+class SuffixDatabaseAdapter {
 
     private MyDatabaseHelper helper;
     Context context;
@@ -18,14 +18,13 @@ public class SuffixDatabaseAdapter {
     private final int masculine = Suffix.WordGender.Masculine.getValue();
     private final int feminine = Suffix.WordGender.Feminine.getValue();
 
-    // Constructor
     SuffixDatabaseAdapter(Context context) {
 
         helper = new MyDatabaseHelper(context);
         this.context = context;
     }
 
-    public void updateFrequencyForSuffix(String suffixToUpdate) {
+    void updateFrequencyForSuffix(String suffixToUpdate) {
 
         SQLiteDatabase db = helper.getWritableDatabase();
         String valueToIncrementBy = "1";
@@ -38,7 +37,7 @@ public class SuffixDatabaseAdapter {
 
     }
 
-    public ArrayList<String> findSuffixesBeginningWith(String suffixStart, Suffix.WordGender gender, Suffix.WordEnding ending) {
+    ArrayList<String> findSuffixesBeginningWith(String suffixStart, Suffix.WordGender gender, Suffix.WordEnding ending) {
 
         SQLiteDatabase db = helper.getReadableDatabase();
         String selection;

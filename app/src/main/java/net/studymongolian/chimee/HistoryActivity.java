@@ -103,7 +103,7 @@ public class HistoryActivity extends AppCompatActivity
         int[] location = new int[2];
         menuButton.getLocationInWindow(location);
         int gravity = Gravity.TOP | Gravity.RIGHT;
-        int marginPx = convertDpToPx(MENU_MARGIN_DP);
+        int marginPx = convertMarginDpToPx();
         int xOffset = menuButton.getWidth();
         int yOffset = location[1] + marginPx;
         MongolMenu menu = getContextMenu();
@@ -119,8 +119,8 @@ public class HistoryActivity extends AppCompatActivity
         new AppendHistoryMessageRange(this, NUMBER_OF_MESSAGES_TO_LOAD, offset).execute();
     }
 
-    private int convertDpToPx(int dp) {
-        return (int) (dp * getResources().getDisplayMetrics().density);
+    private int convertMarginDpToPx() {
+        return (int) (MENU_MARGIN_DP * getResources().getDisplayMetrics().density);
     }
 
     private MongolMenu getContextMenu() {
@@ -197,7 +197,7 @@ public class HistoryActivity extends AppCompatActivity
         View overflowMenuButton = findViewById(R.id.action_overflow);
         overflowMenuButton.getLocationInWindow(location);
         int gravity = Gravity.TOP | Gravity.RIGHT;
-        int marginPx = convertDpToPx(MENU_MARGIN_DP);
+        int marginPx = convertMarginDpToPx();
         int yOffset = location[1] + marginPx;
 
         menu.showAtLocation(overflowMenuButton, gravity, marginPx, yOffset);

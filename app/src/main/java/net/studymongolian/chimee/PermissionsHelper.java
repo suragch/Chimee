@@ -3,18 +3,16 @@ package net.studymongolian.chimee;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
 import net.studymongolian.mongollibrary.MongolAlertDialog;
 
-public class PermissionsHelper {
+class PermissionsHelper {
 
 
-    static final int WRITE_EXTERNAL_STORAGE_REQUEST = 100;
+    private static final int WRITE_EXTERNAL_STORAGE_REQUEST = 100;
 
     static boolean getWriteExternalStoragePermission(Activity activity) {
         // get permission to write to external storage

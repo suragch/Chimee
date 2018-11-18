@@ -14,7 +14,6 @@ public class TextSizeControl extends View {
     private int visibleItemSize = 20;
     private Paint fillPaint;
     private Paint borderPaint;
-    //private boolean isActivated = true;
 
 
     public TextSizeControl(Context context) {
@@ -43,11 +42,6 @@ public class TextSizeControl extends View {
     public void setControlType(ControlType type) {
         this.type = type;
     }
-
-//    public void setActivated(boolean isActivated) {
-//        this.isActivated = isActivated;
-//        invalidate();
-//    }
 
     /**
      * This sets how big the visible control will be in the center of the view.
@@ -92,7 +86,6 @@ public class TextSizeControl extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        //if (!isActivated) return;
         super.onDraw(canvas);
         switch (type) {
             case BOX:

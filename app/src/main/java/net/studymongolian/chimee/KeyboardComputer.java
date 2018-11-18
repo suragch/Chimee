@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import net.studymongolian.mongollibrary.KeyboardQwerty;
 
 public class KeyboardComputer extends KeyboardQwerty {
+
     public KeyboardComputer(Context context) {
         super(context);
     }

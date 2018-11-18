@@ -6,14 +6,13 @@ public class Suffix {
     private WordGender gender;
     private SuffixType type;
 
-    // constructor
     Suffix(String suffix, WordGender gender, SuffixType type) {
         this.suffix = suffix;
         this.gender = gender;
         this.type = type;
     }
 
-    public static enum WordGender {
+    public enum WordGender {
         Neutral(0),
         Masculine(1),
         Feminine(2);
@@ -23,7 +22,7 @@ public class Suffix {
         public int getValue() { return id; }
     }
 
-    public static enum WordEnding {
+    public enum WordEnding {
         Nil(0),
         Vowel(1),
         N(2),
@@ -35,7 +34,7 @@ public class Suffix {
         public int getValue() { return id; }
     }
 
-    public static enum SuffixType {
+    public enum SuffixType {
         VowelOnly(0),
         NOnly(1),
         ConsonantNonN(2),
@@ -49,14 +48,13 @@ public class Suffix {
         public int getValue() { return id; }
     }
 
-    // getters
     public String getSuffix() {
         return suffix;
     }
-    public WordGender getWordGender() {
+    WordGender getWordGender() {
         return gender;
     }
-    public SuffixType getSuffixType() {
+    SuffixType getSuffixType() {
         return type;
     }
 }

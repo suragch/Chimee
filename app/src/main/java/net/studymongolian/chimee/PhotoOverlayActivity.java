@@ -1,10 +1,8 @@
 package net.studymongolian.chimee;
 
-import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -16,8 +14,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -133,6 +129,7 @@ public class PhotoOverlayActivity extends AppCompatActivity
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void setupPhotoView() {
         mImageView = findViewById(R.id.imageView);
         mImageView.setOnTouchListener(mImageViewTouchListener);
@@ -140,6 +137,7 @@ public class PhotoOverlayActivity extends AppCompatActivity
 
 
     private View.OnTouchListener mImageViewTouchListener = new View.OnTouchListener() {
+        @SuppressLint("ClickableViewAccessibility")
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
@@ -523,21 +521,17 @@ public class PhotoOverlayActivity extends AppCompatActivity
 
         // text location in ImageView coordinates
         PointF textViewTopLeft = textOverlayView.getTextViewTopLeft();
-        PointF textViewTopRight = textOverlayView.getTextViewTopRight();
         PointF textViewBottomLeft = textOverlayView.getTextViewBottomLeft();
         PointF textTopLeft = textOverlayView.getTextTopLeft();
 
         // text location in ImageView bitmap coordinates
         PointF textViewTopLeftBitmap = mImageView.transformZoomedCoordToBitmapCoord(
                 textViewTopLeft.x, textViewTopLeft.y);
-        PointF textViewTopRightBitmap = mImageView.transformZoomedCoordToBitmapCoord(
-                textViewTopRight.x, textViewTopRight.y);
         PointF textViewBottomLeftBitmap = mImageView.transformZoomedCoordToBitmapCoord(
                 textViewBottomLeft.x, textViewBottomLeft.y);
         PointF textTopLeftBitmap = mImageView.transformZoomedCoordToBitmapCoord(
                 textTopLeft.x, textTopLeft.y);
         float textViewHeightBitmap = textViewBottomLeftBitmap.y - textViewTopLeftBitmap.y;
-        float textViewWidthBitmap = textViewTopRightBitmap.x - textViewTopLeftBitmap.x;
         float textViewPaddingLeftBitmap = textTopLeftBitmap.x - textViewTopLeftBitmap.x;
         float textViewPaddingTopBitmap = textTopLeftBitmap.y - textViewTopLeftBitmap.y;
 
@@ -546,7 +540,6 @@ public class PhotoOverlayActivity extends AppCompatActivity
         float x = textViewTopLeftBitmap.x * scale;
         float y = textViewTopLeftBitmap.y * scale;
         float height = textViewHeightBitmap * scale;
-        float width = textViewWidthBitmap * scale;
         float paddingLeft = textViewPaddingLeftBitmap * scale;
         float paddingTop = textViewPaddingTopBitmap * scale;
 
@@ -573,9 +566,6 @@ public class PhotoOverlayActivity extends AppCompatActivity
 
         // bg corner radius
         if (textView.getRoundBackgroundColor() != Color.TRANSPARENT) {
-            //float bgPadding = ScalableTextView.BG_PADDING_PX;
-            //textView.setRight(textView.getLeft() + (int) width);
-            //textView.setBottom(textView.getTop() + (int) height);
             textView.setRoundBackgroundCornerRadius(fontSizeSp * textOverlayView.getBgCornerRadiusMultiplier());
         }
 
@@ -586,9 +576,6 @@ public class PhotoOverlayActivity extends AppCompatActivity
         Paint paint = new Paint();
         canvas.drawBitmap(bitmap, 0, 0, paint);
         canvas.translate(x, y);
-//        canvas.drawRoundRect(new RectF(0, 0, width, height),
-//                textView.getRoundBackgroundCornerRadius(),
-//                textView.getRoundBackgroundCornerRadius(), textView.getBgPaint());
         textView.draw(canvas);
 
         return bitmapOut;
@@ -647,55 +634,6 @@ public class PhotoOverlayActivity extends AppCompatActivity
         int bottom = top + tvHeight;
         textView.layout(left, top, right, bottom);
     }
-//
-//    private void colorBackground(Canvas canvas) {
-//        int color = Color.BLUE;
-//        Paint paint = new Paint();
-//        paint.setColor(color);
-//        paint.setStyle(Paint.Style.FILL);
-//        canvas.drawPaint(paint);
-//    }
-//
-//    public Bitmap drawTextToBitmap(Context mContext,  int resourceId,  String mText) {
-//        try {
-//            Resources resources = mContext.getResources();
-//            float scale = resources.getDisplayMetrics().density;
-//            Bitmap bitmap = BitmapFactory.decodeResource(resources, resourceId);
-//            Bitmap.Config bitmapConfig =   bitmap.getConfig();
-//            // set default bitmap config if none
-//            if(bitmapConfig == null) {
-//                bitmapConfig = android.graphics.Bitmap.Config.ARGB_8888;
-//            }
-//            // resource bitmaps are immutable,
-//            // so we need to convert it to mutable one
-//            bitmap = bitmap.copy(bitmapConfig, true);
-//
-//            Canvas canvas = new Canvas(bitmap);
-//            // new antialised Paint
-//            Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-//            // text color - #3D3D3D
-//            paint.setColor(Color.rgb(110,110, 110));
-//            // text size in pixels
-//            paint.setTextSize((int) (12 * scale));
-//            // text shadow
-//            paint.setShadowLayer(1f, 0f, 1f, Color.DKGRAY);
-//
-//            // draw text to the Canvas center
-//            Rect bounds = new Rect();
-//            paint.getTextBounds(mText, 0, mText.length(), bounds);
-//            int x = (bitmap.getWidth() - bounds.width())/6;
-//            int y = (bitmap.getHeight() + bounds.height())/5;
-//
-//            canvas.drawText(mText, x * scale, y * scale, paint);
-//
-//            return bitmap;
-//        } catch (Exception e) {
-//            // TODO: handle exception
-//
-//            return null;
-//        }
-//
-//    }
 
     private float convertPxToSp(float sizePx) {
         return sizePx / getResources().getDisplayMetrics().scaledDensity;
@@ -919,6 +857,7 @@ public class PhotoOverlayActivity extends AppCompatActivity
             showProgressDialog(activity);
         }
 
+        @SuppressLint("InflateParams")
         void showProgressDialog(PhotoOverlayActivity activity) {
             AlertDialog.Builder builder = new AlertDialog.Builder(activity);
             final View customLayout = activity.getLayoutInflater().inflate(R.layout.dialog_spinner, null);
@@ -961,6 +900,7 @@ public class PhotoOverlayActivity extends AppCompatActivity
             showProgressDialog(activity);
         }
 
+        @SuppressLint("InflateParams")
         void showProgressDialog(PhotoOverlayActivity activity) {
             AlertDialog.Builder builder = new AlertDialog.Builder(activity);
             final View customLayout = activity.getLayoutInflater().inflate(R.layout.dialog_spinner, null);

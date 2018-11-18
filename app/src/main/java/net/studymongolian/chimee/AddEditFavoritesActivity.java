@@ -112,7 +112,7 @@ public class AddEditFavoritesActivity extends AppCompatActivity
         handleUserFinishing();
     }
 
-    private void handleUserFinishing () {
+    private void handleUserFinishing() {
         Intent intent = new Intent();
         intent.putExtra(MESSAGE_ADDED_KEY, messageWasAdded);
         setResult(RESULT_OK, intent);
@@ -148,7 +148,7 @@ public class AddEditFavoritesActivity extends AppCompatActivity
         return this;
     }
 
-    private static class AddMessage extends AsyncTask<String, Void, Void> {
+    private static class AddMessage extends AsyncTask<String, Void, Boolean> {
 
         private WeakReference<AddEditFavoritesActivity> activityReference;
 
@@ -157,32 +157,33 @@ public class AddEditFavoritesActivity extends AppCompatActivity
         }
 
         @Override
-        protected Void doInBackground(String... params) {
+        protected Boolean doInBackground(String... params) {
 
             String item = params[0];
 
             AddEditFavoritesActivity activity = activityReference.get();
+            long result = -1;
             try {
                 MessageDatabaseAdapter dbAdapter = new MessageDatabaseAdapter(activity);
-                dbAdapter.addFavoriteMessage(item);
+                result = dbAdapter.addFavoriteMessage(item);
             } catch (Exception e) {
                 Log.i("app", e.toString());
             }
-            return null;
+            return result >= 0;
         }
 
         @Override
-        protected void onPostExecute(Void results) {
+        protected void onPostExecute(Boolean messageWasAdded) {
             AddEditFavoritesActivity activity = activityReference.get();
             if (activity == null || activity.isFinishing()) return;
-            activity.messageWasAdded = true;
+            activity.messageWasAdded = messageWasAdded;
             Intent intent = new Intent();
             activity.setResult(RESULT_OK, intent);
             activity.finish();
         }
     }
 
-    private static class UpdateMessage extends AsyncTask<Message, Void, Void> {
+    private static class UpdateMessage extends AsyncTask<Message, Void, Boolean> {
 
         private WeakReference<AddEditFavoritesActivity> activityReference;
 
@@ -191,26 +192,28 @@ public class AddEditFavoritesActivity extends AppCompatActivity
         }
 
         @Override
-        protected Void doInBackground(Message... params) {
+        protected Boolean doInBackground(Message... params) {
 
             Message item = params[0];
             AddEditFavoritesActivity activity = activityReference.get();
+            int numRowsAffected = 0;
             try {
                 MessageDatabaseAdapter dbAdapter = new MessageDatabaseAdapter(activity);
-                dbAdapter.updateFavoriteMessage(item);
+                numRowsAffected = dbAdapter.updateFavoriteMessage(item);
             } catch (Exception e) {
                 Log.i("app", e.toString());
             }
 
-            return null;
+            return numRowsAffected > 0;
         }
 
         @Override
-        protected void onPostExecute(Void results) {
+        protected void onPostExecute(Boolean messageWasUpdated) {
             AddEditFavoritesActivity activity = activityReference.get();
             if (activity == null || activity.isFinishing()) return;
             Intent intent = new Intent();
-            activity.setResult(RESULT_OK, intent);
+            if (messageWasUpdated)
+                activity.setResult(RESULT_OK, intent);
             activity.finish();
         }
     }

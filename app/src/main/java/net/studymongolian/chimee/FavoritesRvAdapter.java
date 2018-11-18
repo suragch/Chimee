@@ -17,13 +17,11 @@ public class FavoritesRvAdapter extends RecyclerView.Adapter<FavoritesRvAdapter.
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
 
-    // data is passed into the constructor
     FavoritesRvAdapter(Context context, List<Message> messages) {
         this.mInflater = LayoutInflater.from(context);
         this.mFavorites = messages;
     }
 
-    // inflates the row layout from xml when needed
     @Override
     @NonNull
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -31,20 +29,17 @@ public class FavoritesRvAdapter extends RecyclerView.Adapter<FavoritesRvAdapter.
         return new ViewHolder(view);
     }
 
-    // binds the data to the view and textview in each row
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Message message = mFavorites.get(position);
         holder.mtvMessage.setText(message.getMessage());
     }
 
-    // total number of rows
     @Override
     public int getItemCount() {
         return mFavorites.size();
     }
 
-    // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener, View.OnLongClickListener {
 
@@ -69,17 +64,14 @@ public class FavoritesRvAdapter extends RecyclerView.Adapter<FavoritesRvAdapter.
         }
     }
 
-    // convenience method for getting data at click position
     Message getItem(int id) {
         return mFavorites.get(id);
     }
 
-    // allows clicks events to be caught
     void setClickListener(ItemClickListener itemClickListener) {
         this.mClickListener = itemClickListener;
     }
 
-    // parent activity will implement this method to respond to click events
     public interface ItemClickListener {
         void onItemClick(View view, int position);
         boolean onItemLongClick(View view, int position);

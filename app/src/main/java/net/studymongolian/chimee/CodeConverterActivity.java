@@ -1,19 +1,14 @@
 package net.studymongolian.chimee;
 
-import android.Manifest;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,7 +24,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import net.studymongolian.mongollibrary.MongolAlertDialog;
 import net.studymongolian.mongollibrary.MongolCode;
 import net.studymongolian.mongollibrary.MongolToast;
 
@@ -41,7 +35,6 @@ public class CodeConverterActivity extends AppCompatActivity {
 
     private static final int OPEN_FILE_REQUEST = 0;
     private static final int SAVE_REQUEST = 1;
-    private static final int WRITE_EXTERNAL_STORAGE_REQUEST = 3;
 
     FrameLayout pasteButton;
     FrameLayout convertButton;
@@ -82,7 +75,6 @@ public class CodeConverterActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        //contentWindow = findViewById(R.id.mtv_convert_content);
         pasteButton = findViewById(R.id.flPaste);
         convertButton = findViewById(R.id.flConvert);
         copyButton = findViewById(R.id.flCopy);
@@ -196,10 +188,8 @@ public class CodeConverterActivity extends AppCompatActivity {
     public void onPasteClick(View view) {
         String clipboardText = getClipboardText();
         if (TextUtils.isEmpty(clipboardText)) {
-            //notifyUserThatClipboardIsEmpty();
             return;
         }
-        //SpannableStringBuilder formattedText = colorTextAccordingToCoding(clipboardText);
         ArrayList<CharSequence> paragraphs = convertStringToArray(clipboardText, mMenksoftColor);
         setText(paragraphs);
 
@@ -232,13 +222,6 @@ public class CodeConverterActivity extends AppCompatActivity {
                 MongolToast.LENGTH_SHORT)
                 .show();
     }
-
-//    private void notifyUserThatClipboardIsEmpty() {
-//        MongolToast.makeText(this,
-//                getString(R.string.converter_clipboard_empty_notice),
-//                MongolToast.LENGTH_LONG)
-//                .show();
-//    }
 
     private String getClipboardText() {
         ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);

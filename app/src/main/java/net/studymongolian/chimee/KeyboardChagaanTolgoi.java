@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import net.studymongolian.mongollibrary.KeyboardAeiou;
 
 public class KeyboardChagaanTolgoi extends KeyboardAeiou {
+
     public KeyboardChagaanTolgoi(Context context) {
         super(context);
     }

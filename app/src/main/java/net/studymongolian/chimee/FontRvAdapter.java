@@ -20,13 +20,11 @@ public class FontRvAdapter
     private ItemClickListener mClickListener;
     private Context mContext;
 
-    // data is passed into the constructor
     FontRvAdapter(Context context, List<Font> fonts) {
         this.mContext = context;
         this.mFonts = fonts;
     }
 
-    // inflates the row layout from xml when needed
     @Override
     @NonNull
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -35,7 +33,6 @@ public class FontRvAdapter
         return new ViewHolder(view);
     }
 
-    // binds the data to the view and textview in each row
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Font font = mFonts.get(position);
@@ -45,13 +42,11 @@ public class FontRvAdapter
         holder.mongolTextView.setTypeface(typeface);
     }
 
-    // total number of rows
     @Override
     public int getItemCount() {
         return mFonts.size();
     }
 
-    // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         MongolTextView mongolTextView;
 
@@ -67,17 +62,14 @@ public class FontRvAdapter
         }
     }
 
-    // convenience method for getting data at click position
-    public Font getFontAtPosition(int id) {
+    Font getFontAtPosition(int id) {
         return mFonts.get(id);
     }
 
-    // allows clicks events to be caught
     public void setClickListener(ItemClickListener itemClickListener) {
         this.mClickListener = itemClickListener;
     }
 
-    // parent activity will implement this method to respond to click events
     public interface ItemClickListener {
         void onFontItemClick(View view, int position);
     }

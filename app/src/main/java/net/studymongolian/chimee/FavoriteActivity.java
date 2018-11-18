@@ -92,7 +92,7 @@ public class FavoriteActivity extends AppCompatActivity
         int[] location = new int[2];
         menuButton.getLocationInWindow(location);
         int gravity = Gravity.TOP | Gravity.RIGHT;
-        int marginPx = convertDpToPx(MARGIN_DP);
+        int marginPx = convertMarginDpToPx();
         int xOffset = menuButton.getWidth();
         int yOffset = location[1] + marginPx;
         MongolMenu menu = getMenu();
@@ -101,8 +101,8 @@ public class FavoriteActivity extends AppCompatActivity
         return true;
     }
 
-    private int convertDpToPx(int dp) {
-        return (int) (dp * getResources().getDisplayMetrics().density);
+    private int convertMarginDpToPx() {
+        return (int) (MARGIN_DP * getResources().getDisplayMetrics().density);
     }
 
     private MongolMenu getMenu() {
@@ -164,7 +164,6 @@ public class FavoriteActivity extends AppCompatActivity
 
     private void addNewFavorite() {
         Intent intent = new Intent(this, AddEditFavoritesActivity.class);
-        //Message message = adapter.getItem(longClickedItem);
         intent.putExtra(AddEditFavoritesActivity.MESSAGE_TEXT_KEY, currentMessage);
         startActivityForResult(intent, ADD_REQUEST_CODE);
     }
@@ -245,7 +244,7 @@ public class FavoriteActivity extends AppCompatActivity
                 MessageDatabaseAdapter dbAdapter = new MessageDatabaseAdapter(activity);
                 result = dbAdapter.getAllFavoriteMessages();
             } catch (Exception e) {
-                // Log.i("app", e.toString());
+                e.printStackTrace();
             }
 
             return result;

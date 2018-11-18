@@ -15,62 +15,45 @@ import net.studymongolian.mongollibrary.MongolCode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-//import android.util.Log;
 
 /**
  * A provider of user defined words for predictive text input. Words can have
  * associated frequency information and following words.
  */
-public class UserDictionary {
-
-//    /** Authority string for this provider. */
-//    public static final String AUTHORITY = "net.studymongolian.chimee.user_dictionary";
-//
-//    /**
-//     * The content:// style URL for this provider
-//     */
-//    public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY);
-//
-//    private static final int FREQUENCY_MIN = 0;
-//    private static final int FREQUENCY_MAX = 2147483646; // max int value -1
-//    private static final int MAX_FOLLOWING_WORDS = 10;
-//
-//    // If this number is ever reached then someone is using their phone way too
-//    // much.
-
+class UserDictionary {
 
     /**
      * Authority string for this provider.
      */
-    public static final String AUTHORITY = "net.studymongolian.chimee.user_dictionary";
+    static final String AUTHORITY = "net.studymongolian.chimee.user_dictionary";
 
     private static final int FREQUENCY_MIN = 0;
     private static final int FREQUENCY_MAX = 2147483646; // max int value -1
-    static final int MAX_FOLLOWING_WORDS = 10;
-    static final int MAX_QUERY_RESULTS = 10;
+    private static final int MAX_FOLLOWING_WORDS = 10;
+    private static final int MAX_QUERY_RESULTS = 10;
 
     /**
      * Contains the user defined words.
      */
-    public static class Words implements BaseColumns {
+    static class Words implements BaseColumns {
         /**
          * The content:// style URL for this table
          */
-        public static final Uri CONTENT_URI = Uri.parse("content://"
+        static final Uri CONTENT_URI = Uri.parse("content://"
                 + AUTHORITY + "/words");
 
         /**
          * The MIME type of {@link #CONTENT_URI} providing a directory of words.
          */
-        public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.net.studymongolian.chimee.userword";
+        static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.net.studymongolian.chimee.userword";
 
         /**
          * The MIME type of a {@link #CONTENT_URI} sub-directory of a single
          * word.
          */
-        public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.net.studymongolian.chimee.userword";
+        static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.net.studymongolian.chimee.userword";
 
-        public static final String _ID = BaseColumns._ID;
+        static final String _ID = BaseColumns._ID;
 
         /**
          * The word column.
@@ -78,7 +61,7 @@ public class UserDictionary {
          * TYPE: TEXT
          * </p>
          */
-        public static final String WORD = "word";
+        static final String WORD = "word";
 
         /**
          * The frequency column. Higher values imply higher frequency.
@@ -86,7 +69,7 @@ public class UserDictionary {
          * TYPE: INTEGER
          * </p>
          */
-        public static final String FREQUENCY = "frequency";
+        static final String FREQUENCY = "frequency";
 
         /**
          * The default frequency for a new word.
@@ -101,12 +84,12 @@ public class UserDictionary {
          * TYPE: TEXT
          * </p>
          */
-        public static final String FOLLOWING = "following";
+        static final String FOLLOWING = "following";
 
         /**
          * Sort by descending order of frequency.
          */
-        public static final String DEFAULT_SORT_ORDER = FREQUENCY + " DESC";
+        static final String DEFAULT_SORT_ORDER = FREQUENCY + " DESC";
 
         private static final String FOLLOWING_STRING_DELIMITER = ",";
         static final String FIELD_DELIMITER = ";";
@@ -256,7 +239,7 @@ public class UserDictionary {
          * @param textLines in the format of [word][FIELD_DELIMITER][following]
          * @return number of words imported
          */
-        public static int importWordAndFollowingList(Context context, ArrayList<CharSequence> textLines) {
+        static int importWordAndFollowingList(Context context, ArrayList<CharSequence> textLines) {
             if (textLines == null ||
                     textLines.size() == 0) return 0;
 
@@ -506,7 +489,7 @@ public class UserDictionary {
 
         }
 
-        public static void touchDatabase(Context context) {
+        static void touchDatabase(Context context) {
             // just doing a simple random query to cause the database to be opened
             Cursor cursor = queryWord(context, "whatever");
             if (cursor != null)

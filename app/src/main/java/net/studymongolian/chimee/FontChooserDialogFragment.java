@@ -1,8 +1,10 @@
 package net.studymongolian.chimee;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
@@ -33,25 +35,9 @@ public class FontChooserDialogFragment extends DialogFragment
 
     }
 
-//    private void setupFontList() {
-//        mFonts = new ArrayList<>();
-//        mFonts.add(new Font(getString(R.string.font_name_qagan), SettingsActivity.FONT_QAGAN));
-//        mFonts.add(new Font(getString(R.string.font_name_garqag), SettingsActivity.FONT_GARQAG));
-//        mFonts.add(new Font(getString(R.string.font_name_hara), SettingsActivity.FONT_HARA));
-//        mFonts.add(new Font(getString(R.string.font_name_scnin), SettingsActivity.FONT_SCNIN));
-//        mFonts.add(new Font(getString(R.string.font_name_hawang), SettingsActivity.FONT_HAWANG));
-//        mFonts.add(new Font(getString(R.string.font_name_qimed), SettingsActivity.FONT_QIMED));
-//        mFonts.add(new Font(getString(R.string.font_name_narin), SettingsActivity.FONT_NARIN));
-//        mFonts.add(new Font(getString(R.string.font_name_mcdcnbar), SettingsActivity.FONT_MCDVNBAR));
-//        mFonts.add(new Font(getString(R.string.font_name_amglang), SettingsActivity.FONT_AMGLANG));
-//        mFonts.add(new Font(getString(R.string.font_name_sidam), SettingsActivity.FONT_SIDAM));
-//        mFonts.add(new Font(getString(R.string.font_name_qingming), SettingsActivity.FONT_QINGMING));
-//        mFonts.add(new Font(getString(R.string.font_name_onqa_hara), SettingsActivity.FONT_ONQA_HARA));
-//        mFonts.add(new Font(getString(R.string.font_name_svgvnag), SettingsActivity.FONT_SVGVNAG));
-//        mFonts.add(new Font(getString(R.string.font_name_svlbiya), SettingsActivity.FONT_SVLBIYA));
-//        mFonts.add(new Font(getString(R.string.font_name_jclgq), SettingsActivity.FONT_JCLGQ));
-//    }
-
+    @SuppressWarnings("ConstantConditions")
+    @SuppressLint("InflateParams")
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -91,9 +77,7 @@ public class FontChooserDialogFragment extends DialogFragment
 
     @Override
     public void onFontItemClick(View view, int position) {
-        //MongolTextView textView = view.findViewById(R.id.mtv_font_preview);
         if (mListener != null) {
-            //Typeface typeface = textView.getTypeface();
             mListener.onFontDialogPositiveClick(mFonts.get(position));
         }
         dismiss();

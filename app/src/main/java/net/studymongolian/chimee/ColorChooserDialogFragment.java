@@ -1,5 +1,6 @@
 package net.studymongolian.chimee;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -64,6 +65,8 @@ public class ColorChooserDialogFragment extends DialogFragment
         mColorChoices = getResources().getIntArray(R.array.color_choices);
     }
 
+    @SuppressWarnings("ConstantConditions")
+    @SuppressLint("InflateParams")
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -162,82 +165,4 @@ public class ColorChooserDialogFragment extends DialogFragment
         }
     }
 
-//    private int[] mColorResIds = {
-//            R.color.white,
-//            R.color.grey_200,
-//            R.color.grey_500,
-//            R.color.black,
-//            R.color.blue_grey_100,
-//            R.color.blue_grey_200,
-//            R.color.blue_grey_500,
-//            R.color.blue_grey_800,
-//            R.color.indigo_100,
-//            R.color.indigo_200,
-//            R.color.indigo_500,
-//            R.color.indigo_800,
-//            R.color.blue_100,
-//            R.color.blue_200,
-//            R.color.blue_500,
-//            R.color.blue_800,
-//            R.color.light_blue_100,
-//            R.color.light_blue_200,
-//            R.color.light_blue_500,
-//            R.color.light_blue_800,
-//            R.color.cyan_100,
-//            R.color.cyan_200,
-//            R.color.cyan_500,
-//            R.color.cyan_800,
-//            R.color.teal_100,
-//            R.color.teal_200,
-//            R.color.teal_500,
-//            R.color.teal_800,
-//            R.color.green_100,
-//            R.color.green_200,
-//            R.color.green_500,
-//            R.color.green_800,
-//            R.color.light_green_100,
-//            R.color.light_green_200,
-//            R.color.light_green_500,
-//            R.color.light_green_800,
-//            R.color.lime_100,
-//            R.color.lime_200,
-//            R.color.lime_500,
-//            R.color.lime_800,
-//            R.color.yellow_100,
-//            R.color.yellow_200,
-//            R.color.yellow_500,
-//            R.color.yellow_800,
-//            R.color.amber_100,
-//            R.color.amber_200,
-//            R.color.amber_500,
-//            R.color.amber_800,
-//            R.color.orange_100,
-//            R.color.orange_200,
-//            R.color.orange_500,
-//            R.color.orange_800,
-//            R.color.deep_orange_100,
-//            R.color.deep_orange_200,
-//            R.color.deep_orange_500,
-//            R.color.deep_orange_800,
-//            R.color.red_100,
-//            R.color.red_200,
-//            R.color.red_500,
-//            R.color.red_800,
-//            R.color.pink_100,
-//            R.color.pink_200,
-//            R.color.pink_500,
-//            R.color.pink_800,
-//            R.color.purple_100,
-//            R.color.purple_200,
-//            R.color.purple_500,
-//            R.color.purple_800,
-//            R.color.deep_purple_100,
-//            R.color.deep_purple_200,
-//            R.color.deep_purple_500,
-//            R.color.deep_purple_800,
-//            R.color.brown_100,
-//            R.color.brown_200,
-//            R.color.brown_500,
-//            R.color.brown_800
-//    };
 }

@@ -38,8 +38,6 @@ public class OverlayTextView extends ViewGroup {
     private float mShadowDxMultiplier = 0;
     private float mShadowDyMultiplier = 0;
     private float mBgCornerRadiusMultiplier = 0;
-    private int mBgColor = 0;
-    private int mBgAlpha = 0;
 
     public OverlayTextView(Context context) {
         super(context);
@@ -133,7 +131,6 @@ public class OverlayTextView extends ViewGroup {
 
     OnTouchListener fontSizeTouchListener = new OnTouchListener() {
 
-        private static final int TOUCH_SLOP = 0;
         float lastY;
         float dy;
         int[] textViewLocation = new int[2];
@@ -152,40 +149,10 @@ public class OverlayTextView extends ViewGroup {
                 case MotionEvent.ACTION_MOVE:
                     float desiredHeight = event.getRawY() + dy - textViewLocation[1];
                     updateTextSizeForDesiredHeight(desiredHeight);
-                    //float requiredTextSize = getNecessaryTextSizeForViewHeight(desiredHeight);
-//                    int currentHeight = mTextView.getHeight();
-//                    float scale = desiredHeight / currentHeight;
-//                    float fontSizeSp = convertPxToSp(mTextView.getTextSize());
-//                    updateTextSize(fontSizeSp * scale);
-
-//                    float thisY = event.getRawY();
-//                    if (thisY > lastY + TOUCH_SLOP
-//                            && desiredHeight > currentHeight) {
-//                        increaseFontSize();
-//                        lastY = thisY;
-//                    } else if (thisY < lastY - TOUCH_SLOP
-//                            && desiredHeight < currentHeight) {
-//                        decreaseFontSize();
-//                        lastY = thisY;
-//                    }
                     return true;
             }
             return true;
         }
-
-//        private void increaseFontSize() {
-//            float currentTextSize = convertPxToSp(mTextView.getTextSize());
-//            float newTextSize = currentTextSize + 0.5f;
-//            updateTextSize(newTextSize);
-//        }
-//
-//        private void decreaseFontSize() {
-//            float currentTextSize = convertPxToSp(mTextView.getTextSize());
-//            float newTextSize = currentTextSize - 0.5f;
-//            updateTextSize(newTextSize);
-//        }
-
-
     };
 
     private void updateTextSizeForDesiredHeight(float height) {
@@ -213,54 +180,6 @@ public class OverlayTextView extends ViewGroup {
             mTextView.setRoundBackgroundCornerRadius(fontSizeSp * mBgCornerRadiusMultiplier);
         }
     }
-
-//    private float getNecessaryTextSizeForViewHeight(float desiredHeight) {
-//        return 0;
-//    }
-//
-//    private int findLargestTextSizeWhichFits(float availableHeight) {
-//        final int sizesCount = mMaxTextSize;
-//
-//        int bestSize = 0;
-//        int low = bestSize + 1;
-//        int high = sizesCount - 1;
-//        int sizeToTry;
-//        while (low <= high) {
-//            sizeToTry = (low + high) / 2;
-//            if (suggestedSizeFitsInSpace(sizeToTry, availableHeight)) {
-//                bestSize = low;
-//                low = sizeToTry + 1;
-//            } else {
-//                high = sizeToTry - 1;
-//                bestSize = high;
-//            }
-//        }
-//
-//        return bestSize;
-//    }
-//
-//    private TextPaintPlus mTempTextPaint;
-//
-//    private boolean suggestedSizeFitsInSpace(int suggestedSizeInPx, float availableHeight) {
-//        final CharSequence text = "longest line of text"; // Get longest line
-//        if (mTempTextPaint == null) {
-//            mTempTextPaint = new TextPaintPlus();
-//        } else {
-//            mTempTextPaint.reset();
-//        }
-//        mTempTextPaint.set(mTextView.getLayout().getPaint());
-//        mTempTextPaint.setTextSize(suggestedSizeInPx);
-//
-//        float measuredHeight = mTempTextPaint.measureText(text, 0, text.length());
-//
-//        // Height overflow.
-//        if (measuredHeight > availableHeight) {
-//            return false;
-//        }
-//
-//        return true;
-//    }
-
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -522,7 +441,6 @@ public class OverlayTextView extends ViewGroup {
     }
 
     public void setRoundBackgroundColor(int color) {
-        mBgColor = color;
         mTextView.setRoundBackgroundColor(color);
     }
 

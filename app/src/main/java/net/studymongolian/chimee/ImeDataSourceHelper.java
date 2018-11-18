@@ -46,7 +46,7 @@ public class ImeDataSourceHelper implements ImeContainer.DataSource {
         return container.getInputConnection();
     }
 
-    public void startDatabaseUpgradeIfNeeded() {
+    void startDatabaseUpgradeIfNeeded() {
         new StartDatabaseUpgradeIfNeeded(this).execute();
     }
 

@@ -18,7 +18,6 @@ public class ReaderRvAdapter extends RecyclerView.Adapter<ReaderRvAdapter.ViewHo
     private LayoutInflater mInflater;
     private int mTextColor = Color.BLACK;
 
-    // data is passed into the constructor
     ReaderRvAdapter(Context context, ArrayList<CharSequence> numbers) {
         this.mInflater = LayoutInflater.from(context);
         this.mParagraphs = numbers;
@@ -37,13 +36,12 @@ public class ReaderRvAdapter extends RecyclerView.Adapter<ReaderRvAdapter.ViewHo
         holder.mongolTextView.setText(text);
     }
 
-    // total number of rows
     @Override
     public int getItemCount() {
         return mParagraphs.size();
     }
 
-    public String extractFullText() {
+    String extractFullText() {
         StringBuilder sb = new StringBuilder();
         for (CharSequence paragraph : mParagraphs) {
             sb.append(paragraph).append('\n');
@@ -55,7 +53,6 @@ public class ReaderRvAdapter extends RecyclerView.Adapter<ReaderRvAdapter.ViewHo
         mTextColor = color;
     }
 
-    // stores and recycles views as they are scrolled off screen
     class ViewHolder extends RecyclerView.ViewHolder {
         MongolTextView mongolTextView;
 

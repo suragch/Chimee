@@ -9,19 +9,17 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class MessageDatabaseAdapter {
+class MessageDatabaseAdapter {
 
 	private MyDatabaseHelper helper;
 	Context context;
 
-	// Constructor
 	MessageDatabaseAdapter(Context context) {
-
 		helper = new MyDatabaseHelper(context);
 		this.context = context;
 	}
 
-	public Message getFavoriteMessage(long messageId) {
+	Message getFavoriteMessage(long messageId) {
 
 		SQLiteDatabase db = helper.getWritableDatabase();
 		String[] columns = { MyDatabaseHelper.ID, MyDatabaseHelper.DATE_TIME,
@@ -48,9 +46,9 @@ public class MessageDatabaseAdapter {
 		return message;
 	}
 
-	public ArrayList<Message> getAllFavoriteMessages() {
+	ArrayList<Message> getAllFavoriteMessages() {
 
-		ArrayList<Message> allMessages = new ArrayList<Message>();
+		ArrayList<Message> allMessages = new ArrayList<>();
 
 		SQLiteDatabase db = helper.getWritableDatabase();
 		String[] columns = { MyDatabaseHelper.ID, MyDatabaseHelper.DATE_TIME,
@@ -76,9 +74,9 @@ public class MessageDatabaseAdapter {
 		return allMessages;
 	}
 
-	public ArrayList<Message> getAllHistoryMessages() {
+	ArrayList<Message> getAllHistoryMessages() {
 
-		ArrayList<Message> allMessages = new ArrayList<Message>();
+		ArrayList<Message> allMessages = new ArrayList<>();
 
 		SQLiteDatabase db = helper.getWritableDatabase();
 		String[] columns = { MyDatabaseHelper.ID, MyDatabaseHelper.DATE_TIME,
@@ -104,7 +102,7 @@ public class MessageDatabaseAdapter {
 		return allMessages;
 	}
 
-	public ArrayList<Message> getHistoryMessages(int limit, int offset) {
+	ArrayList<Message> getHistoryMessages(int limit, int offset) {
 		ArrayList<Message> messages = new ArrayList<>();
 
 		SQLiteDatabase db = helper.getWritableDatabase();
@@ -133,36 +131,7 @@ public class MessageDatabaseAdapter {
 		return messages;
 	}
 
-	public ArrayList<Message> getRecentHistoryMessages(int numberOfMessages) {
-
-		ArrayList<Message> allMessages = new ArrayList<Message>();
-
-		SQLiteDatabase db = helper.getWritableDatabase();
-		String[] columns = { MyDatabaseHelper.ID, MyDatabaseHelper.DATE_TIME,
-				MyDatabaseHelper.MESSAGE };
-		String orderBy = MyDatabaseHelper.DATE_TIME + " DESC";
-		String limit = Integer.toString(numberOfMessages);
-		Cursor cursor = db.query(MyDatabaseHelper.HISTORY_TABLE_NAME, columns, null, null, null,
-				null, orderBy, limit);
-		int indexId = cursor.getColumnIndex(MyDatabaseHelper.ID);
-		int indexDate = cursor.getColumnIndex(MyDatabaseHelper.DATE_TIME);
-		int indexMessage = cursor.getColumnIndex(MyDatabaseHelper.MESSAGE);
-
-		while (cursor.moveToNext()) {
-            Message message = new Message(
-                    cursor.getLong(indexId),
-                    cursor.getLong(indexDate),
-                    cursor.getString(indexMessage));
-			allMessages.add(message);
-		}
-
-		cursor.close();
-		db.close();
-
-		return allMessages;
-	}
-
-	public long addFavoriteMessage(String message) {
+	long addFavoriteMessage(String message) {
 
 		// get current Unix epoc time in milliseconds
 		long date = System.currentTimeMillis();
@@ -176,7 +145,7 @@ public class MessageDatabaseAdapter {
 		return id;
 	}
 
-	public long addHistoryMessage(String message) {
+	void addHistoryMessage(String message) {
 
 		// get current Unix epoc time in milliseconds
 		long date = System.currentTimeMillis();
@@ -185,12 +154,16 @@ public class MessageDatabaseAdapter {
 		ContentValues contentValues = new ContentValues();
 		contentValues.put(MyDatabaseHelper.DATE_TIME, date);
 		contentValues.put(MyDatabaseHelper.MESSAGE, message);
-		long id = db.insert(MyDatabaseHelper.HISTORY_TABLE_NAME, null, contentValues);
+		db.insert(MyDatabaseHelper.HISTORY_TABLE_NAME, null, contentValues);
 		db.close();
-		return id;
 	}
 
-    public int updateFavoriteMessage(Message item) {
+    /**
+     *
+     * @param item message to update
+     * @return number of rows affected
+     */
+	int updateFavoriteMessage(Message item) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(MyDatabaseHelper.MESSAGE, item.getMessage());
         contentValues.put(MyDatabaseHelper.DATE_TIME, System.currentTimeMillis());
@@ -205,24 +178,7 @@ public class MessageDatabaseAdapter {
         return id;
     }
 
-	public int updateFavoriteMessageTime(long rowId) {
-
-		// get current Unix epoc time in milliseconds
-		long date = System.currentTimeMillis();
-
-		SQLiteDatabase db = helper.getWritableDatabase();
-		ContentValues contentValues = new ContentValues();
-		contentValues.put(MyDatabaseHelper.DATE_TIME, date);
-		String selection = MyDatabaseHelper.ID + " = ?";
-		String[] selectionArgs = { String.valueOf(rowId) };
-
-		int id = db.update(MyDatabaseHelper.FAVORITE_TABLE_NAME, contentValues, selection,
-				selectionArgs);
-		db.close();
-		return id;
-	}
-
-	public int deleteFavoriteMessage(long rowId) {
+    int deleteFavoriteMessage(long rowId) {
 
 		SQLiteDatabase db = helper.getWritableDatabase();
 		String whereClause = MyDatabaseHelper.ID + " =?";
@@ -232,7 +188,7 @@ public class MessageDatabaseAdapter {
 		return count;
 	}
 
-	public int deleteHistoryMessage(long rowId) {
+	int deleteHistoryMessage(long rowId) {
 
 		SQLiteDatabase db = helper.getWritableDatabase();
 		String whereClause = MyDatabaseHelper.ID + " =?";
@@ -242,11 +198,11 @@ public class MessageDatabaseAdapter {
 		return count;
 	}
 
-	public int deleteHistoryAllMessages() {
+	int deleteHistoryAllMessages() {
 
 		SQLiteDatabase db = helper.getWritableDatabase();
-		String whereClause = null; // delete all rows
-		int count = db.delete(MyDatabaseHelper.HISTORY_TABLE_NAME, whereClause, null);
+		final String whereClauseToDeleteAllRows = null;
+		int count = db.delete(MyDatabaseHelper.HISTORY_TABLE_NAME, whereClauseToDeleteAllRows, null);
 		db.close();
 		return count;
 	}
@@ -282,7 +238,7 @@ public class MessageDatabaseAdapter {
 
 		private Context context;
 
-		public MyDatabaseHelper(Context context) {
+		MyDatabaseHelper(Context context) {
 			super(context, DATABASE_NAME, null, DATABASE_VERSION);
 			this.context = context;
 		}

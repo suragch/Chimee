@@ -14,7 +14,6 @@ import android.view.MenuItem;
 
 import net.studymongolian.mongollibrary.MongolCode;
 
-import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.text.BreakIterator;
 import java.util.ArrayList;
@@ -34,7 +33,6 @@ public class CodeConverterDetailsActivity extends AppCompatActivity {
         setupToolbar();
         setupRecyclerView();
         new LoadTextFromIntent(this).execute();
-        //ArrayList<CharSequence> paragraphLines = getTextFromIntent();
     }
 
     private void setupToolbar() {
@@ -53,8 +51,6 @@ public class CodeConverterDetailsActivity extends AppCompatActivity {
         LinearLayoutManager horizontalLayoutManager
                 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(horizontalLayoutManager);
-        //ReaderRvAdapter adapter = new ReaderRvAdapter(this, paragraphLines);
-        //recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -91,13 +87,10 @@ public class CodeConverterDetailsActivity extends AppCompatActivity {
             String substring = text.substring(start, end).trim();
 
             String rendered = MongolCode.INSTANCE.unicodeToMenksoft(substring);
-            //builder.append(rendered).append('\n');
 
             String code = getCode(substring);
             String item = rendered + "\n" + code + "\n";
             parts.add(item);
-            //builder.append(code).append('\n');
-            //builder.append('\n');
 
             start = end;
         }

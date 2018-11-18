@@ -12,16 +12,6 @@ public class Message {
         this.message = message;
     }
 
-    // constructor
-//	public Message() {
-//		id=0;
-//		date=0;
-//		message="";
-//	}
-
-
-
-	// getters
 	public long getId() {
 		return id;
 	}
@@ -33,19 +23,5 @@ public class Message {
 	public String getMessage() {
 		return message;
 	}
-
-
-//	// setters
-//	public void setId(long id) {
-//		this.id = id;
-//	}
-//
-//	public void setDate(long date) {
-//		this.date = date;
-//	}
-//
-//	public void setMessage(String message) {
-//		this.message = message;
-//	}
 
 }
