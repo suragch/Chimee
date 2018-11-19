@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="KeyboardStyle">
+        <item name="keyBorderWidth">1dp</item>
+        <item name="keyBorderColor">@color/grey_500</item>
+        <item name="keySpacing">2dp</item>
+    </style>
+</resources>

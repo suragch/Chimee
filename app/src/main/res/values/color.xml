@@ -20,19 +20,7 @@
 
 
     <!-- keyboard -->
-    <color name="keyboard_background">@color/black</color>
-    <color name="keyboard_keys_normal">@color/primary</color>
-    <color name="keyboard_keys_normal_shadow">@color/medium_grey_lighter</color>
-    <color name="keyboard_keys_pressed">@color/accent</color>
-    <color name="keyboard_keys_pressed_shadow">@color/dusty_blue_lighter</color>
-    <color name="keyboard_format_keys_normal">@color/primary_dark</color>
-    <color name="keyboard_format_keys_normal_shadow">@color/dark_grey_lighter</color>
-    <color name="keyboard_suggestionbar_text">@color/dark_grey</color>
-    <color name="keyboard_suggestionbar_divider">@color/primary</color>
-    <color name="keyboard_suggestionbar_highlight">@color/accent</color>
-    <color name="keyboard_letters">@color/white</color>
-    <color name="keyboard_longtouch_letters">@color/secondary_text_white</color>
-
+    <color name="keyboard_background">@color/very_light_grey</color>
 
 
     <color name="custom_ripple">@color/accent</color>

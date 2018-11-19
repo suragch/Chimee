@@ -50,21 +50,26 @@
         android:layout_weight="0.4">
 
         <net.studymongolian.chimee.KeyboardChagaanTolgoi
+            style="@style/KeyboardStyle"
+            app:primaryTextSize="@dimen/aeiou_kbd_text_size"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:candidatesLocation="vertical_left" />
 
         <net.studymongolian.chimee.KeyboardComputer
+            style="@style/KeyboardStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:candidatesLocation="horizontal_top" />
 
         <net.studymongolian.mongollibrary.KeyboardLatin
+            style="@style/KeyboardStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:candidatesLocation="none" />
 
         <net.studymongolian.mongollibrary.KeyboardCyrillic
+            style="@style/KeyboardStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:candidatesLocation="none" />

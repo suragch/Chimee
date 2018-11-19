@@ -2,6 +2,7 @@ package net.studymongolian.chimee;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.inputmethodservice.ExtractEditText;
 import android.inputmethodservice.InputMethodService;
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ public class ChimeeInputMethodService extends InputMethodService
         imeContainer.showSystemKeyboardsOption("ᠰᠢᠰᠲ᠋ᠧᠮ");
         imeContainer.setDataSource(new ImeDataSourceHelper(this));
         imeContainer.setOnSystemImeListener(this);
+        imeContainer.setBackgroundColor(getResources().getColor(R.color.keyboard_background));
         return imeContainer;
     }
 

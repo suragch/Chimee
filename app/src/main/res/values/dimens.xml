@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="aeiou_kbd_text_size">27sp</dimen>
+</resources>
