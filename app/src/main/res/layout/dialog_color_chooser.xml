@@ -19,7 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:text="@string/color_preview_text"
-        app:textSize="100sp" />
+        app:textSize="60sp" />
 
     <RadioButton
         android:id="@+id/rb_bg_color"
