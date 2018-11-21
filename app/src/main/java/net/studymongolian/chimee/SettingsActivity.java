@@ -28,6 +28,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class SettingsActivity extends AppCompatActivity {
 
 
@@ -158,8 +159,10 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public void onHelpClick(View view) {
-        Intent intent = new Intent(this, HelpActivity.class);
-        startActivity(intent);
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(HelpActivity.HELP_URL));
+        startActivity(browserIntent);
+        //Intent intent = new Intent(this, HelpActivity.class);
+        //startActivity(intent);
     }
 
     public void onAboutClick(View view) {
