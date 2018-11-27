@@ -20,6 +20,8 @@ public class OverlayTextView extends ViewGroup {
     private static final int BORDER_SIZE_PX = 1;
     private static final float BOX_CONTROL_SIZE_DP = 10;
     private static final float CONTROL_TOUCH_AREA_SIZE_DP = 48;
+    private static final int MIN_TEXT_LINES_FOR_LINE_SPACING = 3;
+    private static final float LINE_SPACING_ADJUSTMENT_DP = 5;
 
     boolean hasFocus = true;
 
@@ -38,6 +40,7 @@ public class OverlayTextView extends ViewGroup {
     private float mShadowDxMultiplier = 0;
     private float mShadowDyMultiplier = 0;
     private float mBgCornerRadiusMultiplier = 0;
+    private int lineSpacingPx;
 
     public OverlayTextView(Context context) {
         super(context);
@@ -58,6 +61,7 @@ public class OverlayTextView extends ViewGroup {
         textPadding = convertDpToPx(TEXT_PADDING_DP);
         controlTouchAreaSize = convertDpToPx(CONTROL_TOUCH_AREA_SIZE_DP);
         boxControlSize = convertDpToPx(BOX_CONTROL_SIZE_DP);
+        lineSpacingPx = convertDpToPx(LINE_SPACING_ADJUSTMENT_DP);
     }
 
     private int convertDpToPx(float dp) {
@@ -108,6 +112,7 @@ public class OverlayTextView extends ViewGroup {
 
         float dx;
         int[] textViewLocation = new int[2];
+        float oldDesiredWidth;
 
         @SuppressLint("ClickableViewAccessibility")
         @Override
@@ -118,14 +123,39 @@ public class OverlayTextView extends ViewGroup {
                     mTextView.getLocationOnScreen(textViewLocation);
                     int rightEdgeStart = mTextView.getRight() + textViewLocation[0];
                     dx = rightEdgeStart - event.getRawX();
+                    oldDesiredWidth = getDesiredWidth(event);
                     return true;
                 case MotionEvent.ACTION_MOVE:
-                    float desiredWidth = event.getRawX() + dx - textViewLocation[0];
-                    float scale = desiredWidth / mTextView.getUnscaledWidth();
-                    mTextView.setScaleX(scale);
+                    float desiredWidth = getDesiredWidth(event);
+                    if (mTextView.getLineCount() >= MIN_TEXT_LINES_FOR_LINE_SPACING) {
+                        setLineSpacing(desiredWidth);
+                    } else {
+                        scaleText(desiredWidth);
+                    }
+                    oldDesiredWidth = desiredWidth;
                     return true;
             }
             return true;
+        }
+
+        private float getDesiredWidth(MotionEvent event) {
+            return event.getRawX() + dx - textViewLocation[0];
+        }
+
+        private void setLineSpacing(float desiredWidth) {
+            float currentLineSpacing = mTextView.getLineSpacingExtra();
+            int numLines = mTextView.getLineCount();
+            float adjustment = lineSpacingPx / (numLines - 1);
+            if (oldDesiredWidth < desiredWidth) {
+                mTextView.setLineSpacing(currentLineSpacing + adjustment, 1);
+            } else {
+                mTextView.setLineSpacing(currentLineSpacing - adjustment, 1);
+            }
+        }
+
+        private void scaleText(float desiredWidth) {
+            float scale = desiredWidth / mTextView.getUnscaledWidth();
+            mTextView.setScaleX(scale);
         }
     };
 
@@ -239,11 +269,6 @@ public class OverlayTextView extends ViewGroup {
     // in local coordinates
     private int getTextViewLeft() {
         return getPaddingLeft();
-    }
-
-    // in local coordinates
-    private int getTextViewRight() {
-        return getPaddingLeft() + mTextView.getWidth();
     }
 
     // in local coordinates
@@ -447,13 +472,6 @@ public class OverlayTextView extends ViewGroup {
     // in parent coordinates
     public PointF getTextViewTopLeft() {
         float x = getX() + getTextViewLeft();// + mTextView.getPaddingLeft();
-        float y = getY() + getTextViewTop();// + mTextView.getPaddingTop();
-        return new PointF(x, y);
-    }
-
-    // in parent coordinates
-    public PointF getTextViewTopRight() {
-        float x = getX() + getTextViewRight();// + mTextView.getPaddingLeft();
         float y = getY() + getTextViewTop();// + mTextView.getPaddingTop();
         return new PointF(x, y);
     }

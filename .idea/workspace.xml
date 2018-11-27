@@ -6,6 +6,7 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="TAG" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="No Filters" />
   </component>
   <component name="CMakeSettings">
@@ -15,10 +16,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e373569e-ee9b-4412-b2d3-a86c151abae2" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__net_studymongolian_mongol_library_1_16_6.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__net_studymongolian_mongol_library_1_16_6.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chimee.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Chimee.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/release/app-release.apk" beforeDir="false" afterPath="$PROJECT_DIR$/app/release/app-release.apk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/OverlayTextView.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/OverlayTextView.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -44,54 +49,26 @@
       <file leaf-file-name="build.gradle" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="11" column="5" selection-start-line="11" selection-start-column="5" selection-end-line="11" selection-end-column="5" />
+            <state relative-caret-position="285">
+              <caret line="19" column="1" selection-start-line="19" selection-start-column="1" selection-end-line="19" selection-end-column="1" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dialog_color_chooser.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/dialog_color_chooser.xml">
-          <provider editor-type-id="android-designer2">
-            <state />
-          </provider>
+      <file leaf-file-name="PhotoOverlayActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/PhotoOverlayActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="13" column="39" selection-start-line="13" selection-start-column="39" selection-end-line="13" selection-end-column="39" />
-              <folding>
-                <element signature="e#898#926#0" expanded="true" />
-                <element signature="e#2312#2338#0" expanded="true" />
-                <element signature="e#2743#2763#0" expanded="true" />
-                <element signature="e#3331#3350#0" expanded="true" />
-                <element signature="e#3959#3982#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="60">
+              <caret line="45" column="13" selection-start-line="45" selection-start-column="13" selection-end-line="45" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AboutActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/AboutActivity.java">
+      <file leaf-file-name="OverlayTextView.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/OverlayTextView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="181">
-              <caret line="58" column="37" selection-start-line="57" selection-start-column="8" selection-end-line="58" selection-end-column="37" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MainActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="126" column="25" selection-start-line="126" selection-start-column="21" selection-end-line="126" selection-end-column="25" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SettingsActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/SettingsActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2520">
-              <caret line="168" column="13" selection-start-line="168" selection-start-column="13" selection-end-line="168" selection-end-column="13" />
+            <state relative-caret-position="3885">
+              <caret line="272" selection-start-line="272" selection-end-line="272" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -99,29 +76,66 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/README.md">
+      <file leaf-file-name="MongolTextView.java" pinned="false" current-in-tab="false">
+        <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.studymongolian/mongol-library/1.17.0/f604c6adc31647a54b11d2576985b1a45e4c7f6c/mongol-library-1.17.0-sources.jar!/net/studymongolian/mongollibrary/MongolTextView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="1" selection-start-line="1" selection-end-line="1" />
+            <state relative-caret-position="5805">
+              <caret line="426" column="16" selection-start-line="426" selection-start-column="16" selection-end-line="426" selection-end-column="16" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LICENSE" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/LICENSE">
+      <file leaf-file-name="ScalableTextView.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/ScalableTextView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="11" column="63" selection-start-line="11" selection-start-column="63" selection-end-line="11" selection-end-column="63" />
+            <state relative-caret-position="435">
+              <caret line="35" column="91" selection-start-line="35" selection-start-column="84" selection-end-line="35" selection-end-column="91" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="privacy-policy.md" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/privacy-policy.md">
+      <file leaf-file-name="TextView.java" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-28/android/widget/TextView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="13" selection-start-line="13" selection-end-line="13" />
+            <state relative-caret-position="115725">
+              <caret line="8070" column="16" selection-start-line="8070" selection-start-column="16" selection-end-line="8070" selection-end-column="16" />
+              <folding>
+                <element signature="e#202490#202491#0" expanded="true" />
+                <element signature="e#202525#202526#0" expanded="true" />
+                <element signature="e#202881#202882#0" expanded="true" />
+                <element signature="e#202915#202916#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="StaticLayout.java" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-28/android/text/StaticLayout.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="12870">
+              <caret line="893" column="47" selection-start-line="893" selection-start-column="47" selection-end-line="893" selection-end-column="47" />
+              <folding>
+                <element signature="e#48926#48927#0" expanded="true" />
+                <element signature="e#48982#48983#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Layout.java" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-28/android/text/Layout.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3960">
+              <caret line="264" column="20" selection-start-line="264" selection-start-column="8" selection-end-line="264" selection-end-column="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Paint.java" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-28/android/graphics/Paint.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="25245">
+              <caret line="1857" column="15" selection-start-line="1857" selection-start-column="15" selection-end-line="1857" selection-end-column="15" />
             </state>
           </provider>
         </entry>
@@ -131,15 +145,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="150">
               <caret line="10" selection-start-line="10" selection-end-line="10" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HelpActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/HelpActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-234">
-              <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -159,28 +164,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>public</find>
-      <find>static final String</find>
-      <find>clearInputWindow</find>
-      <find>onShareResult</find>
-      <find>SHARE_REQUEST</find>
-      <find>backgroundPaddingSeekBarProgress</find>
-      <find>leftSeekBarChangeListener</find>
-      <find>getPaddingFromSeekBarProgress</find>
-      <find>CURRENT_MESSAGE_KEY</find>
-      <find>type</find>
-      <find>typeface</find>
-      <find>permiss</find>
-      <find>requestWritePermission</find>
-      <find>TEXT_PADDING_DP</find>
-      <find>SAVE_REQUEST</find>
-      <find>on</find>
-      <find>permissions</find>
-      <find>ExportHistory</find>
-      <find>open</find>
-      <find>OPEN_REQUEST</find>
-      <find>PermissionsHelper</find>
-      <find>grey</find>
       <find>SHOW_BAINU_BUTTON_KEY</find>
       <find>addFavoriteMessage</find>
       <find>addHistoryMessage</find>
@@ -189,6 +172,28 @@
       <find>&lt;net.studymongolian.chimee.KeyboardChagaanTolgoi</find>
       <find>net.studymongolian.chimee.KeyboardChagaanTolgoi</find>
       <find>help</find>
+      <find>LineSpacing</find>
+      <find>mScaleX</find>
+      <find>getLineHeight</find>
+      <find>DEFAULT_LINESPACING_MULTIPLIER</find>
+      <find>DEFAULT_LINESPACING_ADDITION</find>
+      <find>spacing</find>
+      <find>mSpacingAdd</find>
+      <find>spacingadd</find>
+      <find>EXTRA_ROUNDING</find>
+      <find>EXTRA</find>
+      <find>lines</find>
+      <find>mLines</find>
+      <find>extra</find>
+      <find>draw</find>
+      <find>drawTE</find>
+      <find>getLineExtra</find>
+      <find>mSpacing</find>
+      <find>mSpacingMult</find>
+      <find>setLineSpacing</find>
+      <find>.build</find>
+      <find>setLineSp</find>
+      <find>.build(</find>
     </findStrings>
     <replaceStrings>
       <replace>activityReference</replace>
@@ -2496,7 +2501,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/Message.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/AddEditFavoritesActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MessageDatabaseAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/OverlayTextView.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/PermissionsHelper.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/PhotoOverlayActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/PointFloat.java" />
@@ -2524,6 +2528,7 @@
         <option value="$PROJECT_DIR$/LICENSE" />
         <option value="$PROJECT_DIR$/privacy-policy.md" />
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/OverlayTextView.java" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
       </list>
     </option>
@@ -2566,6 +2571,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="AndroidView">
         <subPane>
           <expand>
@@ -2576,13 +2582,7 @@
             <path>
               <item name="Chimee" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-            </path>
-            <path>
-              <item name="Chimee" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="chimee" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="res" type="d4f16f75:AndroidResFolderNode" />
             </path>
             <path>
               <item name="Chimee" type="1abcf292:AndroidViewProjectNode" />
@@ -2592,6 +2592,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -2621,8 +2622,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -2633,7 +2632,7 @@
     <property name="ExportApk.SignV2" value="true" />
     <property name="SearchEverywhereHistoryKey" value="staticla&#9;PSI&#9;JAVA://android.text.StaticLayout" />
     <property name="android.sdk.path" value="$USER_HOME$/Android/Sdk" />
-    <property name="device.picker.selection" value="205d5024" />
+    <property name="device.picker.selection" value="Pixel_2_API_28" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
@@ -2803,13 +2802,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1525155675484</updated>
-    </task>
-    <task id="LOCAL-00038" summary="keyboard word export finished">
-      <created>1536721585516</created>
-      <option name="number" value="00038" />
-      <option name="presentableId" value="LOCAL-00038" />
-      <option name="project" value="LOCAL" />
-      <updated>1536721585516</updated>
     </task>
     <task id="LOCAL-00039" summary="import and bug fixes">
       <created>1536739032475</created>
@@ -3147,11 +3139,19 @@
       <option name="project" value="LOCAL" />
       <updated>1542849775671</updated>
     </task>
-    <option name="localTasksCounter" value="87" />
+    <task id="LOCAL-00087" summary="Version 3.0.1 release">
+      <created>1543002971448</created>
+      <option name="number" value="00087" />
+      <option name="presentableId" value="LOCAL-00087" />
+      <option name="project" value="LOCAL" />
+      <updated>1543002971449</updated>
+    </task>
+    <option name="localTasksCounter" value="88" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="877" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="Android Profiler" order="7" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -3160,7 +3160,6 @@
       <window_info id="Build Variants" order="2" side_tool="true" />
       <window_info anchor="right" id="Capture Analysis" order="4" />
       <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" />
-      <window_info anchor="right" id="Preview" order="8" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Version Control" order="10" weight="0.32900432" />
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.32820514" />
@@ -3172,13 +3171,14 @@
       <window_info anchor="bottom" id="Build" order="11" visible="true" weight="0.33846155" />
       <window_info anchor="right" id="Gradle" order="5" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.2497332" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39871794" />
       <window_info anchor="right" id="Device File Explorer" order="3" side_tool="true" weight="0.32977587" />
       <window_info anchor="right" id="Theme Preview" order="6" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.39871794" />
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="right" id="Assistant" order="8" weight="0.32977587" />
       <window_info anchor="bottom" id="Messages" order="13" visible="true" weight="0.32984293" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Preview" order="8" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -3195,7 +3195,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Photo overlay: set text color" />
     <MESSAGE value="Photo overlay: set typeface" />
     <MESSAGE value="Photo overlay: set border" />
     <MESSAGE value="Photo overlay: shadow layer work" />
@@ -3220,7 +3219,8 @@
     <MESSAGE value="style changes" />
     <MESSAGE value="Chimee 3.0.0 release" />
     <MESSAGE value="bug fix for system keyboard horizontal keyboard layout" />
-    <option name="LAST_COMMIT_MESSAGE" value="bug fix for system keyboard horizontal keyboard layout" />
+    <MESSAGE value="Version 3.0.1 release" />
+    <option name="LAST_COMMIT_MESSAGE" value="Version 3.0.1 release" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -3268,7 +3268,7 @@
           <option name="timeStamp" value="108" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="109" />
+      <option name="time" value="111" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="app">
@@ -3338,64 +3338,10 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/ScalableTextView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-62">
-          <caret line="51" lean-forward="true" selection-start-line="51" selection-end-line="51" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/SimpleListRvAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="915">
-          <caret line="74" column="24" selection-start-line="74" selection-start-column="24" selection-end-line="74" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/Suffix.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="583">
-          <caret line="50" column="12" selection-start-line="50" selection-start-column="12" selection-end-line="50" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/SuggestionsAdapter.java" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/SuggestionsItemDecoration.java" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/SuffixDatabaseAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2273">
-          <caret line="39" column="4" selection-start-line="39" selection-start-column="4" selection-end-line="39" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/TextSizeControl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1185">
-          <caret line="87" column="42" selection-start-line="87" selection-start-column="42" selection-end-line="87" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/TouchImageView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#31500#0" expanded="true" />
-            <element signature="imports" expanded="true" />
-            <element signature="e#911#939#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/UserDictionary.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="244">
           <caret line="297" column="12" selection-start-line="297" selection-start-column="12" selection-end-line="297" selection-end-column="12" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3466,9 +3412,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="301">
           <caret line="30" column="63" selection-start-line="30" selection-start-column="63" selection-end-line="30" selection-end-column="63" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3573,44 +3516,34 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
           <caret line="13" column="39" selection-start-line="13" selection-start-column="39" selection-end-line="13" selection-end-column="39" />
-          <folding>
-            <element signature="e#898#926#0" expanded="true" />
-            <element signature="e#2312#2338#0" expanded="true" />
-            <element signature="e#2743#2763#0" expanded="true" />
-            <element signature="e#3331#3350#0" expanded="true" />
-            <element signature="e#3959#3982#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/AboutActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="181">
+        <state relative-caret-position="735">
           <caret line="58" column="37" selection-start-line="57" selection-start-column="8" selection-end-line="58" selection-end-column="37" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
+        <state relative-caret-position="1155">
           <caret line="126" column="25" selection-start-line="126" selection-start-column="21" selection-end-line="126" selection-end-column="25" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/HelpActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-234">
+        <state relative-caret-position="60">
           <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/SettingsActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2520">
+        <state relative-caret-position="2130">
           <caret line="168" column="13" selection-start-line="168" selection-start-column="13" selection-end-line="168" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3642,10 +3575,79 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/PhotoOverlayActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="45" column="13" selection-start-line="45" selection-start-column="13" selection-end-line="45" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-28/android/graphics/Paint.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="25245">
+          <caret line="1857" column="15" selection-start-line="1857" selection-start-column="15" selection-end-line="1857" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/ScalableTextView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="35" column="91" selection-start-line="35" selection-start-column="84" selection-end-line="35" selection-end-column="91" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-28/android/text/Layout.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3960">
+          <caret line="264" column="20" selection-start-line="264" selection-start-column="8" selection-end-line="264" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-28/android/text/StaticLayout.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="12870">
+          <caret line="893" column="47" selection-start-line="893" selection-start-column="47" selection-end-line="893" selection-end-column="47" />
+          <folding>
+            <element signature="e#48926#48927#0" expanded="true" />
+            <element signature="e#48982#48983#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-28/android/widget/TextView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="115725">
+          <caret line="8070" column="16" selection-start-line="8070" selection-start-column="16" selection-end-line="8070" selection-end-column="16" />
+          <folding>
+            <element signature="e#202490#202491#0" expanded="true" />
+            <element signature="e#202525#202526#0" expanded="true" />
+            <element signature="e#202881#202882#0" expanded="true" />
+            <element signature="e#202915#202916#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.studymongolian/mongol-library/1.17.0/f604c6adc31647a54b11d2576985b1a45e4c7f6c/mongol-library-1.17.0-sources.jar!/net/studymongolian/mongollibrary/MongolTextView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5805">
+          <caret line="426" column="16" selection-start-line="426" selection-start-column="16" selection-end-line="426" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/OverlayTextView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3885">
+          <caret line="272" selection-start-line="272" selection-end-line="272" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="5" selection-start-line="11" selection-start-column="5" selection-end-line="11" selection-end-column="5" />
+        <state relative-caret-position="285">
+          <caret line="19" column="1" selection-start-line="19" selection-start-column="1" selection-end-line="19" selection-end-column="1" />
         </state>
       </provider>
     </entry>
