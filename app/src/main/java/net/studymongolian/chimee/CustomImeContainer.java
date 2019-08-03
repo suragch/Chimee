@@ -3,7 +3,7 @@ package net.studymongolian.chimee;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
+import androidx.core.content.ContextCompat;
 import android.util.AttributeSet;
 
 import net.studymongolian.mongollibrary.ImeContainer;

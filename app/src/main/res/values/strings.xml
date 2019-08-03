@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <resources>
+<resources>
 
     <string name="app_name">Chimee</string>
 
@@ -94,6 +94,7 @@
     <string name="there_was_a_problem">ᠠᠰᠠᠭᠤᠳᠠᠯ ᠭᠠᠷᠴᠠᠢ</string>
     <string name="settings_message_history">ᠶᠠᠪᠤᠭᠤᠯᠵᠤ ᠦᠩᠭᠡᠷᠡᠭᠰᠡᠨ ᠴᠢᠮᠡᠭᠡ</string>
     <string name="settings_code_converter">ᠺᠤᠳ᠋ ᠰᠣᠯᠢᠬᠤ</string>
+    <string name="settings_recommended_apps">ᠰᠠᠨᠠᠯ ᠪᠣᠯᠭᠠᠬᠤ ᠰᠣᠹᠲ</string>
     <string name="settings_help">ᠬᠠᠪᠰᠤᠷᠤᠮᠵᠢ</string>
     <string name="settings_about">ᠮᠠᠨ ᠤ ᠲᠤᠬᠠᠢ</string>
 
@@ -114,6 +115,13 @@
     <string name="converter_details">ᠺᠤᠳ᠋ ᠤᠨ ᠨᠣᠮᠧᠷ</string>
     <string name="converter_unicode">ᠶᠦᠨᠢᠺᠤᠳ᠋ ( ᠣᠯᠠᠨ ᠤᠯᠤᠰ ᠤᠨ ᠪᠠᠷᠢᠮᠵᠢᠶ᠎ᠠ ᠺᠤᠳ᠋ )</string>
     <string name="converter_menksoft_code">ᠪᠠᠢᠨᠠᠤ ᠺᠤᠳ᠋ ( ᠮᠥᠩᠬᠡ ᠭᠠᠯ ᠬᠠᠭᠤᠴᠢᠨ ᠺᠤᠳ᠋ )</string>
+
+    <!-- recommended apps -->
+    <string name="recommended_apps_bainu">ᠪᠠᠢᠨᠠᠤ</string>
+    <string name="recommended_apps_delehi">ᠳᠡᠯᠡᠬᠡᠢ</string>
+    <string name="recommended_apps_menksoft">ᠮᠦᠩᠬᠡ ᠭᠠᠯ</string>
+    <string name="recommended_apps_olool">ᠤᠯᠠᠭᠤᠯᠠ</string>
+    <string name="recommended_apps_gungur">ᠭᠦᠩᠭᠦᠷ</string>
 
     <!-- about -->
     <string name="about_chimee_version">%1$s %2$s</string>

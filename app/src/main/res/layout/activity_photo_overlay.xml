@@ -8,7 +8,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="net.studymongolian.chimee.PhotoOverlayActivity">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:minHeight="?attr/actionBarSize"
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
     <FrameLayout
         android:id="@+id/photo_frame_layout"
@@ -194,7 +194,7 @@
 
         </FrameLayout>
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_photo_overlay_choices"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

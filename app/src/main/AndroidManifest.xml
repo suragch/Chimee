@@ -23,6 +23,7 @@
         <activity android:name=".FavoriteActivity" />
         <activity android:name=".HistoryActivity" />
         <activity android:name=".SettingsActivity" />
+        <activity android:name=".RecommendedAppsActivity" />
         <activity android:name=".AboutActivity" />
         <activity android:name=".HelpActivity" />
         <activity android:name=".PhotoOverlayActivity" />
@@ -35,12 +36,12 @@
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".CodeConverterActivity" />
         <activity android:name=".CodeConverterDetailsActivity" />
-
         <activity
             android:name=".ReaderActivity"
             android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data android:scheme="file" />
@@ -52,9 +53,8 @@
             android:name=".UserDictionaryProvider"
             android:authorities="net.studymongolian.chimee.user_dictionary"
             android:exported="false" />
-
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="net.studymongolian.chimee.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
@@ -70,11 +70,11 @@
             <intent-filter>
                 <action android:name="android.view.InputMethod" />
             </intent-filter>
+
             <meta-data
                 android:name="android.view.im"
                 android:resource="@xml/method" />
         </service>
-
     </application>
 
 </manifest>

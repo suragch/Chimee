@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:minHeight="?attr/actionBarSize"
         android:layout_width="match_parent"
@@ -155,34 +155,6 @@
 
                 </RelativeLayout>
 
-                <!--<View-->
-                    <!--android:layout_width="1dp"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:background="@color/settings_layout_border" />-->
-
-                <!--&lt;!&ndash; emoji set &ndash;&gt;-->
-
-                <!--<RelativeLayout-->
-                    <!--android:id="@+id/settings_keyboard_emoji"-->
-                    <!--android:layout_width="60dp"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:background="@drawable/bar_icon"-->
-                    <!--android:clickable="true"-->
-                    <!--android:focusable="true"-->
-                    <!--android:onClick="onKeyboardEmojiClick"-->
-                    <!--android:paddingTop="10dp"-->
-                    <!--android:paddingBottom="10dp" >-->
-
-                    <!--<net.studymongolian.mongollibrary.MongolTextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_alignParentTop="true"-->
-                        <!--android:layout_centerHorizontal="true"-->
-                        <!--app:text="@string/settings_keyboard_emoji"-->
-                        <!--app:textSize="20sp" />-->
-
-                <!--</RelativeLayout>-->
-
             </LinearLayout>
 
             <LinearLayout
@@ -220,6 +192,33 @@
                 android:layout_height="match_parent"
                 android:layout_margin="20dp"
                 android:background="@drawable/settings_layout" >
+
+                <!-- recommended apps -->
+
+                <RelativeLayout
+                    android:id="@+id/settings_recommended_apps"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bar_icon"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="onRecommendedAppsClick"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp" >
+
+                    <net.studymongolian.mongollibrary.MongolTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        app:text="@string/settings_recommended_apps"
+                        app:textSize="20sp" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/settings_layout_border" />
 
                 <!-- help -->
 

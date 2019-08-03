@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:minHeight="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:titleTextColor="@android:color/primary_text_dark"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        tools:ignore="UnusedAttribute"/>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" >
+
+            <!-- Title -->
+
+            <net.studymongolian.mongollibrary.MongolTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                app:text="@string/settings_recommended_apps"
+                app:textSize="24sp" />
+
+            <!-- apps -->
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="20dp"
+                android:background="@drawable/settings_layout" >
+
+                <!-- bainu -->
+
+                <RelativeLayout
+                    android:id="@+id/recommended_apps_bainu"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bar_icon"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="onBainuClick"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp" >
+
+                    <net.studymongolian.mongollibrary.MongolTextView
+                        android:id="@+id/mtv_bainu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        app:text="@string/recommended_apps_bainu"
+                        app:textSize="20sp" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/settings_layout_border" />
+
+                <!-- delehi -->
+
+                <RelativeLayout
+                    android:id="@+id/recommended_apps_delehi"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bar_icon"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="onDelehiClick"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp" >
+
+                    <net.studymongolian.mongollibrary.MongolTextView
+                        android:id="@+id/mtv_delehi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        app:text="@string/recommended_apps_delehi"
+                        app:textSize="20sp" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/settings_layout_border" />
+
+                <!-- menksoft -->
+
+                <RelativeLayout
+                    android:id="@+id/recommended_apps_menksoft"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bar_icon"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="onMenksoftClick"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp" >
+
+                    <net.studymongolian.mongollibrary.MongolTextView
+                        android:id="@+id/mtv_menksoft"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        app:text="@string/recommended_apps_menksoft"
+                        app:textSize="20sp" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/settings_layout_border" />
+
+                <!-- olool -->
+
+                <RelativeLayout
+                    android:id="@+id/recommended_apps_olool"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bar_icon"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="onOloolClick"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp" >
+
+                    <net.studymongolian.mongollibrary.MongolTextView
+                        android:id="@+id/mtv_olool"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        app:text="@string/recommended_apps_olool"
+                        app:textSize="20sp" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/settings_layout_border" />
+
+                <!-- gungur -->
+
+                <RelativeLayout
+                    android:id="@+id/recommended_apps_gungur"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bar_icon"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="onGungurClick"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp" >
+
+                    <net.studymongolian.mongollibrary.MongolTextView
+                        android:id="@+id/mtv_gungur"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        app:text="@string/recommended_apps_gungur"
+                        app:textSize="20sp" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+
+
+</RelativeLayout>
