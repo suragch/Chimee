@@ -1,10 +1,12 @@
 <component name="libraryTable">
   <library name="Gradle: net.studymongolian:mongol-library:2.1.0@aar">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e32c733bb60e586febb666b5e6dbc007/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e32c733bb60e586febb666b5e6dbc007/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/088e30a14b47da9b510622b91742083a/jetified-mongol-library-2.1.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/088e30a14b47da9b510622b91742083a/jetified-mongol-library-2.1.0/res" />
     </CLASSES>
-    <JAVADOC />
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.studymongolian/mongol-library/2.1.0/afd487ef2f8dee47f11f7ab7240447692922e07d/mongol-library-2.1.0-javadoc.jar!/" />
+    </JAVADOC>
     <SOURCES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.studymongolian/mongol-library/2.1.0/c55b30a1eb472dc364d39a06809dbed7e3e3ec44/mongol-library-2.1.0-sources.jar!/" />
     </SOURCES>
