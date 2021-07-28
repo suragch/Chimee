@@ -13,8 +13,8 @@ import java.util.List;
 
 public class FavoritesRvAdapter extends RecyclerView.Adapter<FavoritesRvAdapter.ViewHolder> {
 
-    private List<Message> mFavorites;
-    private LayoutInflater mInflater;
+    private final List<Message> mFavorites;
+    private final LayoutInflater mInflater;
     private ItemClickListener mClickListener;
 
     FavoritesRvAdapter(Context context, List<Message> messages) {

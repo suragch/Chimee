@@ -20,7 +20,7 @@ public class CircleView extends View {
 
     private Paint fillPaint;
     private Paint borderPaint;
-    private int mBorderPressedColor = Color.WHITE;
+    private final int mBorderPressedColor = Color.WHITE;
 
     public CircleView(Context context) {
         super(context);

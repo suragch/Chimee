@@ -12,7 +12,7 @@ import java.util.List;
 
 class SuffixDatabaseAdapter {
 
-    private MyDatabaseHelper helper;
+    private final MyDatabaseHelper helper;
     Context context;
 
     private final int masculine = Suffix.WordGender.Masculine.getValue();

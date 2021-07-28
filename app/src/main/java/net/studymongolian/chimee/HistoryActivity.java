@@ -4,8 +4,8 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -102,7 +102,7 @@ public class HistoryActivity extends AppCompatActivity
         View menuButton = findViewById(R.id.action_overflow);
         int[] location = new int[2];
         menuButton.getLocationInWindow(location);
-        int gravity = Gravity.TOP | Gravity.RIGHT;
+        @SuppressLint("RtlHardcoded") int gravity = Gravity.TOP | Gravity.RIGHT;
         int marginPx = convertMarginDpToPx();
         int xOffset = menuButton.getWidth();
         int yOffset = location[1] + marginPx;
@@ -131,15 +131,13 @@ public class HistoryActivity extends AppCompatActivity
                 getString(R.string.history_menu_delete_item), R.drawable.ic_clear_black_24dp);
         menu.add(edit);
         menu.add(delete);
-        menu.setOnMenuItemClickListener(new MongolMenu.OnMenuItemClickListener() {
-            public boolean onMenuItemClick(MongolMenuItem item) {
-                if (item == edit) {
-                    editItem();
-                } else if (item == delete) {
-                    deleteItem();
-                }
-                return true;
+        menu.setOnMenuItemClickListener(item -> {
+            if (item == edit) {
+                editItem();
+            } else if (item == delete) {
+                deleteItem();
             }
+            return true;
         });
         return menu;
     }
@@ -162,16 +160,15 @@ public class HistoryActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_overflow:
-                overflowMenuItemClick();
-                return true;
-            case android.R.id.home:
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        final int itemId = item.getItemId();
+        if (itemId == R.id.action_overflow) {
+            overflowMenuItemClick();
+            return true;
+        } else if (itemId == android.R.id.home) {
+            finish();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     private void overflowMenuItemClick() {
@@ -182,21 +179,19 @@ public class HistoryActivity extends AppCompatActivity
                 getString(R.string.history_menu_delete_all), R.drawable.ic_clear_black_24dp);
         menu.add(export);
         menu.add(delete);
-        menu.setOnMenuItemClickListener(new MongolMenu.OnMenuItemClickListener() {
-            public boolean onMenuItemClick(MongolMenuItem item) {
-                if (item == export) {
-                    onExportHistoryMenuItemClick();
-                } else if (item == delete) {
-                    deleteAll();
-                }
-                return true;
+        menu.setOnMenuItemClickListener(item -> {
+            if (item == export) {
+                onExportHistoryMenuItemClick();
+            } else if (item == delete) {
+                deleteAll();
             }
+            return true;
         });
 
         int[] location = new int[2];
         View overflowMenuButton = findViewById(R.id.action_overflow);
         overflowMenuButton.getLocationInWindow(location);
-        int gravity = Gravity.TOP | Gravity.RIGHT;
+        @SuppressLint("RtlHardcoded") int gravity = Gravity.TOP | Gravity.RIGHT;
         int marginPx = convertMarginDpToPx();
         int yOffset = location[1] + marginPx;
 
@@ -210,8 +205,9 @@ public class HistoryActivity extends AppCompatActivity
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String permissions[],
+                                           @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (PermissionsHelper.isWritePermissionRequestGranted(requestCode, grantResults)) {
             new ExportHistory(HistoryActivity.this).execute();
         } else {
@@ -222,12 +218,7 @@ public class HistoryActivity extends AppCompatActivity
     private void deleteAll() {
         MongolAlertDialog.Builder builder = new MongolAlertDialog.Builder(this);
         builder.setMessage(getString(R.string.alert_delete_all_history_messages));
-        builder.setPositiveButton(getString(R.string.dialog_delete_yes), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                new DeleteAllMessages(HistoryActivity.this).execute();
-            }
-        });
+        builder.setPositiveButton(getString(R.string.dialog_delete_yes), (dialog, which) -> new DeleteAllMessages(HistoryActivity.this).execute());
         builder.setNegativeButton(getString(R.string.dialog_cancel), null);
         MongolAlertDialog dialog = builder.create();
         dialog.show();
@@ -235,7 +226,7 @@ public class HistoryActivity extends AppCompatActivity
 
 	private static class AppendHistoryMessageRange extends AsyncTask<Void, Void, ArrayList<Message>> {
 
-        private WeakReference<HistoryActivity> activityReference;
+        private final WeakReference<HistoryActivity> activityReference;
         int limit;
         int offset;
 
@@ -278,9 +269,9 @@ public class HistoryActivity extends AppCompatActivity
 		}
 	}
 
-	private static class ExportHistory extends AsyncTask<Void, Void, Boolean> {
+	private static class ExportHistory extends AsyncTask<Void, Void, String> {
 
-        private WeakReference<HistoryActivity> activityReference;
+        private final WeakReference<HistoryActivity> activityReference;
 
         ExportHistory(HistoryActivity context) {
             activityReference = new WeakReference<>(context);
@@ -292,18 +283,18 @@ public class HistoryActivity extends AppCompatActivity
         }
 
         @Override
-		protected Boolean doInBackground(Void... params) {
+		protected String doInBackground(Void... params) {
             HistoryActivity activity = activityReference.get();
-            boolean result = false;
+            String path = null;
 			try {
 				MessageDatabaseAdapter dbAdapter = new MessageDatabaseAdapter(activity);
                 ArrayList<Message> messages = dbAdapter.getAllHistoryMessages();
                 String text = createFileTextFromMessages(messages);
-                result = FileUtils.saveHistoryMessageFile(activity, text);
+                path = FileUtils.saveHistoryMessageFile(activity, text);
 			} catch (Exception e) {
                 e.printStackTrace();
 			}
-			return result;
+			return path;
 		}
 
         private String createFileTextFromMessages(ArrayList<Message> messages) {
@@ -319,15 +310,15 @@ public class HistoryActivity extends AppCompatActivity
         }
 
         @Override
-		protected void onPostExecute(Boolean wasSuccessfullyExported) {
+		protected void onPostExecute(String savedPath) {
 
             HistoryActivity activity = activityReference.get();
             if (activity == null || activity.isFinishing()) return;
 
             turnOffSpinner();
 
-            if (wasSuccessfullyExported) {
-                tellUserWhereToFindFile(activity);
+            if (savedPath != null) {
+                tellUserWhereToFindFile(activity, savedPath);
             } else {
                 MongolToast.makeText(activity,
                         activity.getString(R.string.couldnt_be_saved),
@@ -349,10 +340,9 @@ public class HistoryActivity extends AppCompatActivity
             activity.overflowMenuItem.setActionView(null);
         }
 
-        private void tellUserWhereToFindFile(final Activity activity) {
+        private void tellUserWhereToFindFile(final Activity activity, String savedPath) {
             MongolAlertDialog.Builder builder = new MongolAlertDialog.Builder(activity);
-            String location = FileUtils.getExportedHistoryFileDisplayPath();
-            builder.setMessage(activity.getString(R.string.alert_where_to_find_history_export, location));
+            builder.setMessage(activity.getString(R.string.alert_where_to_find_history_export, savedPath));
             builder.setPositiveButton(activity.getString(R.string.dialog_got_it), null);
             MongolAlertDialog dialog = builder.create();
             dialog.show();
@@ -362,7 +352,7 @@ public class HistoryActivity extends AppCompatActivity
 
     private static class DeleteMessageByIdTask extends AsyncTask<Long, Void, Integer> {
 
-        private WeakReference<HistoryActivity> activityReference;
+        private final WeakReference<HistoryActivity> activityReference;
 
         DeleteMessageByIdTask(HistoryActivity context) {
             activityReference = new WeakReference<>(context);
@@ -398,7 +388,7 @@ public class HistoryActivity extends AppCompatActivity
 
     private static class DeleteAllMessages extends AsyncTask<Void, Void, Integer> {
 
-        private WeakReference<HistoryActivity> activityReference;
+        private final WeakReference<HistoryActivity> activityReference;
 
         DeleteAllMessages(HistoryActivity context) {
             activityReference = new WeakReference<>(context);

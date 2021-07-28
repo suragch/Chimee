@@ -13,8 +13,8 @@ import java.util.List;
 
 public class SimpleListRvAdapter  extends RecyclerView.Adapter<SimpleListRvAdapter.ViewHolder> {
 
-    private List<String> mData;
-    private LayoutInflater mInflater;
+    private final List<String> mData;
+    private final LayoutInflater mInflater;
     private ItemClickListener mClickListener;
 
     SimpleListRvAdapter(Context context, List<String> data) {

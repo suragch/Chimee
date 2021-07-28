@@ -6,6 +6,6 @@
         android:id="@+id/miSaveWord"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_check_white_24dp"
-        android:title="Add">
+        android:title="@string/favorites_menu_add">
     </item>
 </menu>

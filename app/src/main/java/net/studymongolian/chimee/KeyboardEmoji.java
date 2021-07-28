@@ -59,7 +59,7 @@ public class KeyboardEmoji extends Keyboard {
         // |space|     Emoji grid      |    Row 2
         // | kb  |                     |    Row 3
 
-        // actual layout work is done by Keyboard superclass's onLayout
+        // actual layout work is done by Keyboard super class's onLayout
         mNumberOfKeysInRow = new int[]{1, 1, 1};
         mKeyWeights = new float[]{
                 1 / 5f,            // row 0
@@ -168,8 +168,8 @@ public class KeyboardEmoji extends Keyboard {
 
     class EmojiGridAdapter extends BaseAdapter implements Key.KeyListener {
 
-        private Context mContext;
-        private List<String> mEmojiList;
+        private final Context mContext;
+        private final List<String> mEmojiList;
 
         EmojiGridAdapter(Context c, List<String> emojis) {
             this.mContext = c;

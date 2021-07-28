@@ -136,7 +136,7 @@ public class PhotoOverlayActivity extends AppCompatActivity
     }
 
 
-    private View.OnTouchListener mImageViewTouchListener = new View.OnTouchListener() {
+    private final View.OnTouchListener mImageViewTouchListener = new View.OnTouchListener() {
         @SuppressLint("ClickableViewAccessibility")
         @Override
         public boolean onTouch(View v, MotionEvent event) {
@@ -236,24 +236,19 @@ public class PhotoOverlayActivity extends AppCompatActivity
         rightSeekBar.setOnSeekBarChangeListener(rightSeekBarListener);
     }
 
-    private SeekBar.OnSeekBarChangeListener alphaSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
+    private final SeekBar.OnSeekBarChangeListener alphaSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            switch (selectedView.getId()) {
-                case R.id.fl_photo_overlay_text_color:
-                    updateTextFromProgress(progress);
-                    break;
-                case R.id.fl_photo_overlay_border:
-                    updateBorderFromProgress(progress);
-                    break;
-                case R.id.fl_photo_overlay_shadow:
-                    updateShadowFromProgress(progress);
-                    break;
-                case R.id.fl_photo_overlay_background:
-                    updateBackgroundFromProgress(progress);
-                    break;
+            final int viewId = selectedView.getId();
+            if (viewId == R.id.fl_photo_overlay_text_color) {
+                updateTextFromProgress(progress);
+            } else if (viewId == R.id.fl_photo_overlay_border) {
+                updateBorderFromProgress(progress);
+            } else if (viewId == R.id.fl_photo_overlay_shadow) {
+                updateShadowFromProgress(progress);
+            } else if (viewId == R.id.fl_photo_overlay_background) {
+                updateBackgroundFromProgress(progress);
             }
-
         }
 
         private void updateTextFromProgress(int progress) {
@@ -304,21 +299,17 @@ public class PhotoOverlayActivity extends AppCompatActivity
         return Color.argb(alpha, red, green, blue);
     }
 
-    private SeekBar.OnSeekBarChangeListener leftSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
+    private final SeekBar.OnSeekBarChangeListener leftSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            switch (selectedView.getId()) {
-                case R.id.fl_photo_overlay_border:
-                    updateStrokeWidthFromProgress(progress);
-                    break;
-                case R.id.fl_photo_overlay_shadow:
-                    updateShadowXyFromProgress(progress);
-                    break;
-                case R.id.fl_photo_overlay_background:
-                    updatePaddingFromProgress(progress);
-                    break;
+            final int viewId = selectedView.getId();
+            if (viewId == R.id.fl_photo_overlay_border) {
+                updateStrokeWidthFromProgress(progress);
+            } else if (viewId == R.id.fl_photo_overlay_shadow) {
+                updateShadowXyFromProgress(progress);
+            } else if (viewId == R.id.fl_photo_overlay_background) {
+                updatePaddingFromProgress(progress);
             }
-
         }
 
         private void updateStrokeWidthFromProgress(int progress) {
@@ -404,16 +395,14 @@ public class PhotoOverlayActivity extends AppCompatActivity
                 + (TEXT_PADDING_DP_MAX - TEXT_PADDING_DP_MIN) * progress / 100;
     }
 
-    private SeekBar.OnSeekBarChangeListener rightSeekBarListener = new SeekBar.OnSeekBarChangeListener() {
+    private final SeekBar.OnSeekBarChangeListener rightSeekBarListener = new SeekBar.OnSeekBarChangeListener() {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            switch (selectedView.getId()) {
-                case R.id.fl_photo_overlay_shadow:
-                    updateShadowRadiusFromProgress(progress);
-                    break;
-                case R.id.fl_photo_overlay_background:
-                    updateBackgroundCornerRadiusFromProgress(progress);
-                    break;
+            final int viewId = selectedView.getId();
+            if (viewId == R.id.fl_photo_overlay_shadow) {
+                updateShadowRadiusFromProgress(progress);
+            } else if (viewId == R.id.fl_photo_overlay_background) {
+                updateBackgroundCornerRadiusFromProgress(progress);
             }
         }
 
@@ -473,19 +462,18 @@ public class PhotoOverlayActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_save:
-                savePhoto();
-                return true;
-            case R.id.action_share:
-                sharePhoto();
-                return true;
-            case android.R.id.home:
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        final int itemId = item.getItemId();
+        if (itemId == R.id.action_save) {
+            savePhoto();
+            return true;
+        } else if (itemId == R.id.action_share) {
+            sharePhoto();
+            return true;
+        } else if (itemId == android.R.id.home) {
+            finish();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -504,8 +492,9 @@ public class PhotoOverlayActivity extends AppCompatActivity
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String permissions[],
+                                           @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (PermissionsHelper.isWritePermissionRequestGranted(requestCode, grantResults)) {
             new SavePhoto(this).execute();
         } else {
@@ -673,23 +662,18 @@ public class PhotoOverlayActivity extends AppCompatActivity
         // show setting bars
         rlColorChooser.setVisibility(View.VISIBLE);
         unselectAllItems();
-        int id = view.getId();
-        switch (id) {
-            case R.id.fl_photo_overlay_text_color:
-                setTextColorSettingsVisibility();
-                break;
-            case R.id.fl_photo_overlay_font:
-                setFontSettingsVisibility();
-                break;
-            case R.id.fl_photo_overlay_border:
-                setBorderSettingsVisibility();
-                break;
-            case R.id.fl_photo_overlay_shadow:
-                setShadowSettingsVisibility();
-                break;
-            case R.id.fl_photo_overlay_background:
-                setBgSettingsVisibility();
-                break;
+
+        final int id = view.getId();
+        if (id == R.id.fl_photo_overlay_text_color) {
+            setTextColorSettingsVisibility();
+        } else if (id == R.id.fl_photo_overlay_font) {
+            setFontSettingsVisibility();
+        } else if (id == R.id.fl_photo_overlay_border) {
+            setBorderSettingsVisibility();
+        } else if (id == R.id.fl_photo_overlay_shadow) {
+            setShadowSettingsVisibility();
+        } else if (id == R.id.fl_photo_overlay_background) {
+            setBgSettingsVisibility();
         }
     }
 
@@ -788,41 +772,33 @@ public class PhotoOverlayActivity extends AppCompatActivity
         int alpha = getAlphaFromSeekBarProgress(alphaSeekBar.getProgress());
         if (alpha == 0) alpha = 0xff;
         int colorWithAlpha = getColorWithAlpha(alpha, color);
-        int id = selectedView.getId();
-        switch (id) {
-            case R.id.fl_photo_overlay_text_color:
-                textOverlayView.setTextColor(colorWithAlpha);
-                break;
-            case R.id.fl_photo_overlay_border:
-                textOverlayView.setStrokeColor(colorWithAlpha);
-                float multiplier = getStrokeMultiplierFromSeekBarProgress(leftSeekBar.getProgress());
-                textOverlayView.setStrokeWidthMultiplier(multiplier);
-                break;
-            case R.id.fl_photo_overlay_shadow:
-                setShadowColor(colorWithAlpha);
-                break;
-            case R.id.fl_photo_overlay_background:
-                textOverlayView.setRoundBackgroundColor(colorWithAlpha);
-                break;
+
+        final int id = selectedView.getId();
+        if (id == R.id.fl_photo_overlay_text_color) {
+            textOverlayView.setTextColor(colorWithAlpha);
+        } else if (id == R.id.fl_photo_overlay_border) {
+            textOverlayView.setStrokeColor(colorWithAlpha);
+            float multiplier = getStrokeMultiplierFromSeekBarProgress(leftSeekBar.getProgress());
+            textOverlayView.setStrokeWidthMultiplier(multiplier);
+        } else if (id == R.id.fl_photo_overlay_shadow) {
+            setShadowColor(colorWithAlpha);
+        } else if (id == R.id.fl_photo_overlay_background) {
+            textOverlayView.setRoundBackgroundColor(colorWithAlpha);
         }
     }
 
     public void onCancelColorToolbarItemClick(View view) {
         int color = Color.TRANSPARENT;
-        int id = selectedView.getId();
-        switch (id) {
-            case R.id.fl_photo_overlay_text_color:
-                textOverlayView.setTextColor(color);
-                break;
-            case R.id.fl_photo_overlay_border:
-                textOverlayView.setStrokeColor(color);
-                break;
-            case R.id.fl_photo_overlay_shadow:
-                textOverlayView.setShadowLayerMultipliers(0, 0, 0, color);
-                break;
-            case R.id.fl_photo_overlay_background:
-                textOverlayView.setRoundBackgroundColor(color);
-                break;
+
+        final int id = selectedView.getId();
+        if (id == R.id.fl_photo_overlay_text_color) {
+            textOverlayView.setTextColor(color);
+        } else if (id == R.id.fl_photo_overlay_border) {
+            textOverlayView.setStrokeColor(color);
+        } else if (id == R.id.fl_photo_overlay_shadow) {
+            textOverlayView.setShadowLayerMultipliers(0, 0, 0, color);
+        } else if (id == R.id.fl_photo_overlay_background) {
+            textOverlayView.setRoundBackgroundColor(color);
         }
     }
 

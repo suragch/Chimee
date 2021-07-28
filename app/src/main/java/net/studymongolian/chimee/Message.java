@@ -2,9 +2,9 @@ package net.studymongolian.chimee;
 
 public class Message {
 
-	private long id;
-	private long date;
-	private String message;
+	private final long id;
+	private final long date;
+	private final String message;
 
     public Message(long id, long date, String message) {
         this.id = id;

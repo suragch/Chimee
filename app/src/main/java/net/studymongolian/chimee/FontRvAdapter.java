@@ -16,9 +16,9 @@ import java.util.List;
 public class FontRvAdapter
         extends RecyclerView.Adapter<FontRvAdapter.ViewHolder> {
 
-    private List<Font> mFonts;
+    private final List<Font> mFonts;
     private ItemClickListener mClickListener;
-    private Context mContext;
+    private final Context mContext;
 
     FontRvAdapter(Context context, List<Font> fonts) {
         this.mContext = context;

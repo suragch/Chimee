@@ -64,6 +64,9 @@
     <string name="favorites_menu_edit">ᠨᠠᠢᠷᠠᠭᠤᠯᠬᠤ</string>
     <string name="favorites_menu_delete">ᠤᠰᠠᠳᠬᠠᠬᠤ</string>
 
+    <!-- add edit favorites -->
+    <string name="favorites_menu_add">ᠨᠡᠮᠡᠬᠦ</string>
+
     <!-- photo overlay -->
     <string name="alert_where_to_find_photo">ᠲᠠᠨ ᠤ ᠰᠡᠭᠦᠳᠡᠷ %1$s ᠳᠦ ᠬᠠᠳᠠᠭᠠᠯᠠᠭᠳᠠᠵᠠᠢ ᠃</string>
 
@@ -135,5 +138,6 @@
 
     <!-- content description (doesn't need to be translated) -->
     <string name="content_description_show_keyboard">show keyboard</string>
+
 
 </resources>

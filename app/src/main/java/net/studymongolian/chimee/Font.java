@@ -31,8 +31,8 @@ public class Font {
     private static final String UJUG = "fonts/MWJ8102.ttf";                  // Bamboo pen
     private static final String UYANGA = "fonts/MVY8102.ttf";                // Thick wavy stem
 
-    private String displayName;
-    private String fileLocation;
+    private final String displayName;
+    private final String fileLocation;
 
     private Font(String displayName, String fileLocation) {
         this.displayName = displayName;

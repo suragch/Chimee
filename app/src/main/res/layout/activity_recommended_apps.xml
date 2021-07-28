@@ -126,64 +126,6 @@
 
                 </RelativeLayout>
 
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/settings_layout_border" />
-
-                <!-- olool -->
-
-                <RelativeLayout
-                    android:id="@+id/recommended_apps_olool"
-                    android:layout_width="60dp"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/bar_icon"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:onClick="onOloolClick"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp" >
-
-                    <net.studymongolian.mongollibrary.MongolTextView
-                        android:id="@+id/mtv_olool"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_centerHorizontal="true"
-                        app:text="@string/recommended_apps_olool"
-                        app:textSize="20sp" />
-
-                </RelativeLayout>
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/settings_layout_border" />
-
-                <!-- gungur -->
-
-                <RelativeLayout
-                    android:id="@+id/recommended_apps_gungur"
-                    android:layout_width="60dp"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/bar_icon"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:onClick="onGungurClick"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp" >
-
-                    <net.studymongolian.mongollibrary.MongolTextView
-                        android:id="@+id/mtv_gungur"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_centerHorizontal="true"
-                        app:text="@string/recommended_apps_gungur"
-                        app:textSize="20sp" />
-
-                </RelativeLayout>
-
             </LinearLayout>
 
         </LinearLayout>

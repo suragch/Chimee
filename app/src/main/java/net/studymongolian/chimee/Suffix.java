@@ -2,9 +2,9 @@ package net.studymongolian.chimee;
 
 public class Suffix {
 
-    private String suffix;
-    private WordGender gender;
-    private SuffixType type;
+    private final String suffix;
+    private final WordGender gender;
+    private final SuffixType type;
 
     Suffix(String suffix, WordGender gender, SuffixType type) {
         this.suffix = suffix;

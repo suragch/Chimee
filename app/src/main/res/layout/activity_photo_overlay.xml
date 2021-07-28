@@ -41,7 +41,8 @@
         android:layout_alignParentBottom="true"
         android:elevation="4dp"
         android:background="@color/light_grey"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:baselineAligned="false">
 
         <FrameLayout
             android:id="@+id/fl_photo_overlay_text_color"

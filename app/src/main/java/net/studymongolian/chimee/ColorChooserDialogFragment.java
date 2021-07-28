@@ -102,18 +102,10 @@ public class ColorChooserDialogFragment extends DialogFragment
     private void setupDialogButtons(View customView) {
         FrameLayout negativeButton = customView.findViewById(R.id.dialog_button_negative);
         FrameLayout positiveButton = customView.findViewById(R.id.dialog_button_positive);
-        negativeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
-        positiveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mListener.onColorDialogPositiveClick(mBgColor, mTextColor);
-                dismiss();
-            }
+        negativeButton.setOnClickListener(v -> dismiss());
+        positiveButton.setOnClickListener(v -> {
+            mListener.onColorDialogPositiveClick(mBgColor, mTextColor);
+            dismiss();
         });
     }
 
@@ -126,7 +118,7 @@ public class ColorChooserDialogFragment extends DialogFragment
         recyclerView.setAdapter(adapter);
     }
 
-    private View.OnClickListener onBackgroundClick = new View.OnClickListener() {
+    private final View.OnClickListener onBackgroundClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             rbBackground.setChecked(true);
@@ -134,7 +126,7 @@ public class ColorChooserDialogFragment extends DialogFragment
         }
     };
 
-    private View.OnClickListener onForegroundClick = new View.OnClickListener() {
+    private final View.OnClickListener onForegroundClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             rbBackground.setChecked(false);
@@ -143,7 +135,7 @@ public class ColorChooserDialogFragment extends DialogFragment
     };
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         try {
             mListener = (ColorDialogListener) context;

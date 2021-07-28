@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 class MessageDatabaseAdapter {
 
-	private MyDatabaseHelper helper;
+	private final MyDatabaseHelper helper;
 	Context context;
 
 	MessageDatabaseAdapter(Context context) {

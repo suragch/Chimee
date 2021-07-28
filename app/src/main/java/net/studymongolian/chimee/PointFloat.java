@@ -2,8 +2,8 @@ package net.studymongolian.chimee;
 
 class PointFloat {
 
-    private float x;
-    private float y;
+    private final float x;
+    private final float y;
 
     PointFloat(float x, float y) {
         this.x = x;

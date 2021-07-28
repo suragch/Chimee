@@ -108,7 +108,7 @@ public class CodeConverterDetailsActivity extends AppCompatActivity {
 
     private static class LoadTextFromIntent extends AsyncTask<Uri, Void, ArrayList<CharSequence>> {
 
-        private WeakReference<CodeConverterDetailsActivity> activityReference;
+        private final WeakReference<CodeConverterDetailsActivity> activityReference;
 
         LoadTextFromIntent(CodeConverterDetailsActivity activityContext) {
             activityReference = new WeakReference<>(activityContext);

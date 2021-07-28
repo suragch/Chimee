@@ -32,7 +32,7 @@ public class UserDictionaryProvider extends ContentProvider {
 	private static final String DATABASE_NAME = "chimee_user_dict.db";
 	private static final int DATABASE_VERSION = 2;
 	private static final String USERDICT_TABLE_NAME = "words";
-	private static HashMap<String, String> sDictProjectionMap;
+	private static final HashMap<String, String> sDictProjectionMap;
 	private static final UriMatcher sUriMatcher;
 	private static final int WORDS = 1;
 	private static final int WORD_ID = 2;
@@ -197,7 +197,7 @@ public class UserDictionaryProvider extends ContentProvider {
 			throw new SQLException("Word must be specified");
 		}
 		if (!values.containsKey(UserDictionary.Words.FREQUENCY)) {
-			values.put(UserDictionary.Words.FREQUENCY, String.valueOf(UserDictionary.Words.FREQUENCY));
+			values.put(UserDictionary.Words.FREQUENCY, UserDictionary.Words.FREQUENCY);
 		}
 		if (!values.containsKey(UserDictionary.Words.FOLLOWING)) {
 			values.put(UserDictionary.Words.FOLLOWING, "");

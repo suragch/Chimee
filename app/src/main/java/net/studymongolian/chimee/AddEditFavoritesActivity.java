@@ -95,15 +95,15 @@ public class AddEditFavoritesActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.miSaveWord:
-                saveMessage();
-                return true;
-            case android.R.id.home:
-                handleUserFinishing();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        final int itemId = item.getItemId();
+        if (itemId == R.id.miSaveWord) {
+            saveMessage();
+            return true;
+        } else if (itemId == android.R.id.home) {
+            handleUserFinishing();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
     }
 
@@ -150,7 +150,7 @@ public class AddEditFavoritesActivity extends AppCompatActivity
 
     private static class AddMessage extends AsyncTask<String, Void, Boolean> {
 
-        private WeakReference<AddEditFavoritesActivity> activityReference;
+        private final WeakReference<AddEditFavoritesActivity> activityReference;
 
         AddMessage(AddEditFavoritesActivity context) {
             activityReference = new WeakReference<>(context);
@@ -185,7 +185,7 @@ public class AddEditFavoritesActivity extends AppCompatActivity
 
     private static class UpdateMessage extends AsyncTask<Message, Void, Boolean> {
 
-        private WeakReference<AddEditFavoritesActivity> activityReference;
+        private final WeakReference<AddEditFavoritesActivity> activityReference;
 
         UpdateMessage(AddEditFavoritesActivity context) {
             activityReference = new WeakReference<>(context);

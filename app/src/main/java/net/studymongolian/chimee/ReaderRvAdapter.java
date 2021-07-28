@@ -14,8 +14,8 @@ import java.util.ArrayList;
 
 public class ReaderRvAdapter extends RecyclerView.Adapter<ReaderRvAdapter.ViewHolder> {
 
-    private ArrayList<CharSequence> mParagraphs;
-    private LayoutInflater mInflater;
+    private final ArrayList<CharSequence> mParagraphs;
+    private final LayoutInflater mInflater;
     private int mTextColor = Color.BLACK;
 
     ReaderRvAdapter(Context context, ArrayList<CharSequence> numbers) {

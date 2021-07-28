@@ -54,7 +54,7 @@ public class TouchImageView extends AppCompatImageView {
     //
     private Matrix matrix, prevMatrix;
 
-    private enum State {NONE, DRAG, ZOOM, FLING, ANIMATE_ZOOM}
+    private enum State {NONE, DRAG, ZOOM, FLING}
 
     private State state;
 
@@ -390,7 +390,7 @@ public class TouchImageView extends AppCompatImageView {
             setScaleType(scaleType);
         }
         resetZoom();
-        scaleImage(scale, viewWidth / 2, viewHeight / 2);
+        scaleImage(scale, (float) viewWidth / 2, (float) viewHeight / 2);
         matrix.getValues(m);
         m[Matrix.MTRANS_X] = -((focusX * getImageWidth()) - (viewWidth * 0.5f));
         m[Matrix.MTRANS_Y] = -((focusY * getImageHeight()) - (viewHeight * 0.5f));
@@ -426,7 +426,7 @@ public class TouchImageView extends AppCompatImageView {
         int drawableWidth = drawable.getIntrinsicWidth();
         int drawableHeight = drawable.getIntrinsicHeight();
 
-        PointF point = transformCoordTouchToBitmap(viewWidth / 2, viewHeight / 2);
+        PointF point = transformCoordTouchToBitmap((float) viewWidth / 2, (float) viewHeight / 2);
         point.x /= drawableWidth;
         point.y /= drawableHeight;
         return point;
@@ -670,10 +670,6 @@ public class TouchImageView extends AppCompatImageView {
     private int setViewSize(int mode, int size, int drawableWidth) {
         int viewSize;
         switch (mode) {
-            case MeasureSpec.EXACTLY:
-                viewSize = size;
-                break;
-
             case MeasureSpec.AT_MOST:
                 viewSize = Math.min(drawableWidth, size);
                 break;
@@ -782,7 +778,7 @@ public class TouchImageView extends AppCompatImageView {
         //
         // Remember last point position for dragging
         //
-        private PointF last = new PointF();
+        private final PointF last = new PointF();
 
         @SuppressLint("ClickableViewAccessibility")
         @Override
@@ -936,7 +932,7 @@ public class TouchImageView extends AppCompatImageView {
         return new PointF(finalX, finalY);
     }
 
-    private class ZoomVariables {
+    private static class ZoomVariables {
         float scale;
         float focusX;
         float focusY;

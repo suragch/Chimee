@@ -110,6 +110,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(myToolbar);
     }
 
+    @SuppressLint("SourceLockedOrientationActivity")
     private void disableRotationForSmallerDevices() {
         if (getResources().getBoolean(R.bool.portrait_only)) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -364,12 +365,9 @@ public class MainActivity extends AppCompatActivity
         hideSystemKeyboard();
     }
 
-    private View.OnLongClickListener showKeyboardButtonLongClickListener = new View.OnLongClickListener() {
-        @Override
-        public boolean onLongClick(View v) {
-            showSystemKeyboardChooser();
-            return true;
-        }
+    private final View.OnLongClickListener showKeyboardButtonLongClickListener = v -> {
+        showSystemKeyboardChooser();
+        return true;
     };
 
     private void hideInAppKeyboard() {
@@ -403,22 +401,21 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.main_action_share:
-                shareActionBarItemClick();
-                return true;
-            case R.id.main_action_photo:
-                photoActionBarItemClick();
-                return true;
-            case R.id.main_action_favorite:
-                favoriteActionBarItemClick();
-                return true;
-            case R.id.main_action_overflow:
-                overflowMenuItemClick();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        final int itemId = item.getItemId();
+        if (itemId == R.id.main_action_share) {
+            shareActionBarItemClick();
+            return true;
+        } else if (itemId == R.id.main_action_photo) {
+            photoActionBarItemClick();
+            return true;
+        } else if (itemId == R.id.main_action_favorite) {
+            favoriteActionBarItemClick();
+            return true;
+        } else if (itemId == R.id.main_action_overflow) {
+            overflowMenuItemClick();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     private void shareActionBarItemClick() {
@@ -442,17 +439,15 @@ public class MainActivity extends AppCompatActivity
         if (shouldShowBainu)
             menu.add(bainu);
         menu.add(other);
-        menu.setOnMenuItemClickListener(new MongolMenu.OnMenuItemClickListener() {
-            public boolean onMenuItemClick(MongolMenuItem item) {
-                if (item == weChat) {
-                    shareTo(ShareType.WeChat);
-                } else if (item == bainu) {
-                    shareTo(ShareType.Bainu);
-                } else {
-                    shareTo(ShareType.Other);
-                }
-                return true;
+        menu.setOnMenuItemClickListener(item -> {
+            if (item == weChat) {
+                shareTo(ShareType.WeChat);
+            } else if (item == bainu) {
+                shareTo(ShareType.Bainu);
+            } else {
+                shareTo(ShareType.Other);
             }
+            return true;
         });
 
         // show menu
@@ -545,22 +540,20 @@ public class MainActivity extends AppCompatActivity
             menu.add(open);
         }
         menu.add(settings);
-        menu.setOnMenuItemClickListener(new MongolMenu.OnMenuItemClickListener() {
-            public boolean onMenuItemClick(MongolMenuItem item) {
-                if (item == open) {
-                    onOpenMenuItemClick();
-                } else if (item == save) {
-                    onSaveMenuItemClick();
-                } else if (item == settings) {
-                    onSettingsMenuItemClick();
-                }
-                return true;
+        menu.setOnMenuItemClickListener(item -> {
+            if (item == open) {
+                onOpenMenuItemClick();
+            } else if (item == save) {
+                onSaveMenuItemClick();
+            } else if (item == settings) {
+                onSettingsMenuItemClick();
             }
+            return true;
         });
 
         int[] location = new int[2];
         overflowMenuButton.getLocationInWindow(location);
-        int gravity = Gravity.TOP | Gravity.RIGHT;
+        @SuppressLint("RtlHardcoded") int gravity = Gravity.TOP | Gravity.RIGHT;
         int marginPx = convertMarginDpToPx();
         int yOffset = location[1] + marginPx;
 
@@ -585,8 +578,9 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String permissions[],
+                                           @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (PermissionsHelper.isWritePermissionRequestGranted(requestCode, grantResults)) {
             startSaveActivity();
         } else {
@@ -644,18 +638,8 @@ public class MainActivity extends AppCompatActivity
         MongolAlertDialog.Builder builder = new MongolAlertDialog.Builder(this);
         builder.setMessage(getString(R.string.download_bainu_alert_message));
 
-        builder.setPositiveButton(getString(R.string.download_bainu_alert_positive), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                openBainuDownloadPage();
-            }
-        });
-        builder.setNegativeButton(getString(R.string.download_bainu_alert_negative), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dontShowBainuOptionAgain();
-            }
-        });
+        builder.setPositiveButton(getString(R.string.download_bainu_alert_positive), (dialog, which) -> openBainuDownloadPage());
+        builder.setNegativeButton(getString(R.string.download_bainu_alert_negative), (dialog, which) -> dontShowBainuOptionAgain());
 
         MongolAlertDialog dialog = builder.create();
         dialog.show();

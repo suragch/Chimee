@@ -95,8 +95,6 @@ public class CodeConverterActivity extends AppCompatActivity {
     }
 
     private void hideExtraButtons() {
-        if (TextUtils.isEmpty(getClipboardText()))
-            pasteButton.setVisibility(View.INVISIBLE);
         convertButton.setVisibility(View.INVISIBLE);
         copyButton.setVisibility(View.INVISIBLE);
         detailsButton.setVisibility(View.INVISIBLE);
@@ -113,19 +111,18 @@ public class CodeConverterActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-            case R.id.action_open:
-                openFile();
-                return true;
-            case R.id.action_save:
-                saveToFile();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        final int itemId = item.getItemId();
+        if (itemId == android.R.id.home) {
+            finish();
+            return true;
+        } else if (itemId == R.id.action_open) {
+            openFile();
+            return true;
+        } else if (itemId == R.id.action_save) {
+            saveToFile();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     private void openFile() {
@@ -151,8 +148,9 @@ public class CodeConverterActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String permissions[],
+                                           @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (PermissionsHelper.isWritePermissionRequestGranted(requestCode, grantResults)) {
             startSaveActivity();
         } else {
@@ -286,7 +284,7 @@ public class CodeConverterActivity extends AppCompatActivity {
 
     public static ArrayList<CharSequence> convertStringToArray(String text, int menksoftColor) {
         ArrayList<CharSequence> array = new ArrayList<>();
-        String myArray[] = TextUtils.split(text,"\n");
+        String[] myArray = TextUtils.split(text,"\n");
         for (String paragraph : myArray) {
             SpannableStringBuilder formatted = colorTextAccordingToCoding(paragraph, menksoftColor);
             array.add(formatted);
@@ -304,8 +302,8 @@ public class CodeConverterActivity extends AppCompatActivity {
 
     private static class OpenFile extends AsyncTask<Uri, Void, ArrayList<CharSequence>> {
 
-        private WeakReference<CodeConverterActivity> activityReference;
-        private int mMenksoftColor;
+        private final WeakReference<CodeConverterActivity> activityReference;
+        private final int mMenksoftColor;
 
         OpenFile(CodeConverterActivity activityContext, int menksoftColor) {
             activityReference = new WeakReference<>(activityContext);
@@ -346,9 +344,9 @@ public class CodeConverterActivity extends AppCompatActivity {
 
     private static class ConvertText extends AsyncTask<Void, Void, ArrayList<CharSequence>> {
 
-        private WeakReference<CodeConverterActivity> activityReference;
-        private ArrayList<CharSequence> mParagraphs;
-        private int mMenksoftColor;
+        private final WeakReference<CodeConverterActivity> activityReference;
+        private final ArrayList<CharSequence> mParagraphs;
+        private final int mMenksoftColor;
 
         ConvertText(CodeConverterActivity activityContext, ArrayList<CharSequence> paragraphs, int menksoftColor) {
             activityReference = new WeakReference<>(activityContext);

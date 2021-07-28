@@ -48,7 +48,7 @@ public class OpenActivity extends AppCompatActivity
 
     private void showDocDirectoryName() {
         TextView textView = findViewById(R.id.tv_documents_directory);
-        String path = FileUtils.getAppDocumentFolder();
+        String path = FileUtils.getAppDocumentFolder(textView.getContext());
         textView.setText(path);
     }
 
@@ -83,13 +83,12 @@ public class OpenActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        final int itemId = item.getItemId();
+        if (itemId == android.R.id.home) {
+            finish();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -97,7 +96,7 @@ public class OpenActivity extends AppCompatActivity
         String fileName = adapter.getItem(position);
         String fileText = null;
         try {
-            fileText = FileUtils.openFile(fileName);
+            fileText = FileUtils.openFile(view.getContext(), fileName);
         } catch (Exception e) {
             e.printStackTrace();
         }

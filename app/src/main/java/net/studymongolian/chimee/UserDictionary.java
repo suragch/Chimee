@@ -294,10 +294,8 @@ class UserDictionary {
             String[] projection = new String[]{_ID, FOLLOWING};
             String selection = WORD + "=?";
             String[] selectionArgs = {word};
-            Cursor cursor = null;
-            try {
-                cursor = resolver.query(CONTENT_URI, projection, selection,
-                        selectionArgs, null);
+            try (Cursor cursor = resolver.query(CONTENT_URI, projection, selection,
+                    selectionArgs, null)) {
                 if (cursor != null && cursor.moveToNext()) {
                     wordId = cursor.getLong(cursor.getColumnIndex(_ID));
                     followingString = cursor.getString(cursor
@@ -305,10 +303,6 @@ class UserDictionary {
                 }
             } catch (Exception e) {
                 Log.e("UserDictionary", e.toString());
-            } finally {
-                if (cursor != null) {
-                    cursor.close();
-                }
             }
             if (wordId == -1) {
                 return;

@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 
 public class ColorsRvAdapter extends RecyclerView.Adapter<ColorsRvAdapter.ViewHolder> {
 
-    private int[] mViewColors;
-    private int mItemLayoutResId;
-    private LayoutInflater mInflater;
+    private final int[] mViewColors;
+    private final int mItemLayoutResId;
+    private final LayoutInflater mInflater;
     private ItemClickListener mClickListener;
 
     ColorsRvAdapter(Context context, int item_layout_res_id, int[] colors) {

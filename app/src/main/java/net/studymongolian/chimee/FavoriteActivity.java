@@ -4,6 +4,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -91,7 +92,7 @@ public class FavoriteActivity extends AppCompatActivity
         View menuButton = findViewById(R.id.action_add);
         int[] location = new int[2];
         menuButton.getLocationInWindow(location);
-        int gravity = Gravity.TOP | Gravity.RIGHT;
+        @SuppressLint("RtlHardcoded") int gravity = Gravity.TOP | Gravity.RIGHT;
         int marginPx = convertMarginDpToPx();
         int xOffset = menuButton.getWidth();
         int yOffset = location[1] + marginPx;
@@ -113,15 +114,13 @@ public class FavoriteActivity extends AppCompatActivity
                 getString(R.string.favorites_menu_delete), R.drawable.ic_clear_black_24dp);
         menu.add(edit);
         menu.add(delete);
-        menu.setOnMenuItemClickListener(new MongolMenu.OnMenuItemClickListener() {
-            public boolean onMenuItemClick(MongolMenuItem item) {
-                if (item == edit) {
-                    editItem();
-                } else if (item == delete) {
-                    deleteItem();
-                }
-                return true;
+        menu.setOnMenuItemClickListener(item -> {
+            if (item == edit) {
+                editItem();
+            } else if (item == delete) {
+                deleteItem();
             }
+            return true;
         });
         return menu;
     }
@@ -148,18 +147,17 @@ public class FavoriteActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_add:
-                addNewFavorite();
-                return true;
-            case android.R.id.home:
-                Intent intent = new Intent();
-                setResult(RESULT_OK, intent);
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        final int itemId = item.getItemId();
+        if (itemId == R.id.action_add) {
+            addNewFavorite();
+            return true;
+        } else if (itemId == android.R.id.home) {
+            Intent intent = new Intent();
+            setResult(RESULT_OK, intent);
+            finish();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     private void addNewFavorite() {
@@ -191,7 +189,7 @@ public class FavoriteActivity extends AppCompatActivity
 
     private static class RefreshMessageItem extends AsyncTask<Long, Void, Message> {
 
-        private WeakReference<FavoriteActivity> activityReference;
+        private final WeakReference<FavoriteActivity> activityReference;
 
         RefreshMessageItem(FavoriteActivity context) {
             activityReference = new WeakReference<>(context);
@@ -229,7 +227,7 @@ public class FavoriteActivity extends AppCompatActivity
 
     private static class GetFavoriteMessages extends AsyncTask<Void, Void, ArrayList<Message>> {
 
-        private WeakReference<FavoriteActivity> activityReference;
+        private final WeakReference<FavoriteActivity> activityReference;
 
         GetFavoriteMessages(FavoriteActivity context) {
             activityReference = new WeakReference<>(context);
@@ -263,7 +261,7 @@ public class FavoriteActivity extends AppCompatActivity
 
     private static class DeleteMessageByIdTask extends AsyncTask<Long, Void, Integer> {
 
-        private WeakReference<FavoriteActivity> activityReference;
+        private final WeakReference<FavoriteActivity> activityReference;
 
         DeleteMessageByIdTask(FavoriteActivity context) {
             activityReference = new WeakReference<>(context);

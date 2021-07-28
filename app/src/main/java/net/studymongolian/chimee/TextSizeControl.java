@@ -111,7 +111,7 @@ public class TextSizeControl extends View {
     private void drawCenteredCircle(Canvas canvas) {
         int x = getWidth() / 2;
         int y = getHeight() / 2;
-        float radius = visibleItemSize / 2;
+        float radius = (float) visibleItemSize / 2;
         canvas.drawCircle(x, y, radius, fillPaint);
         borderPaint.setColor(Color.BLACK);
         canvas.drawCircle(x, y, radius, borderPaint);

@@ -111,7 +111,7 @@ public class OverlayTextView extends ViewGroup {
     OnTouchListener xScaleTouchListener = new OnTouchListener() {
 
         float dx;
-        int[] textViewLocation = new int[2];
+        final int[] textViewLocation = new int[2];
         float oldDesiredWidth;
 
         @SuppressLint("ClickableViewAccessibility")
@@ -145,7 +145,7 @@ public class OverlayTextView extends ViewGroup {
         private void setLineSpacing(float desiredWidth) {
             float currentLineSpacing = mTextView.getLineSpacingExtra();
             int numLines = mTextView.getLineCount();
-            float adjustment = lineSpacingPx / (numLines - 1);
+            float adjustment = lineSpacingPx / (float) (numLines - 1);
             if (oldDesiredWidth < desiredWidth) {
                 mTextView.setLineSpacing(currentLineSpacing + adjustment, 1);
             } else {
@@ -163,7 +163,7 @@ public class OverlayTextView extends ViewGroup {
 
         float lastY;
         float dy;
-        int[] textViewLocation = new int[2];
+        final int[] textViewLocation = new int[2];
 
         @SuppressLint("ClickableViewAccessibility")
         @Override
@@ -515,10 +515,6 @@ public class OverlayTextView extends ViewGroup {
         textView.setRoundBackgroundCornerRadius(mTextView.getRoundBackgroundCornerRadius());
         textView.setScaleX(mTextView.getScaleX());
         return textView;
-    }
-
-    public ScalableTextView getTextView() {
-        return mTextView;
     }
 
     public void setTextPaddingDp(int paddingDp) {

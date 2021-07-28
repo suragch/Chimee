@@ -135,8 +135,9 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String permissions[],
+                                           @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (PermissionsHelper.isWritePermissionRequestGranted(requestCode, grantResults)) {
             new ExportKeyboardWords(this).execute();
         } else {
@@ -164,10 +165,9 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public void onHelpClick(View view) {
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(HelpActivity.HELP_URL));
+        final String HELP_URL = "http://www.studymongolian.net/apps/chimee/zh/chimee-help/";
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(HELP_URL));
         startActivity(browserIntent);
-        //Intent intent = new Intent(this, HelpActivity.class);
-        //startActivity(intent);
     }
 
     public void onAboutClick(View view) {
@@ -177,13 +177,12 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        final int itemId = item.getItemId();
+        if (itemId == android.R.id.home) {
+            finish();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -219,7 +218,7 @@ public class SettingsActivity extends AppCompatActivity {
         new ImportWordList(this).execute(uri);
     }
 
-    private static class ExportKeyboardWords extends AsyncTask<Void, Void, Boolean> {
+    private static class ExportKeyboardWords extends AsyncTask<Void, Void, String> {
 
 
 
@@ -230,13 +229,13 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
+        protected String doInBackground(Void... params) {
 
             SettingsActivity activity = activityReference.get();
 
             String text = extractTextFromDatabase(activity);
-            return !TextUtils.isEmpty(text) &&
-                    FileUtils.saveExportedWordsFile(activity, text);
+            if (TextUtils.isEmpty(text)) return null;
+            return FileUtils.saveExportedWordsFile(activity, text);
         }
 
         private String extractTextFromDatabase(SettingsActivity activity) {
@@ -257,12 +256,12 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(Boolean exportSuccessful) {
+        protected void onPostExecute(String exportedPath) {
             SettingsActivity activity = activityReference.get();
             if (activity == null || activity.isFinishing()) return;
 
-            if (exportSuccessful) {
-                notifyUserOfExportLocation(activity);
+            if (exportedPath != null) {
+                notifyUserOfExportLocation(activity, exportedPath);
             } else {
                 MongolToast.makeText(activity,
                         activity.getString(R.string.there_was_a_problem),
@@ -272,10 +271,9 @@ public class SettingsActivity extends AppCompatActivity {
 
         }
 
-        private void notifyUserOfExportLocation(Context context) {
+        private void notifyUserOfExportLocation(Context context, String path) {
             MongolAlertDialog.Builder builder = new MongolAlertDialog.Builder(context);
-            String file = FileUtils.getExportedWordsFileDisplayPath();
-            builder.setMessage(context.getString(R.string.alert_where_to_find_words_export, file));
+            builder.setMessage(context.getString(R.string.alert_where_to_find_words_export, path));
             builder.setPositiveButton(context.getString(R.string.dialog_got_it), null);
             MongolAlertDialog dialog = builder.create();
             dialog.show();
@@ -284,7 +282,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private static class ImportWordList extends AsyncTask<Uri, Void, Integer> {
 
-        private WeakReference<SettingsActivity> activityReference;
+        private final WeakReference<SettingsActivity> activityReference;
 
         ImportWordList(SettingsActivity activityContext) {
             activityReference = new WeakReference<>(activityContext);

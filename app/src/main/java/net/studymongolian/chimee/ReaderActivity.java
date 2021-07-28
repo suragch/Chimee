@@ -78,13 +78,12 @@ public class ReaderActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.miCopy:
-                onCopyClick();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        final int itemId = item.getItemId();
+        if (itemId == R.id.miCopy) {
+            onCopyClick();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     private void onCopyClick() {

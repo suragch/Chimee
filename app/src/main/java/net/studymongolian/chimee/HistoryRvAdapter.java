@@ -16,8 +16,8 @@ import java.util.List;
 
 public class HistoryRvAdapter extends RecyclerView.Adapter<HistoryRvAdapter.ViewHolder> {
 
-    private List<Message> mMessages;
-    private LayoutInflater mInflater;
+    private final List<Message> mMessages;
+    private final LayoutInflater mInflater;
     private HistoryListener mListener;
 
     HistoryRvAdapter(Context context, List<Message> messages) {

@@ -1,7 +1,6 @@
 package net.studymongolian.chimee;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -160,16 +159,15 @@ public class SaveActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.miSaveFile:
-                onSaveFileClick();
-                return true;
-            case android.R.id.home:
-                handleUserFinishing();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        final int itemId = item.getItemId();
+        if (itemId == R.id.miSaveFile) {
+            onSaveFileClick();
+            return true;
+        } else if (itemId == android.R.id.home) {
+            handleUserFinishing();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -199,12 +197,7 @@ public class SaveActivity extends AppCompatActivity
     private void askUserWhetherToOverwrite(final String filename) {
         MongolAlertDialog.Builder builder = new MongolAlertDialog.Builder(this);
         builder.setMessage(getString(R.string.dialog_confirm_overwrite_file));
-        builder.setPositiveButton(getString(R.string.dialog_button_overwrite), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                new SaveFile(SaveActivity.this).execute(filename, mText);
-            }
-        });
+        builder.setPositiveButton(getString(R.string.dialog_button_overwrite), (dialog, which) -> new SaveFile(SaveActivity.this).execute(filename, mText));
         builder.setNegativeButton(getString(R.string.dialog_cancel), null);
         MongolAlertDialog dialog = builder.create();
         dialog.show();
@@ -233,7 +226,7 @@ public class SaveActivity extends AppCompatActivity
 
     private static class SaveFile extends AsyncTask<String, Void, Boolean> {
 
-        private WeakReference<SaveActivity> activityReference;
+        private final WeakReference<SaveActivity> activityReference;
 
         SaveFile(SaveActivity activity) {
             activityReference = new WeakReference<>(activity);

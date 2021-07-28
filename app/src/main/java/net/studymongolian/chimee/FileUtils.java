@@ -1,12 +1,17 @@
 package net.studymongolian.chimee;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import androidx.annotation.NonNull;
 import androidx.core.content.FileProvider;
+
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -18,6 +23,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,7 +48,7 @@ class FileUtils {
 
 
     private static List<String> getTextFileNames(Context context) {
-        String path = getAppDocumentFolder();
+        String path = getAppDocumentFolder(context);
         File directory = new File(path);
         File[] files = getFilesInDirectorySortedByLastModified(context, directory);
         List<String> list = new ArrayList<>();
@@ -79,8 +85,8 @@ class FileUtils {
      * @param text String to save to file
      * @return whether file was successfully saved
      */
-    static boolean saveHistoryMessageFile(Context context, String text) {
-        File destFolder = new File(getAppExportFolder());
+    static String saveHistoryMessageFile(Context context, String text) {
+        File destFolder = new File(getAppExportFolder(context));
         makeSureFolderExists(context, destFolder);
 
         try {
@@ -88,9 +94,9 @@ class FileUtils {
         } catch (IOException e) {
             Log.e(TAG, "saveHistoryMessageFile: copyTextFileOver failed");
             e.printStackTrace();
-            return false;
+            return null;
         }
-        return true;
+        return destFolder.getPath() + File.separator + HISTORY_EXPORT_FILE_NAME;
     }
 
     /**
@@ -99,8 +105,8 @@ class FileUtils {
      * @param text String to save to file
      * @return whether file was successfully saved
      */
-    static boolean saveExportedWordsFile(Context context, String text) {
-        File destFolder = new File(getAppExportFolder());
+    static String saveExportedWordsFile(Context context, String text) {
+        File destFolder = new File(getAppExportFolder(context));
         makeSureFolderExists(context, destFolder);
 
         try {
@@ -108,9 +114,9 @@ class FileUtils {
         } catch (IOException e) {
             Log.e(TAG, "saveExportedWordsFile: copyTextFileOver failed");
             e.printStackTrace();
-            return false;
+            return null;
         }
-        return true;
+        return destFolder.getPath() + File.separator + WORDS_EXPORT_FILE_NAME;
     }
 
     private static void makeSureFolderExists(Context context, File destFolder) {
@@ -122,19 +128,41 @@ class FileUtils {
     }
 
     static String saveOverlayPhoto(Context context, Bitmap bitmap) {
-        File destFolder = new File(getAppImageFolder());
-        makeSureFolderExists(context, destFolder);
         String filename = convertCurrentTimeToString() + ".png";
-        String pathName = destFolder + File.separator + filename;
-        try {
-            FileOutputStream stream = new FileOutputStream(pathName);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            stream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+        final ContentResolver resolver = context.getContentResolver();
+        final ContentValues values = new ContentValues();
+        values.put(MediaStore.MediaColumns.DISPLAY_NAME, filename);
+        values.put(MediaStore.MediaColumns.MIME_TYPE, "image/png");
+        values.put(MediaStore.Images.Media.DATE_ADDED, System.currentTimeMillis());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            values.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES);
+            values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());
         }
-        return getSavedPhotoDisplayFilePath(filename);
+
+        String savedPath = null;
+        Uri uri = null;
+        try {
+            uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+            if (bitmap != null) {
+                try (OutputStream imageOut = resolver.openOutputStream(uri)) {
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, imageOut);
+                }
+            } else {
+                resolver.delete(uri, null, null);
+                uri = null;
+            }
+        } catch (Exception e) {
+            if (uri != null) {
+                resolver.delete(uri, null, null);
+                uri = null;
+            }
+        }
+
+        if (uri != null) {
+            savedPath = uri.getPath();
+        }
+
+        return savedPath;
     }
 
     private static String convertCurrentTimeToString() {
@@ -175,8 +203,8 @@ class FileUtils {
         return list;
     }
 
-    static String openFile(String shortFilenameWithoutExtension) throws Exception {
-        String fullFilePath = getAppDocumentFolder() + File.separator
+    static String openFile(Context context, String shortFilenameWithoutExtension) throws Exception {
+        String fullFilePath = getAppDocumentFolder(context) + File.separator
                 + shortFilenameWithoutExtension + TEXT_FILE_EXTENSION;
 
         return getStringFromFile(fullFilePath);
@@ -214,7 +242,7 @@ class FileUtils {
 
     static boolean saveTextFile(Context appContext, String filename, String text) {
 
-        File destFolder = new File(getAppDocumentFolder());
+        File destFolder = new File(getAppDocumentFolder(appContext));
         makeSureFolderExists(appContext, destFolder);
 
         String sanitizedFileName = sanitizeFileName(filename);
@@ -241,38 +269,31 @@ class FileUtils {
         return sanitized.toString().trim();
     }
 
-    private static String getAppPublicFolder() {
+    private static String getAppPublicFolder(Context context) {
+        if (Build.VERSION.SDK_INT >= 30) {
+            return context.getExternalFilesDir(null) + File.separator + APP_PUBLIC_FOLDER_NAME;
+        }
         return Environment.getExternalStorageDirectory() + File.separator + APP_PUBLIC_FOLDER_NAME;
     }
 
-    static String getAppDocumentFolder() {
-        return getAppPublicFolder() + File.separator + TEXT_FOLDER_NAME;
+    static String getAppDocumentFolder(Context context) {
+        return getAppPublicFolder(context) + File.separator + TEXT_FOLDER_NAME;
     }
 
-    private static String getAppExportFolder() {
-        return getAppPublicFolder() + File.separator + EXPORT_FOLDER_NAME;
+    private static String getAppExportFolder(Context context) {
+        return getAppPublicFolder(context) + File.separator + EXPORT_FOLDER_NAME;
     }
 
-    private static String getAppImageFolder() {
-        return getAppPublicFolder() + File.separator + IMAGE_FOLDER_NAME;
-    }
-
-    static String getExportedHistoryFileDisplayPath() {
-        return APP_PUBLIC_FOLDER_NAME +
-                 File.separator + EXPORT_FOLDER_NAME +
-                File.separator + HISTORY_EXPORT_FILE_NAME;
-    }
+//    static String getExportedHistoryFileDisplayPath() {
+//        return APP_PUBLIC_FOLDER_NAME +
+//                 File.separator + EXPORT_FOLDER_NAME +
+//                File.separator + HISTORY_EXPORT_FILE_NAME;
+//    }
 
     static String getExportedWordsFileDisplayPath() {
         return APP_PUBLIC_FOLDER_NAME +
                 File.separator + EXPORT_FOLDER_NAME +
                 File.separator + WORDS_EXPORT_FILE_NAME;
-    }
-
-    private static String getSavedPhotoDisplayFilePath(String filename) {
-        return APP_PUBLIC_FOLDER_NAME +
-                File.separator + IMAGE_FOLDER_NAME +
-                File.separator + filename;
     }
 
     private static void scanFile(Context context, File file) {

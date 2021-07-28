@@ -15,7 +15,7 @@ import java.util.List;
 
 public class ImeDataSourceHelper implements ImeContainer.DataSource {
 
-    private DataSourceHelperListener mListener;
+    private final DataSourceHelperListener mListener;
 
     public interface DataSourceHelperListener {
         CustomImeContainer getImeContainer();
@@ -85,7 +85,7 @@ public class ImeDataSourceHelper implements ImeContainer.DataSource {
     private static class GetSuffixesStartingWith extends AsyncTask<String, Integer, List<String>> {
 
 
-        private WeakReference<ImeDataSourceHelper> classReference;
+        private final WeakReference<ImeDataSourceHelper> classReference;
 
         GetSuffixesStartingWith(ImeDataSourceHelper context) {
             classReference = new WeakReference<>(context);
@@ -189,7 +189,7 @@ public class ImeDataSourceHelper implements ImeContainer.DataSource {
 
     private static class GetWordsStartingWith extends AsyncTask<String, Integer, List<String>> {
 
-        private WeakReference<ImeDataSourceHelper> classReference;
+        private final WeakReference<ImeDataSourceHelper> classReference;
 
         GetWordsStartingWith(ImeDataSourceHelper context) {
             classReference = new WeakReference<>(context);
@@ -233,7 +233,7 @@ public class ImeDataSourceHelper implements ImeContainer.DataSource {
 
     private static class AddOrUpdateDictionaryWordsTask extends AsyncTask<String, Integer, Void> {
 
-        private WeakReference<ImeDataSourceHelper> classReference;
+        private final WeakReference<ImeDataSourceHelper> classReference;
 
         AddOrUpdateDictionaryWordsTask(ImeDataSourceHelper helper) {
             classReference = new WeakReference<>(helper);
@@ -288,7 +288,7 @@ public class ImeDataSourceHelper implements ImeContainer.DataSource {
 
     private static class RespondToCandidateClick extends AsyncTask<String, Integer, List<String>> {
 
-        private WeakReference<ImeDataSourceHelper> classReference;
+        private final WeakReference<ImeDataSourceHelper> classReference;
 
         RespondToCandidateClick(ImeDataSourceHelper helper) {
             classReference = new WeakReference<>(helper);
@@ -340,8 +340,8 @@ public class ImeDataSourceHelper implements ImeContainer.DataSource {
 
     private static class DeleteWord extends AsyncTask<String, Integer, Void> {
 
-        private WeakReference<ImeDataSourceHelper> classReference;
-        private int index;
+        private final WeakReference<ImeDataSourceHelper> classReference;
+        private final int index;
 
         DeleteWord(ImeDataSourceHelper helper, int index) {
             classReference = new WeakReference<>(helper);
@@ -376,7 +376,7 @@ public class ImeDataSourceHelper implements ImeContainer.DataSource {
 
     private static class StartDatabaseUpgradeIfNeeded extends AsyncTask<Void, Void, Void> {
 
-        private WeakReference<ImeDataSourceHelper> classReference;
+        private final WeakReference<ImeDataSourceHelper> classReference;
 
         StartDatabaseUpgradeIfNeeded(ImeDataSourceHelper helper) {
             classReference = new WeakReference<>(helper);
