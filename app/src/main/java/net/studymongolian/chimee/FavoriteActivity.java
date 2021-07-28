@@ -207,7 +207,7 @@ public class FavoriteActivity extends AppCompatActivity
                 MessageDatabaseAdapter dbAdapter = new MessageDatabaseAdapter(activity);
                 messageItem = dbAdapter.getFavoriteMessage(messageId);
             } catch (Exception e) {
-                Log.i("app", e.toString());
+                e.printStackTrace();
             }
 
             return messageItem;

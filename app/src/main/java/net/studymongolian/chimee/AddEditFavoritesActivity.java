@@ -167,7 +167,7 @@ public class AddEditFavoritesActivity extends AppCompatActivity
                 MessageDatabaseAdapter dbAdapter = new MessageDatabaseAdapter(activity);
                 result = dbAdapter.addFavoriteMessage(item);
             } catch (Exception e) {
-                Log.i("app", e.toString());
+                e.printStackTrace();
             }
             return result >= 0;
         }
@@ -201,7 +201,7 @@ public class AddEditFavoritesActivity extends AppCompatActivity
                 MessageDatabaseAdapter dbAdapter = new MessageDatabaseAdapter(activity);
                 numRowsAffected = dbAdapter.updateFavoriteMessage(item);
             } catch (Exception e) {
-                Log.i("app", e.toString());
+                e.printStackTrace();
             }
 
             return numRowsAffected > 0;
