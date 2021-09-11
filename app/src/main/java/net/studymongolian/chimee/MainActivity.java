@@ -244,8 +244,6 @@ public class MainActivity extends AppCompatActivity
             }
             return true;
         }
-
-
     };
 
     private void openColorChooserDialog() {
@@ -253,7 +251,6 @@ public class MainActivity extends AppCompatActivity
         int fgColor = getSelectedTextColor();
         DialogFragment dialog = ColorChooserDialogFragment.newInstance(bgColor, fgColor);
         dialog.show(getSupportFragmentManager(), "ColorChooserDialogFragment");
-
     }
 
     private int getInputWindowBackgroundColor() {

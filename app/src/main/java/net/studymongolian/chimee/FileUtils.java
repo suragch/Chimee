@@ -25,6 +25,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -344,8 +345,23 @@ class FileUtils {
             File cachePath = new File(context.getCacheDir(), TEMP_CACHE_SUBDIR);
             //noinspection ResultOfMethodCallIgnored
             cachePath.mkdirs();
-            FileOutputStream stream =
-                    new FileOutputStream(cachePath + File.separator + TEMP_CACHE_FILENAME);
+            String filename = cachePath + File.separator + TEMP_CACHE_FILENAME;
+
+            // Delete the old file.
+            // Some users complain of the previous message getting sent. At least in one case this
+            // apparently happened when the user's storage was full. Hopefully deleting the old
+            // message will at least prevent resending an old image.
+            File oldFile = new File(filename);
+            if (oldFile.exists()) {
+                boolean successfullyDeleted = oldFile.delete();
+                if (!successfullyDeleted) {
+                    Log.e("Chimee", "The old message image existed but couldn't be deleted.");
+                    return false;
+                }
+            }
+
+            // Save new file
+            FileOutputStream stream = new FileOutputStream(filename);
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
             stream.close();
         } catch (IOException e) {
