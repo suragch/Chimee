@@ -27,5 +27,5 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.recyclerview:recyclerview:1.3.2'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'net.studymongolian:mongol-library:2.1.0'
+    implementation 'com.github.suragch:mongol-library:2.1.0'
 }

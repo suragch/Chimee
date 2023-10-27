@@ -1,5 +1,6 @@
 package net.studymongolian.chimee;
 
+import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -280,6 +281,7 @@ class UserDictionary {
          * @param word          the word whose following list needs updating
          * @param followingWord the following word to add
          */
+        @SuppressLint("Range")
         static void addFollowing(Context context, String word, String followingWord) {
 
             // do error checking on input params
@@ -294,16 +296,16 @@ class UserDictionary {
             String[] projection = new String[]{_ID, FOLLOWING};
             String selection = WORD + "=?";
             String[] selectionArgs = {word};
-            try (Cursor cursor = resolver.query(CONTENT_URI, projection, selection,
-                    selectionArgs, null)) {
-                if (cursor != null && cursor.moveToNext()) {
-                    wordId = cursor.getLong(cursor.getColumnIndex(_ID));
-                    followingString = cursor.getString(cursor
-                            .getColumnIndex(FOLLOWING));
+                try (Cursor cursor = resolver.query(CONTENT_URI, projection, selection,
+                        selectionArgs, null)) {
+                    if (cursor != null && cursor.moveToNext()) {
+                        wordId = cursor.getLong(cursor.getColumnIndex(_ID));
+                        followingString = cursor.getString(cursor
+                                .getColumnIndex(FOLLOWING));
+                    }
+                } catch (Exception e) {
+                    Log.e("UserDictionary", e.toString());
                 }
-            } catch (Exception e) {
-                Log.e("UserDictionary", e.toString());
-            }
             if (wordId == -1) {
                 return;
             }
@@ -366,8 +368,8 @@ class UserDictionary {
                 return -1;
             }
 
-            long id = cursor.getLong(cursor.getColumnIndex(UserDictionary.Words._ID));
-            int frequency = cursor.getInt(cursor.getColumnIndex(UserDictionary.Words.FREQUENCY));
+            @SuppressLint("Range") long id = cursor.getLong(cursor.getColumnIndex(UserDictionary.Words._ID));
+            @SuppressLint("Range") int frequency = cursor.getInt(cursor.getColumnIndex(UserDictionary.Words.FREQUENCY));
             cursor.close();
 
             frequency++;
@@ -415,7 +417,7 @@ class UserDictionary {
                 return;
             }
 
-            String followingString = cursor.getString(cursor.getColumnIndex(Words.FOLLOWING));
+            @SuppressLint("Range") String followingString = cursor.getString(cursor.getColumnIndex(Words.FOLLOWING));
             cursor.close();
 
             followingString = removeWordFromFollowingString(followingString, followingWord);
