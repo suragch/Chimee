@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 34
+    compileSdkVersion 35
 
     defaultConfig {
         applicationId "net.studymongolian.chimee"
         minSdkVersion 14
-        targetSdkVersion 34
-        versionCode 34
-        versionName "3.3.2"
+        targetSdkVersion 35
+        versionCode 35
+        versionName "3.3.3"
     }
 
     buildTypes {
@@ -18,6 +18,10 @@ android {
         }
     }
     namespace 'net.studymongolian.chimee'
+    
+    buildFeatures {
+        buildConfig = true
+    }
 }
 
 dependencies {
