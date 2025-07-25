@@ -121,19 +121,26 @@ public abstract class BaseActivity extends AppCompatActivity {
      * Override this method to apply bottom insets to specific views
      */
     protected void fixBottomContainer(int bottomInset) {
-        // Look for common bottom containers that need padding
-        View imeContainer = findViewById(R.id.imeContainer);
-        if (imeContainer != null) {
-            imeContainer.setPadding(
-                imeContainer.getPaddingLeft(),
-                imeContainer.getPaddingTop(),
-                imeContainer.getPaddingRight(),
-                bottomInset
-            );
-            return; // Found and fixed, no need to continue
+        // Priority 1: Look for keyboard containers first (MainActivity, SaveActivity)
+        int[] keyboardContainerIds = {
+            R.id.imeContainer,
+            R.id.keyboard_container
+        };
+        
+        for (int id : keyboardContainerIds) {
+            View container = findViewById(id);
+            if (container != null) {
+                container.setPadding(
+                    container.getPaddingLeft(),
+                    container.getPaddingTop(),
+                    container.getPaddingRight(),
+                    bottomInset
+                );
+                return; // Found keyboard container, done
+            }
         }
         
-        // Look for common RecyclerViews that might need bottom padding
+        // Priority 2: Look for RecyclerViews that extend to bottom
         int[] commonRecyclerViewIds = {
             R.id.rv_content,
             R.id.rv_all_favorites,
@@ -153,71 +160,36 @@ public abstract class BaseActivity extends AppCompatActivity {
                     bottomInset
                 );
                 foundRecyclerView = true;
-                break; // Found RecyclerView
+                break;
             }
         }
         
-        // For CodeConverter activity: fix bottom button containers
+        // Priority 3: For activities with bottom buttons (CodeConverter, About), fix buttons too
         int[] bottomButtonIds = {
-            R.id.flPaste,
-            R.id.flConvert, 
-            R.id.flDetails,
-            R.id.flCopy
+            R.id.flPaste, R.id.flConvert, R.id.flDetails, R.id.flCopy, // CodeConverter
+            R.id.flContact, R.id.flUpdates, R.id.flShare // About
         };
         
         boolean hasBottomButtons = false;
         for (int id : bottomButtonIds) {
             View button = findViewById(id);
             if (button != null) {
-                hasBottomButtons = true;
-                break;
-            }
-        }
-        
-        // If we found both RecyclerView and bottom buttons (CodeConverter), fix the buttons too
-        if (foundRecyclerView && hasBottomButtons) {
-            for (int id : bottomButtonIds) {
-                View button = findViewById(id);
-                if (button != null) {
+                android.view.ViewGroup.LayoutParams layoutParams = button.getLayoutParams();
+                if (layoutParams instanceof android.view.ViewGroup.MarginLayoutParams) {
                     android.view.ViewGroup.MarginLayoutParams params = 
-                        (android.view.ViewGroup.MarginLayoutParams) button.getLayoutParams();
+                        (android.view.ViewGroup.MarginLayoutParams) layoutParams;
                     params.bottomMargin += bottomInset;
                     button.setLayoutParams(params);
                 }
-            }
-            return; // Fixed both RecyclerView and buttons
-        }
-        
-        if (foundRecyclerView) {
-            return; // Already fixed RecyclerView
-        }
-        
-        // Look for ScrollViews that might need bottom padding
-        int[] commonScrollViewIds = {
-            android.R.id.content // This catches most full-screen layouts
-        };
-        
-        for (int id : commonScrollViewIds) {
-            View scrollView = findViewById(id);
-            if (scrollView != null && scrollView instanceof android.view.ViewGroup) {
-                // For generic containers, add padding to the root content view
-                android.view.ViewGroup viewGroup = (android.view.ViewGroup) scrollView;
-                if (viewGroup.getChildCount() > 0) {
-                    View firstChild = viewGroup.getChildAt(0);
-                    if (firstChild.getLayoutParams().height == android.view.ViewGroup.LayoutParams.MATCH_PARENT) {
-                        firstChild.setPadding(
-                            firstChild.getPaddingLeft(),
-                            firstChild.getPaddingTop(),
-                            firstChild.getPaddingRight(),
-                            bottomInset
-                        );
-                        return;
-                    }
-                }
+                hasBottomButtons = true;
             }
         }
         
-        // Fallback: Look for HorizontalScrollView (like in settings)
+        if (foundRecyclerView || hasBottomButtons) {
+            return; // Fixed content
+        }
+        
+        // Priority 4: Fallback for Settings (HorizontalScrollView)
         View rootView = findViewById(android.R.id.content);
         if (rootView instanceof android.view.ViewGroup) {
             android.view.ViewGroup rootGroup = (android.view.ViewGroup) rootView;
@@ -231,6 +203,22 @@ public abstract class BaseActivity extends AppCompatActivity {
                         bottomInset
                     );
                     return;
+                }
+            }
+        }
+        
+        // Priority 5: Ultimate fallback - add padding to the main content view
+        if (rootView instanceof android.view.ViewGroup) {
+            android.view.ViewGroup rootGroup = (android.view.ViewGroup) rootView;
+            if (rootGroup.getChildCount() > 0) {
+                View mainContent = rootGroup.getChildAt(0);
+                if (mainContent.getLayoutParams().height == android.view.ViewGroup.LayoutParams.MATCH_PARENT) {
+                    mainContent.setPadding(
+                        mainContent.getPaddingLeft(),
+                        mainContent.getPaddingTop(),
+                        mainContent.getPaddingRight(),
+                        bottomInset
+                    );
                 }
             }
         }

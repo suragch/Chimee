@@ -37,25 +37,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6b0ac42b-cf66-4e90-8ebc-a701b761ae90" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/release/Chimee_3.3.3.apk" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/release/baselineProfiles/0/app-release.dm" beforeDir="false" afterPath="$PROJECT_DIR$/app/release/baselineProfiles/0/app-release.dm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/release/baselineProfiles/1/app-release.dm" beforeDir="false" afterPath="$PROJECT_DIR$/app/release/baselineProfiles/1/app-release.dm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/release/output-metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/app/release/output-metadata.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/AboutActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/AboutActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/AddEditFavoritesActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/AddEditFavoritesActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/CodeConverterActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/CodeConverterActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/CodeConverterDetailsActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/CodeConverterDetailsActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/FavoriteActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/FavoriteActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/HistoryActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/HistoryActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/OpenActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/OpenActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/PhotoOverlayActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/PhotoOverlayActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/ReaderActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/ReaderActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/RecommendedAppsActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/RecommendedAppsActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/SaveActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/SaveActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/SettingsActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/SettingsActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/BaseActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/net/studymongolian/chimee/BaseActivity.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
