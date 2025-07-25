@@ -5,7 +5,6 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
@@ -18,7 +17,7 @@ import net.studymongolian.mongollibrary.MongolToast;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-public class ReaderActivity extends AppCompatActivity {
+public class ReaderActivity extends BaseActivity {
 
     private ReaderRvAdapter adapter;
 

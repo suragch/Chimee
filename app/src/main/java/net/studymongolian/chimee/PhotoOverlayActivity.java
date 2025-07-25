@@ -16,7 +16,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
@@ -43,7 +42,7 @@ import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
-public class PhotoOverlayActivity extends AppCompatActivity
+public class PhotoOverlayActivity extends BaseActivity
         implements ColorsRvAdapter.ItemClickListener, FontRvAdapter.ItemClickListener {
 
 

@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
@@ -19,7 +18,7 @@ import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CodeConverterDetailsActivity extends AppCompatActivity {
+public class CodeConverterDetailsActivity extends BaseActivity {
 
     static final String DETAILS_TEXT_KEY = "details";
 

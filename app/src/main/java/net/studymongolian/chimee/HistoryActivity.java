@@ -13,7 +13,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,7 +28,7 @@ import net.studymongolian.mongollibrary.MongolMenu;
 import net.studymongolian.mongollibrary.MongolMenuItem;
 import net.studymongolian.mongollibrary.MongolToast;
 
-public class HistoryActivity extends AppCompatActivity
+public class HistoryActivity extends BaseActivity
         implements HistoryRvAdapter.HistoryListener {
 
     public static final String RESULT_STRING_KEY = "history_result";

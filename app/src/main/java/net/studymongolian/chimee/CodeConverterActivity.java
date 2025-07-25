@@ -10,7 +10,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
@@ -31,7 +30,7 @@ import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
-public class CodeConverterActivity extends AppCompatActivity {
+public class CodeConverterActivity extends BaseActivity {
 
     private static final int OPEN_FILE_REQUEST = 0;
     private static final int SAVE_REQUEST = 1;

@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,7 +26,7 @@ import net.studymongolian.mongollibrary.MongolToast;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
-public class SaveActivity extends AppCompatActivity
+public class SaveActivity extends BaseActivity
         implements ImeDataSourceHelper.DataSourceHelperListener,
         SimpleListRvAdapter.ItemClickListener {
 

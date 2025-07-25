@@ -10,7 +10,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,7 +24,7 @@ import android.view.View;
 import net.studymongolian.mongollibrary.MongolMenu;
 import net.studymongolian.mongollibrary.MongolMenuItem;
 
-public class FavoriteActivity extends AppCompatActivity
+public class FavoriteActivity extends BaseActivity
         implements FavoritesRvAdapter.ItemClickListener {
 
     private static final int MARGIN_DP = 4;

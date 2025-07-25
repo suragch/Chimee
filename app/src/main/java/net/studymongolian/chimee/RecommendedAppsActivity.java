@@ -5,13 +5,12 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.MenuItem;
 import android.view.View;
 
-public class RecommendedAppsActivity extends AppCompatActivity {
+public class RecommendedAppsActivity extends BaseActivity {
 
     protected static final String BAINU_URL = "http://bainu.com/";
     protected static final String DELEHI_URL = "http://www.delehi.com/cn/";

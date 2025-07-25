@@ -5,14 +5,13 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 
-public class AboutActivity extends AppCompatActivity {
+public class AboutActivity extends BaseActivity {
 
 	protected static final String SITE_URL = "http://www.studymongolian.net/apps/chimee/zh/";
 	protected static final String CONTACT_URL = "http://www.studymongolian.net/contact-zh/";

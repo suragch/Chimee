@@ -51,7 +51,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends BaseActivity
         implements ImeContainer.OnNonSystemImeListener,
         ImeDataSourceHelper.DataSourceHelperListener,
         MongolEditText.ContextMenuCallback,
@@ -109,6 +109,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
     }
+
 
     @SuppressLint("SourceLockedOrientationActivity")
     private void disableRotationForSmallerDevices() {

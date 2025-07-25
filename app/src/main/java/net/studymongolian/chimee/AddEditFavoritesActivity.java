@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
@@ -19,7 +18,7 @@ import net.studymongolian.mongollibrary.MongolInputMethodManager;
 import java.lang.ref.WeakReference;
 
 
-public class AddEditFavoritesActivity extends AppCompatActivity
+public class AddEditFavoritesActivity extends BaseActivity
         implements ImeDataSourceHelper.DataSourceHelperListener {
 
     static final String MESSAGE_ID_KEY = "message_id";

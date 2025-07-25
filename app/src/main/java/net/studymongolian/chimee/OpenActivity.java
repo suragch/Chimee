@@ -3,7 +3,6 @@ package net.studymongolian.chimee;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,7 +16,7 @@ import net.studymongolian.mongollibrary.MongolToast;
 
 import java.util.List;
 
-public class OpenActivity extends AppCompatActivity
+public class OpenActivity extends BaseActivity
         implements SimpleListRvAdapter.ItemClickListener {
 
     static final String FILE_NAME_KEY = "file_name";
